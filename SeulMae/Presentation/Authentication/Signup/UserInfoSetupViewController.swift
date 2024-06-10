@@ -12,21 +12,21 @@ extension UIViewController {
     static func createTitleGuideLabel(title: String) -> UILabel {
         let guideLabel = UILabel()
         guideLabel.text = title
-        guideLabel.font = .systemFont(ofSize: 24)
+        guideLabel.font = .systemFont(ofSize: 26, weight: .semibold)
         return guideLabel
     }
     
     static func createTextFiledGuideLabel(title: String) -> UILabel {
         let guideLabel = UILabel()
         guideLabel.text = title
-        guideLabel.font = .systemFont(ofSize: 14)
+        guideLabel.font = .systemFont(ofSize: 16)
         return guideLabel
     }
     
     static func createSecondTextFieldGuideLabel(title: String) -> UILabel {
         let guideLabel = UILabel()
         guideLabel.text = title
-        guideLabel.font = .systemFont(ofSize: 12)
+        guideLabel.font = .systemFont(ofSize: 14)
         return guideLabel
     }
     
@@ -36,9 +36,12 @@ extension UIViewController {
         return textField
     }
     
-    static func createButton(placeholder: String) -> UIButton {
+    static func createButton(title: String) -> UIButton {
         let button = UIButton()
-        
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        button.backgroundColor = .blue
+        button.layer.cornerRadius = 8.0
         return button
     }
 }
@@ -70,12 +73,47 @@ final class UserInfoSetupViewController: UIViewController {
     }
     
     private func configureHierarchy() {
-        self.stepGuideLabel = Self.createTitleGuideLabel(title: GuideText.stepGuide)
-        self.nameFieldGuideLabel = Self.createTextFiledGuideLabel(title: GuideText.nameFieldGuide)
-        self.nameTextField = Self.createTextField(placeholder: GuideText.nameTextFieldGuide)
-        self.ssnFieldGuideLabel = Self.createTextFiledGuideLabel(title: GuideText.ssnFieldGuide)
-        self.frontSSNTextField = Self.createTextField(placeholder: GuideText.frontSSNTextFeildGuide)
-        self.backSSNTextField = Self.createTextField(placeholder: GuideText.backSSNTextFeildGuide)
-        self.nextStepButton = Self.createButton(placeholder: GuideText.nextStepButtonTitle)
+        stepGuideLabel = Self.createTitleGuideLabel(title: GuideText.stepGuide)
+        nameFieldGuideLabel = Self.createTextFiledGuideLabel(title: GuideText.nameFieldGuide)
+        nameTextField = Self.createTextField(placeholder: GuideText.nameTextFieldGuide)
+        ssnFieldGuideLabel = Self.createTextFiledGuideLabel(title: GuideText.ssnFieldGuide)
+        frontSSNTextField = Self.createTextField(placeholder: GuideText.frontSSNTextFeildGuide)
+        backSSNTextField = Self.createTextField(placeholder: GuideText.backSSNTextFeildGuide)
+        nextStepButton = Self.createButton(title: GuideText.nextStepButtonTitle)
+        
+        let nameFieldStack = UIStackView(arrangedSubviews: [nameFieldGuideLabel, nameTextField])
+        let ssnFieldHStack = UIStackView(arrangedSubviews: [frontSSNTextField, backSSNTextField])
+        let ssnFeildVStack = UIStackView(arrangedSubviews: [ssnFieldGuideLabel, ssnFieldHStack])
+        ssnFeildVStack.axis = .vertical
+        
+        let subViews: [UIView] = [
+            stepGuideLabel, nameFieldStack, ssnFeildVStack, nextStepButton
+        ]
+        subViews.forEach(view.addSubview)
+        
+        stepGuideLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(view.snp_topMargin).inset(24)
+            make.centerX.equalToSuperview()
+        }
+        
+        nameFieldStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(stepGuideLabel.snp.bottom).offset(52)
+            make.centerX.equalToSuperview()
+        }
+        
+        ssnFeildVStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(nameFieldStack.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        nextStepButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.snp_bottomMargin).inset(24)
+            make.height.equalTo(56)
+            make.centerX.equalToSuperview()
+        }
     }
 }
