@@ -16,6 +16,13 @@
 		86E299C02C17220000805AD0 /* SeulMaeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299BF2C17220000805AD0 /* SeulMaeTests.swift */; };
 		86E299CA2C17220000805AD0 /* SeulMaeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299C92C17220000805AD0 /* SeulMaeUITests.swift */; };
 		86E299CC2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */; };
+		86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DD2C1722D700805AD0 /* SigninViewController.swift */; };
+		86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */; };
+		86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */; };
+		86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */; };
+		86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E72C17289800805AD0 /* AccountSetupViewController.swift */; };
+		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
+		86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86E299ED2C17357E00805AD0 /* SnapKit */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +56,12 @@
 		86E299C52C17220000805AD0 /* SeulMaeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeulMaeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299C92C17220000805AD0 /* SeulMaeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeulMaeUITests.swift; sourceTree = "<group>"; };
 		86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeulMaeUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		86E299DD2C1722D700805AD0 /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
+		86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewController.swift; sourceTree = "<group>"; };
+		86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoSetupViewController.swift; sourceTree = "<group>"; };
+		86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
+		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
+		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +97,7 @@
 				86E299BE2C17220000805AD0 /* SeulMaeTests */,
 				86E299C82C17220000805AD0 /* SeulMaeUITests */,
 				86E299A62C1721FF00805AD0 /* Products */,
+				86E299EC2C17357E00805AD0 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -101,7 +116,7 @@
 			children = (
 				86E299A82C1721FF00805AD0 /* AppDelegate.swift */,
 				86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */,
-				86E299AC2C1721FF00805AD0 /* ViewController.swift */,
+				86E299E12C1722EB00805AD0 /* Presentation */,
 				86E299AE2C1721FF00805AD0 /* Main.storyboard */,
 				86E299B12C17220000805AD0 /* Assets.xcassets */,
 				86E299B32C17220000805AD0 /* LaunchScreen.storyboard */,
@@ -127,6 +142,59 @@
 			path = SeulMaeUITests;
 			sourceTree = "<group>";
 		};
+		86E299D82C17221800805AD0 /* Signin */ = {
+			isa = PBXGroup;
+			children = (
+				86E299DD2C1722D700805AD0 /* SigninViewController.swift */,
+			);
+			path = Signin;
+			sourceTree = "<group>";
+		};
+		86E299D92C17227600805AD0 /* Signup */ = {
+			isa = PBXGroup;
+			children = (
+				86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */,
+				86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */,
+				86E299E72C17289800805AD0 /* AccountSetupViewController.swift */,
+				86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */,
+				86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */,
+			);
+			path = Signup;
+			sourceTree = "<group>";
+		};
+		86E299DB2C1722A600805AD0 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				86E299D82C17221800805AD0 /* Signin */,
+				86E299D92C17227600805AD0 /* Signup */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		86E299E12C1722EB00805AD0 /* Presentation */ = {
+			isa = PBXGroup;
+			children = (
+				86E299DB2C1722A600805AD0 /* Authentication */,
+				86E299E22C17230E00805AD0 /* Main */,
+			);
+			path = Presentation;
+			sourceTree = "<group>";
+		};
+		86E299E22C17230E00805AD0 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				86E299AC2C1721FF00805AD0 /* ViewController.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		86E299EC2C17357E00805AD0 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +211,9 @@
 			dependencies = (
 			);
 			name = SeulMae;
+			packageProductDependencies = (
+				86E299ED2C17357E00805AD0 /* SnapKit */,
+			);
 			productName = SeulMae;
 			productReference = 86E299A52C1721FF00805AD0 /* SeulMae.app */;
 			productType = "com.apple.product-type.application";
@@ -215,6 +286,9 @@
 				Base,
 			);
 			mainGroup = 86E2999C2C1721FF00805AD0;
+			packageReferences = (
+				86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+			);
 			productRefGroup = 86E299A62C1721FF00805AD0 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -258,7 +332,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
+				86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */,
+				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
+				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
+				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
+				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
 			);
@@ -368,7 +448,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -425,7 +505,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -448,8 +528,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -457,6 +536,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -476,8 +559,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -485,6 +567,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMae;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -500,10 +586,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMaeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -520,10 +610,14 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMaeTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -542,6 +636,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMaeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -560,6 +658,10 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.yonggipo.SeulMaeUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -607,6 +709,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		86E299ED2C17357E00805AD0 /* SnapKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 86E2999D2C1721FF00805AD0 /* Project object */;
 }
