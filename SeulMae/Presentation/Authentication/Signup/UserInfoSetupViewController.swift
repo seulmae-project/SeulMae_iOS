@@ -46,14 +46,13 @@ extension UIViewController {
 final class UserInfoSetupViewController: UIViewController {
     
     enum GuideText {
-        static let stepGuide = ""
-        static let nameFieldGuide = ""
-        static let nameTextFieldGuide = ""
-        static let ssnFieldGuide = ""
-        static let frontSSNTextFeildGuide = ""
-        static let backSSNTextFeildGuide = ""
-        static let secondSSNFeildGuide = ""
-        static let nextStepButtonTitle = ""
+        static let stepGuide = "본인 확인을 위해\n정보를 입력해주세요"
+        static let nameFieldGuide = "이름"
+        static let nameTextFieldGuide = "이름 입력"
+        static let ssnFieldGuide = "주민등록번호"
+        static let frontSSNTextFeildGuide = "생년월일"
+        static let backSSNTextFeildGuide = "0●●●●●●"
+        static let nextStepButtonTitle = "다음으로"
     }
     
     private var stepGuideLabel: UILabel!
@@ -62,7 +61,6 @@ final class UserInfoSetupViewController: UIViewController {
     private var ssnFieldGuideLabel: UILabel!
     private var frontSSNTextField: UITextField!
     private var backSSNTextField: UITextField!
-    private var secondSSNFieldGudieLabel: UILabel!
     private var nextStepButton: UIButton!
     
     override func viewDidLoad() {
@@ -78,7 +76,6 @@ final class UserInfoSetupViewController: UIViewController {
         self.ssnFieldGuideLabel = Self.createTextFiledGuideLabel(title: GuideText.ssnFieldGuide)
         self.frontSSNTextField = Self.createTextField(placeholder: GuideText.frontSSNTextFeildGuide)
         self.backSSNTextField = Self.createTextField(placeholder: GuideText.backSSNTextFeildGuide)
-        self.secondSSNFieldGudieLabel = Self.createSecondTextFieldGuideLabel(title: GuideText.secondSSNFeildGuide)
         self.nextStepButton = Self.createButton(placeholder: GuideText.nextStepButtonTitle)
     }
 }
