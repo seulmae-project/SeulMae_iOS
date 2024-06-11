@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D072C1833F500095010 /* UIColor+Hex.swift */; };
+		86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
 		86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */; };
 		86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AC2C1721FF00805AD0 /* ViewController.swift */; };
@@ -43,6 +45,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		86766D072C1833F500095010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
+		86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299A82C1721FF00805AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -90,6 +94,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		86766D022C1830DD00095010 /* PhoneVerification */ = {
+			isa = PBXGroup;
+			children = (
+				86766D032C1830E200095010 /* View */,
+				86766D042C1830E500095010 /* ViewModel */,
+			);
+			path = PhoneVerification;
+			sourceTree = "<group>";
+		};
+		86766D032C1830E200095010 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86766D042C1830E500095010 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86766D052C1833CC00095010 /* Application */ = {
+			isa = PBXGroup;
+			children = (
+				86E299A82C1721FF00805AD0 /* AppDelegate.swift */,
+				86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */,
+				86766D062C1833DA00095010 /* Utils */,
+				86766D0B2C1837DF00095010 /* Common */,
+			);
+			path = Application;
+			sourceTree = "<group>";
+		};
+		86766D062C1833DA00095010 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				86766D072C1833F500095010 /* UIColor+Hex.swift */,
+			);
+			path = Utils;
+			sourceTree = "<group>";
+		};
+		86766D0B2C1837DF00095010 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
 		86E2999C2C1721FF00805AD0 = {
 			isa = PBXGroup;
 			children = (
@@ -114,8 +169,7 @@
 		86E299A72C1721FF00805AD0 /* SeulMae */ = {
 			isa = PBXGroup;
 			children = (
-				86E299A82C1721FF00805AD0 /* AppDelegate.swift */,
-				86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */,
+				86766D052C1833CC00095010 /* Application */,
 				86E299E12C1722EB00805AD0 /* Presentation */,
 				86E299AE2C1721FF00805AD0 /* Main.storyboard */,
 				86E299B12C17220000805AD0 /* Assets.xcassets */,
@@ -154,7 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */,
-				86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */,
+				86766D022C1830DD00095010 /* PhoneVerification */,
 				86E299E72C17289800805AD0 /* AccountSetupViewController.swift */,
 				86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */,
 				86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */,
@@ -332,6 +386,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
@@ -341,6 +396,7 @@
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
+				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
