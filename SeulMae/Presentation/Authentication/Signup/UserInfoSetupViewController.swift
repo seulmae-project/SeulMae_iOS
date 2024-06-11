@@ -53,7 +53,7 @@ extension UIViewController {
         button.isEnabled = false
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(hexCode: "0086FF")
+        button.backgroundColor = UIColor(hexCode: "D0D0D0") // UIColor(hexCode: "0086FF")
         button.layer.cornerRadius = cornerRadius
         button.layer.cornerCurve = .continuous
         return button
@@ -72,6 +72,8 @@ final class UserInfoSetupViewController: UIViewController {
         static let nextStep = "다음으로"
     }
     
+    // MARK: - UI
+    
     private var stepGuideLabel: UILabel!
     private var nameFieldGuideLabel: UILabel!
     private var nameTextField: UITextField!
@@ -80,11 +82,22 @@ final class UserInfoSetupViewController: UIViewController {
     private var backSSNTextField: UITextField!
     private var nextStepButton: UIButton!
     
+    // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavItem()
         configureHierarchy()
     }
+    
+    // MARK: - Nav Item
+    
+    private func configureNavItem() {
+        
+    }
+    
+    // MARK: - Hierarchy
     
     private func configureHierarchy() {
         stepGuideLabel = Self.createTitleGuideLabel(title: GuideText.stepGuide)

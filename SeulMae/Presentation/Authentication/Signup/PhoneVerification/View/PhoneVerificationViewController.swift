@@ -9,13 +9,15 @@ import UIKit
 
 final class PhoneVerificationViewController: UIViewController {
     
+    // MARK: - Flow
+    
     static func create(viewModel: PhoneVerificationViewModel) -> PhoneVerificationViewController {
         let view = PhoneVerificationViewController()
         view.viewModel = viewModel
         return view
     }
     
-    enum GuideText {
+    enum Text {
         static let stepGuide = "정보 확인을 위해\n휴대폰번호를 입력해주세요"
         static let phoneNumberFieldGuide = "휴대폰 번호"
         static let phoneNumberTextFieldGuide = "휴대폰번호 입력"
@@ -34,22 +36,29 @@ final class PhoneVerificationViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: GuideText.stepGuide)
-    private var phoneNumberFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: GuideText.phoneNumberFieldGuide)
-    private var phoneNumberTextField: UITextField = UIViewController.createTextField(placeholder: GuideText.phoneNumberTextFieldGuide)
-    private var authCodeFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: GuideText.authCodeFieldGuide)
-    private var authCodeTextField: UITextField = UIViewController.createTextField(placeholder: GuideText.authCodeTextFieldGuide)
-    private var remainingTimeLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: GuideText.remainingTime, color: .red)
-    private var secondAuthCodeFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: GuideText.secondAuthCodeFieldGuide)
-    private var sendAuthCodeButton: UIButton = UIViewController.createButton(title: GuideText.sendAuthCode, cornerRadius: 16)
-    private var nextStepButton: UIButton = UIViewController.createButton(title: GuideText.nextStep)
+    private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: Text.stepGuide)
+    private var phoneNumberFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.phoneNumberFieldGuide)
+    private var phoneNumberTextField: UITextField = UIViewController.createTextField(placeholder: Text.phoneNumberTextFieldGuide)
+    private var authCodeFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.authCodeFieldGuide)
+    private var authCodeTextField: UITextField = UIViewController.createTextField(placeholder: Text.authCodeTextFieldGuide)
+    private var remainingTimeLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.remainingTime, color: .red)
+    private var secondAuthCodeFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.secondAuthCodeFieldGuide)
+    private var sendAuthCodeButton: UIButton = UIViewController.createButton(title: Text.sendAuthCode, cornerRadius: 16)
+    private var nextStepButton: UIButton = UIViewController.createButton(title: Text.nextStep)
     
     // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        configureNavItem()
         configureHierarchy()
+    }
+    
+    // MARK: - Nav Item
+    
+    private func configureNavItem() {
+        
     }
     
     // MARK: - Hierarchy

@@ -12,6 +12,8 @@
 		86766D0D2C18381F00095010 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0C2C18381F00095010 /* ViewModel.swift */; };
 		86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */; };
 		86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D152C183E5600095010 /* AuthFlowCoordinator.swift */; };
+		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
+		86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
 		86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */; };
 		86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AC2C1721FF00805AD0 /* ViewController.swift */; };
@@ -53,6 +55,8 @@
 		86766D0C2C18381F00095010 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D152C183E5600095010 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
+		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
+		86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewModel.swift; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299A82C1721FF00805AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -185,6 +189,56 @@
 			path = Flows;
 			sourceTree = "<group>";
 		};
+		86766D172C18427C00095010 /* ProfileSetup */ = {
+			isa = PBXGroup;
+			children = (
+				86766D182C18428C00095010 /* View */,
+				86766D192C18428F00095010 /* ViewModel */,
+			);
+			path = ProfileSetup;
+			sourceTree = "<group>";
+		};
+		86766D182C18428C00095010 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86766D192C18428F00095010 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86766D1A2C1842A200095010 /* SignupCompletion */ = {
+			isa = PBXGroup;
+			children = (
+				86766D1B2C1842B300095010 /* View */,
+				86766D1C2C1842B600095010 /* ViewModel */,
+			);
+			path = SignupCompletion;
+			sourceTree = "<group>";
+		};
+		86766D1B2C1842B300095010 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86766D1C2C1842B600095010 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		86E2999C2C1721FF00805AD0 = {
 			isa = PBXGroup;
 			children = (
@@ -250,8 +304,8 @@
 				86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */,
 				86766D022C1830DD00095010 /* PhoneVerification */,
 				86766D0E2C1838A600095010 /* AccountSetup */,
-				86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */,
-				86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */,
+				86766D172C18427C00095010 /* ProfileSetup */,
+				86766D1A2C1842A200095010 /* SignupCompletion */,
 			);
 			path = Signup;
 			sourceTree = "<group>";
@@ -433,11 +487,13 @@
 				86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
+				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
 				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
+				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86766D0D2C18381F00095010 /* ViewModel.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */,

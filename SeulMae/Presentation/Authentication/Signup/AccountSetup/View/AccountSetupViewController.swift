@@ -9,6 +9,8 @@ import UIKit
 
 final class AccountSetupViewController: UIViewController {
     
+    // MARK: - Flow
+    
     static func create(viewModel: AccountSetupViewModel) -> AccountSetupViewController {
         let view = AccountSetupViewController()
         view.viewModel = viewModel
@@ -37,10 +39,10 @@ final class AccountSetupViewController: UIViewController {
     private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: Text.stepGuide)
     private var emailFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.emailFieldGuide)
     private var emailTextField: UITextField = UIViewController.createTextField(placeholder: Text.emailTextFieldPlaceholder)
-    private var emailValidationButton: UIButton = UIViewController.createButton(title: Text.emailValidation)
+    private var emailValidationButton: UIButton = UIViewController.createButton(title: Text.emailValidation, cornerRadius: 16)
     private var passwordFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.passwordFieldGuide)
     private var passwordTextField: UITextField = UIViewController.createTextField(placeholder: Text.passwordTextFieldPlaceholder)
-    private var secondPasswordFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.secondPasswordFeildGuide)
+    private var secondPasswordFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.secondPasswordFeildGuide)
     private var repeatedPasswordFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.repeatedPasswordFieldGuide)
     private var repeatedPasswordTextField: UITextField = UIViewController.createTextField(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
     private var nextStepButton: UIButton = UIViewController.createButton(title: Text.nextStep)
@@ -49,7 +51,15 @@ final class AccountSetupViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view.
+        
+        configureNavItem()
+        configureHierarchy()
+    }
+    
+    // MARK: - Nav Item
+    
+    private func configureNavItem() {
+        
     }
 
     // MARK: - Hierarchy
@@ -75,6 +85,7 @@ final class AccountSetupViewController: UIViewController {
         let repeatedPasswordFieldStack = UIStackView(arrangedSubviews: [
             repeatedPasswordFieldGuideLabel, repeatedPasswordTextField
         ])
+        repeatedPasswordFieldStack.axis = .vertical
         
         let subViews: [UIView] = [
             stepGuideLabel, emailFieldVStack, passwordFieldStack, repeatedPasswordFieldStack, nextStepButton
