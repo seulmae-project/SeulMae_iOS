@@ -9,9 +9,9 @@ import UIKit
 
 final class PhoneVerificationViewController: UIViewController {
     
-    static func create() -> PhoneVerificationViewController {
+    static func create(viewModel: PhoneVerificationViewModel) -> PhoneVerificationViewController {
         let view = PhoneVerificationViewController()
-        let viewModel = PhoneVerificationViewModel()
+        view.viewModel = viewModel
         return view
     }
     
@@ -28,6 +28,10 @@ final class PhoneVerificationViewController: UIViewController {
         static let nextStep = "다음으로"
     }
     
+    // MARK: - Dependency
+    
+    private var viewModel: PhoneVerificationViewModel!
+    
     // MARK: - UI
     
     private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: GuideText.stepGuide)
@@ -39,6 +43,8 @@ final class PhoneVerificationViewController: UIViewController {
     private var secondAuthCodeFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: GuideText.secondAuthCodeFieldGuide)
     private var sendAuthCodeButton: UIButton = UIViewController.createButton(title: GuideText.sendAuthCode, cornerRadius: 16)
     private var nextStepButton: UIButton = UIViewController.createButton(title: GuideText.nextStep)
+    
+    // MARK: - Life Cycle
 
     override func viewDidLoad() {
         super.viewDidLoad()

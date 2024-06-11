@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D072C1833F500095010 /* UIColor+Hex.swift */; };
 		86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */; };
+		86766D0D2C18381F00095010 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0C2C18381F00095010 /* ViewModel.swift */; };
+		86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
 		86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */; };
 		86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AC2C1721FF00805AD0 /* ViewController.swift */; };
@@ -47,6 +49,8 @@
 /* Begin PBXFileReference section */
 		86766D072C1833F500095010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
+		86766D0C2C18381F00095010 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewModel.swift; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299A82C1721FF00805AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -141,8 +145,34 @@
 		86766D0B2C1837DF00095010 /* Common */ = {
 			isa = PBXGroup;
 			children = (
+				86766D0C2C18381F00095010 /* ViewModel.swift */,
 			);
 			path = Common;
+			sourceTree = "<group>";
+		};
+		86766D0E2C1838A600095010 /* AccountSetup */ = {
+			isa = PBXGroup;
+			children = (
+				86766D112C1838C000095010 /* View */,
+				86766D122C1838C300095010 /* ViewModel */,
+			);
+			path = AccountSetup;
+			sourceTree = "<group>";
+		};
+		86766D112C1838C000095010 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86E299E72C17289800805AD0 /* AccountSetupViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86766D122C1838C300095010 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 		86E2999C2C1721FF00805AD0 = {
@@ -209,7 +239,7 @@
 			children = (
 				86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */,
 				86766D022C1830DD00095010 /* PhoneVerification */,
-				86E299E72C17289800805AD0 /* AccountSetupViewController.swift */,
+				86766D0E2C1838A600095010 /* AccountSetup */,
 				86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */,
 				86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */,
 			);
@@ -386,6 +416,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */,
@@ -396,6 +427,7 @@
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
+				86766D0D2C18381F00095010 /* ViewModel.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,5 +1,5 @@
 //
-//  PhoneVerificationViewModel.swift
+//  AccountSetupViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/11/24.
@@ -7,8 +7,7 @@
 
 import Foundation
 
-final class PhoneVerificationViewModel: ViewModel {
-    
+final class AccountSetupViewModel: ViewModel {
     struct Input {
         
     }
@@ -20,7 +19,7 @@ final class PhoneVerificationViewModel: ViewModel {
     init() {
         
     }
-        
+    
     func transform(_ input: Input) -> Output {
         
         return Output()
