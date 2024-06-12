@@ -17,6 +17,14 @@ extension RadioButton {
     }
 }
 
+extension UIImageView {
+    static func common(image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = image
+        return imageView
+    }
+}
+
 extension UILabel {
     static func title(_ title: String) -> UILabel {
         let label = UILabel()

@@ -16,6 +16,8 @@
 		86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
+		86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */; };
+		86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
 		86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */; };
 		86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AC2C1721FF00805AD0 /* ViewController.swift */; };
@@ -27,7 +29,7 @@
 		86E299CC2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */; };
 		86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DD2C1722D700805AD0 /* SigninViewController.swift */; };
 		86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */; };
-		86E299E42C1726C200805AD0 /* UIKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E32C1726C200805AD0 /* UIKit+.swift */; };
+		86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */; };
 		86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */; };
 		86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E72C17289800805AD0 /* AccountSetupViewController.swift */; };
 		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
@@ -61,6 +63,8 @@
 		86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewModel.swift; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
+		86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SeulMae.swift"; sourceTree = "<group>"; };
+		86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SeulMae.swift"; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299A82C1721FF00805AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -76,7 +80,7 @@
 		86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeulMaeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		86E299DD2C1722D700805AD0 /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
 		86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewController.swift; sourceTree = "<group>"; };
-		86E299E32C1726C200805AD0 /* UIKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+.swift"; sourceTree = "<group>"; };
+		86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Componet+SeulMae.swift"; sourceTree = "<group>"; };
 		86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
 		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
@@ -147,7 +151,9 @@
 		86766D062C1833DA00095010 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
-				86E299E32C1726C200805AD0 /* UIKit+.swift */,
+				86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */,
+				86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */,
+				86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */,
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 			);
 			path = Utils;
@@ -503,16 +509,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */,
 				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
 				86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
-				86E299E42C1726C200805AD0 /* UIKit+.swift in Sources */,
+				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
 				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
+				86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,

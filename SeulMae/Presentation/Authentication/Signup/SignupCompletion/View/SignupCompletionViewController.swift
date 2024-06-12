@@ -20,7 +20,6 @@ final class SignupCompletionViewController: UIViewController {
     enum Text {
         static let completion = "회원 가입 완료"
         static let stepGuide = "원트립님,\n만나서 반가워요!"
-    
         static let nextStep = "로그인하러가기"
     }
     
@@ -28,9 +27,10 @@ final class SignupCompletionViewController: UIViewController {
     
     private var viewModel: SignupCompletionViewModel!
     
-    private var completionGuideLabel: UILabel = .callout(title: Text.completion)
-    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
-    private var nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let completionGuideLabel: UILabel = .callout(title: Text.completion)
+    private let stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private let completionImageView: UIImageView = UIImageView()
+    private let nextStepButton: UIButton = .common(title: Text.nextStep)
    
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,28 +48,27 @@ final class SignupCompletionViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
+        let completionVStack = UIStackView(arrangedSubviews: [
+            completionGuideLabel, stepGuideLabel, completionImageView
+        ])
+        completionVStack.axis = .vertical
+        completionVStack.alignment = .center
+        completionVStack.spacing = 8.0
+        completionVStack.setCustomSpacing(26, after: stepGuideLabel)
+        
         let subViews: [UIView] = [
-            completionGuideLabel, stepGuideLabel, nextStepButton
+            completionVStack, nextStepButton
         ]
         subViews.forEach(view.addSubview)
         
-        completionGuideLabel.snp.makeConstraints { make in
+        completionVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(144)
-            make.top.equalTo(view.snp_topMargin).inset(132)
             make.centerX.equalToSuperview()
         }
         
-        stepGuideLabel.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(106)
-            make.top.equalTo(completionGuideLabel.snp.bottom).offset(8)
-            make.centerX.equalToSuperview()
+        completionImageView.snp.makeConstraints { make in
+            make.width.height.equalTo(120)
         }
-        
-//        nameFieldVStack.snp.makeConstraints { make in
-//            make.leading.equalToSuperview().inset(20)
-//            make.top.equalTo(genderFieldVStack.snp.bottom).offset(16)
-//            make.centerX.equalToSuperview()
-//        }
         
         nextStepButton.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
