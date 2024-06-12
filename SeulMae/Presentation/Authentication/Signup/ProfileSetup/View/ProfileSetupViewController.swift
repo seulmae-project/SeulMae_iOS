@@ -22,6 +22,8 @@ final class ProfileSetupViewController: UIViewController {
         static let nameFieldGuide = "이름"
         static let nameTextFieldPlaceholder = "이름 입력"
         static let genderFieldGuide = "성별"
+        static let male = "남성"
+        static let female = "여성"
         static let birthdayFieldGuide = "생년월일"
         static let birthdayTextFieldPlaceholder = "생년월일"
         static let nextStep = "다음으로"
@@ -34,10 +36,12 @@ final class ProfileSetupViewController: UIViewController {
     // MARK: - UI
     
     private var stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private var profileImageView = UIImageView()
     private var nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
     private var nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
     private var genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
-    private var genderSegmentController: UISegmentedControl!
+    private var mailRadioButton: RadioButton = .common(title: Text.male)
+    private var femailRadioButton: RadioButton = .common(title: Text.female)
     private var birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
     private var birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
     private var nextStepButton: UIButton = .common(title: Text.nextStep)
@@ -60,6 +64,72 @@ final class ProfileSetupViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
+        let genderFieldHStack = UIStackView(arrangedSubviews: [
+            mailRadioButton, femailRadioButton
+        ])
+        genderFieldHStack.spacing = 24
         
+        let genderFieldVStack = UIStackView(arrangedSubviews: [
+            genderFieldGuideLabel, genderFieldHStack
+        ])
+        
+        let nameFieldVStack = UIStackView(arrangedSubviews: [
+            nameFieldGuideLabel, nameFieldGuideLabel
+        ])
+        nameFieldVStack.axis = .vertical
+        
+        let birthdayFieldHStack = UIStackView(arrangedSubviews: [
+            
+        ])
+        let birthdayFieldVStack = UIStackView(arrangedSubviews: [
+            birthdayFieldGuideLable
+        ])
+        birthdayFieldVStack.axis = .vertical
+        
+        let subViews: [UIView] = [
+            stepGuideLabel, genderFieldVStack, nameFieldVStack, birthdayFieldVStack, nextStepButton
+        ]
+        subViews.forEach(view.addSubview)
+        
+        stepGuideLabel.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(view.snp_topMargin).inset(24)
+            make.centerX.equalToSuperview()
+        }
+        
+        genderFieldVStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(stepGuideLabel.snp.bottom).offset(52)
+            make.centerX.equalToSuperview()
+        }
+        
+        nameFieldVStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(genderFieldVStack.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        nameTextField.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        birthdayFieldVStack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(nameFieldVStack.snp.bottom).offset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        birthdayFieldHStack.snp.makeConstraints { make in
+            make.height.equalTo(48)
+        }
+        
+        nextStepButton.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.bottom.equalTo(view.snp_bottomMargin).inset(24)
+            make.height.equalTo(56)
+            make.centerX.equalToSuperview()
+        }
     }
 }
+
+

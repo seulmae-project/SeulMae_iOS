@@ -7,6 +7,16 @@
 
 import UIKit
 
+extension RadioButton {
+    static func common(title: String) -> RadioButton {
+        let button = RadioButton()
+        button.setTitle(title, for: .normal)
+        button.iconConfiguration.iconColor = .init(hexCode: "0086FF")
+        button.iconConfiguration.indicatorColor = .init(hexCode: "0086FF")
+        return button
+    }
+}
+
 extension UILabel {
     static func title(_ title: String) -> UILabel {
         let label = UILabel()

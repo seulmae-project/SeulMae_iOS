@@ -323,7 +323,6 @@
 		86E299D92C17227600805AD0 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				86DE55592C18B6F7009CC520 /* CommonUI */,
 				86766D022C1830DD00095010 /* PhoneVerification */,
 				86766D0E2C1838A600095010 /* AccountSetup */,
 				86766D172C18427C00095010 /* ProfileSetup */,
@@ -344,6 +343,7 @@
 		86E299E12C1722EB00805AD0 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
+				86DE55592C18B6F7009CC520 /* CommonUI */,
 				86766D142C183E3900095010 /* Flows */,
 				86E299DB2C1722A600805AD0 /* Authentication */,
 				86E299E22C17230E00805AD0 /* Main */,
