@@ -19,6 +19,8 @@
 		86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */; };
 		86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
+		86DE556C2C19E9C7009CC520 /* EmailRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* EmailRecoveryViewController.swift */; };
+		86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* EmailRecoveryViewModel.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
 		86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */; };
 		86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299AC2C1721FF00805AD0 /* ViewController.swift */; };
@@ -67,6 +69,8 @@
 		86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SeulMae.swift"; sourceTree = "<group>"; };
 		86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SeulMae.swift"; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
+		86DE556B2C19E9C7009CC520 /* EmailRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRecoveryViewController.swift; sourceTree = "<group>"; };
+		86DE556F2C19EA25009CC520 /* EmailRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRecoveryViewModel.swift; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		86E299A82C1721FF00805AD0 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		86E299AA2C1721FF00805AD0 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -285,6 +289,31 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		86DE556A2C19E77D009CC520 /* findCredentials */ = {
+			isa = PBXGroup;
+			children = (
+				86DE556D2C19EA05009CC520 /* View */,
+				86DE556E2C19EA09009CC520 /* ViewModel */,
+			);
+			path = findCredentials;
+			sourceTree = "<group>";
+		};
+		86DE556D2C19EA05009CC520 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86DE556B2C19E9C7009CC520 /* EmailRecoveryViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86DE556E2C19EA09009CC520 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86DE556F2C19EA25009CC520 /* EmailRecoveryViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		86E2999C2C1721FF00805AD0 = {
 			isa = PBXGroup;
 			children = (
@@ -361,6 +390,7 @@
 			children = (
 				86E299D82C17221800805AD0 /* Signin */,
 				86E299D92C17227600805AD0 /* Signup */,
+				86DE556A2C19E77D009CC520 /* findCredentials */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -528,6 +558,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86DE556C2C19E9C7009CC520 /* EmailRecoveryViewController.swift in Sources */,
 				86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */,
@@ -545,6 +576,7 @@
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
+				86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */,
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86766D0D2C18381F00095010 /* ViewModel.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,

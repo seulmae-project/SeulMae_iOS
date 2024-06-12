@@ -22,7 +22,7 @@ final class SigninViewController: UIViewController {
         static let passwordTextFieldPlaceholder = "비밀번호를 입력해주세요"
         static let signin = "로그인"
         static let kakaoSignin = "카카오톡 로그인"
-        static let passwordReset = "아이디 또는 비밀번호 찾기"
+        static let passwordReset = "이메일 또는 비밀번호 찾기"
         static let signup = "회원가입"
     }
     
@@ -37,8 +37,8 @@ final class SigninViewController: UIViewController {
     private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
     private let signinButton: UIButton = .common(title: Text.signin)
     private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin)
-    private let passwordResetButton: UIButton = .common(title: Text.passwordReset)
-    private let signupButton: UIButton = .common(title: Text.signup)
+    private let findCredentials: UIButton = .callout(title: Text.passwordReset)
+    private let signupButton: UIButton = .callout(title: Text.signup)
 
     // MARK: - Life Cycle
 
@@ -59,7 +59,7 @@ final class SigninViewController: UIViewController {
 
     private func configureHierarchy() {
         let signinHStack = UIStackView(arrangedSubviews: [
-            passwordResetButton, signupButton, passwordTextField
+            findCredentials, signupButton
         ])
         signinHStack.spacing = 16
         

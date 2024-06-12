@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - RadioButton
+
 extension RadioButton {
     static func common(title: String) -> RadioButton {
         let button = RadioButton()
@@ -17,6 +19,8 @@ extension RadioButton {
     }
 }
 
+// MARK: - UIImageView
+
 extension UIImageView {
     static func common(image: UIImage) -> UIImageView {
         let imageView = UIImageView()
@@ -24,6 +28,8 @@ extension UIImageView {
         return imageView
     }
 }
+
+// MARK: - UILabel
 
 extension UILabel {
     static func title(title: String) -> UILabel {
@@ -41,10 +47,7 @@ extension UILabel {
         return label
     }
     
-    static func footnote(
-        title: String,
-        color: UIColor = .secondaryLabel
-    ) -> UILabel {
+    static func footnote(title: String, color: UIColor = .secondaryLabel) -> UILabel {
         let label = UILabel()
         label.text = title
         label.textColor = color
@@ -52,6 +55,8 @@ extension UILabel {
         return label
     }
 }
+
+// MARK: - UIButton
 
 extension UIButton {
     static func common(title: String, cornerRadius: CGFloat = 8.0) -> UIButton {
@@ -64,7 +69,18 @@ extension UIButton {
         button.layer.cornerCurve = .continuous
         return button
     }
+    
+    static func callout(title: String) -> UIButton {
+        let button = UIButton()
+        button.isEnabled = false
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
+        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        return button
+    }
 }
+
+// MARK: - UITextField
 
 extension UITextField {
     static func common(placeholder: String, padding: CGFloat = 16) -> UITextField {
