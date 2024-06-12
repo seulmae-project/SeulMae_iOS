@@ -65,7 +65,8 @@ final class PhoneVerificationViewController: UIViewController {
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
-        let phoneNumberFieldStack = UIStackView(arrangedSubviews: [phoneNumberFieldGuideLabel, phoneNumberTextField])
+        let phoneNumberFieldStack = UIStackView(arrangedSubviews: [
+            phoneNumberFieldGuideLabel, phoneNumberTextField])
         phoneNumberFieldStack.axis = .vertical
         
         let authCodeFieldHStack = UIStackView(arrangedSubviews: [
