@@ -28,7 +28,7 @@ final class SignupCompletionViewController: UIViewController {
     private var viewModel: SignupCompletionViewModel!
     
     private let completionGuideLabel: UILabel = .callout(title: Text.completion)
-    private let stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
     private let completionImageView: UIImageView = UIImageView()
     private let nextStepButton: UIButton = .common(title: Text.nextStep)
    

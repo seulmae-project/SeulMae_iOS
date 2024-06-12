@@ -35,16 +35,16 @@ final class ProfileSetupViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
-    private var profileImageView = UIImageView()
-    private var nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
-    private var nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
-    private var genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
-    private var mailRadioButton: RadioButton = .common(title: Text.male)
-    private var femailRadioButton: RadioButton = .common(title: Text.female)
-    private var birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
-    private var birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
-    private var nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let profileImageView = UIImageView()
+    private let nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
+    private let nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
+    private let genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
+    private let mailRadioButton: RadioButton = .common(title: Text.male)
+    private let femailRadioButton: RadioButton = .common(title: Text.female)
+    private let birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
+    private let birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
+    private let nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

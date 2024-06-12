@@ -37,15 +37,15 @@ final class PhoneVerificationViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
-    private var phoneNumberFieldGuideLabel: UILabel = .callout(title: Text.phoneNumberFieldGuide)
-    private var phoneNumberTextField: UITextField = .common(placeholder: Text.phoneNumberTextFieldGuide)
-    private var authCodeFieldGuideLabel: UILabel = .callout(title: Text.authCodeFieldGuide)
-    private var authCodeTextField: UITextField = .common(placeholder: Text.authCodeTextFieldGuide)
-    private var remainingTimeLabel: UILabel = .footnote(title: Text.remainingTime, color: .red)
-    private var secondAuthCodeFieldGuideLabel: UILabel = .footnote(title: Text.secondAuthCodeFieldGuide)
-    private var sendAuthCodeButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
-    private var nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let phoneNumberFieldGuideLabel: UILabel = .callout(title: Text.phoneNumberFieldGuide)
+    private let phoneNumberTextField: UITextField = .common(placeholder: Text.phoneNumberTextFieldGuide)
+    private let authCodeFieldGuideLabel: UILabel = .callout(title: Text.authCodeFieldGuide)
+    private let authCodeTextField: UITextField = .common(placeholder: Text.authCodeTextFieldGuide)
+    private let remainingTimeLabel: UILabel = .footnote(title: Text.remainingTime, color: .red)
+    private let secondAuthCodeFieldGuideLabel: UILabel = .footnote(title: Text.secondAuthCodeFieldGuide)
+    private let sendAuthCodeButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
+    private let nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

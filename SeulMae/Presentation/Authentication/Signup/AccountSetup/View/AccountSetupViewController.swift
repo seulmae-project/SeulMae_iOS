@@ -36,16 +36,16 @@ final class AccountSetupViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
-    private var emailFieldGuideLabel: UILabel = .callout(title: Text.emailFieldGuide)
-    private var emailTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
-    private var emailValidationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
-    private var passwordFieldGuideLabel: UILabel = .callout(title: Text.passwordFieldGuide)
-    private var passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
-    private var secondPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
-    private var repeatedPasswordFieldGuideLabel: UILabel = .callout(title: Text.repeatedPasswordFieldGuide)
-    private var repeatedPasswordTextField: UITextField = .common(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
-    private var nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let emailFieldGuideLabel: UILabel = .callout(title: Text.emailFieldGuide)
+    private let emailTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
+    private let emailValidationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
+    private let passwordFieldGuideLabel: UILabel = .callout(title: Text.passwordFieldGuide)
+    private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
+    private let secondPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
+    private let repeatedPasswordFieldGuideLabel: UILabel = .callout(title: Text.repeatedPasswordFieldGuide)
+    private let repeatedPasswordTextField: UITextField = .common(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
+    private let nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

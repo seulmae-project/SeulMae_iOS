@@ -26,7 +26,7 @@ extension UIImageView {
 }
 
 extension UILabel {
-    static func title(_ title: String) -> UILabel {
+    static func title(title: String) -> UILabel {
         let label = UILabel()
         label.text = title
         label.numberOfLines = 2
@@ -50,19 +50,6 @@ extension UILabel {
         label.textColor = color
         label.font = .systemFont(ofSize: 14)
         return label
-    }
-}
-
-extension UIButton {
-    static func body(title: String, cornerRadius: CGFloat = 8.0) -> UIButton {
-        let button = UIButton()
-        button.isEnabled = false
-        button.setTitle(title, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(hexCode: "D0D0D0") // UIColor(hexCode: "0086FF")
-        button.layer.cornerRadius = cornerRadius
-        button.layer.cornerCurve = .continuous
-        return button
     }
 }
 
