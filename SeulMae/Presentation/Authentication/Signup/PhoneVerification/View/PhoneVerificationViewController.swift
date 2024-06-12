@@ -37,15 +37,15 @@ final class PhoneVerificationViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: Text.stepGuide)
-    private var phoneNumberFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.phoneNumberFieldGuide)
-    private var phoneNumberTextField: UITextField = UIViewController.createTextField(placeholder: Text.phoneNumberTextFieldGuide)
-    private var authCodeFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.authCodeFieldGuide)
-    private var authCodeTextField: UITextField = UIViewController.createTextField(placeholder: Text.authCodeTextFieldGuide)
-    private var remainingTimeLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.remainingTime, color: .red)
-    private var secondAuthCodeFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.secondAuthCodeFieldGuide)
-    private var sendAuthCodeButton: UIButton = UIViewController.createButton(title: Text.sendAuthCode, cornerRadius: 16)
-    private var nextStepButton: UIButton = UIViewController.createButton(title: Text.nextStep)
+    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private var phoneNumberFieldGuideLabel: UILabel = .callout(title: Text.phoneNumberFieldGuide)
+    private var phoneNumberTextField: UITextField = .common(placeholder: Text.phoneNumberTextFieldGuide)
+    private var authCodeFieldGuideLabel: UILabel = .callout(title: Text.authCodeFieldGuide)
+    private var authCodeTextField: UITextField = .common(placeholder: Text.authCodeTextFieldGuide)
+    private var remainingTimeLabel: UILabel = .footnote(title: Text.remainingTime, color: .red)
+    private var secondAuthCodeFieldGuideLabel: UILabel = .footnote(title: Text.secondAuthCodeFieldGuide)
+    private var sendAuthCodeButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
+    private var nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

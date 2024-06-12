@@ -36,16 +36,16 @@ final class AccountSetupViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: Text.stepGuide)
-    private var emailFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.emailFieldGuide)
-    private var emailTextField: UITextField = UIViewController.createTextField(placeholder: Text.emailTextFieldPlaceholder)
-    private var emailValidationButton: UIButton = UIViewController.createButton(title: Text.emailValidation, cornerRadius: 16)
-    private var passwordFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.passwordFieldGuide)
-    private var passwordTextField: UITextField = UIViewController.createTextField(placeholder: Text.passwordTextFieldPlaceholder)
-    private var secondPasswordFieldGuideLabel: UILabel = UIViewController.createSecondTextFieldGuideLabel(title: Text.secondPasswordFeildGuide)
-    private var repeatedPasswordFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.repeatedPasswordFieldGuide)
-    private var repeatedPasswordTextField: UITextField = UIViewController.createTextField(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
-    private var nextStepButton: UIButton = UIViewController.createButton(title: Text.nextStep)
+    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private var emailFieldGuideLabel: UILabel = .callout(title: Text.emailFieldGuide)
+    private var emailTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
+    private var emailValidationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
+    private var passwordFieldGuideLabel: UILabel = .callout(title: Text.passwordFieldGuide)
+    private var passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
+    private var secondPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
+    private var repeatedPasswordFieldGuideLabel: UILabel = .callout(title: Text.repeatedPasswordFieldGuide)
+    private var repeatedPasswordTextField: UITextField = .common(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
+    private var nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

@@ -33,14 +33,14 @@ final class ProfileSetupViewController: UIViewController {
     
     // MARK: - UI
     
-    private var stepGuideLabel: UILabel = UIViewController.createTitleGuideLabel(title: Text.stepGuide)
-    private var nameFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.nameFieldGuide)
-    private var nameTextField: UITextField = UIViewController.createTextField(placeholder: Text.nameTextFieldPlaceholder)
-    private var genderFieldGuideLabel: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.genderFieldGuide)
+    private var stepGuideLabel: UILabel = .title(Text.stepGuide)
+    private var nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
+    private var nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
+    private var genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
     private var genderSegmentController: UISegmentedControl!
-    private var birthdayFieldGuideLable: UILabel = UIViewController.createTextFiledGuideLabel(title: Text.birthdayFieldGuide)
-    private var birthdayTextField: UITextField = UIViewController.createTextField(placeholder: Text.birthdayFieldGuide)
-    private var nextStepButton: UIButton = UIViewController.createButton(title: Text.nextStep)
+    private var birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
+    private var birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
+    private var nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
 

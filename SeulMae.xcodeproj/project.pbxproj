@@ -27,7 +27,7 @@
 		86E299CC2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */; };
 		86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DD2C1722D700805AD0 /* SigninViewController.swift */; };
 		86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */; };
-		86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */; };
+		86E299E42C1726C200805AD0 /* UIKit+.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E32C1726C200805AD0 /* UIKit+.swift */; };
 		86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */; };
 		86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E72C17289800805AD0 /* AccountSetupViewController.swift */; };
 		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
@@ -76,7 +76,7 @@
 		86E299CB2C17220000805AD0 /* SeulMaeUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeulMaeUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		86E299DD2C1722D700805AD0 /* SigninViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewController.swift; sourceTree = "<group>"; };
 		86E299DF2C1722E200805AD0 /* SignupCompletionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewController.swift; sourceTree = "<group>"; };
-		86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfoSetupViewController.swift; sourceTree = "<group>"; };
+		86E299E32C1726C200805AD0 /* UIKit+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIKit+.swift"; sourceTree = "<group>"; };
 		86E299E52C1727CE00805AD0 /* PhoneVerificationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewController.swift; sourceTree = "<group>"; };
 		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
 		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
@@ -147,6 +147,7 @@
 		86766D062C1833DA00095010 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86E299E32C1726C200805AD0 /* UIKit+.swift */,
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 			);
 			path = Utils;
@@ -323,7 +324,6 @@
 			isa = PBXGroup;
 			children = (
 				86DE55592C18B6F7009CC520 /* CommonUI */,
-				86E299E32C1726C200805AD0 /* UserInfoSetupViewController.swift */,
 				86766D022C1830DD00095010 /* PhoneVerification */,
 				86766D0E2C1838A600095010 /* AccountSetup */,
 				86766D172C18427C00095010 /* ProfileSetup */,
@@ -508,7 +508,7 @@
 				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
 				86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
-				86E299E42C1726C200805AD0 /* UserInfoSetupViewController.swift in Sources */,
+				86E299E42C1726C200805AD0 /* UIKit+.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
