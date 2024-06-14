@@ -373,13 +373,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86DE556A2C19E77D009CC520 /* findCredentials */ = {
+		86DE556A2C19E77D009CC520 /* AccountSevice */ = {
 			isa = PBXGroup;
 			children = (
 				86DE556D2C19EA05009CC520 /* View */,
 				86DE556E2C19EA09009CC520 /* ViewModel */,
 			);
-			path = findCredentials;
+			path = AccountSevice;
 			sourceTree = "<group>";
 		};
 		86DE556D2C19EA05009CC520 /* View */ = {
@@ -475,7 +475,7 @@
 			children = (
 				86E299D82C17221800805AD0 /* Signin */,
 				86E299D92C17227600805AD0 /* Signup */,
-				86DE556A2C19E77D009CC520 /* findCredentials */,
+				86DE556A2C19E77D009CC520 /* AccountSevice */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";

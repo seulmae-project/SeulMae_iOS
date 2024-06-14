@@ -15,11 +15,25 @@ protocol AuthFlowCoordinatorDependencies {
 }
 
 protocol AuthFlowCoordinator {
+    
     func start()
+    
+    /// - Tag: Signin
+    func showSingin()
+    
+    /// - Tag: Signup
     func showPhoneVerification()
     func showAccountSetup()
     func showProfileSetup()
     func showSignupCompletion()
+    
+    /// - Tag: Account Service
+    func showPhoneVerificationForEmailRecovery()
+    func showEmailRecovery()
+    func showEmailRecoveryCompletion()
+    func showPhoneVerificationForPasswordRecovery()
+    func showPasswordRecovery()
+    func showPasswordRecoveryCompletion()
 }
 
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
@@ -40,8 +54,16 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-        showPhoneVerification()
+        
     }
+    
+    // MARK: - Signin
+    
+    func showSingin() {
+        
+    }
+        
+    // MARK: - Signup
     
     func showPhoneVerification() {
         let vc = dependencies.makePhoneVerificationViewController(coordinator: self)
@@ -61,5 +83,31 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     func showSignupCompletion() {
         let vc = dependencies.makeSignupCompletionViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - Account Sevice
+    
+    func showPhoneVerificationForEmailRecovery() {
+        
+    }
+    
+    func showEmailRecovery() {
+        
+    }
+    
+    func showEmailRecoveryCompletion() {
+        
+    }
+    
+    func showPhoneVerificationForPasswordRecovery() {
+        
+    }
+    
+    func showPasswordRecovery() {
+        
+    }
+    
+    func showPasswordRecoveryCompletion() {
+        
     }
 }
