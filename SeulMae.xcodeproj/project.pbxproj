@@ -7,9 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
+		861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B52C1BF580007DD6B9 /* NetworkError.swift */; };
+		861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */; };
+		861C31BA2C1C103A007DD6B9 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B92C1C103A007DD6B9 /* Secrets.swift */; };
+		861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */; };
+		861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BC2C1C109D007DD6B9 /* MultiSugarTarget.swift */; };
+		861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BD2C1C109D007DD6B9 /* Parameters.swift */; };
+		861C31C42C1C109D007DD6B9 /* Route.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BE2C1C109D007DD6B9 /* Route.swift */; };
+		861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BF2C1C109D007DD6B9 /* SugarTargetType.swift */; };
+		861C31C82C1C10C8007DD6B9 /* Moya in Frameworks */ = {isa = PBXBuildFile; productRef = 861C31C72C1C10C8007DD6B9 /* Moya */; };
+		861C31CA2C1C10C8007DD6B9 /* RxMoya in Frameworks */ = {isa = PBXBuildFile; productRef = 861C31C92C1C10C8007DD6B9 /* RxMoya */; };
+		861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CC2C1C13A9007DD6B9 /* Extended.swift */; };
+		861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CD2C1C13A9007DD6B9 /* ModelType.swift */; };
+		861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */; };
 		86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D072C1833F500095010 /* UIColor+Hex.swift */; };
 		86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */; };
-		86766D0D2C18381F00095010 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0C2C18381F00095010 /* ViewModel.swift */; };
 		86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */; };
 		86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D152C183E5600095010 /* AuthFlowCoordinator.swift */; };
 		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
@@ -57,9 +70,20 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
+		861C31B52C1BF580007DD6B9 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
+		861C31B92C1C103A007DD6B9 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
+		861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoyaSugarProvider.swift; sourceTree = "<group>"; };
+		861C31BC2C1C109D007DD6B9 /* MultiSugarTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiSugarTarget.swift; sourceTree = "<group>"; };
+		861C31BD2C1C109D007DD6B9 /* Parameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
+		861C31BE2C1C109D007DD6B9 /* Route.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Route.swift; sourceTree = "<group>"; };
+		861C31BF2C1C109D007DD6B9 /* SugarTargetType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SugarTargetType.swift; sourceTree = "<group>"; };
+		861C31CC2C1C13A9007DD6B9 /* Extended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extended.swift; sourceTree = "<group>"; };
+		861C31CD2C1C13A9007DD6B9 /* ModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelType.swift; sourceTree = "<group>"; };
+		861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		86766D072C1833F500095010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
-		86766D0C2C18381F00095010 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D152C183E5600095010 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
@@ -97,6 +121,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				861C31CA2C1C10C8007DD6B9 /* RxMoya in Frameworks */,
+				861C31C82C1C10C8007DD6B9 /* Moya in Frameworks */,
 				86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -118,6 +144,62 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		861C31AF2C1BF4B4007DD6B9 /* DataMapping */ = {
+			isa = PBXGroup;
+			children = (
+				861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */,
+			);
+			path = DataMapping;
+			sourceTree = "<group>";
+		};
+		861C31B02C1BF4EA007DD6B9 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				861C31AF2C1BF4B4007DD6B9 /* DataMapping */,
+				861C31B12C1BF556007DD6B9 /* Network */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		861C31B12C1BF556007DD6B9 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				861C31B52C1BF580007DD6B9 /* NetworkError.swift */,
+				861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		861C31C02C1C109D007DD6B9 /* MoyaSugar */ = {
+			isa = PBXGroup;
+			children = (
+				861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */,
+				861C31BC2C1C109D007DD6B9 /* MultiSugarTarget.swift */,
+				861C31BD2C1C109D007DD6B9 /* Parameters.swift */,
+				861C31BE2C1C109D007DD6B9 /* Route.swift */,
+				861C31BF2C1C109D007DD6B9 /* SugarTargetType.swift */,
+			);
+			path = MoyaSugar;
+			sourceTree = "<group>";
+		};
+		861C31CF2C1C13A9007DD6B9 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				861C31CD2C1C13A9007DD6B9 /* ModelType.swift */,
+				861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */,
+				861C31CC2C1C13A9007DD6B9 /* Extended.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		861C31D42C1C13DC007DD6B9 /* Configuration */ = {
+			isa = PBXGroup;
+			children = (
+				861C31B92C1C103A007DD6B9 /* Secrets.swift */,
+			);
+			path = Configuration;
+			sourceTree = "<group>";
+		};
 		86766D022C1830DD00095010 /* PhoneVerification */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,7 +250,9 @@
 		86766D0B2C1837DF00095010 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				86766D0C2C18381F00095010 /* ViewModel.swift */,
+				861C31C02C1C109D007DD6B9 /* MoyaSugar */,
+				861C31CF2C1C13A9007DD6B9 /* Protocols */,
+				861C31D42C1C13DC007DD6B9 /* Configuration */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -340,6 +424,7 @@
 			children = (
 				86766D052C1833CC00095010 /* Application */,
 				86E299E12C1722EB00805AD0 /* Presentation */,
+				861C31B02C1BF4EA007DD6B9 /* Data */,
 				86E299AE2C1721FF00805AD0 /* Main.storyboard */,
 				86E299B12C17220000805AD0 /* Assets.xcassets */,
 				86E299B32C17220000805AD0 /* LaunchScreen.storyboard */,
@@ -439,6 +524,8 @@
 			name = SeulMae;
 			packageProductDependencies = (
 				86E299ED2C17357E00805AD0 /* SnapKit */,
+				861C31C72C1C10C8007DD6B9 /* Moya */,
+				861C31C92C1C10C8007DD6B9 /* RxMoya */,
 			);
 			productName = SeulMae;
 			productReference = 86E299A52C1721FF00805AD0 /* SeulMae.app */;
@@ -514,6 +601,7 @@
 			mainGroup = 86E2999C2C1721FF00805AD0;
 			packageReferences = (
 				86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */,
+				861C31C62C1C10C8007DD6B9 /* XCRemoteSwiftPackageReference "Moya" */,
 			);
 			productRefGroup = 86E299A62C1721FF00805AD0 /* Products */;
 			projectDirPath = "";
@@ -560,12 +648,19 @@
 			files = (
 				86DE556C2C19E9C7009CC520 /* EmailRecoveryViewController.swift in Sources */,
 				86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */,
+				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */,
+				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
+				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
+				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
+				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
+				861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */,
 				86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
+				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
@@ -576,9 +671,13 @@
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
+				861C31BA2C1C103A007DD6B9 /* Secrets.swift in Sources */,
+				861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */,
+				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
 				86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */,
+				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
+				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
-				86766D0D2C18381F00095010 /* ViewModel.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */,
 			);
@@ -951,6 +1050,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		861C31C62C1C10C8007DD6B9 /* XCRemoteSwiftPackageReference "Moya" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Moya/Moya";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 15.0.3;
+			};
+		};
 		86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -962,6 +1069,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		861C31C72C1C10C8007DD6B9 /* Moya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 861C31C62C1C10C8007DD6B9 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = Moya;
+		};
+		861C31C92C1C10C8007DD6B9 /* RxMoya */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 861C31C62C1C10C8007DD6B9 /* XCRemoteSwiftPackageReference "Moya" */;
+			productName = RxMoya;
+		};
 		86E299ED2C17357E00805AD0 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */;
