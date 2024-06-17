@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class SigninViewController: UIViewController {
     
@@ -35,8 +37,8 @@ final class SigninViewController: UIViewController {
     private let appIconImageView: UIImageView = .common(image: .actions)
     private let eamilTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
     private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
-    private let signinButton: UIButton = .common(title: Text.signin)
-    private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin)
+    private let signinButton: UIButton = .common(title: Text.signin, isEnabled: true)
+    private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin, isEnabled: true)
     private let findCredentials: UIButton = .callout(title: Text.passwordReset)
     private let signupButton: UIButton = .callout(title: Text.signup)
 
@@ -47,6 +49,21 @@ final class SigninViewController: UIViewController {
         
         configureNavItem()
         configureHierarchy()
+    }
+    
+    // MARK: - Data Binding
+    
+    private func bindInternalSubviews() {
+        
+        let output = viewModel.transform(
+            .init(email: eamilTextField.rx.text.orEmpty.asDriver(),
+                  password: passwordTextField.rx.text.orEmpty.asDriver(),
+                  signin: signinButton.rx.tap.asSignal(),
+                  kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
+                  signup: signupButton.rx.tap.asSignal(),
+                  acountRecovery: findCredentials.rx.tap.asSignal()
+            )
+        )
     }
     
     // MARK: - Nav Item
@@ -72,6 +89,8 @@ final class SigninViewController: UIViewController {
         signinVStack.setCustomSpacing(48, after: appIconImageView)
         signinVStack.setCustomSpacing(16, after: passwordTextField)
         signinVStack.setCustomSpacing(4, after: kakaoSigninButton)
+        
+        view.addSubview(signinVStack)
         
         signinVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(12)
