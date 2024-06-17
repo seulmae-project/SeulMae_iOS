@@ -62,7 +62,7 @@ extension UIButton {
     static func common(
         title: String,
         cornerRadius: CGFloat = 8.0,
-        isEnabled: Bool = false
+        isEnabled: Bool = true
     ) -> UIButton {
         let button = UIButton()
         button.isEnabled = isEnabled
