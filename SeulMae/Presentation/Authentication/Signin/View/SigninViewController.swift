@@ -56,14 +56,17 @@ final class SigninViewController: UIViewController {
     private func bindInternalSubviews() {
         
         let output = viewModel.transform(
-            .init(email: eamilTextField.rx.text.orEmpty.asDriver(),
-                  password: passwordTextField.rx.text.orEmpty.asDriver(),
-                  signin: signinButton.rx.tap.asSignal(),
-                  kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
-                  signup: signupButton.rx.tap.asSignal(),
-                  acountRecovery: findCredentials.rx.tap.asSignal()
+            .init(
+                email: eamilTextField.rx.text.orEmpty.asDriver(),
+                password: passwordTextField.rx.text.orEmpty.asDriver(),
+                signin: signinButton.rx.tap.asSignal(),
+                kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
+                signup: signupButton.rx.tap.asSignal(),
+                acountRecovery: findCredentials.rx.tap.asSignal()
             )
         )
+        
+        output
     }
     
     // MARK: - Nav Item

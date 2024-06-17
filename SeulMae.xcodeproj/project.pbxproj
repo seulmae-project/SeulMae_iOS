@@ -11,6 +11,8 @@
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
 		860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */; };
+		861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96852C20076E0032C94A /* AuthUseCase.swift */; };
+		861B96892C2008290032C94A /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96882C2008290032C94A /* AuthRepository.swift */; };
 		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
 		861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B52C1BF580007DD6B9 /* NetworkError.swift */; };
 		861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */; };
@@ -76,6 +78,8 @@
 /* Begin PBXFileReference section */
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
+		861B96852C20076E0032C94A /* AuthUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUseCase.swift; sourceTree = "<group>"; };
+		861B96882C2008290032C94A /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		861C31B52C1BF580007DD6B9 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
 		861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
@@ -152,6 +156,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		861B96832C2007570032C94A /* Domain */ = {
+			isa = PBXGroup;
+			children = (
+				861B96842C2007630032C94A /* UseCases */,
+				861B96872C20081F0032C94A /* Interfaces */,
+			);
+			path = Domain;
+			sourceTree = "<group>";
+		};
+		861B96842C2007630032C94A /* UseCases */ = {
+			isa = PBXGroup;
+			children = (
+				861B96852C20076E0032C94A /* AuthUseCase.swift */,
+			);
+			path = UseCases;
+			sourceTree = "<group>";
+		};
+		861B96872C20081F0032C94A /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				861B96882C2008290032C94A /* AuthRepository.swift */,
+			);
+			path = Interfaces;
+			sourceTree = "<group>";
+		};
 		861C31AF2C1BF4B4007DD6B9 /* DataMapping */ = {
 			isa = PBXGroup;
 			children = (
@@ -434,6 +463,7 @@
 			children = (
 				86766D052C1833CC00095010 /* Application */,
 				86E299E12C1722EB00805AD0 /* Presentation */,
+				861B96832C2007570032C94A /* Domain */,
 				861C31B02C1BF4EA007DD6B9 /* Data */,
 				86E299AE2C1721FF00805AD0 /* Main.storyboard */,
 				86E299B12C17220000805AD0 /* Assets.xcassets */,
@@ -675,10 +705,12 @@
 				860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
+				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
+				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
 				86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
