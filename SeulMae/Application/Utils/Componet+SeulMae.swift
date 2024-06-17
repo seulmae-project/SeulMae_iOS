@@ -59,9 +59,13 @@ extension UILabel {
 // MARK: - UIButton
 
 extension UIButton {
-    static func common(title: String, cornerRadius: CGFloat = 8.0) -> UIButton {
+    static func common(
+        title: String,
+        cornerRadius: CGFloat = 8.0,
+        isEnabled: Bool = false
+    ) -> UIButton {
         let button = UIButton()
-        button.isEnabled = false
+        button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
         button.backgroundColor = UIColor(hexCode: "D0D0D0") // UIColor(hexCode: "0086FF")
