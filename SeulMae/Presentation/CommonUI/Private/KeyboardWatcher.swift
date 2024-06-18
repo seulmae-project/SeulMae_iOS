@@ -13,7 +13,7 @@ extension Notification.Name {
     static let KeyboardWatcherKeyboardWillChangeFrame = Notification.Name("KeyboardWatcherKeyboardWillChangeFrameNotification")
 }
 
-class MDCKeyboardWatcher: NSObject {
+class KeyboardWatcher: NSObject {
     
     class func animationDuration(from notification: Notification) -> TimeInterval {
         guard notification.name == .KeyboardWatcherKeyboardWillShow ||
@@ -53,9 +53,13 @@ class MDCKeyboardWatcher: NSObject {
         }
     }
 
-    static let shared = MDCKeyboardWatcher()
+    static let shared = KeyboardWatcher()
     
     private var keyboardFrame: CGRect = .zero
+   
+    var visibleKeyboardHeight: CGFloat {
+        return keyboardFrame.height
+    }
 
     private override init() {
         super.init()
@@ -69,16 +73,14 @@ class MDCKeyboardWatcher: NSObject {
         NotificationCenter.default.removeObserver(self)
     }
     
-    var visibleKeyboardHeight: CGFloat {
-        return keyboardFrame.height
-    }
-    
     private func updateKeyboardOffset(with userInfo: [AnyHashable: Any]?) {
+        // On iOS 8, the window orientation is corrected logically after transforms, so there is
+        // no need to swap the width and height like we had to on iOS 7 and below..
         guard let userInfo = userInfo, let keyboardRectValue = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else {
             self.keyboardFrame = .zero
             return
         }
-            
+        
         let keyboardRect = keyboardRectValue.cgRectValue
         if keyboardRect.isEmpty {
             self.keyboardFrame = .zero

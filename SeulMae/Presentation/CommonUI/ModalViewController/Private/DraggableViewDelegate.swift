@@ -10,7 +10,7 @@ import Foundation
 @objc protocol DraggableViewDelegate: NSObjectProtocol {
     
     func maximumHeight(for view: DraggableView) -> CGFloat
-    func draggableView(_ view: DraggableView, shouldStartDragWithVelocity velocity: CGPoint) -> Bool
+    func draggableView(_ view: DraggableView, shouldBeginDraggingWithVelocity velocity: CGPoint) -> Bool
     func draggableViewBeganDragging(_ view: DraggableView)
     func draggableView(_ view: DraggableView, draggingEndedWithVelocity velocity: CGPoint)
     func draggableView(_ view: DraggableView, didPanToOffset offset: CGFloat)

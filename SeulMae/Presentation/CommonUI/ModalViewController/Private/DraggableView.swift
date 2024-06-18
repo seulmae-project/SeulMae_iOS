@@ -8,7 +8,7 @@
 import UIKit.UIView
 
 class DraggableView: UIView {
-    static func cancelGestureRecognizer(_ gesture: UIGestureRecognizer) {
+    private func cancelGestureRecognizer(_ gesture: UIGestureRecognizer) {
         if gesture.isEnabled {
             gesture.isEnabled = false
             gesture.isEnabled = true
@@ -102,11 +102,11 @@ extension DraggableView: UIGestureRecognizerDelegate {
         var velocity = recognizer.velocity(in: superview)
         velocity.x = 0
         
-        guard let shouldBegin = delegate?.draggableView(self, shouldStartDragWithVelocity: velocity) else {
+        guard let shouldBegin = delegate?.draggableView(self, shouldBeginDraggingWithVelocity: velocity) else {
             return false
         }
         
-        Self.cancelGestureRecognizer(scrollView?.panGestureRecognizer ?? UIPanGestureRecognizer())
+        cancelGestureRecognizer(scrollView?.panGestureRecognizer ?? UIPanGestureRecognizer())
         return shouldBegin
     }
     
