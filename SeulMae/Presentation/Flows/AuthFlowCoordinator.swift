@@ -54,7 +54,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-        
+        showSingin()
     }
     
     // MARK: - Signin
