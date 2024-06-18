@@ -1,5 +1,7 @@
 {
-    "data": null,
+    "data": {
+        "email": "test@test.com"
+    },
     "status": 201,
     "resultMsg": "SMS sent successfully!"
 }

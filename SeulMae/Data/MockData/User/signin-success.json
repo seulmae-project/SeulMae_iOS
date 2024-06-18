@@ -1,0 +1,12 @@
+{
+    "data": {
+        "tokenResponse": {
+            "accessToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImV4cCI6MTcxODcxMzc0MSwiZW1haWwiOiJ0ZXN0QHRlc3QuY29tIn0.fiaBBb0gBrrGA_-SUu-sKt494PZWShRrNP5lP4TTDBnjkHLSl_BjOKcOZOFOUt-p1qwAnooKzpKOMey99Xn7ag",
+            "refreshToken": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJSZWZyZXNoVG9rZW4iLCJleHAiOjE3MTk5MTk3NDF9.dOVafk9zVtwDfApj_HFeHqG3HD7Xz41O-nbK1fa1jvjoYgdxOnsiwETNi0zHftDkWrtBRyBuzTLU0lfLXjH2vQ",
+            "tokenType": "Bearer "
+        },
+        "role": null
+    },
+    "status": 200,
+    "resultMsg": "LOGIN SUCCESS"
+}
