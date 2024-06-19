@@ -16,13 +16,9 @@ class DraggableView: UIView {
     }
     
     private var dragRecognizer: UIPanGestureRecognizer!
-    
     private(set) var scrollView: UIScrollView?
-    
     var simulateScrollViewBounce: Bool = false
-    
     weak var delegate: DraggableViewDelegate?
-    
     private var mostRecentMinY: CGFloat = 0
     
     init(frame: CGRect, scrollView: UIScrollView?) {

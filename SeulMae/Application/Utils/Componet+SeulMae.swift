@@ -100,6 +100,7 @@ extension UITextField {
         textField.layer.cornerCurve = .continuous
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        // yourSingleFactorCodeTextField.textContentType = .oneTimeCode
         return textField
     }
 }

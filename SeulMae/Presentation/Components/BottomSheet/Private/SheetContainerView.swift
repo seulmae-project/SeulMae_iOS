@@ -189,13 +189,13 @@ class SheetContainerView: UIView, DraggableViewDelegate {
 
         preferredSheetHeight = originalPreferredSheetHeight + safeAreaInsets.bottom
 
-        var contentInset = sheet.scrollView?.contentInset
-        contentInset!.bottom = max(contentInset!.bottom, safeAreaInsets.bottom)
-        sheet.scrollView?.contentInset = contentInset!
+        var contentInset = sheet.scrollView?.contentInset ?? .zero
+        contentInset.bottom = max(contentInset.bottom, safeAreaInsets.bottom)
+        sheet.scrollView?.contentInset = contentInset
 
-        var scrollViewFrame = sheet.scrollView?.frame.standardized
-        scrollViewFrame?.size.height = frame.height
-        sheet.scrollView?.frame = scrollViewFrame!
+        var scrollViewFrame = sheet.scrollView?.frame.standardized ?? .zero
+        scrollViewFrame.size.height = frame.height
+        sheet.scrollView?.frame = scrollViewFrame
 
         updateSheetFrame()
     }
@@ -308,13 +308,16 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     // MARK: - Gesture-driven animation
 
     func animatePane(withInitialVelocity initialVelocity: CGPoint) {
+        guard let sheetBehavior else { 
+            return
+        }
         previousAnimatedBounds = bounds
-        sheetBehavior!.targetPoint = targetPoint()
-        sheetBehavior!.velocity = initialVelocity
-        sheetBehavior!.action = { [weak self] in
+        sheetBehavior.targetPoint = targetPoint()
+        sheetBehavior.velocity = initialVelocity
+        sheetBehavior.action = { [weak self] in
             self?.sheetBehaviorDidUpdate()
         }
-        animator?.addBehavior(sheetBehavior!)
+        animator?.addBehavior(sheetBehavior)
     }
 
     // Calculates the snap-point for the view to spring to.

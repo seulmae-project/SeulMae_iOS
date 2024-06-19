@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc protocol DraggableViewDelegate: NSObjectProtocol {
+protocol DraggableViewDelegate: NSObjectProtocol {
     
     func maximumHeight(for view: DraggableView) -> CGFloat
     func draggableView(_ view: DraggableView, shouldBeginDraggingWithVelocity velocity: CGPoint) -> Bool
