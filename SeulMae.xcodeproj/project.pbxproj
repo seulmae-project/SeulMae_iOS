@@ -53,6 +53,8 @@
 		861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CC2C1C13A9007DD6B9 /* Extended.swift */; };
 		861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CD2C1C13A9007DD6B9 /* ModelType.swift */; };
 		861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */; };
+		863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */; };
+		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
 		86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D072C1833F500095010 /* UIColor+Hex.swift */; };
 		86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */; };
 		86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */; };
@@ -154,6 +156,8 @@
 		861C31CC2C1C13A9007DD6B9 /* Extended.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Extended.swift; sourceTree = "<group>"; };
 		861C31CD2C1C13A9007DD6B9 /* ModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelType.swift; sourceTree = "<group>"; };
 		861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
+		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
+		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
 		86766D072C1833F500095010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
 		86766D092C1837CA00095010 /* PhoneVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneVerificationViewModel.swift; sourceTree = "<group>"; };
 		86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewModel.swift; sourceTree = "<group>"; };
@@ -257,12 +261,13 @@
 			isa = PBXGroup;
 			children = (
 				861B96A02C2061C60032C94A /* Private */,
-				861B96912C20470B0032C94A /* ModalContentView */,
 				861B968B2C2022690032C94A /* ModalViewController.swift */,
 				861B96962C20513C0032C94A /* BottomSheetController.swift */,
 				8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */,
 				861B96942C204C2A0032C94A /* BottomSheetPresentationController.swift */,
 				861B969A2C205A3A0032C94A /* BottomSheetPresentationControllerDelegate.swift */,
+				863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */,
+				863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */,
 				861B969E2C2061650032C94A /* SheetState.swift */,
 				8693C4352C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift */,
 			);
@@ -576,6 +581,7 @@
 				8693C4282C227F6900D7DCD3 /* ShadowElevations */,
 				8693C41E2C227A6100D7DCD3 /* Elevation */,
 				861B968A2C2022520032C94A /* BottomSheet */,
+				861B96912C20470B0032C94A /* ModalContentView */,
 				86DE555A2C18B704009CC520 /* RadiioButton */,
 			);
 			path = Components;
@@ -920,6 +926,7 @@
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
+				863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
@@ -933,6 +940,7 @@
 				86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
+				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* SignupCompletionViewController.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
