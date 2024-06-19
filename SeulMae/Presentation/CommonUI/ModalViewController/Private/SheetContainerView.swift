@@ -9,88 +9,99 @@ import UIKit
 
 class SheetContainerView: UIView, DraggableViewDelegate {
    
-    static var kContentSizeKey: String? = {
-        return #selector(getter: UIScrollView.contentSize).description
-    }()
-    
-    static var kContentInsetKey: String? = {
-        return #selector(getter: UIScrollView.contentInset).description
-    }()
-
-    static var kObservingContext = UnsafeMutableRawPointer.allocate(byteCount: 1, alignment: 1)
-    static let kSheetBounceBuffer: CGFloat = 150
-    
-    var animator: UIDynamicAnimator?
-    var sheetBehavior: SheetBehavior?
-    var isDragging: Bool = false
-    var originalPreferredSheetHeight: CGFloat = 0
-    var previousAnimatedBounds: CGRect = .zero
+    private static let kContentSizeKeyPath = NSExpression(forKeyPath: \UIScrollView.contentSize).keyPath
+    private static let kContentInsetKeyPath = NSExpression(forKeyPath: \UIScrollView.contentInset).keyPath
+    private static var kObservingContext = 0
+    private static let kSheetBounceBuffer: CGFloat = 150
     
     weak var delegate: SheetContainerViewDelegate?
-    private(set) var sheetState: SheetState = .closed
+    private(set) var sheetState: SheetState {
+        didSet {
+            if sheetState != oldValue {
+                delegate?.sheetContainerViewWillChangeState(self, sheetState: sheetState)
+            }
+        }
+    }
     var preferredSheetHeight: CGFloat = 0
     var adjustHeightForSafeAreaInsets: Bool = false
     var willBeDismissed: Bool = false
     var ignoreKeyboardHeight: Bool = false
     var dismissOnDraggingDownSheet: Bool = true
     
-    private var sheet: DraggableView?
+    private var sheet: DraggableView
     private var contentView: UIView
-    private var scrollView: UIScrollView?
     private var simulateScrollViewBounce: Bool
-    
-    init(frame: CGRect, contentView: UIView, scrollView: UIScrollView?, simulateScrollViewBounce: Bool) {
-        self.contentView = contentView
-        self.scrollView = scrollView
-        self.simulateScrollViewBounce = simulateScrollViewBounce
-        super.init(frame: frame)
-        
-        addSubview(contentView)
-        if let scrollView = scrollView {
-            addSubview(scrollView)
+    private var animator: UIDynamicAnimator?
+    private var sheetBehavior: SheetBehavior?
+    private var isDragging: Bool = false
+    private var originalPreferredSheetHeight: CGFloat = 0 {
+        didSet {
+            updateSheetHeight()
         }
     }
-    
-    init(frame: CGRect, contentView: UIView, scrollView: UIScrollView, simulateScrollViewBounce: Bool) {
+    private var previousAnimatedBounds: CGRect = .zero {
+        didSet {
+            updateSheetHeight()
+        }
+    }
+
+    init(
+        frame: CGRect,
+        contentView: UIView,
+        scrollView: UIScrollView,
+        simulateScrollViewBounce: Bool
+    ) {
         self.simulateScrollViewBounce = simulateScrollViewBounce
         self.sheetState = UIAccessibility.isVoiceOverRunning ? .extended : .preferred
         self.contentView = contentView
         self.sheet = DraggableView(frame: .zero, scrollView: scrollView)
-        self.animator = UIDynamicAnimator(referenceView: self)
-        
         super.init(frame: frame)
-        
-        self.willBeDismissed = false
-        self.ignoreKeyboardHeight = false
-        
+                
         // Configure sheet view
-        self.sheet?.simulateScrollViewBounce = self.simulateScrollViewBounce
-        self.sheet?.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
-        self.sheet?.delegate = self
-        self.sheet?.backgroundColor = self.contentView.backgroundColor
-        self.sheet?.layer.cornerRadius = self.contentView.layer.cornerRadius
-        self.sheet?.layer.maskedCorners = self.contentView.layer.maskedCorners
+        sheet.simulateScrollViewBounce = simulateScrollViewBounce
+        sheet.autoresizingMask = [.flexibleWidth, .flexibleTopMargin]
+        sheet.delegate = self
+        sheet.backgroundColor = contentView.backgroundColor
+        sheet.layer.cornerRadius = contentView.layer.cornerRadius
+        sheet.layer.maskedCorners = contentView.layer.maskedCorners
         
         // Adjust anchor point for sheet view
-        self.sheet?.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
-        self.sheet?.frame = self.bounds
+        sheet.layer.anchorPoint = CGPoint(x: 0.5, y: 0)
+        sheet.frame = bounds
         
         // Configure content view
-        self.contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        contentView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         
         // Add content view to sheet
-        self.sheet?.addSubview(self.contentView)
-        self.addSubview(self.sheet!)
+        self.sheet.addSubview(self.contentView)
+        self.addSubview(self.sheet)
         
         // Initialize animator
         animator = UIDynamicAnimator(referenceView: self)
 
         // Add observers for scrollView
-        scrollView.addObserver(self, forKeyPath: SheetContainerView.kContentSizeKey!, options: [.new, .old], context: SheetContainerView.kObservingContext)
-        scrollView.addObserver(self, forKeyPath: SheetContainerView.kContentInsetKey!, options: [.new, .old], context: SheetContainerView.kObservingContext)
+        scrollView.addObserver(
+            self,
+            forKeyPath: SheetContainerView.kContentSizeKeyPath,
+            options: [.new, .old],
+            context: &SheetContainerView.kObservingContext
+        )
+        
+        scrollView.addObserver(
+            self,
+            forKeyPath: SheetContainerView.kContentInsetKeyPath,
+            options: [.new, .old],
+            context: &SheetContainerView.kObservingContext
+        )
         
         // Add observer for VoiceOver status change
-        NotificationCenter.default.addObserver(self, selector: #selector(voiceOverStatusDidChange), name: UIAccessibility.voiceOverStatusDidChangeNotification, object: nil)
+        NotificationCenter.default
+            .addObserver(
+                self,
+                selector: #selector(voiceOverStatusDidChange),
+                name: UIAccessibility.voiceOverStatusDidChangeNotification,
+                object: nil
+            )
         
         // Add keyboard notifications
         let notificationNames = [
@@ -100,7 +111,13 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         ]
         
         for name in notificationNames {
-            NotificationCenter.default.addObserver(self, selector: #selector(keyboardStateChanged(with:)), name: name, object: nil)
+            NotificationCenter.default
+                .addObserver(
+                    self,
+                    selector: #selector(keyboardStateChanged(with:)),
+                    name: name,
+                    object: nil
+                )
         }
         
         // Disable contentInsetAdjustmentBehavior
@@ -118,14 +135,23 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     }
     
     deinit {
-        if let scrollView = sheet?.scrollView {
-            scrollView.removeObserver(self, forKeyPath: SheetContainerView.kContentSizeKey!, context: &SheetContainerView.kObservingContext)
-            scrollView.removeObserver(self, forKeyPath: SheetContainerView.kContentInsetKey!, context: &SheetContainerView.kObservingContext)
+        if let scrollView = sheet.scrollView {
+            scrollView.removeObserver(
+                self,
+                forKeyPath: SheetContainerView.kContentSizeKeyPath,
+                context: &SheetContainerView.kObservingContext
+            )
+            
+            scrollView.removeObserver(
+                self,
+                forKeyPath: SheetContainerView.kContentInsetKeyPath,
+                context: &SheetContainerView.kObservingContext
+            )
         }
     }
 
     @objc private func voiceOverStatusDidChange() {
-        guard let window = window, UIAccessibility.isVoiceOverRunning else {
+        guard let _ = window, UIAccessibility.isVoiceOverRunning else {
             return
         }
         animatePane(withInitialVelocity: .zero)
@@ -134,20 +160,19 @@ class SheetContainerView: UIView, DraggableViewDelegate {
 
     override func didMoveToWindow() {
         super.didMoveToWindow()
-        if let window = window {
+        if let _ = window {
             if sheetBehavior == nil {
-                sheetBehavior = SheetBehavior(item: sheet!, simulateScrollViewBounce: simulateScrollViewBounce)
+                sheetBehavior = SheetBehavior(item: sheet, simulateScrollViewBounce: simulateScrollViewBounce)
             }
             animatePane(withInitialVelocity: .zero)
         } else {
-            animator!.removeAllBehaviors()
+            animator?.removeAllBehaviors()
             sheetBehavior = nil
         }
     }
 
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
         super.traitCollectionDidChange(previousTraitCollection)
-
         guard traitCollection.verticalSizeClass != previousTraitCollection?.verticalSizeClass else {
             return
         }
@@ -164,25 +189,27 @@ class SheetContainerView: UIView, DraggableViewDelegate {
 
         preferredSheetHeight = originalPreferredSheetHeight + safeAreaInsets.bottom
 
-        var contentInset = sheet?.scrollView?.contentInset
-        contentInset?.bottom = max(contentInset!.bottom, safeAreaInsets.bottom)
-        sheet?.scrollView?.contentInset = contentInset!
+        var contentInset = sheet.scrollView?.contentInset
+        contentInset!.bottom = max(contentInset!.bottom, safeAreaInsets.bottom)
+        sheet.scrollView?.contentInset = contentInset!
 
-        var scrollViewFrame = sheet?.scrollView?.frame.standardized
+        var scrollViewFrame = sheet.scrollView?.frame.standardized
         scrollViewFrame?.size.height = frame.height
-        sheet?.scrollView?.frame = scrollViewFrame!
+        sheet.scrollView?.frame = scrollViewFrame!
 
         updateSheetFrame()
     }
     
     // MARK: - KVO
-
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        if context == SheetContainerView.kObservingContext {
-            guard let keyPath = keyPath else { return }
+    
+    override func observeValue(
+        forKeyPath keyPath: String?,
+        of object: Any?,
+        change: [NSKeyValueChangeKey : Any]?,
+        context: UnsafeMutableRawPointer?
+    ) {
+        if context == &SheetContainerView.kObservingContext {
+            guard keyPath != nil else { return }
             guard let oldValue = change?[.oldKey] as? NSValue,
                   let newValue = change?[.newKey] as? NSValue else { return }
             
@@ -203,7 +230,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         }
     }
 
-    func updateSheetHeight() {
+    private func updateSheetHeight() {
         var adjustedPreferredSheetHeight = originalPreferredSheetHeight
         if adjustHeightForSafeAreaInsets {
             adjustedPreferredSheetHeight += safeAreaInsets.bottom
@@ -213,36 +240,25 @@ class SheetContainerView: UIView, DraggableViewDelegate {
             return
         }
         preferredSheetHeight = adjustedPreferredSheetHeight
-        
         updateSheetFrame()
-    }
-
-    func setPreferredSheetHeight(_ preferredSheetHeight: CGFloat) {
-        originalPreferredSheetHeight = preferredSheetHeight
-        updateSheetHeight()
-    }
-
-    func setAdjustHeightForSafeAreaInsets(_ adjustHeightForSafeAreaInsets: Bool) {
-        self.adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets
-        updateSheetHeight()
     }
 
     // Slides the sheet position downwards, so the right amount peeks above the bottom of the superview.
     func updateSheetFrame() {
-        animator!.removeAllBehaviors()
+        animator?.removeAllBehaviors()
 
         var sheetRect = bounds
         sheetRect.origin.y = Double(bounds.maxY - effectiveSheetHeight())
         sheetRect.size.height += SheetContainerView.kSheetBounceBuffer
 
-        sheet?.frame = sheetRect
+        sheet.frame = sheetRect
 
-        var contentFrame = sheet?.bounds
-        contentFrame?.size.height -= SheetContainerView.kSheetBounceBuffer
-        if sheet?.scrollView == nil {
-            contentFrame?.size.height = effectiveSheetHeight()
+        var contentFrame = sheet.bounds
+        contentFrame.size.height -= SheetContainerView.kSheetBounceBuffer
+        if sheet.scrollView == nil {
+            contentFrame.size.height = effectiveSheetHeight()
         }
-        contentView.frame = contentFrame!
+        contentView.frame = contentFrame
 
         // Adjusts the pane to the correct snap point, e.g. after a rotation.
         if window != nil {
@@ -254,7 +270,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         if UIAccessibility.isVoiceOverRunning {
             sheetState = .extended
         } else {
-            let currentSheetHeight = bounds.maxY - sheet!.frame.minY
+            let currentSheetHeight = bounds.maxY - sheet.frame.minY
             sheetState = (currentSheetHeight >= maximumSheetHeight() ? .extended : .preferred)
         }
     }
@@ -274,9 +290,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     }
 
     func scrollViewContentHeight() -> CGFloat {
-        return (sheet?.scrollView!.contentInset.top)! +
-        (sheet?.scrollView!.contentSize.height)! +
-        (sheet?.scrollView!.contentInset.bottom)!
+        return sheet.scrollView!.contentInset.top + sheet.scrollView!.contentSize.height + sheet.scrollView!.contentInset.bottom
     }
 
     // Returns the maximum allowable height that the sheet can be dragged to.
@@ -300,12 +314,12 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         sheetBehavior!.action = { [weak self] in
             self?.sheetBehaviorDidUpdate()
         }
-        animator!.addBehavior(sheetBehavior!)
+        animator?.addBehavior(sheetBehavior!)
     }
 
     // Calculates the snap-point for the view to spring to.
     func targetPoint() -> CGPoint {
-        var bounds = self.bounds
+        let bounds = self.bounds
         let midX = bounds.midX
         var bottomY = bounds.maxY
         if !ignoreKeyboardHeight {
@@ -328,10 +342,10 @@ class SheetContainerView: UIView, DraggableViewDelegate {
 
     func sheetBehaviorDidUpdate() {
         // If sheet has been dragged off the bottom, we can trigger a dismiss.
-        if sheetState == .closed && sheet!.frame.minY > bounds.maxY {
+        if sheetState == .closed && sheet.frame.minY > bounds.maxY {
             delegate?.sheetContainerViewDidHide(self)
 
-            animator!.removeAllBehaviors()
+            animator?.removeAllBehaviors()
 
             // Reset the state to preferred once we are dismissed.
             sheetState = .preferred
@@ -362,7 +376,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         case .preferred:
             return true
         case .extended:
-            if let scrollView = sheet?.scrollView {
+            if let scrollView = sheet.scrollView {
                 let draggingDown = velocity.y >= 0
                 // Only allow dragging down if we are scrolled to the top.
                 if scrollView.contentOffset.y <= -scrollView.contentInset.top && draggingDown {
@@ -386,7 +400,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
             // Cannot be extended, only closed.
             targetState = (velocity.y > 0 && dismissOnDraggingDownSheet) ? .closed : .preferred
         } else {
-            let currentSheetHeight = bounds.maxY - sheet!.frame.minY
+            let currentSheetHeight = bounds.maxY - sheet.frame.minY
             if currentSheetHeight >= preferredSheetHeight {
                 targetState = velocity.y > 0 ? .preferred : .extended
             } else {
@@ -399,19 +413,11 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     }
 
     func draggableViewBeganDragging(_ view: DraggableView) {
-        animator!.removeAllBehaviors()
+        animator?.removeAllBehaviors()
         isDragging = true
     }
 
     func draggableView(_ view: DraggableView, didPanToOffset offset: CGFloat) {
         delegate?.sheetContainerViewDidChangeYOffset(self, yOffset: offset)
     }
-
-//    var sheetState: SheetState {
-//        didSet {
-//            if sheetState != oldValue {
-//                delegate?.sheetContainerViewWillChangeState(self, sheetState: sheetState)
-//            }
-//        }
-//    }
 }

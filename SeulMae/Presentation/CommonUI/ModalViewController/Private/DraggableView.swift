@@ -63,7 +63,7 @@ class DraggableView: UIView {
             velocity.x = 0
             
             let maxHeight = delegate?.maximumHeight(for: self) ?? 0
-            let minimumStableMinY = superview?.bounds.height ?? 0 - maxHeight - MDCKeyboardWatcher.shared.visibleKeyboardHeight
+            let minimumStableMinY = superview?.bounds.height ?? 0 - maxHeight - KeyboardWatcher.shared.visibleKeyboardHeight
             
             var newMinY = mostRecentMinY + translation.y
             
