@@ -23,7 +23,7 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
         didSet {
             guard currentElevation != currentElevation else { return }
             _view.elevation = currentElevation
-            _view.mdc_elevationDidChange()
+            view.mdc_elevationDidChange()
         }
     }
     
@@ -115,7 +115,6 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
     
     // MARK: - Life Cycle
 
-    /// Initializes the controller with a content view controller.
     init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
         self.transitionController = BottomSheetTransitionController()
@@ -141,11 +140,11 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        _view.preservesSuperviewLayoutMargins = true
+        view.preservesSuperviewLayoutMargins = true
         contentViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        contentViewController.view.frame = _view.bounds
+        contentViewController.view.frame = view.bounds
         addChild(contentViewController)
-        _view.addSubview(contentViewController.view)
+        view.addSubview(contentViewController.view)
         contentViewController.didMove(toParent: self)
     }
     
@@ -156,7 +155,7 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
         bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
         bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
         
-        contentViewController.view.frame = _view.bounds
+        contentViewController.view.frame = view.bounds
         contentViewController.view.layoutIfNeeded()
     }
     
@@ -171,7 +170,7 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        _view.layer.mask = createBottomEdgeElevationMask()
+        view.layer.mask = createBottomEdgeElevationMask()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
@@ -213,8 +212,8 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
     // MARK: - Private
     
     func createBottomEdgeElevationMask() -> CAShapeLayer {
-        let boundsWidth = _view.bounds.width
-        let boundsHeight = _view.bounds.height
+        let boundsWidth = view.bounds.width
+        let boundsHeight = view.bounds.height
         let visibleRectOutsideBounds = CGRect(
             x: 0 - kElevationSpreadMaskAffordance,
             y: 0 - kElevationSpreadMaskAffordance,
@@ -239,7 +238,7 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
         guard let shapeGenerator = shapeGeneratorForState(state) else { return }
         if _view.shapeGenerator !== shapeGenerator {
             _view.shapeGenerator = shapeGenerator
-            if let shapeLayer = (_view.layer as? ShapedShadowLayer)?.shapeLayer {
+            if let shapeLayer = (view.layer as? ShapedShadowLayer)?.shapeLayer {
                 self.contentViewController.view.layer.mask = shapeLayer
             } else {
                 self.contentViewController.view.layer.mask = nil

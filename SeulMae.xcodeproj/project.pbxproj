@@ -61,6 +61,10 @@
 		86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D152C183E5600095010 /* AuthFlowCoordinator.swift */; };
 		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
 		86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */; };
+		868354652C2447F000F055D2 /* v1-add-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354642C2447F000F055D2 /* v1-add-success.json */; };
+		868354672C24483C00F055D2 /* v1-info-all-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354662C24483C00F055D2 /* v1-info-all-success.json */; };
+		868354692C24487D00F055D2 /* v1-info-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354682C24487D00F055D2 /* v1-info-success.json */; };
+		8683546D2C24494900F055D2 /* v1-delete-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8683546C2C24494900F055D2 /* v1-delete-success.json */; };
 		8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */; };
 		8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4222C227B3300D7DCD3 /* Elevatable.swift */; };
 		8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */; };
@@ -164,6 +168,10 @@
 		86766D152C183E5600095010 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupCompletionViewModel.swift; sourceTree = "<group>"; };
+		868354642C2447F000F055D2 /* v1-add-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; name = "v1-add-success.json"; path = "../../../../../../Documents/v1-add-success.json"; sourceTree = "<group>"; };
+		868354662C24483C00F055D2 /* v1-info-all-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-info-all-success.json"; sourceTree = "<group>"; };
+		868354682C24487D00F055D2 /* v1-info-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-info-success.json"; sourceTree = "<group>"; };
+		8683546C2C24494900F055D2 /* v1-delete-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-delete-success.json"; sourceTree = "<group>"; };
 		8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetControllerDelegate.swift; sourceTree = "<group>"; };
 		8693C4222C227B3300D7DCD3 /* Elevatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevatable.swift; sourceTree = "<group>"; };
 		8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationOverriding.swift; sourceTree = "<group>"; };
@@ -261,7 +269,6 @@
 			isa = PBXGroup;
 			children = (
 				861B96A02C2061C60032C94A /* Private */,
-				861B968B2C2022690032C94A /* ModalViewController.swift */,
 				861B96962C20513C0032C94A /* BottomSheetController.swift */,
 				8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */,
 				861B96942C204C2A0032C94A /* BottomSheetPresentationController.swift */,
@@ -277,6 +284,7 @@
 		861B96912C20470B0032C94A /* ModalContentView */ = {
 			isa = PBXGroup;
 			children = (
+				861B968B2C2022690032C94A /* ModalViewController.swift */,
 				861B968F2C2046B90032C94A /* ModalContentView.swift */,
 				861B968D2C2029820032C94A /* ModalListContentView.swift */,
 				861B96922C204BA10032C94A /* Wireframe.swift */,
@@ -300,6 +308,7 @@
 			isa = PBXGroup;
 			children = (
 				861B96AF2C2069990032C94A /* User */,
+				868354632C24479800F055D2 /* Workplace */,
 			);
 			path = MockData;
 			sourceTree = "<group>";
@@ -534,6 +543,17 @@
 				86766D1F2C1842DA00095010 /* SignupCompletionViewModel.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		868354632C24479800F055D2 /* Workplace */ = {
+			isa = PBXGroup;
+			children = (
+				868354642C2447F000F055D2 /* v1-add-success.json */,
+				868354662C24483C00F055D2 /* v1-info-all-success.json */,
+				868354682C24487D00F055D2 /* v1-info-success.json */,
+				8683546C2C24494900F055D2 /* v1-delete-success.json */,
+			);
+			path = Workplace;
 			sourceTree = "<group>";
 		};
 		8693C41E2C227A6100D7DCD3 /* Elevation */ = {
@@ -873,9 +893,13 @@
 				861B96C42C21B81D0032C94A /* signin-success.json in Resources */,
 				861B96C22C21B78A0032C94A /* signin-failed.json in Resources */,
 				861B96BF2C21B6B50032C94A /* email-duplication-false-success.json in Resources */,
+				868354692C24487D00F055D2 /* v1-info-success.json in Resources */,
 				86E299B02C1721FF00805AD0 /* Base in Resources */,
+				8683546D2C24494900F055D2 /* v1-delete-success.json in Resources */,
 				861B96AE2C20698D0032C94A /* signup-success.json in Resources */,
+				868354652C2447F000F055D2 /* v1-add-success.json in Resources */,
 				861B96C82C21B9350032C94A /* password-recovery-failed.json in Resources */,
+				868354672C24483C00F055D2 /* v1-info-all-success.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
