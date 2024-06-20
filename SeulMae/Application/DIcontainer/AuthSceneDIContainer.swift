@@ -50,7 +50,7 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     private func makeSigninViewModel(coordinator: AuthFlowCoordinator) -> SigninViewModel {
         return SigninViewModel(
             dependency: (
-                coordinator: coordinator
+                coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
                 validationService: DefaultValidationService()
             )

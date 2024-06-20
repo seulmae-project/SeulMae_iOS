@@ -8,6 +8,7 @@
 import UIKit
 
 protocol AuthFlowCoordinatorDependencies {
+    func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
     func makePhoneVerificationViewController(coordinator: AuthFlowCoordinator) -> PhoneVerificationViewController
     func makeAccountSetupViewController(coordinator: AuthFlowCoordinator) -> AccountSetupViewController
     func makeProfileSetupViewController(coordinator: AuthFlowCoordinator) -> ProfileSetupViewController
