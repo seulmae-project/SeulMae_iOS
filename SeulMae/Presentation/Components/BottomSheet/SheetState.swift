@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc enum SheetState: Int {
+enum SheetState: Int {
     case closed
     case preferred
     case extended

@@ -7,7 +7,7 @@
 
 import Foundation
 
-@objc protocol BottomSheetControllerDelegate: AnyObject {
+protocol BottomSheetControllerDelegate: AnyObject {
     func bottomSheetControllerDidDismissBottomSheet(_ controller: BottomSheetController)
     func bottomSheetControllerStateChanged(_ controller: BottomSheetController, state: SheetState)
     func bottomSheetControllerDidChangeYOffset(_ controller: BottomSheetController, yOffset: CGFloat)

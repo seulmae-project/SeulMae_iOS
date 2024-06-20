@@ -7,90 +7,35 @@
 
 import UIKit
 
-class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, BottomSheetPresentationControllerDelegate {
-
-    private var kElevationSpreadMaskAffordance: CGFloat = 50.0
+class BottomSheetController: UIViewController, Elevatable, ElevationOverriding {
     
     /// The view controller being presented as a bottom sheet.
     private(set) var contentViewController: UIViewController
     
-    /// Interactions with the tracking scroll view will affect the bottom sheet's drag behavior.
-    var trackingScrollView: UIScrollView? {
-        get {
-            return transitionController.trackingScrollView
-        }
-        set {
-            transitionController.trackingScrollView = newValue
-        }
-    }
-    
-    /// Determines if showFlashIndicators is called by default when viewDidAppear is called.
     var shouldFlashScrollIndicatorsOnAppearance: Bool = false
     
-    /// Controls whether the bottom sheet can be dismissed by tapping outside of sheet area.
-    var dismissOnBackgroundTap: Bool {
-        return transitionController.dismissOnBackgroundTap
-    }
+    var traitCollectionDidChangeBlock: ((BottomSheetController, UITraitCollection?) -> Void)?
     
-    /// Controls whether the bottom sheet can be dismissed by dragging the sheet down.
-    var dismissOnDraggingDownSheet: Bool {
-        return transitionController.dismissOnDraggingDownSheet
-    }
-    
-    /// Controls whether the height of the keyboard should affect the bottom sheet's frame.
-    var ignoreKeyboardHeight: Bool {
-        get {
-            return transitionController.ignoreKeyboardHeight
-        }
-        set {
-            transitionController.ignoreKeyboardHeight = newValue
-            self.bottomSheetPresentationController?.ignoreKeyboardHeight = newValue
-        }
-    }
-    
-    /// The color applied to the sheet's background.
-    var scrimColor: UIColor?
-    
-    /// If true, the dimmed scrim view will act as an accessibility element for dismissing the bottom sheet.
-    var isScrimAccessibilityElement: Bool = false
-    
-    /// The accessibility label of the dimmed scrim view.
-    var scrimAccessibilityLabel: String?
-    
-    /// The accessibility hint of the dimmed scrim view.
-    var scrimAccessibilityHint: String?
-    
-    /// The accessibility traits of the dimmed scrim view.
-    var scrimAccessibilityTraits: UIAccessibilityTraits = .button
-    
-    /// The bottom sheet delegate.
     weak var delegate: BottomSheetControllerDelegate?
     
-    private let transitionController = BottomSheetTransitionController()
-    private var shapeGenerators = [NSNumber: ShapeGenerating]()
-    var overrideBaseElevation: CGFloat = -1
-    var elevationDidChangeBlock: ((any Elevatable, CGFloat) -> Void)?
-    
-    /// The current state of the bottom sheet.
-    private(set) var state: SheetState
-    
-    /// The elevation of the bottom sheet.
-    var elevation: ShadowElevation {
+    @ShadowElevation
+    var currentElevation: CGFloat {
         didSet {
-            guard elevation.wrappedValue != self.elevation.wrappedValue else { return }
-            self.customView.elevation = elevation.wrappedValue
-            self.customView.mdc_elevationDidChange()
+            guard currentElevation != currentElevation else { return }
+            _view.elevation = currentElevation
+            _view.mdc_elevationDidChange()
         }
     }
     
-    func setElevation(_ elevation: ShadowElevation) {
-    }
+    var elevationDidChangeBlock: ((any Elevatable, CGFloat) -> Void)?
     
-    /// Determines if the height of the bottom sheet should adjust for safe area insets.
-    var adjustHeightForSafeAreaInsets: Bool = true
+    var overrideBaseElevation: CGFloat = -1
     
+    private var kElevationSpreadMaskAffordance: CGFloat = 50.0
     
-    private(set) var customView: ShapedView {
+    private(set) var state: SheetState
+    
+    private(set) var _view: ShapedView {
         get {
             return self.view as! ShapedView
         }
@@ -99,76 +44,152 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, 
         }
     }
     
-    override func loadView() {
-        self.customView = ShapedView(frame: .zero)
-        self.customView.elevation = self.elevation.wrappedValue
+    private var shapeGenerators = [SheetState: ShapeGenerating]() {
+        didSet {
+            updateShapeGenerator()
+        }
     }
     
+    // MARK: - TransitionController Properties
+    
+    private let transitionController: BottomSheetTransitionController
+    
+    lazy var trackingScrollView: UIScrollView? = transitionController.trackingScrollView
+    
+    lazy var adjustHeightForSafeAreaInsets: Bool = transitionController.adjustHeightForSafeAreaInsets
+    
+    lazy var dismissOnBackgroundTap: Bool = transitionController.dismissOnBackgroundTap {
+        didSet {
+            bottomSheetPresentationController?.dismissOnBackgroundTap = dismissOnBackgroundTap
+        }
+    }
+    
+    lazy var dismissOnDraggingDownSheet: Bool = transitionController.dismissOnDraggingDownSheet {
+        didSet {
+            bottomSheetPresentationController?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
+        }
+    }
+    
+    lazy var ignoreKeyboardHeight: Bool = transitionController.ignoreKeyboardHeight {
+        didSet {
+            bottomSheetPresentationController?.ignoreKeyboardHeight = ignoreKeyboardHeight
+        }
+    }
+    
+    // MARK: - Scrim Properties
+    
+    /// The color applied to the sheet's background.
+    var scrimColor: UIColor? {
+        didSet {
+            transitionController.scrimColor = scrimColor
+        }
+    }
+    
+    /// If true, the dimmed scrim view will act as an accessibility element for dismissing the bottom sheet.
+    var isScrimAccessibilityElement: Bool = false {
+        didSet {
+            transitionController.isScrimAccessibilityElement = isScrimAccessibilityElement
+        }
+    }
+    
+    /// The accessibility label of the dimmed scrim view.
+    var scrimAccessibilityLabel: String? {
+        didSet {
+            transitionController.scrimAccessibilityLabel = scrimAccessibilityLabel
+        }
+    }
+    
+    /// The accessibility hint of the dimmed scrim view.
+    var scrimAccessibilityHint: String? {
+        didSet {
+            transitionController.scrimAccessibilityHint = scrimAccessibilityHint
+        }
+    }
+    
+    /// The accessibility traits of the dimmed scrim view.
+    var scrimAccessibilityTraits: UIAccessibilityTraits = [] {
+        didSet {
+            transitionController.scrimAccessibilityTraits = scrimAccessibilityTraits
+        }
+    }
+    
+    // MARK: - Life Cycle
+
     /// Initializes the controller with a content view controller.
     init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
-        if UIAccessibility.isVoiceOverRunning {
-            self.state = .extended
-        } else {
-            self.state = .preferred
-        }
-        self.elevation = ShadowElevation(wrappedValue: ShadowElevations.modalBottomSheet)
+        self.transitionController = BottomSheetTransitionController()
+        self.transitionController.dismissOnBackgroundTap = true
+        self.transitionController.dismissOnDraggingDownSheet = true
+        self.transitionController.adjustHeightForSafeAreaInsets = true
+        self.state = UIAccessibility.isVoiceOverRunning ? .extended : .preferred
+        self.currentElevation = ShadowElevations.modalBottomSheet
         super.init(nibName: nil, bundle: nil)
-        self.setup()
+        super.transitioningDelegate = transitionController
+        super.modalPresentationStyle = .custom
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func setup() {
-        self.transitionController.dismissOnBackgroundTap = true
-        self.transitionController.dismissOnDraggingDownSheet = true
-        self.transitionController.adjustHeightForSafeAreaInsets = true
-        self.transitioningDelegate = transitionController
-        self.modalPresentationStyle = .custom
+    override func loadView() {
+        _view = ShapedView(frame: .zero)
+        _view.elevation = currentElevation
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.customView.preservesSuperviewLayoutMargins = true
-        
+        _view.preservesSuperviewLayoutMargins = true
         contentViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        contentViewController.view.frame = self.customView.bounds
-        self.addChild(contentViewController)
-        self.customView.addSubview(contentViewController.view)
+        contentViewController.view.frame = _view.bounds
+        addChild(contentViewController)
+        _view.addSubview(contentViewController.view)
         contentViewController.didMove(toParent: self)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-
-        self.bottomSheetPresentationController?.delegate = self
         
-        self.bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
-        self.bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
+        bottomSheetPresentationController?.delegate = self
+        bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
+        bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
         
-        self.contentViewController.view.frame = self.view.bounds
-        self.contentViewController.view.layoutIfNeeded()
+        contentViewController.view.frame = _view.bounds
+        contentViewController.view.layoutIfNeeded()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if self.shouldFlashScrollIndicatorsOnAppearance {
-            self.trackingScrollView?.flashScrollIndicators()
+        if shouldFlashScrollIndicatorsOnAppearance {
+            trackingScrollView?.flashScrollIndicators()
         }
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         
-        self.view.layer.mask = self.createBottomEdgeElevationMask()
+        _view.layer.mask = createBottomEdgeElevationMask()
     }
     
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return self.contentViewController.supportedInterfaceOrientations
+        return contentViewController.supportedInterfaceOrientations
+    }
+    
+    override var preferredContentSize: CGSize {
+        get {
+            return contentViewController.preferredContentSize
+        }
+        set {
+            contentViewController.preferredContentSize = newValue
+        }
+    }
+
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        traitCollectionDidChangeBlock?(self, previousTraitCollection)
     }
     
     override func accessibilityPerformEscape() -> Bool {
@@ -176,31 +197,65 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, 
             return false
         }
         
-        weak var weakSelf = self
-        self.dismiss(animated: true) {
-            guard let strongSelf = weakSelf else { return }
-            if let delegate = strongSelf.delegate as AnyObject?,
-               delegate.responds(to: #selector(BottomSheetControllerDelegate.bottomSheetControllerDidDismissBottomSheet(_:))) {
-                delegate.bottomSheetControllerDidDismissBottomSheet(strongSelf)
+        self.dismiss(animated: true) { [weak self] in
+            if let strongSelf = self {
+                strongSelf.delegate?.bottomSheetControllerDidDismissBottomSheet(strongSelf)
             }
         }
         return true
-    }
-    
-    override var preferredContentSize: CGSize {
-        get {
-            return self.contentViewController.preferredContentSize ?? CGSize.zero
-        }
-        set {
-            self.contentViewController.preferredContentSize = newValue
-        }
     }
     
     override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
         super.preferredContentSizeDidChange(forChildContentContainer: container)
         self.presentationController?.preferredContentSizeDidChange(forChildContentContainer: self)
     }
+    
+    // MARK: - Private
+    
+    func createBottomEdgeElevationMask() -> CAShapeLayer {
+        let boundsWidth = _view.bounds.width
+        let boundsHeight = _view.bounds.height
+        let visibleRectOutsideBounds = CGRect(
+            x: 0 - kElevationSpreadMaskAffordance,
+            y: 0 - kElevationSpreadMaskAffordance,
+            width: boundsWidth + (2.0 * kElevationSpreadMaskAffordance),
+            height: boundsHeight + kElevationSpreadMaskAffordance
+        )
+        let maskLayer = CAShapeLayer()
+        let visibleAreaPath = UIBezierPath(rect: visibleRectOutsideBounds)
+        maskLayer.path = visibleAreaPath.cgPath
+        return maskLayer
+    }
+    
+    private func shapeGeneratorForState(_ state: SheetState) -> ShapeGenerating? {
+        var shapeGenerator = shapeGenerators[state]
+        if state != .closed && shapeGenerator == nil {
+            shapeGenerator = shapeGenerators[.closed]
+        }
+        return shapeGenerator
+    }
 
+    private func updateShapeGenerator() {
+        guard let shapeGenerator = shapeGeneratorForState(state) else { return }
+        if _view.shapeGenerator !== shapeGenerator {
+            _view.shapeGenerator = shapeGenerator
+            if let shapeLayer = (_view.layer as? ShapedShadowLayer)?.shapeLayer {
+                self.contentViewController.view.layer.mask = shapeLayer
+            } else {
+                self.contentViewController.view.layer.mask = nil
+            }
+        }
+    }
+}
+
+extension BottomSheetController: BottomSheetPresentationControllerDelegate {
+    
+    // MARK: - BottomSheetPresentationControllerDelegate
+    
+    func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController) {
+        delegate?.bottomSheetControllerDidDismissBottomSheet(self)
+    }
+    
     func bottomSheetWillChangeState(_ bottomSheet: BottomSheetPresentationController, sheetState: SheetState) {
         state = sheetState
         updateShapeGenerator()
@@ -209,67 +264,5 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, 
     
     func bottomSheetDidChangeYOffset(_ bottomSheet: BottomSheetPresentationController, yOffset: CGFloat) {
         delegate?.bottomSheetControllerDidChangeYOffset(self, yOffset: yOffset)
-    }
-    
-    func shapeGeneratorForState(_ state: SheetState) -> ShapeGenerating? {
-        var shapeGenerator = shapeGenerators[state.rawValue as NSNumber]
-        if state != .closed && shapeGenerator == nil {
-            shapeGenerator = shapeGenerators[SheetState.closed.rawValue as NSNumber]
-        }
-        return shapeGenerator
-    }
-    
-    func setShapeGenerator(_ shapeGenerator: ShapeGenerating?, forState state: SheetState) {
-        shapeGenerators[state.rawValue as NSNumber] = shapeGenerator
-        updateShapeGenerator()
-    }
-    
-    func updateShapeGenerator() {
-        guard let shapeGenerator = shapeGeneratorForState(state) else { return }
-        if self.customView.shapeGenerator !== shapeGenerator {
-            self.customView.shapeGenerator = shapeGenerator
-            if let shapeLayer = (self.view.layer as? ShapedShadowLayer)?.shapeLayer {
-                self.contentViewController.view.layer.mask = shapeLayer
-            } else {
-                self.contentViewController.view.layer.mask = nil
-            }
-        }
-    }
-    
-    var currentElevation: CGFloat {
-        return elevation.wrappedValue
-    }
-    
-    func createBottomEdgeElevationMask() -> CAShapeLayer {
-        let boundsWidth = self.view.bounds.width
-        let boundsHeight = self.view.bounds.height
-        let visibleRectOutsideBounds = CGRect(x: 0 - kElevationSpreadMaskAffordance,
-                                              y: 0 - kElevationSpreadMaskAffordance,
-                                              width: boundsWidth + (2.0 * kElevationSpreadMaskAffordance),
-                                              height: boundsHeight + kElevationSpreadMaskAffordance)
-        let maskLayer = CAShapeLayer()
-        let visibleAreaPath = UIBezierPath(rect: visibleRectOutsideBounds)
-        maskLayer.path = visibleAreaPath.cgPath
-        return maskLayer
-    }
-
-    func shapeGenerator(forState state: SheetState) -> ShapeGenerating? {
-        // Implementation here
-        return nil
-    }
-    
-    /// A block that is invoked when traitCollectionDidChange is called.
-    @objc var traitCollectionDidChangeBlock: ((BottomSheetController, UITraitCollection?) -> Void)?
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        traitCollectionDidChangeBlock?(self, previousTraitCollection)
-    }
-    
-    func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController) {
-        if let delegate = self.delegate as AnyObject?,
-           delegate.responds(to: #selector(BottomSheetControllerDelegate.bottomSheetControllerDidDismissBottomSheet(_:))) {
-            delegate.bottomSheetControllerDidDismissBottomSheet?(self)
-        }
     }
 }
