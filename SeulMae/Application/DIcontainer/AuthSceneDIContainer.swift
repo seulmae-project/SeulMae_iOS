@@ -10,7 +10,7 @@ import UIKit.UINavigationController
 final class AuthSceneDIContainer {
     
     struct Dependencies {
-        // let authNetworking: AuthNetworking
+        let authNetworking: AuthNetworking
     }
     
     private let dependencies: Dependencies
@@ -19,13 +19,13 @@ final class AuthSceneDIContainer {
         self.dependencies = dependencies
     }
     
-//    func makeAuthUseCase() -> AuthUseCase {
-//        return DefaultAuthUseCase(authRepository: makeAuthRepository())
-//    }
+    func makeAuthUseCase() -> AuthUseCase {
+        return DefaultAuthUseCase(authRepository: makeAuthRepository())
+    }
     
-//    private func makeAuthRepository() -> AuthRepository {
-//        return DefaultAuthRepository(network: dependencies.authNetworking)
-//    }
+    private func makeAuthRepository() -> AuthRepository {
+        return DefaultAuthRepository(network: dependencies.authNetworking)
+    }
     
     // MARK: - Flow Coordinators
     
@@ -41,10 +41,25 @@ final class AuthSceneDIContainer {
 
 extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     
+    // MARK: - Signin Flow
+    
+    func makeSigninViewController(coordinator: any AuthFlowCoordinator) -> SigninViewController {
+        return .create(viewModel: makeSigninViewModel(coordinator: coordinator))
+    }
+    
+    private func makeSigninViewModel(coordinator: AuthFlowCoordinator) -> SigninViewModel {
+        return SigninViewModel(
+            dependency: (
+                coordinator: coordinator
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService()
+            )
+        )
+    }
+    
     // MARK: - Signup Flow
     
-    func makePhoneVerificationViewController(coordinator: any AuthFlowCoordinator
-    ) -> PhoneVerificationViewController {
+    func makePhoneVerificationViewController(coordinator: any AuthFlowCoordinator) -> PhoneVerificationViewController {
         return .create(viewModel: makePhoneVerificationViewModel(coordinator: coordinator))
     }
     

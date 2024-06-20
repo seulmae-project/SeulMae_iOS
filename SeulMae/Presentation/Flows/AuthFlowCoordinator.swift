@@ -60,7 +60,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     // MARK: - Signin
     
     func showSingin() {
-        
+        let vc = dependencies.makeSigninViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
     }
         
     // MARK: - Signup

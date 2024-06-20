@@ -40,7 +40,7 @@
 		861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96D82C21C6090032C94A /* KeyboardWatcher.swift */; };
 		861B96DC2C21D6310032C94A /* SheetBehavior.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96DB2C21D6310032C94A /* SheetBehavior.swift */; };
 		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
-		861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B52C1BF580007DD6B9 /* NetworkError.swift */; };
+		861C31B62C1BF580007DD6B9 /* DomainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B52C1BF580007DD6B9 /* DomainError.swift */; };
 		861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */; };
 		861C31BA2C1C103A007DD6B9 /* Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B92C1C103A007DD6B9 /* Secrets.swift */; };
 		861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */; };
@@ -82,6 +82,7 @@
 		8693C4342C22E07D00D7DCD3 /* ShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4332C22E07D00D7DCD3 /* ShapeLayer.swift */; };
 		8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4352C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift */; };
 		8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */; };
+		86C2930D2C24725A0006AC72 /* DefaultAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
 		86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */; };
@@ -156,7 +157,7 @@
 		861B96D82C21C6090032C94A /* KeyboardWatcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardWatcher.swift; sourceTree = "<group>"; };
 		861B96DB2C21D6310032C94A /* SheetBehavior.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SheetBehavior.swift; sourceTree = "<group>"; };
 		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
-		861C31B52C1BF580007DD6B9 /* NetworkError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		861C31B52C1BF580007DD6B9 /* DomainError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainError.swift; sourceTree = "<group>"; };
 		861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
 		861C31B92C1C103A007DD6B9 /* Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Secrets.swift; sourceTree = "<group>"; };
 		861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoyaSugarProvider.swift; sourceTree = "<group>"; };
@@ -196,6 +197,7 @@
 		8693C4332C22E07D00D7DCD3 /* ShapeLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeLayer.swift; sourceTree = "<group>"; };
 		8693C4352C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BottomSheet.swift"; sourceTree = "<group>"; };
 		8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+MaterialElevationResponding.swift"; sourceTree = "<group>"; };
+		86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAuthRepository.swift; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
 		86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SeulMae.swift"; sourceTree = "<group>"; };
@@ -374,6 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				8683546F2C24543000F055D2 /* MockData.swift */,
+				86C2930B2C2471EB0006AC72 /* Repositories */,
 				861C31AF2C1BF4B4007DD6B9 /* DataMapping */,
 				861C31B12C1BF556007DD6B9 /* Network */,
 			);
@@ -383,8 +386,8 @@
 		861C31B12C1BF556007DD6B9 /* Network */ = {
 			isa = PBXGroup;
 			children = (
-				861C31B52C1BF580007DD6B9 /* NetworkError.swift */,
 				861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */,
+				861C31B52C1BF580007DD6B9 /* DomainError.swift */,
 			);
 			path = Network;
 			sourceTree = "<group>";
@@ -662,6 +665,14 @@
 				8693C4332C22E07D00D7DCD3 /* ShapeLayer.swift */,
 			);
 			path = ShapeLayer;
+			sourceTree = "<group>";
+		};
+		86C2930B2C2471EB0006AC72 /* Repositories */ = {
+			isa = PBXGroup;
+			children = (
+				86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */,
+			);
+			path = Repositories;
 			sourceTree = "<group>";
 		};
 		86DE55592C18B6F7009CC520 /* Components */ = {
@@ -1016,6 +1027,7 @@
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
+				86C2930D2C24725A0006AC72 /* DefaultAuthRepository.swift in Sources */,
 				861B96DC2C21D6310032C94A /* SheetBehavior.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
@@ -1044,7 +1056,7 @@
 				861C31BA2C1C103A007DD6B9 /* Secrets.swift in Sources */,
 				8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */,
 				861B96A62C2068110032C94A /* SheetContainerViewDelegate.swift in Sources */,
-				861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */,
+				861C31B62C1BF580007DD6B9 /* DomainError.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
 				86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */,
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,

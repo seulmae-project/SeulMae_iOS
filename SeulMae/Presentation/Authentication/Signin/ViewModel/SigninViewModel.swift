@@ -26,7 +26,7 @@ final class SigninViewModel: ViewModel {
     
     // MARK: - Dependency
     
-    private let authCoordinator: AuthFlowCoordinator
+    private let coordinator: AuthFlowCoordinator
     
     private let authUseCase: AuthUseCase
     
@@ -36,12 +36,12 @@ final class SigninViewModel: ViewModel {
     
     init(
         dependency: (
-            authCoordinator: AuthFlowCoordinator,
+            coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
             validationService: ValidationService
         )
     ) {
-        self.authCoordinator = dependency.authCoordinator
+        self.coordinator = dependency.coordinator
         self.authUseCase = dependency.authUseCase
         self.validationService = dependency.validationService
     }
@@ -52,11 +52,11 @@ final class SigninViewModel: ViewModel {
         
         let emailAndPassword = Driver.combineLatest(input.email, input.password) { (email: $0, password: $1) }
         let signedIn = input.signup.withLatestFrom(emailAndPassword)
-            .flatMapLatest { [weak self] pair -> Driver<Bool> in
+            .flatMapLatest { [weak self] pair -> Driver<Token> in
                 guard let weakSelf = self else { return .empty() }
                 return weakSelf.authUseCase.signin(pair.email, pair.password)
                     // .trackActivity(signingIn)
-                    .asDriver(onErrorJustReturn: false)
+                    .asDriver(onErrorDriveWith: .empty())
             }
 //            .flatMapLatest { loggedIn -> Driver<Bool> in
 //                let message = loggedIn ? "Mock: Signed in to GitHub." : "Mock: Sign in to GitHub failed"
@@ -95,7 +95,7 @@ final class SigninViewModel: ViewModel {
         Task {
             for await _ in await input.signup.values {
                 Swift.print("-- flow: showPhoneVerification")
-                authCoordinator.showPhoneVerification()
+                coordinator.showPhoneVerification()
             }
         }
                                                         

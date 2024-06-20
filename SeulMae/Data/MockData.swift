@@ -16,7 +16,7 @@ var authCodeCertificationResponse_success: BaseResponseDTO<String> = load("sms-c
 var emailValidationResponse_true: BaseResponseDTO<Bool> = load("email-duplication-true-success.json")
 var emailValidationResponse_false: BaseResponseDTO<Bool> = load("email-duplication-false-success.json")
 var signinResponse_success: BaseResponseDTO<AuthDataDTO> = load("signin-success.json")
-var signinResponse_failed: BaseResponseDTO<String> = load("signin-failed.json")
+var signinResponse_failed: BaseResponseDTO<AuthDataDTO> = load("signin-failed.json")
 var passwordRecoveryResponse_success: BaseResponseDTO<String> = load("password-recovery-success.json")
 var passwordRecoveryResponse_failed: BaseResponseDTO<String> = load("password-recovery-failed.json")
 

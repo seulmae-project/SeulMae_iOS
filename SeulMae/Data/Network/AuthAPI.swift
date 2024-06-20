@@ -8,7 +8,9 @@
 import Foundation
 import Moya
 
-enum AuthAPI {
+typealias AuthNetworking = MoyaProvider<AuthAPI>
+
+enum AuthAPI: SugarTargetType {
     case signup(SignupRequest)
     case requestVerification(phoneNumber: String, email: String? = nil)
     case verifyAuthNumber(authNumber: String)

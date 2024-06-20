@@ -14,4 +14,13 @@ struct BaseResponseDTO<T: Codable>: ModelType {
     let divisionCode: String?
     let errors: [String]?
     let reason: String?
+    
+    var isSuccess: Bool {
+        guard let status else {
+            return false
+        }
+        
+        let successCodes = [200, 201]
+        return successCodes.contains(status)
+    }
 }

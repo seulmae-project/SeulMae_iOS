@@ -21,15 +21,24 @@ struct AuthDataDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<AuthDataDTO> {
-    func toDomain() -> Token? {
-        return data?.tokenResponse?.toDomain()
+    func toDomain() throws -> Token {
+        guard let token = data?.tokenResponse else {
+            let keyPath = NSExpression(forKeyPath: \AuthDataDTO.tokenResponse).keyPath
+            throw DomainError.empty(keyPath)
+        }
+        
+        return try token.toDomain()
     }
 }
 
 extension AuthDataDTO.TokenDTO {
-    func toDomain() -> Token {
+    func toDomain() throws -> Token {
+        guard let accessToken else {
+            let keyPath = NSExpression(forKeyPath: \AuthDataDTO.TokenDTO.accessToken).keyPath
+            throw DomainError.empty(keyPath)
+        }
         return Token(
-            accessToken: accessToken ?? "",
+            accessToken: accessToken,
             refreshToken: refreshToken ?? "",
             tokenType: tokenType ?? ""
         )

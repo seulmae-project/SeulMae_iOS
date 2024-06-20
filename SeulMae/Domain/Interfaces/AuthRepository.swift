@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthRepository {
     /// - Tag: Signin
-    func signin(_ email: String, _ password: String) -> Single<Bool>
+    func signin(_ email: String, _ password: String) -> Single<Token>
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
