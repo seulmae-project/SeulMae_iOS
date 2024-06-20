@@ -44,7 +44,7 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, 
         }
         set {
             transitionController.ignoreKeyboardHeight = newValue
-            self.mdc_bottomSheetPresentationController?.ignoreKeyboardHeight = newValue
+            self.bottomSheetPresentationController?.ignoreKeyboardHeight = newValue
         }
     }
     
@@ -144,10 +144,10 @@ class BottomSheetController: UIViewController, Elevatable, ElevationOverriding, 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
 
-        self.mdc_bottomSheetPresentationController?.delegate = self
+        self.bottomSheetPresentationController?.delegate = self
         
-        self.mdc_bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
-        self.mdc_bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
+        self.bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
+        self.bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
         
         self.contentViewController.view.frame = self.view.bounds
         self.contentViewController.view.layoutIfNeeded()

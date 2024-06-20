@@ -7,7 +7,10 @@
 
 import Foundation
 
-@objc protocol BottomSheetTransitionControllerDelegate: AnyObject {
-    
-    @objc optional func didDismissBottomSheetTransitionController(_ controller: BottomSheetTransitionController)
+protocol BottomSheetTransitionControllerDelegate: AnyObject {
+    func didDismissBottomSheetTransitionController(_ controller: BottomSheetTransitionController)
+}
+
+extension BottomSheetTransitionControllerDelegate {
+    func didDismissBottomSheetTransitionController(_ controller: BottomSheetTransitionController) {}
 }

@@ -8,41 +8,48 @@
 import UIKit
 import WebKit
 
-func BottomSheetGetPrimaryScrollView(viewController: UIViewController) -> UIScrollView? {
-    var viewController = viewController
-    var scrollView: UIScrollView? = nil
-    
-    if !viewController.isViewLoaded {
-        _ = viewController.view
-    }
-    
-    if let bottomSheetController = viewController as? BottomSheetController {
-        viewController = bottomSheetController.contentViewController
-    }
-    
-    if let view = viewController.view as? UIScrollView {
-        scrollView = view
-    } else if let webView = viewController.view as? WKWebView {
-        scrollView = webView.scrollView
-    } else if let collectionViewController = viewController as? UICollectionViewController {
-        scrollView = collectionViewController.collectionView
-    }
-    return scrollView
-}
-
-
-class BottomSheetPresentationController: UIPresentationController, SheetContainerViewDelegate {
+class BottomSheetPresentationController: UIPresentationController {
     
     private var sheetView: SheetContainerView?
+    
     private var dimmingView: UIView?
     
     weak var trackingScrollView: UIScrollView?
+    
     var simulateScrollViewBounce: Bool = true
+    
     var dismissOnBackgroundTap: Bool = true
+    
     var shouldPropagateSafeAreaInsetsToPresentedViewController: Bool = false
     
-    // MARK: - Properties
+    var preferredSheetHeight: CGFloat = 0 {
+        didSet {
+            updatePreferredSheetHeight()
+        }
+    }
     
+    var adjustHeightForSafeAreaInsets: Bool = true {
+        didSet {
+            sheetView?.adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets
+        }
+    }
+    
+    var ignoreKeyboardHeight: Bool = false {
+        didSet {
+            sheetView?.ignoreKeyboardHeight = ignoreKeyboardHeight
+        }
+    }
+    
+    var dismissOnDraggingDownSheet: Bool = true {
+        didSet {
+            sheetView?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
+        }
+    }
+    
+    var traitCollectionDidChangeBlock: ((BottomSheetPresentationController, UITraitCollection?) -> Void)?
+    
+    // MARK: - Scrim Properties
+
     var scrimColor: UIColor? {
         didSet {
             dimmingView?.backgroundColor = scrimColor
@@ -73,41 +80,9 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         }
     }
     
-    var preferredSheetHeight: CGFloat = 0 {
-        didSet {
-            updatePreferredSheetHeight()
-        }
-    }
+    // MARK: - Life Cycle
     
-    var adjustHeightForSafeAreaInsets: Bool = true {
-        didSet {
-            sheetView?.adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets
-        }
-    }
-    
-    var ignoreKeyboardHeight: Bool = false {
-        didSet {
-            sheetView?.ignoreKeyboardHeight = ignoreKeyboardHeight
-        }
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        traitCollectionDidChangeBlock?(self, previousTraitCollection)
-    }
-    
-    var dismissOnDraggingDownSheet: Bool = true {
-        didSet {
-            sheetView?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
-        }
-    }
-    
-    var traitCollectionDidChangeBlock: ((BottomSheetPresentationController, UITraitCollection?) -> Void)?
-        
-    override init(
-        presentedViewController: UIViewController,
-        presenting presentingViewController: UIViewController?
-    ) {
+    override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
     }
     
@@ -119,12 +94,12 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         guard let containerView = containerView else {
             return CGRect.zero
         }
+        
         let containerSize = containerView.frame.size
         let preferredSize = presentedViewController.preferredContentSize
         
-        if preferredSize.width > 0 && preferredSize.width < containerSize.width {
-            // We only customize the width and not the height here. MDCSheetContainerView lays out the
-            // presentedView taking the preferred height into account.
+        if preferredSize.width > 0 &&
+            preferredSize.width < containerSize.width {
             let width = preferredSize.width
             let leftPad = (containerSize.width - width) / 2
             return CGRect(x: leftPad, y: 0, width: width, height: containerSize.height)
@@ -133,12 +108,30 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         }
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        traitCollectionDidChangeBlock?(self, previousTraitCollection)
+    }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        coordinator.animate(alongsideTransition: { _ in
+            self.sheetView?.frame = self.frameOfPresentedViewInContainerView
+            self.sheetView?.layoutIfNeeded()
+            self.updatePreferredSheetHeight()
+        }, completion: nil)
+    }
+    
+    // MARK: - Presentation Transition
+    
     override func presentationTransitionWillBegin() {
         if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            strongDelegate.prepareForBottomSheetPresentation?(self)
+            strongDelegate.prepareForBottomSheetPresentation(self)
         }
         
-        guard let containerView = self.containerView else { return }
+        guard let containerView else {
+            return
+        }
         
         dimmingView = UIView(frame: containerView.bounds)
         dimmingView?.backgroundColor = scrimColor ?? UIColor(white: 0, alpha: 0.4)
@@ -150,12 +143,16 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         dimmingView?.accessibilityLabel = scrimAccessibilityLabel
         dimmingView?.accessibilityHint = scrimAccessibilityHint
         
-        let scrollView = trackingScrollView ?? BottomSheetGetPrimaryScrollView(viewController: presentedViewController)
+        guard let scrollView = trackingScrollView ?? bottomSheetGetPrimaryScrollView(viewController: presentedViewController) else {
+            return
+        }
+        
         let sheetFrame = frameOfPresentedViewInContainerView
         if shouldPropagateSafeAreaInsetsToPresentedViewController {
             presentedViewController.additionalSafeAreaInsets = presentingViewController.view.safeAreaInsets
         }
-        sheetView = SheetContainerView(frame: sheetFrame, contentView: presentedViewController.view, scrollView: scrollView!, simulateScrollViewBounce: simulateScrollViewBounce)
+        
+        sheetView = SheetContainerView(frame: sheetFrame, contentView: presentedViewController.view, scrollView: scrollView, simulateScrollViewBounce: simulateScrollViewBounce)
         sheetView?.delegate = self
         sheetView?.autoresizingMask = .flexibleHeight
         sheetView?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
@@ -174,7 +171,6 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         containerView.addGestureRecognizer(tapGesture)
         
         if let transitionCoordinator = presentingViewController.transitionCoordinator {
-            // Fade in the dimming view during the transition.
             dimmingView?.alpha = 0.0
             transitionCoordinator.animate(alongsideTransition: { _ in
                 self.dimmingView?.alpha = 1.0
@@ -187,6 +183,8 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
             dimmingView?.removeFromSuperview()
         }
     }
+    
+    // MARK: - Dismissal Transition
     
     override func dismissalTransitionWillBegin() {
         if let transitionCoordinator = presentingViewController.transitionCoordinator {
@@ -209,16 +207,31 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         updatePreferredSheetHeight()
     }
     
-    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
-        super.viewWillTransition(to: size, with: coordinator)
-        coordinator.animate(alongsideTransition: { _ in
-            self.sheetView?.frame = self.frameOfPresentedViewInContainerView
-            self.sheetView?.layoutIfNeeded()
-            self.updatePreferredSheetHeight()
-        }, completion: nil)
+    // MARK: - Private
+    
+    private func bottomSheetGetPrimaryScrollView(viewController: UIViewController) -> UIScrollView? {
+        var viewController = viewController
+        var scrollView: UIScrollView? = nil
+        
+        if !viewController.isViewLoaded {
+            _ = viewController.view
+        }
+        
+        if let bottomSheetController = viewController as? BottomSheetController {
+            viewController = bottomSheetController.contentViewController
+        }
+        
+        if let view = viewController.view as? UIScrollView {
+            scrollView = view
+        } else if let webView = viewController.view as? WKWebView {
+            scrollView = webView.scrollView
+        } else if let collectionViewController = viewController as? UICollectionViewController {
+            scrollView = collectionViewController.collectionView
+        }
+        return scrollView
     }
     
-    func updatePreferredSheetHeight() {
+    private func updatePreferredSheetHeight() {
         // If |preferredSheetHeight| has not been specified, use half of the current height.
         var preferredSheetHeight: CGFloat
         if self.preferredSheetHeight > 0 {
@@ -228,12 +241,12 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         }
         
         if preferredSheetHeight == 0 {
-            preferredSheetHeight = round((self.sheetView?.frame.height ?? .zero) / 2)
+            preferredSheetHeight = round((self.sheetView?.frame.height ?? 0) / 2)
         }
         self.sheetView?.preferredSheetHeight = preferredSheetHeight
     }
     
-    @objc func dismissPresentedControllerIfNecessary(_ tapRecognizer: UITapGestureRecognizer) {
+    @objc private func dismissPresentedControllerIfNecessary(_ tapRecognizer: UITapGestureRecognizer) {
         if !dismissOnBackgroundTap {
             return
         }
@@ -247,43 +260,42 @@ class BottomSheetPresentationController: UIPresentationController, SheetContaine
         sheetView?.willBeDismissed = true
         if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
             presentingViewController.dismiss(animated: true) {
-                if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(_:))) {
-                    strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted?(self)
-                }
+                strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(self)
             }
             
-            if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(_:))) {
-                strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet?(self)
-            }
+            strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(self)
         }
     }
+}
+
+extension BottomSheetPresentationController: SheetContainerViewDelegate {
     
-    // MARK: - MDCSheetContainerViewDelegate
+    // MARK: - SheetContainerViewDelegate
 
-    func sheetContainerViewDidHide(_ containerView: SheetContainerView) {
-        guard let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate else { return }
-        presentingViewController.dismiss(animated: true) {
-            if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(_:))) {
-                strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted?(self)
+    func sheetContainerViewDidHide(
+        _ containerView: SheetContainerView
+    ) {
+        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
+            presentingViewController.dismiss(animated: true) {
+                strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(self)
             }
-        }
-
-        if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(_:))) {
-            strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet?(self)
+            
+            strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(self)
         }
     }
 
-    func sheetContainerViewWillChangeState(_ containerView: SheetContainerView, sheetState: SheetState) {
-        guard let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate else { return }
-        if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetWillChangeState(_:sheetState:))) {
-            strongDelegate.bottomSheetWillChangeState?(self, sheetState: sheetState)
+    func sheetContainerViewWillChangeState(
+        _ containerView: SheetContainerView,
+        sheetState: SheetState
+    ) {
+        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
+            strongDelegate.bottomSheetWillChangeState(self, sheetState: sheetState)
         }
     }
 
     func sheetContainerViewDidChangeYOffset(_ containerView: SheetContainerView, yOffset: CGFloat) {
-        guard let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate else { return }
-        if strongDelegate.responds(to: #selector(BottomSheetPresentationControllerDelegate.bottomSheetDidChangeYOffset(_:yOffset:))) {
-            strongDelegate.bottomSheetDidChangeYOffset?(self, yOffset: yOffset)
+        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
+            strongDelegate.bottomSheetDidChangeYOffset(self, yOffset: yOffset)
         }
     }
 }

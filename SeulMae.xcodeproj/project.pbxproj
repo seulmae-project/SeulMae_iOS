@@ -69,7 +69,7 @@
 		8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C42D2C22DCB800D7DCD3 /* ShapeView.swift */; };
 		8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C42F2C22DEA100D7DCD3 /* ShapedShadowLayer.swift */; };
 		8693C4342C22E07D00D7DCD3 /* ShapeLayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4332C22E07D00D7DCD3 /* ShapeLayer.swift */; };
-		8693C4362C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4352C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift */; };
+		8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4352C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift */; };
 		8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
@@ -172,7 +172,7 @@
 		8693C42D2C22DCB800D7DCD3 /* ShapeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeView.swift; sourceTree = "<group>"; };
 		8693C42F2C22DEA100D7DCD3 /* ShapedShadowLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapedShadowLayer.swift; sourceTree = "<group>"; };
 		8693C4332C22E07D00D7DCD3 /* ShapeLayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShapeLayer.swift; sourceTree = "<group>"; };
-		8693C4352C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+MaterialBottomSheet.swift"; sourceTree = "<group>"; };
+		8693C4352C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIViewController+BottomSheet.swift"; sourceTree = "<group>"; };
 		8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+MaterialElevationResponding.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
@@ -269,7 +269,7 @@
 				863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */,
 				863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */,
 				861B969E2C2061650032C94A /* SheetState.swift */,
-				8693C4352C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift */,
+				8693C4352C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift */,
 			);
 			path = BottomSheet;
 			sourceTree = "<group>";
@@ -945,7 +945,7 @@
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
 				861C31BA2C1C103A007DD6B9 /* Secrets.swift in Sources */,
-				8693C4362C22EE6400D7DCD3 /* UIViewController+MaterialBottomSheet.swift in Sources */,
+				8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */,
 				861B96A62C2068110032C94A /* SheetContainerViewDelegate.swift in Sources */,
 				861C31B62C1BF580007DD6B9 /* NetworkError.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,

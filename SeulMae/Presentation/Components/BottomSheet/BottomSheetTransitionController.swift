@@ -64,11 +64,7 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
     
     // MARK: - UIViewControllerTransitioningDelegate
     
-    func presentationController(
-        forPresented presented: UIViewController,
-        presenting: UIViewController?,
-        source: UIViewController
-    ) -> UIPresentationController? {
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
         let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
         presentationController.trackingScrollView = trackingScrollView
         presentationController.dismissOnBackgroundTap = dismissOnBackgroundTap
@@ -85,31 +81,21 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
         return presentationController
     }
     
-    func animationController(
-        forPresented presented: UIViewController,
-        presenting: UIViewController,
-        source: UIViewController
-    ) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
     }
     
-    func animationController(
-        forDismissed dismissed: UIViewController
-    ) -> UIViewControllerAnimatedTransitioning? {
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
         return self
     }
     
     // MARK: - UIViewControllerAnimatedTransitioning
     
-    func transitionDuration(
-        using transitionContext: UIViewControllerContextTransitioning?
-    ) -> TimeInterval {
+    func transitionDuration(using transitionContext: UIViewControllerContextTransitioning?) -> TimeInterval {
         return bottomSheetTransitionDuration
     }
     
-    func animateTransition(
-        using transitionContext: UIViewControllerContextTransitioning
-    ) {
+    func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from),
               let toViewController = transitionContext.viewController(forKey: .to) else {
             transitionContext.completeTransition(false)
@@ -151,17 +137,13 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
         }) { (finished) in
             if !presenting {
                 fromView.removeFromSuperview()
-                self.delegate?.didDismissBottomSheetTransitionController?(self)
+                self.delegate?.didDismissBottomSheetTransitionController(self)
             }
             transitionContext.completeTransition(true)
         }
     }
     
-    
-    func frameOfPresentedViewController(
-        _ presentedViewController: UIViewController,
-        in containerView: UIView
-    ) -> CGRect {
+    func frameOfPresentedViewController(_ presentedViewController: UIViewController, in containerView: UIView) -> CGRect {
         let containerSize = containerView.frame.size
         let preferredSize = presentedViewController.preferredContentSize
         

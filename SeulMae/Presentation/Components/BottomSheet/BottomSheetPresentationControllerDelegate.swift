@@ -7,10 +7,18 @@
 
 import UIKit
 
-@objc protocol BottomSheetPresentationControllerDelegate: UIAdaptivePresentationControllerDelegate {
-    @objc optional func prepareForBottomSheetPresentation(_ bottomSheet: BottomSheetPresentationController)
-    @objc optional func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController)
-    @objc optional func bottomSheetPresentationControllerDismissalAnimationCompleted(_ bottomSheet: BottomSheetPresentationController)
-    @objc optional func bottomSheetWillChangeState(_ bottomSheet: BottomSheetPresentationController, sheetState: SheetState)
-    @objc optional func bottomSheetDidChangeYOffset(_ bottomSheet: BottomSheetPresentationController, yOffset: CGFloat)
+protocol BottomSheetPresentationControllerDelegate: UIAdaptivePresentationControllerDelegate {
+    func prepareForBottomSheetPresentation(_ bottomSheet: BottomSheetPresentationController)
+    func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController)
+    func bottomSheetPresentationControllerDismissalAnimationCompleted(_ bottomSheet: BottomSheetPresentationController)
+    func bottomSheetWillChangeState(_ bottomSheet: BottomSheetPresentationController, sheetState: SheetState)
+    func bottomSheetDidChangeYOffset(_ bottomSheet: BottomSheetPresentationController, yOffset: CGFloat)
+}
+
+extension BottomSheetPresentationControllerDelegate {
+    func prepareForBottomSheetPresentation(_ bottomSheet: BottomSheetPresentationController) {}
+    func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController) {}
+    func bottomSheetPresentationControllerDismissalAnimationCompleted(_ bottomSheet: BottomSheetPresentationController) {}
+    func bottomSheetWillChangeState(_ bottomSheet: BottomSheetPresentationController, sheetState: SheetState) {}
+    func bottomSheetDidChangeYOffset(_ bottomSheet: BottomSheetPresentationController, yOffset: CGFloat) {}
 }

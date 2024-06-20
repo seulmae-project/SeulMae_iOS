@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIViewController {
-    var mdc_bottomSheetPresentationController: BottomSheetPresentationController? {
+    var bottomSheetPresentationController: BottomSheetPresentationController? {
         return self.presentationController as? BottomSheetPresentationController
     }
 }

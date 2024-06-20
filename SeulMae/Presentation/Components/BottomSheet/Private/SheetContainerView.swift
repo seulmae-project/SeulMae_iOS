@@ -23,9 +23,13 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         }
     }
     var preferredSheetHeight: CGFloat = 0
+    
     var adjustHeightForSafeAreaInsets: Bool = false
+    
     var willBeDismissed: Bool = false
+    
     var ignoreKeyboardHeight: Bool = false
+    
     var dismissOnDraggingDownSheet: Bool = true
     
     private var sheet: DraggableView
