@@ -1,5 +1,5 @@
 //
-//  SigninDTO+Mapping.swift
+//  AuthDataDTO+Mapping.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/20/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SigninDTO: ModelType {
+struct AuthDataDTO: ModelType {
     struct TokenDTO: ModelType {
         let accessToken: String?
         let refreshToken: String?
@@ -20,13 +20,13 @@ struct SigninDTO: ModelType {
 
 // MARK: - Mappings To Domain
 
-extension BaseResponseDTO<SigninDTO> {
+extension BaseResponseDTO<AuthDataDTO> {
     func toDomain() -> Token? {
         return data?.tokenResponse?.toDomain()
     }
 }
 
-extension SigninDTO.TokenDTO {
+extension AuthDataDTO.TokenDTO {
     func toDomain() -> Token {
         return Token(
             accessToken: accessToken ?? "",

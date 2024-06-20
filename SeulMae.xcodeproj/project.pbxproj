@@ -67,8 +67,8 @@
 		8683546D2C24494900F055D2 /* v1-delete-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8683546C2C24494900F055D2 /* v1-delete-success.json */; };
 		868354702C24543000F055D2 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683546F2C24543000F055D2 /* MockData.swift */; };
 		868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354712C2454A300F055D2 /* BaseResponseDTO.swift */; };
-		868354762C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */; };
-		868354782C2456E600F055D2 /* SigninDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */; };
+		868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */; };
+		868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */; };
 		8683547B2C245C8A00F055D2 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547A2C245C8A00F055D2 /* Token.swift */; };
 		8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */; };
 		868354812C245F7800F055D2 /* Workplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354802C245F7800F055D2 /* Workplace.swift */; };
@@ -181,8 +181,8 @@
 		8683546C2C24494900F055D2 /* v1-delete-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-delete-success.json"; sourceTree = "<group>"; };
 		8683546F2C24543000F055D2 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		868354712C2454A300F055D2 /* BaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseDTO.swift; sourceTree = "<group>"; };
-		868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMSCertificationDTO+Mapping.swift"; sourceTree = "<group>"; };
-		868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SigninDTO+Mapping.swift"; sourceTree = "<group>"; };
+		868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailDTO+Mapping.swift"; sourceTree = "<group>"; };
+		868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthDataDTO+Mapping.swift"; sourceTree = "<group>"; };
 		8683547A2C245C8A00F055D2 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceDTO+Mapping.swift"; sourceTree = "<group>"; };
 		868354802C245F7800F055D2 /* Workplace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workplace.swift; sourceTree = "<group>"; };
@@ -373,9 +373,9 @@
 		861C31B02C1BF4EA007DD6B9 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				8683546F2C24543000F055D2 /* MockData.swift */,
 				861C31AF2C1BF4B4007DD6B9 /* DataMapping */,
 				861C31B12C1BF556007DD6B9 /* Network */,
-				8683546F2C24543000F055D2 /* MockData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -614,8 +614,8 @@
 			isa = PBXGroup;
 			children = (
 				868354712C2454A300F055D2 /* BaseResponseDTO.swift */,
-				868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */,
-				868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */,
+				868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */,
+				868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -1018,7 +1018,7 @@
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
 				861B96DC2C21D6310032C94A /* SheetBehavior.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
-				868354762C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift in Sources */,
+				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */,
@@ -1049,7 +1049,7 @@
 				86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */,
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
-				868354782C2456E600F055D2 /* SigninDTO+Mapping.swift in Sources */,
+				868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */,
 				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
