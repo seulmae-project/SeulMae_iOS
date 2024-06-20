@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct Workplace {
+    let workplaceId: Int
+    let workplaceCode: String
+    let workplaceName: String
+    let workplaceTel: String
+    let workplaceImageUrl: [String]
+    let workplaceManagerName: String
+    let subAddress: String
+    let mainAddress: String
+}

@@ -65,6 +65,13 @@
 		868354672C24483C00F055D2 /* v1-info-all-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354662C24483C00F055D2 /* v1-info-all-success.json */; };
 		868354692C24487D00F055D2 /* v1-info-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354682C24487D00F055D2 /* v1-info-success.json */; };
 		8683546D2C24494900F055D2 /* v1-delete-success.json in Resources */ = {isa = PBXBuildFile; fileRef = 8683546C2C24494900F055D2 /* v1-delete-success.json */; };
+		868354702C24543000F055D2 /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683546F2C24543000F055D2 /* MockData.swift */; };
+		868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354712C2454A300F055D2 /* BaseResponseDTO.swift */; };
+		868354762C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */; };
+		868354782C2456E600F055D2 /* SigninDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */; };
+		8683547B2C245C8A00F055D2 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547A2C245C8A00F055D2 /* Token.swift */; };
+		8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */; };
+		868354812C245F7800F055D2 /* Workplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354802C245F7800F055D2 /* Workplace.swift */; };
 		8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */; };
 		8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4222C227B3300D7DCD3 /* Elevatable.swift */; };
 		8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */; };
@@ -172,6 +179,13 @@
 		868354662C24483C00F055D2 /* v1-info-all-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-info-all-success.json"; sourceTree = "<group>"; };
 		868354682C24487D00F055D2 /* v1-info-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-info-success.json"; sourceTree = "<group>"; };
 		8683546C2C24494900F055D2 /* v1-delete-success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = "v1-delete-success.json"; sourceTree = "<group>"; };
+		8683546F2C24543000F055D2 /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
+		868354712C2454A300F055D2 /* BaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseDTO.swift; sourceTree = "<group>"; };
+		868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMSCertificationDTO+Mapping.swift"; sourceTree = "<group>"; };
+		868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SigninDTO+Mapping.swift"; sourceTree = "<group>"; };
+		8683547A2C245C8A00F055D2 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
+		8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceDTO+Mapping.swift"; sourceTree = "<group>"; };
+		868354802C245F7800F055D2 /* Workplace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workplace.swift; sourceTree = "<group>"; };
 		8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetControllerDelegate.swift; sourceTree = "<group>"; };
 		8693C4222C227B3300D7DCD3 /* Elevatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevatable.swift; sourceTree = "<group>"; };
 		8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationOverriding.swift; sourceTree = "<group>"; };
@@ -243,6 +257,7 @@
 		861B96832C2007570032C94A /* Domain */ = {
 			isa = PBXGroup;
 			children = (
+				868354792C245C7D00F055D2 /* Entities */,
 				861B96842C2007630032C94A /* UseCases */,
 				861B96872C20081F0032C94A /* Interfaces */,
 			);
@@ -349,7 +364,8 @@
 		861C31AF2C1BF4B4007DD6B9 /* DataMapping */ = {
 			isa = PBXGroup;
 			children = (
-				861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */,
+				868354732C24559500F055D2 /* Request */,
+				868354742C2455A100F055D2 /* Response */,
 			);
 			path = DataMapping;
 			sourceTree = "<group>";
@@ -359,6 +375,7 @@
 			children = (
 				861C31AF2C1BF4B4007DD6B9 /* DataMapping */,
 				861C31B12C1BF556007DD6B9 /* Network */,
+				8683546F2C24543000F055D2 /* MockData.swift */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -565,6 +582,50 @@
 				861B96A72C2068E00032C94A /* MockData */,
 			);
 			path = Resources;
+			sourceTree = "<group>";
+		};
+		868354732C24559500F055D2 /* Request */ = {
+			isa = PBXGroup;
+			children = (
+				861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */,
+			);
+			path = Request;
+			sourceTree = "<group>";
+		};
+		868354742C2455A100F055D2 /* Response */ = {
+			isa = PBXGroup;
+			children = (
+				8683547C2C245E6F00F055D2 /* User */,
+				8683547D2C245E7D00F055D2 /* Workplace */,
+			);
+			path = Response;
+			sourceTree = "<group>";
+		};
+		868354792C245C7D00F055D2 /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				8683547A2C245C8A00F055D2 /* Token.swift */,
+				868354802C245F7800F055D2 /* Workplace.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
+		8683547C2C245E6F00F055D2 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				868354712C2454A300F055D2 /* BaseResponseDTO.swift */,
+				868354752C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift */,
+				868354772C2456E600F055D2 /* SigninDTO+Mapping.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		8683547D2C245E7D00F055D2 /* Workplace */ = {
+			isa = PBXGroup;
+			children = (
+				8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */,
+			);
+			path = Workplace;
 			sourceTree = "<group>";
 		};
 		8693C41E2C227A6100D7DCD3 /* Elevation */ = {
@@ -953,15 +1014,18 @@
 				860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
+				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
 				861B96DC2C21D6310032C94A /* SheetBehavior.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
+				868354762C2455CA00F055D2 /* SMSCertificationDTO+Mapping.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */,
 				86E299E62C1727CE00805AD0 /* PhoneVerificationViewController.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* SignupCompletionViewModel.swift in Sources */,
+				868354812C245F7800F055D2 /* Workplace.swift in Sources */,
 				861B969F2C2061650032C94A /* SheetState.swift in Sources */,
 				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				861B969B2C205A3A0032C94A /* BottomSheetPresentationControllerDelegate.swift in Sources */,
@@ -969,6 +1033,7 @@
 				861B96D72C21C24D0032C94A /* DraggableViewDelegate.swift in Sources */,
 				861B968C2C2022690032C94A /* ModalViewController.swift in Sources */,
 				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
+				868354702C24543000F055D2 /* MockData.swift in Sources */,
 				86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* ViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
@@ -984,13 +1049,16 @@
 				86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */,
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
+				868354782C2456E600F055D2 /* SigninDTO+Mapping.swift in Sources */,
 				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
+				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				861B96A22C2061D70032C94A /* SheetContainerView.swift in Sources */,
+				8683547B2C245C8A00F055D2 /* Token.swift in Sources */,
 				8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */,
 				860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */,
 				861B968E2C2029820032C94A /* ModalListContentView.swift in Sources */,
@@ -1106,6 +1174,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1163,6 +1232,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = "";
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1182,7 +1252,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SeulMae/Info.plist;
+				INFOPLIST_FILE = SeulMae/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -1213,7 +1283,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = SeulMae/Info.plist;
+				INFOPLIST_FILE = SeulMae/Resources/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;

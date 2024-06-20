@@ -22,7 +22,7 @@ struct SigninDTO: ModelType {
 
 extension BaseResponseDTO<SigninDTO> {
     func toDomain() -> Token? {
-        data?.tokenResponse?.toDomain()
+        return data?.tokenResponse?.toDomain()
     }
 }
 
