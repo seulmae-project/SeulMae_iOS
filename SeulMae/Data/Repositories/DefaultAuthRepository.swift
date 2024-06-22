@@ -25,7 +25,7 @@ class DefaultAuthRepository: AuthRepository {
     
     func signin(_ email: String, _ password: String) -> Single<Token> {
         return Single<BaseResponseDTO<AuthDataDTO>>.create { observer in
-            if email == "test" && password == "1234" {
+            if email == "yonggipo@icloud.com" && password == "a*123456" {
                 observer(.success(signinResponse_success))
             } else {
                 observer(.success(signinResponse_failed))

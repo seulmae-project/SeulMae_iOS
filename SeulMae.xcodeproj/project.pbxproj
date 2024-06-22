@@ -86,7 +86,6 @@
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
 		86DE55632C19DE9E009CC520 /* UIColor+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */; };
-		86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
 		86DE556C2C19E9C7009CC520 /* EmailRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* EmailRecoveryViewController.swift */; };
 		86DE55702C19EA25009CC520 /* EmailRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* EmailRecoveryViewModel.swift */; };
@@ -201,7 +200,6 @@
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
 		86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+SeulMae.swift"; sourceTree = "<group>"; };
-		86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+SeulMae.swift"; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
 		86DE556B2C19E9C7009CC520 /* EmailRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRecoveryViewController.swift; sourceTree = "<group>"; };
 		86DE556F2C19EA25009CC520 /* EmailRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailRecoveryViewModel.swift; sourceTree = "<group>"; };
@@ -464,7 +462,6 @@
 			isa = PBXGroup;
 			children = (
 				86DE55622C19DE9E009CC520 /* UIColor+SeulMae.swift */,
-				86DE55642C19DEAB009CC520 /* UIImage+SeulMae.swift */,
 				86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */,
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 			);
@@ -1006,7 +1003,6 @@
 			files = (
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				86DE556C2C19E9C7009CC520 /* EmailRecoveryViewController.swift in Sources */,
-				86DE55652C19DEAB009CC520 /* UIImage+SeulMae.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,

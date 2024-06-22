@@ -6,5 +6,5 @@ enum DomainError: Error {
     case failedToRequestSMSVerification
     case failedToSMSVerification
     case faildedToSignup
-    case faildedToSignin
+    case faildedToSignin(_ reason: String)
 }

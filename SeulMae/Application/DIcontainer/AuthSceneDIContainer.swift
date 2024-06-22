@@ -52,7 +52,8 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService()
+                validationService: DefaultValidationService(),
+                wireframe: DefaultWireframe()
             )
         )
     }

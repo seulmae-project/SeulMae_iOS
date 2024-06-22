@@ -17,14 +17,6 @@ final class SigninViewController: UIViewController {
         let view = SigninViewController()
         view.viewModel = viewModel
         return view
-        
-        //        viewModel = SigninViewModel(
-        //            dependency: (
-        //                authCoordinator: DefaultAuthFlowCoordinator(),
-        //                navigationController: DefaultAuthUseCase(authRepository: ),
-        //                dependencies: DefaultValidationService()
-        //            )
-        //        )
     }
     
     enum Text {
@@ -42,11 +34,11 @@ final class SigninViewController: UIViewController {
     
     // MARK: - UI
     
-    private let appIconImageView: UIImageView = .common(image: .actions)
+    private let appIconImageView: UIImageView = .common(image: .appLogo)
     private let eamilTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
-    private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
+    private let passwordTextField: UITextField = .password(placeholder: Text.passwordTextFieldPlaceholder)
     private let signinButton: UIButton = .common(title: Text.signin)
-    private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin, isEnabled: true)
+    private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin)
     private let findCredentials: UIButton = .callout(title: Text.passwordReset)
     private let signupButton: UIButton = .callout(title: Text.signup)
 
@@ -57,7 +49,7 @@ final class SigninViewController: UIViewController {
         
         configureNavItem()
         configureHierarchy()
-        // bindInternalSubviews()
+        bindInternalSubviews()
     }
     
     // MARK: - Data Binding
@@ -75,6 +67,13 @@ final class SigninViewController: UIViewController {
             )
         )
         
+        Task {
+            for await signedIn in output.signedIn.values {
+                if !signedIn {
+                    passwordTextField.text = ""
+                }
+            }
+        }
     }
     
     // MARK: - Nav Item
@@ -86,6 +85,8 @@ final class SigninViewController: UIViewController {
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
+        view.backgroundColor = .systemBackground
+        
         let signinHStack = UIStackView(arrangedSubviews: [
             findCredentials, signupButton
         ])
@@ -105,7 +106,7 @@ final class SigninViewController: UIViewController {
         
         signinVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(12)
-            make.top.equalTo(view.snp_topMargin).inset(112)
+            make.top.equalTo(view.snp_topMargin).inset(40)
             make.centerX.equalToSuperview()
         }
         

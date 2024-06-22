@@ -23,7 +23,11 @@ struct AuthDataDTO: ModelType {
 extension BaseResponseDTO<AuthDataDTO> {
     func toDomain() throws -> Token {
         guard let token = data?.tokenResponse else {
-            let keyPath = NSExpression(forKeyPath: \AuthDataDTO.tokenResponse).keyPath
+            if let reason {
+                throw DomainError.faildedToSignin(reason)
+            }
+            
+            let keyPath = String(describing: \AuthDataDTO.tokenResponse)
             throw DomainError.empty(keyPath)
         }
         

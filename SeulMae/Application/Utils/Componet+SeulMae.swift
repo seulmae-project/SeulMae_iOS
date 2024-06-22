@@ -59,16 +59,12 @@ extension UILabel {
 // MARK: - UIButton
 
 extension UIButton {
-    static func common(
-        title: String,
-        cornerRadius: CGFloat = 8.0,
-        isEnabled: Bool = true
-    ) -> UIButton {
+    static func common(title: String, cornerRadius: CGFloat = 8.0, isEnabled: Bool = true) -> UIButton {
         let button = UIButton()
         button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(hexCode: "D0D0D0") // UIColor(hexCode: "0086FF")
+        button.backgroundColor = UIColor(hexCode: "0086FF") // UIColor(hexCode: "D0D0D0")
         button.layer.cornerRadius = cornerRadius
         button.layer.cornerCurve = .continuous
         return button
@@ -100,7 +96,25 @@ extension UITextField {
         textField.layer.cornerCurve = .continuous
         textField.layer.borderWidth = 1.0
         textField.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        textField.autocapitalizationType = .none
         // yourSingleFactorCodeTextField.textContentType = .oneTimeCode
+        return textField
+    }
+    
+    static func password(placeholder: String, padding: CGFloat = 16) -> UITextField {
+        let textField = UITextField()
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 0))
+        textField.leftView = paddingView
+        textField.leftViewMode = .always
+        let attrString = NSAttributedString(
+            string: placeholder,
+            attributes: [.font: UIFont.systemFont(ofSize: 14)])
+        textField.attributedPlaceholder = attrString
+        textField.layer.cornerRadius = 16
+        textField.layer.cornerCurve = .continuous
+        textField.layer.borderWidth = 1.0
+        textField.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        textField.isSecureTextEntry = true
         return textField
     }
 }

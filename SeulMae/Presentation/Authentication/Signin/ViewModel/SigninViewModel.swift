@@ -21,7 +21,7 @@ final class SigninViewModel: ViewModel {
     }
     
     struct Output {
-        
+        let signedIn: Driver<Bool>
     }
     
     // MARK: - Dependency
@@ -32,18 +32,22 @@ final class SigninViewModel: ViewModel {
     
     private let validationService: ValidationService
     
+    private let wireframe: Wireframe
+    
     // MARK: - Life Cycle
     
     init(
         dependency: (
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
-            validationService: ValidationService
+            validationService: ValidationService,
+            wireframe: Wireframe
         )
     ) {
         self.coordinator = dependency.coordinator
         self.authUseCase = dependency.authUseCase
         self.validationService = dependency.validationService
+        self.wireframe = dependency.wireframe
     }
         
     func transform(_ input: Input) -> Output {
@@ -51,22 +55,54 @@ final class SigninViewModel: ViewModel {
         // MARK: - Signin
         
         let emailAndPassword = Driver.combineLatest(input.email, input.password) { (email: $0, password: $1) }
-        let signedIn = input.signup.withLatestFrom(emailAndPassword)
-            .flatMapLatest { [weak self] pair -> Driver<Token> in
-                guard let weakSelf = self else { return .empty() }
-                return weakSelf.authUseCase.signin(pair.email, pair.password)
-                    // .trackActivity(signingIn)
-                    .asDriver(onErrorDriveWith: .empty())
+        
+        Task {
+            for await eamil in await input.email.values {
+                Swift.print("-- email: \(eamil)")
             }
-//            .flatMapLatest { loggedIn -> Driver<Bool> in
-//                let message = loggedIn ? "Mock: Signed in to GitHub." : "Mock: Sign in to GitHub failed"
-//                return wireframe.promptFor(message, cancelAction: "OK", actions: [])
-//                    // propagate original value
-//                    .map { _ in
-//                        loggedIn
-//                    }
-//                    .asDriver(onErrorJustReturn: false)
-//            }
+        }
+        
+        Task {
+            for await password in await input.password.values {
+                Swift.print("-- password: \(password)")
+            }
+        }
+        
+        Task {
+            for await password in await input.signin.values {
+                Swift.print("-- signin: signin button tapped")
+            }
+        }
+        
+        let signedIn = input.signin.withLatestFrom(emailAndPassword)
+            .flatMapLatest { [weak self] pair -> Driver<Bool> in
+                guard let weakSelf = self else { return .empty() }
+                return weakSelf.authUseCase
+                    .signin(pair.email, pair.password)
+                    .map { token in
+                        Swift.print(token.accessToken)
+                        Swift.print(token.refreshToken)
+                        Swift.print(token.tokenType)
+                        return true
+                    }
+                // .trackActivity(signingIn)
+                    .asDriver { error in
+                        let message: String
+                        if case .faildedToSignin(let reason) = error as? DomainError {
+                            message = reason
+                        } else {
+                            message = "??"
+                        }
+                        
+                        return (self?.wireframe.promptFor(message, cancelAction: "OK", actions: [])
+                            .map { _ in
+                                return false
+                            }
+                            .asDriver(onErrorJustReturn: false))!
+                    }
+            }
+        
+        
         
         // MARK: - Kakao Signin
         
@@ -91,6 +127,13 @@ final class SigninViewModel: ViewModel {
 //                ? authCoordinator.showEmailRecovery() : authCoordinator.showEmailRecovery()
 //            }
 //        }
+        
+        Task {
+            for await _ in await signedIn.values {
+                Swift.print("-- flow: showMainViewController")
+                
+            }
+        }
     
         Task {
             for await _ in await input.signup.values {
@@ -99,6 +142,6 @@ final class SigninViewModel: ViewModel {
             }
         }
                                                         
-        return Output()
+        return Output(signedIn: signedIn)
     }
 }
