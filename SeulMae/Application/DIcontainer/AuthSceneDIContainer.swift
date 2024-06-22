@@ -30,11 +30,13 @@ final class AuthSceneDIContainer {
     // MARK: - Flow Coordinators
     
     func makeAuthFlowCoordinator(
-        navigationController: UINavigationController
+        navigationController: UINavigationController,
+        mainFlowCoordinator: MainFlowCoordinator
     ) -> AuthFlowCoordinator {
         return DefaultAuthFlowCoordinator(
             navigationController: navigationController,
-            dependencies: self
+            dependencies: self,
+            mainFlowCoordinator: mainFlowCoordinator
         )
     }
 }

@@ -18,6 +18,7 @@ protocol AuthFlowCoordinatorDependencies {
 protocol AuthFlowCoordinator {
     
     func start()
+    func startMain()
     
     /// - Tag: Signin
     func showSingin()
@@ -38,24 +39,33 @@ protocol AuthFlowCoordinator {
 }
 
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
-
+    
     // MARK: - Dependency
     
     private let navigationController: UINavigationController
+    
     private let dependencies: AuthFlowCoordinatorDependencies
+    
+    private let mainFlowCoordinator: MainFlowCoordinator
     
     // MARK: - Life Cycle Methods
     
     init(
         navigationController: UINavigationController,
-         dependencies: AuthFlowCoordinatorDependencies
+        dependencies: AuthFlowCoordinatorDependencies,
+        mainFlowCoordinator: MainFlowCoordinator
     ) {
         self.navigationController = navigationController
         self.dependencies = dependencies
+        self.mainFlowCoordinator = mainFlowCoordinator
     }
     
     func start() {
         showSingin()
+    }
+    
+    func startMain() {
+        mainFlowCoordinator.showMain()
     }
     
     // MARK: - Signin
@@ -64,7 +74,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         let vc = dependencies.makeSigninViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
-        
+    
     // MARK: - Signup
     
     func showPhoneVerification() {

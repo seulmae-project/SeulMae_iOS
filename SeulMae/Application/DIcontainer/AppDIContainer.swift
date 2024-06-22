@@ -13,4 +13,9 @@ final class AppDIContainer {
         let dependencies = AuthSceneDIContainer.Dependencies(authNetworking: AuthNetworking())
         return AuthSceneDIContainer(dependencies: dependencies)
     }
+    
+    func makeMainSceneDIContainer() -> MainSceneDIContainer {
+        let dependencies = MainSceneDIContainer.Dependencies(mainNetworking: MainNetworking())
+        return MainSceneDIContainer(dependencies: dependencies)
+    }
 }
