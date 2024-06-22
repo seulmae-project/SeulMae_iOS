@@ -22,11 +22,13 @@ final class AccountSetupViewController: UIViewController {
         static let emailFieldGuide = "이메일"
         static let emailTextFieldPlaceholder = "이메일 입력"
         static let emailValidation = "중복확인"
+        static let secondEmailFieldGuideLabel = "사용가능한 이메일입니다"
         static let passwordFieldGuide = "비밀번호"
         static let passwordTextFieldPlaceholder = "비밀번호 입력"
         static let secondPasswordFeildGuide = "영문, 숫자, 특수문자 포함 8자 이상"
         static let repeatedPasswordFieldGuide = "비밀번호 재입력"
         static let repeatedPasswordTextFieldPlaceholder = "비밀번호 재입력"
+        static let secondRepeatedPasswordFieldGuideLabel = "비밀번호가 일치합니다"
         static let nextStep = "다음으로"
     }
     
@@ -40,11 +42,13 @@ final class AccountSetupViewController: UIViewController {
     private let emailFieldGuideLabel: UILabel = .callout(title: Text.emailFieldGuide)
     private let emailTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
     private let emailValidationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
+    private let secondEmailFieldGuideLabel: UILabel = .footnote(title: Text.secondEmailFieldGuideLabel)
     private let passwordFieldGuideLabel: UILabel = .callout(title: Text.passwordFieldGuide)
     private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
     private let secondPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
     private let repeatedPasswordFieldGuideLabel: UILabel = .callout(title: Text.repeatedPasswordFieldGuide)
     private let repeatedPasswordTextField: UITextField = .common(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
+    private let secondRepeatedPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondRepeatedPasswordFieldGuideLabel)
     private let nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
@@ -52,8 +56,51 @@ final class AccountSetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        bindInternalSubviews()
         configureNavItem()
         configureHierarchy()
+    }
+    
+    // MARK: - Data Binding
+    
+    private func bindInternalSubviews() {
+        
+        let tapBackground = UITapGestureRecognizer()
+        Task {
+            for try await available in tapBackground.rx.event.values {
+                view.endEditing(true)
+            }
+        }
+        
+        view.addGestureRecognizer(tapBackground)
+
+        let output = viewModel.transform(
+            .init(
+                uid: emailTextField.rx.text.orEmpty.asDriver(),
+                password: passwordTextField.rx.text.orEmpty.asDriver(),
+                repeatedPassword: repeatedPasswordTextField.rx.text.orEmpty.asDriver(),
+                duplicationCheck: emailValidationButton.rx.tap.asSignal(),
+                nextStep: nextStepButton.rx.tap.asSignal()
+            )
+        )
+    
+        Task {
+            for await available in output.uidAvailable.values {
+                secondEmailFieldGuideLabel.isHidden = !available
+            }
+        }
+        
+        Task {
+            for await available in output.validatedPassword.values {
+                repeatedPasswordTextField.isHidden = !available
+            }
+        }
+        
+        Task {
+            for await available in output.validatedRepeatedPassword.values {
+                secondRepeatedPasswordFieldGuideLabel.isHidden = !available
+            }
+        }
     }
     
     // MARK: - Nav Item
@@ -65,6 +112,8 @@ final class AccountSetupViewController: UIViewController {
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
+        view.backgroundColor = .systemBackground
+        
         let emailFieldHStack = UIStackView(arrangedSubviews: [
             emailTextField, emailValidationButton
         ])

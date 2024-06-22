@@ -15,6 +15,17 @@ enum ValidationResult {
     case failed(message: String)
 }
 
+extension ValidationResult {
+    var isValid: Bool {
+        switch self {
+        case .ok:
+            return true
+        default:
+            return false
+        }
+    }
+}
+
 enum SignupState {
     case signedUp(signedUp: Bool)
 }

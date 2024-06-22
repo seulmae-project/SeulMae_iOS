@@ -86,10 +86,12 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     private func makeAccountSetupViewModel(coordinator: AuthFlowCoordinator
     ) -> AccountSetupViewModel {
         return AccountSetupViewModel(
-//            dependency: (
-//                authUseCase: makeMapUseCase(),
-//                coordinator: coordinator
-//            )
+            dependency: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService(),
+                wireframe: DefaultWireframe()
+            )
         )
     }
     

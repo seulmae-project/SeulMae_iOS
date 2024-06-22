@@ -71,6 +71,7 @@ final class PhoneVerificationViewModel: ViewModel {
                 return strongSelf.authUseCase.smsVerification(phoneNumber, nil)
                 // .trackActivity(signingIn)
                     .asDriver(onErrorJustReturn: false)
+                // TODO: 틀린 경우 얼럿
             }
         
         let validatedCode = input.authCode

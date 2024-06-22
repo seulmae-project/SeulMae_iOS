@@ -110,6 +110,7 @@ final class PhoneVerificationViewController: UIViewController {
             for await verified in output.verified.values {
                 nextStepButton.isEnabled = verified
                 nextStepButton.alpha = verified ? 1.0 : 0.5
+                // TODO: enabled 에 따라 디자인 변경
             }
         }
     }
