@@ -20,7 +20,7 @@ class ViewController: UIViewController {
 
 
     private func configureHierarchy() {
-        view.backgroundColor = .red
+        
     }
 }
 

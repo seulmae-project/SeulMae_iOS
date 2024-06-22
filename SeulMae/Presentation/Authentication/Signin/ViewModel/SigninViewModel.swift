@@ -131,7 +131,9 @@ final class SigninViewModel: ViewModel {
         Task {
             for await _ in await signedIn.values {
                 Swift.print("-- flow: showMainViewController")
-                // TODO: Main VC 이동
+                DispatchQueue.main.sync {
+                    self.coordinator.startMain()
+                }
             }
         }
     
