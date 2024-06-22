@@ -22,7 +22,7 @@ protocol AuthUseCase {
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
     
     /// - Tag: Common
-    func phoneVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool>
+    func smsVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool>
     func authCodeVerification(_ authCode: String) -> Single<Bool>
 }
 
@@ -58,7 +58,7 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.recoveryPassword(phoneNumber, newPassword)
     }
     
-    func phoneVerification(_ phoneNumber: String, _ email: String?) -> RxSwift.Single<Bool> {
+    func smsVerification(_ phoneNumber: String, _ email: String?) -> RxSwift.Single<Bool> {
         authRepository.phoneVerification(phoneNumber, email)
     }
     

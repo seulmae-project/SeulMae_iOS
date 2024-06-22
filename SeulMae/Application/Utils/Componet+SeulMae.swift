@@ -70,9 +70,9 @@ extension UIButton {
         return button
     }
     
-    static func callout(title: String) -> UIButton {
+    static func callout(title: String, isEnabled: Bool = true) -> UIButton {
         let button = UIButton()
-        button.isEnabled = false
+        button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
@@ -101,19 +101,15 @@ extension UITextField {
         return textField
     }
     
+    static func tel(placeholder: String, padding: CGFloat = 16) -> UITextField {
+        let textField: UITextField = .common(placeholder: placeholder, padding: padding)
+        textField.textContentType = .telephoneNumber
+        textField.keyboardType = .phonePad
+        return textField
+    }
+    
     static func password(placeholder: String, padding: CGFloat = 16) -> UITextField {
-        let textField = UITextField()
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 0))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        let attrString = NSAttributedString(
-            string: placeholder,
-            attributes: [.font: UIFont.systemFont(ofSize: 14)])
-        textField.attributedPlaceholder = attrString
-        textField.layer.cornerRadius = 16
-        textField.layer.cornerCurve = .continuous
-        textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        let textField: UITextField = .common(placeholder: placeholder, padding: padding)
         textField.isSecureTextEntry = true
         return textField
     }

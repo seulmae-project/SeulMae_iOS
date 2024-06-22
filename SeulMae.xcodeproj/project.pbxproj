@@ -45,6 +45,7 @@
 		861BF6882C27082600702E24 /* DefaultMainRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6872C27082600702E24 /* DefaultMainRepository.swift */; };
 		861BF68A2C27084000702E24 /* MainRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6892C27084000702E24 /* MainRepository.swift */; };
 		861BF68C2C2708D300702E24 /* MainUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF68B2C2708D300702E24 /* MainUseCase.swift */; };
+		861BF6922C2723C800702E24 /* RemainingTimeLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6912C2723C800702E24 /* RemainingTimeLabel.swift */; };
 		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
 		861C31B62C1BF580007DD6B9 /* DomainError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B52C1BF580007DD6B9 /* DomainError.swift */; };
 		861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */; };
@@ -167,6 +168,7 @@
 		861BF6872C27082600702E24 /* DefaultMainRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultMainRepository.swift; sourceTree = "<group>"; };
 		861BF6892C27084000702E24 /* MainRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainRepository.swift; sourceTree = "<group>"; };
 		861BF68B2C2708D300702E24 /* MainUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainUseCase.swift; sourceTree = "<group>"; };
+		861BF6912C2723C800702E24 /* RemainingTimeLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimeLabel.swift; sourceTree = "<group>"; };
 		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
 		861C31B52C1BF580007DD6B9 /* DomainError.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DomainError.swift; sourceTree = "<group>"; };
 		861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
@@ -374,6 +376,30 @@
 				861B96D82C21C6090032C94A /* KeyboardWatcher.swift */,
 			);
 			path = Private;
+			sourceTree = "<group>";
+		};
+		861BF68D2C270C7C00702E24 /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				8683547A2C245C8A00F055D2 /* Token.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		861BF68E2C270C8500702E24 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				868354802C245F7800F055D2 /* Workplace.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		861BF6902C27237700702E24 /* RemainingTimeView */ = {
+			isa = PBXGroup;
+			children = (
+				861BF6912C2723C800702E24 /* RemainingTimeLabel.swift */,
+			);
+			path = RemainingTimeView;
 			sourceTree = "<group>";
 		};
 		861C31AF2C1BF4B4007DD6B9 /* DataMapping */ = {
@@ -621,8 +647,8 @@
 		868354792C245C7D00F055D2 /* Entities */ = {
 			isa = PBXGroup;
 			children = (
-				8683547A2C245C8A00F055D2 /* Token.swift */,
-				868354802C245F7800F055D2 /* Workplace.swift */,
+				861BF68D2C270C7C00702E24 /* Auth */,
+				861BF68E2C270C8500702E24 /* Main */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -693,6 +719,7 @@
 		86DE55592C18B6F7009CC520 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				861BF6902C27237700702E24 /* RemainingTimeView */,
 				8693C4312C22E04200D7DCD3 /* ShapeLayer */,
 				861B96DA2C21CCF90032C94A /* Private */,
 				8693C4292C22829300D7DCD3 /* Shapes */,
@@ -1031,6 +1058,7 @@
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* PhoneVerificationViewModel.swift in Sources */,
+				861BF6922C2723C800702E24 /* RemainingTimeLabel.swift in Sources */,
 				861B96D12C21BBDC0032C94A /* AppDIContainer.swift in Sources */,
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,

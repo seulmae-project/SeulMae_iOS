@@ -79,7 +79,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     func showPhoneVerification() {
         let vc = dependencies.makePhoneVerificationViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        navigationController.pushViewController(vc, animated: false)
     }
     
     func showAccountSetup() {

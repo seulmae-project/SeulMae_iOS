@@ -69,10 +69,12 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     private func makePhoneVerificationViewModel(coordinator: AuthFlowCoordinator
     ) -> PhoneVerificationViewModel {
         return PhoneVerificationViewModel(
-//            dependency: (
-//                authUseCase: makeMapUseCase(),
-//                coordinator: coordinator
-//            )
+            dependency: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService(),
+                wireframe: DefaultWireframe()
+            )
         )
     }
     

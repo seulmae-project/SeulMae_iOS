@@ -50,26 +50,26 @@ final class SigninViewModel: ViewModel {
         self.wireframe = dependency.wireframe
     }
         
-    func transform(_ input: Input) -> Output {
+    @MainActor func transform(_ input: Input) -> Output {
         
         // MARK: - Signin
         
         let emailAndPassword = Driver.combineLatest(input.email, input.password) { (email: $0, password: $1) }
         
         Task {
-            for await eamil in await input.email.values {
+            for await eamil in input.email.values {
                 Swift.print("-- email: \(eamil)")
             }
         }
         
         Task {
-            for await password in await input.password.values {
+            for await password in input.password.values {
                 Swift.print("-- password: \(password)")
             }
         }
         
         Task {
-            for await password in await input.signin.values {
+            for await password in input.signin.values {
                 Swift.print("-- signin: signin button tapped")
             }
         }
@@ -129,21 +129,18 @@ final class SigninViewModel: ViewModel {
 //        }
         
         Task {
-            for await _ in await signedIn.values {
-                Swift.print("-- flow: showMainViewController")
-                DispatchQueue.main.sync {
-                    self.coordinator.startMain()
-                }
+            for await _ in signedIn.values {
+                self.coordinator.startMain()
             }
         }
+        let a = input.signup.values
     
         Task {
-            for await _ in await input.signup.values {
-                Swift.print("-- flow: showPhoneVerification")
+            for await _ in input.signup.values {
                 coordinator.showPhoneVerification()
             }
         }
-                                                        
+        
         return Output(signedIn: signedIn)
     }
 }

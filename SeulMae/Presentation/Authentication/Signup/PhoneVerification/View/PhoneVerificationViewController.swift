@@ -27,6 +27,7 @@ final class PhoneVerificationViewController: UIViewController {
         static let remainingTime = "03:00"
         static let secondAuthCodeFieldGuide = "인증번호 재전송은 3회까지만 가능합니다"
         static let sendAuthCode = "인증번호 받기"
+        static let verifyCode = "인증번호 확인"
         static let reSendAuthCode = "인증번호 재전송"
         static let nextStep = "다음으로"
     }
@@ -39,13 +40,22 @@ final class PhoneVerificationViewController: UIViewController {
     
     private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
     private let phoneNumberFieldGuideLabel: UILabel = .callout(title: Text.phoneNumberFieldGuide)
-    private let phoneNumberTextField: UITextField = .common(placeholder: Text.phoneNumberTextFieldGuide)
+    private let phoneNumberTextField: UITextField = .tel(placeholder: Text.phoneNumberTextFieldGuide)
     private let authCodeFieldGuideLabel: UILabel = .callout(title: Text.authCodeFieldGuide)
     private let authCodeTextField: UITextField = .common(placeholder: Text.authCodeTextFieldGuide)
-    private let remainingTimeLabel: UILabel = .footnote(title: Text.remainingTime, color: .red)
+    
+    private let remainingTimeLabel: RemainingTimeLabel = {
+        let label = RemainingTimeLabel()
+        label.setRemainingTime(minutes: 3)
+        return label
+    }()
+    
     private let secondAuthCodeFieldGuideLabel: UILabel = .footnote(title: Text.secondAuthCodeFieldGuide)
     private let sendAuthCodeButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
-    private let nextStepButton: UIButton = .common(title: Text.nextStep)
+    
+    private let verifyCodeButton: UIButton = .common(title: Text.verifyCode, cornerRadius: 16)
+
+    private let nextStepButton: UIButton = .common(title: Text.nextStep, isEnabled: false)
     
     // MARK: - Life Cycle
 
@@ -54,6 +64,54 @@ final class PhoneVerificationViewController: UIViewController {
         
         configureNavItem()
         configureHierarchy()
+        bindInternalSubviews()
+    }
+    
+    // MARK: - Data Binding
+    
+    private func bindInternalSubviews() {
+        let sendAuth = sendAuthCodeButton.rx.tap.asSignal()
+
+        let output = viewModel.transform(
+            .init(
+                phoneNumber: phoneNumberTextField.rx.text.orEmpty.asDriver(),
+                authCode: authCodeTextField.rx.text.orEmpty.asDriver(),
+                sendAuth: sendAuth,
+                verifyCode: verifyCodeButton.rx.tap.asSignal(),
+                nextStep: nextStepButton.rx.tap.asSignal()
+            )
+        )
+        
+        Task {
+            for await _ in sendAuth.values {
+                // TODO: 00:00이 되면 인증번호 받기로 바뀌고 03:00 으로 변경해야 함
+                // callback 사용
+                // 한번만 텍스트 변경되도록 변경 -> label 과 합쳐
+                if !(remainingTimeLabel.text == "00:00") {
+                    sendAuthCodeButton.setTitle("인증번호 재전송", for: .normal)
+                    sendAuthCodeButton.backgroundColor = UIColor(hexCode: "F0F0F0")
+                    sendAuthCodeButton.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
+                }
+                
+                enum RequestButtonStatus {
+                    case request
+                    case reRequest
+                }
+            }
+        }
+        
+        Task {
+            for await _ in output.requested.values {
+                remainingTimeLabel.startTimer()
+            }
+        }
+        
+        Task {
+            for await verified in output.verified.values {
+                nextStepButton.isEnabled = verified
+                nextStepButton.alpha = verified ? 1.0 : 0.5
+            }
+        }
     }
     
     // MARK: - Nav Item
@@ -65,12 +123,20 @@ final class PhoneVerificationViewController: UIViewController {
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
-        let phoneNumberFieldStack = UIStackView(arrangedSubviews: [
-            phoneNumberFieldGuideLabel, phoneNumberTextField])
-        phoneNumberFieldStack.axis = .vertical
+        view.backgroundColor = .systemBackground
+        
+        let phoneNumberFeildHStack = UIStackView(arrangedSubviews: [
+            phoneNumberTextField, sendAuthCodeButton
+        ])
+        phoneNumberFeildHStack.spacing = 8.0
+        phoneNumberFeildHStack.distribution = .fillProportionally
+        
+        let phoneNumberFieldVStack = UIStackView(arrangedSubviews: [
+            phoneNumberFieldGuideLabel, phoneNumberFeildHStack])
+        phoneNumberFieldVStack.axis = .vertical
         
         let authCodeFieldHStack = UIStackView(arrangedSubviews: [
-            authCodeTextField, sendAuthCodeButton
+            authCodeTextField, verifyCodeButton
         ])
         authCodeFieldHStack.spacing = 8.0
         authCodeFieldHStack.distribution = .fillProportionally
@@ -78,11 +144,12 @@ final class PhoneVerificationViewController: UIViewController {
         let authCodeFieldVStack = UIStackView(arrangedSubviews: [
             authCodeFieldGuideLabel, authCodeFieldHStack, secondAuthCodeFieldGuideLabel
         ])
+        
         authCodeFieldVStack.axis = .vertical
         authCodeFieldVStack.setCustomSpacing(8.0, after: authCodeFieldHStack)
         
         let subViews: [UIView] = [
-            stepGuideLabel, phoneNumberFieldStack, authCodeFieldVStack, remainingTimeLabel, nextStepButton
+            stepGuideLabel, phoneNumberFieldVStack, authCodeFieldVStack, remainingTimeLabel, nextStepButton
         ]
         subViews.forEach(view.addSubview)
         
@@ -92,7 +159,7 @@ final class PhoneVerificationViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        phoneNumberFieldStack.snp.makeConstraints { make in
+        phoneNumberFieldVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(stepGuideLabel.snp.bottom).offset(52)
             make.centerX.equalToSuperview()
@@ -108,7 +175,7 @@ final class PhoneVerificationViewController: UIViewController {
         
         authCodeFieldVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(phoneNumberFieldStack.snp.bottom).offset(16)
+            make.top.equalTo(phoneNumberFieldVStack.snp.bottom).offset(16)
             make.centerX.equalToSuperview()
         }
         

@@ -1,5 +1,5 @@
 //
-//  RemainingTimeView.swift
+//  RemainingTimeLabel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/23/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class RemainingTimeView: UILabel {
+class RemainingTimeLabel: UILabel {
     
     var timer: Timer?
     var _remainingTime: TimeInterval = 180
@@ -15,6 +15,7 @@ class RemainingTimeView: UILabel {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        commonInit()
     }
   
     required init?(coder: NSCoder) {
@@ -23,7 +24,7 @@ class RemainingTimeView: UILabel {
     
     private func commonInit() {
         self.textAlignment = .center
-        self.font = UIFont.systemFont(ofSize: 24.0)
+        self.font = .systemFont(ofSize: 14)
         self.textColor = .red
     }
     
@@ -32,8 +33,11 @@ class RemainingTimeView: UILabel {
     }
     
     func setRemainingTime(minutes: TimeInterval) {
-        self.remainingTime = minutes
-        self._remainingTime = minutes
+        self.remainingTime = minutes * 60
+        self._remainingTime = minutes * 60
+        let minutes = Int(_remainingTime) / 60
+        let seconds = Int(_remainingTime) % 60
+        text = String(format: "%02d:%02d", minutes, seconds)
     }
     
     func startTimer() {
