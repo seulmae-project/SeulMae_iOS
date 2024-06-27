@@ -54,7 +54,7 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService(),
+                validationService: DefaultValidationService.shared,
                 wireframe: DefaultWireframe()
             )
         )
@@ -66,46 +66,52 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         return .create(viewModel: makePhoneVerificationViewModel(coordinator: coordinator))
     }
     
-    private func makePhoneVerificationViewModel(coordinator: AuthFlowCoordinator
-    ) -> PhoneVerificationViewModel {
+    private func makePhoneVerificationViewModel(coordinator: AuthFlowCoordinator) -> PhoneVerificationViewModel {
         return PhoneVerificationViewModel(
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService(),
+                validationService: DefaultValidationService.shared,
                 wireframe: DefaultWireframe()
             )
         )
     }
     
-    func makeAccountSetupViewController(coordinator: any AuthFlowCoordinator
+    func makeAccountSetupViewController(coordinator: any AuthFlowCoordinator,
+                                        request: SignupRequest
     ) -> AccountSetupViewController {
-        return .create(viewModel: makeAccountSetupViewModel(coordinator: coordinator))
+        return .create(viewModel: makeAccountSetupViewModel(coordinator: coordinator, request: request))
     }
     
-    private func makeAccountSetupViewModel(coordinator: AuthFlowCoordinator
+    private func makeAccountSetupViewModel(coordinator: AuthFlowCoordinator,
+                                           request: SignupRequest
     ) -> AccountSetupViewModel {
         return AccountSetupViewModel(
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService(),
-                wireframe: DefaultWireframe()
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe(),
+                request: request
             )
         )
     }
     
-    func makeProfileSetupViewController(coordinator: any AuthFlowCoordinator) -> ProfileSetupViewController {
-        return .create(viewModel: makeProfileSetupViewModel(coordinator: coordinator))
+    func makeProfileSetupViewController(coordinator: any AuthFlowCoordinator, 
+                                        request: SignupRequest) -> ProfileSetupViewController {
+        return .create(viewModel: makeProfileSetupViewModel(coordinator: coordinator, request: request))
     }
     
-    private func makeProfileSetupViewModel(coordinator: AuthFlowCoordinator
-    ) -> ProfileSetupViewModel {
+    private func makeProfileSetupViewModel(coordinator: AuthFlowCoordinator, 
+                                           request: SignupRequest) -> ProfileSetupViewModel {
         return ProfileSetupViewModel(
-//            dependency: (
-//                authUseCase: makeMapUseCase(),
-//                coordinator: coordinator
-//            )
+            dependency: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe(),
+                request: request
+            )
         )
     }
     
@@ -116,10 +122,12 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     private func makeSignupCompletionViewModel(coordinator: AuthFlowCoordinator
     ) -> SignupCompletionViewModel {
         return SignupCompletionViewModel(
-//            dependency: (
-//                authUseCase: makeMapUseCase(),
-//                coordinator: coordinator
-//            )
+            dependency: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe()
+            )
         )
     }
 }

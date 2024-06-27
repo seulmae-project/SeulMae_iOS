@@ -14,7 +14,7 @@ protocol AuthUseCase {
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
-    func emailVerification(_ authCode: String) -> Single<Bool>
+    func userIDAvailable(_ userID: String) -> Single<Bool>
     func signup(_ request: SignupRequest) -> Single<Bool>
     
     /// - Tag: Account Recovery
@@ -23,7 +23,7 @@ protocol AuthUseCase {
     
     /// - Tag: Common
     func smsVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool>
-    func authCodeVerification(_ authCode: String) -> Single<Bool>
+    func codeVerification(_ authCode: String) -> Single<Bool>
 }
 
 class DefaultAuthUseCase: AuthUseCase {
@@ -42,8 +42,8 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.kakaoSignin()
     }
     
-    func emailVerification(_ authCode: String) -> RxSwift.Single<Bool> {
-        authRepository.emailVerification(authCode)
+    func userIDAvailable(_ userID: String) -> RxSwift.Single<Bool> {
+        authRepository.userIDAvailable(userID)
     }
     
     func signup(_ request: SignupRequest) -> RxSwift.Single<Bool> {
@@ -62,7 +62,7 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.phoneVerification(phoneNumber, email)
     }
     
-    func authCodeVerification(_ authCode: String) -> RxSwift.Single<Bool> {
+    func codeVerification(_ authCode: String) -> RxSwift.Single<Bool> {
         authRepository.authCodeVerification(authCode)
     }
 }

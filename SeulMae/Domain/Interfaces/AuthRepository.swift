@@ -14,7 +14,7 @@ protocol AuthRepository {
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
-    func emailVerification(_ authCode: String) -> Single<Bool>
+    func userIDAvailable(_ authCode: String) -> Single<Bool>
     func signup(_ request: SignupRequest) -> Single<Bool>
     
     /// - Tag: Account Recovery

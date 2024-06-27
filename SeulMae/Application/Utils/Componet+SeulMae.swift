@@ -47,7 +47,7 @@ extension UILabel {
         return label
     }
     
-    static func footnote(title: String, color: UIColor = .secondaryLabel) -> UILabel {
+    static func footnote(title: String = "", color: UIColor = .secondaryLabel) -> UILabel {
         let label = UILabel()
         label.text = title
         label.textColor = color

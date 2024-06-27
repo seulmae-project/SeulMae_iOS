@@ -16,11 +16,33 @@ final class EmailRecoveryViewModel: ViewModel {
         
     }
     
-    init() {
-        
+    // MARK: - Dependency
+    
+    private let coordinator: AuthFlowCoordinator
+    
+    private let authUseCase: AuthUseCase
+    
+    private let validationService: ValidationService
+    
+    private let wireframe: Wireframe
+    
+    // MARK: - Life Cycle
+    
+    init(
+        dependency: (
+            coordinator: AuthFlowCoordinator,
+            authUseCase: AuthUseCase,
+            validationService: ValidationService,
+            wireframe: Wireframe
+        )
+    ) {
+        self.coordinator = dependency.coordinator
+        self.authUseCase = dependency.authUseCase
+        self.validationService = dependency.validationService
+        self.wireframe = dependency.wireframe
     }
     
-    func transform(_ input: Input) -> Output {
+    @MainActor func transform(_ input: Input) -> Output {
         
         return Output()
     }
