@@ -12,17 +12,20 @@ import RxCocoa
 final class AccountSetupViewModel: ViewModel {
     
     struct Input {
-        let uid: Driver<String>
+        let userID: Driver<String>
         let password: Driver<String>
         let repeatedPassword: Driver<String>
-        let duplicationCheck: Signal<()>
+        let verifyUserID: Signal<()>
         let nextStep: Signal<()>
     }
     
     struct Output {
-        let uidAvailable: Driver<Bool>
-        let validatedPassword: Driver<Bool>
-        let validatedRepeatedPassword: Driver<Bool>
+        let validatedUserID: Driver<ValidationResult>
+        let userIDVerificationEnabled: Driver<Bool>
+        let verifiedUserID: Driver<Bool>
+        let validatedPassword: Driver<ValidationResult>
+        let validatedRepeatedPassword: Driver<ValidationResult>
+        let nextStepEnabled: Driver<Bool>
     }
     
     // MARK: - Dependency
@@ -35,6 +38,8 @@ final class AccountSetupViewModel: ViewModel {
     
     private let wireframe: Wireframe
     
+    private let request: SignupRequest
+    
     // MARK: - Life Cycle
     
     init(
@@ -42,43 +47,83 @@ final class AccountSetupViewModel: ViewModel {
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
             validationService: ValidationService,
-            wireframe: Wireframe
+            wireframe: Wireframe,
+            request: SignupRequest
         )
     ) {
         self.coordinator = dependency.coordinator
         self.authUseCase = dependency.authUseCase
         self.validationService = dependency.validationService
         self.wireframe = dependency.wireframe
+        self.request = dependency.request
     }
     
-    func transform(_ input: Input) -> Output {
+    @MainActor func transform(_ input: Input) -> Output {
         
-        let validatedUID = input.uid
+        let indicator = ActivityIndicator()
+        let loading = indicator.asDriver()
         
-        let uidAvailable = input.duplicationCheck.withLatestFrom(validatedUID)
-            .flatMapLatest { [weak self] authCode -> Driver<Bool> in
+        // MARK: UserID Verification
+        
+        let validatedUserID = input.userID
+            .flatMapLatest { [weak self] userID -> Driver<ValidationResult> in
                 guard let strongSelf = self else { return .empty() }
-                return strongSelf.authUseCase.authCodeVerification(authCode)
-                // .trackActivity(signingIn)
+                return strongSelf.validationService.validateUserID(userID)
+                    .asDriver()
+            }
+        
+        let userIDVerificationEnabled = Driver.combineLatest(
+            validatedUserID, loading) { userID, loading in
+                userID.isValid &&
+                !loading
+            }
+            .distinctUntilChanged()
+        
+        let verifiedUserID = input.verifyUserID.withLatestFrom(input.userID)
+            .flatMapLatest { [weak self] userID -> Driver<Bool> in
+                guard let strongSelf = self else { return .empty() }
+                return strongSelf.authUseCase
+                    .userIDAvailable(userID)
+                    .trackActivity(indicator)
+//                    .map { available -> ValidationResult in
+//                        return available ? .ok(message: "사용가능한 아이디입니다") :
+//                            .failed(message: "사용중인 아이디입니다")
+//                    }
                     .asDriver(onErrorJustReturn: false)
             }
             .startWith(false)
         
+        // MARK: Password Validation
+        
         let validatedPassword = input.password
             .map { password in
                 return self.validationService.validatePassword(password)
-                    .isValid
             }
 
         let validatedPasswordRepeated = Driver.combineLatest(input.password, input.repeatedPassword, resultSelector: validationService.validateRepeatedPassword)
-            .map {
-                $0.isValid
+        
+        // MARK: Flow Logic
+        
+        let nextStepEnabled = Driver.combineLatest(
+            verifiedUserID, loading) { verified, loading in
+                verified &&
+                !loading
             }
+            .distinctUntilChanged()
+        
+        Task {
+            for await _ in input.nextStep.values {
+                coordinator.showProfileSetup(request: request)
+            }
+        }
         
         return Output(
-            uidAvailable: uidAvailable,
+            validatedUserID: validatedUserID,
+            userIDVerificationEnabled: userIDVerificationEnabled,
+            verifiedUserID: verifiedUserID,
             validatedPassword: validatedPassword,
-            validatedRepeatedPassword: validatedPasswordRepeated
+            validatedRepeatedPassword: validatedPasswordRepeated,
+            nextStepEnabled: nextStepEnabled
         )
     }
 }

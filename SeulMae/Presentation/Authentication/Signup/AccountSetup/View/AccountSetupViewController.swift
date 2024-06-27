@@ -41,14 +41,14 @@ final class AccountSetupViewController: UIViewController {
     private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
     private let emailFieldGuideLabel: UILabel = .callout(title: Text.emailFieldGuide)
     private let emailTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
-    private let emailValidationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
-    private let secondEmailFieldGuideLabel: UILabel = .footnote(title: Text.secondEmailFieldGuideLabel)
+    private let userIDVerificationButton: UIButton = .common(title: Text.emailValidation, cornerRadius: 16)
+    private let userIDValidationResultLabel: UILabel = .footnote(title: Text.secondEmailFieldGuideLabel)
     private let passwordFieldGuideLabel: UILabel = .callout(title: Text.passwordFieldGuide)
     private let passwordTextField: UITextField = .common(placeholder: Text.passwordTextFieldPlaceholder)
-    private let secondPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
+    private let passwordValidationResultLabel: UILabel = .footnote(title: Text.secondPasswordFeildGuide)
     private let repeatedPasswordFieldGuideLabel: UILabel = .callout(title: Text.repeatedPasswordFieldGuide)
     private let repeatedPasswordTextField: UITextField = .common(placeholder: Text.repeatedPasswordTextFieldPlaceholder)
-    private let secondRepeatedPasswordFieldGuideLabel: UILabel = .footnote(title: Text.secondRepeatedPasswordFieldGuideLabel)
+    private let repeatedPasswordValidationResultLabel: UILabel = .footnote(title: Text.secondRepeatedPasswordFieldGuideLabel)
     private let nextStepButton: UIButton = .common(title: Text.nextStep)
     
     // MARK: - Life Cycle
@@ -76,29 +76,41 @@ final class AccountSetupViewController: UIViewController {
 
         let output = viewModel.transform(
             .init(
-                uid: emailTextField.rx.text.orEmpty.asDriver(),
+                userID: emailTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 repeatedPassword: repeatedPasswordTextField.rx.text.orEmpty.asDriver(),
-                duplicationCheck: emailValidationButton.rx.tap.asSignal(),
+                verifyUserID: userIDVerificationButton.rx.tap.asSignal(),
                 nextStep: nextStepButton.rx.tap.asSignal()
             )
         )
+        
+        Task {
+            for await result in output.validatedUserID.values {
+                userIDValidationResultLabel.ext.setResult(result)
+            }
+        }
+        
+        Task {
+            for await isEnabled in output.userIDVerificationEnabled.values {
+                userIDVerificationButton.ext.setEnabled(isEnabled)
+            }
+        }
     
         Task {
-            for await available in output.uidAvailable.values {
-                secondEmailFieldGuideLabel.isHidden = !available
+            for await _ in output.verifiedUserID.values {
+                
             }
         }
         
         Task {
-            for await available in output.validatedPassword.values {
-                repeatedPasswordTextField.isHidden = !available
+            for await result in output.validatedPassword.values {
+                passwordValidationResultLabel.ext.setResult(result)
             }
         }
         
         Task {
-            for await available in output.validatedRepeatedPassword.values {
-                secondRepeatedPasswordFieldGuideLabel.isHidden = !available
+            for await result in output.validatedRepeatedPassword.values {
+                repeatedPasswordValidationResultLabel.ext.setResult(result)
             }
         }
     }
@@ -115,7 +127,7 @@ final class AccountSetupViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         let emailFieldHStack = UIStackView(arrangedSubviews: [
-            emailTextField, emailValidationButton
+            emailTextField, userIDVerificationButton
         ])
         emailFieldHStack.spacing = 8.0
         emailFieldHStack.distribution = .fillProportionally
@@ -126,7 +138,7 @@ final class AccountSetupViewController: UIViewController {
         emailFieldVStack.axis = .vertical
         
         let passwordFieldStack = UIStackView(arrangedSubviews: [
-            passwordFieldGuideLabel, passwordTextField, secondPasswordFieldGuideLabel
+            passwordFieldGuideLabel, passwordTextField, passwordValidationResultLabel
         ])
         passwordFieldStack.axis = .vertical
         passwordFieldStack.setCustomSpacing(8.0, after: passwordTextField)
@@ -153,7 +165,8 @@ final class AccountSetupViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        emailFieldHStack.snp.makeConstraints { make in
+        userIDVerificationButton.snp.makeConstraints { make in
+            make.width.equalTo(88)
             make.height.equalTo(48)
         }
         
