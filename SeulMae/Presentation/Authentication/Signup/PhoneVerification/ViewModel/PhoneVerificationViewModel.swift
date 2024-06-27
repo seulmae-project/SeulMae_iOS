@@ -13,15 +13,19 @@ final class PhoneVerificationViewModel: ViewModel {
     
     struct Input {
         let phoneNumber: Driver<String>
-        let authCode: Driver<String>
-        let sendAuth: Signal<()>
+        let code: Driver<String>
+        let validateSMS: Signal<()>
         let verifyCode: Signal<()>
         let nextStep: Signal<()>
     }
     
     struct Output {
-        let requested: Driver<Bool>
-        let verified: Driver<Bool>
+        let validatedPhoneNumber: Driver<ValidationResult>
+        let smsValidationEnabled: Driver<Bool>
+        let validatedSMS: Driver<Bool>
+        let codeVerificationEnabled: Driver<Bool>
+        let verifiedCode: Driver<Bool>
+        let nextStepEnabled: Driver<Bool>
     }
     
     // MARK: - Dependency
@@ -31,7 +35,7 @@ final class PhoneVerificationViewModel: ViewModel {
     private let authUseCase: AuthUseCase
     
     private let validationService: ValidationService
-    
+
     private let wireframe: Wireframe
     
     // MARK: - Life Cycle
@@ -51,50 +55,80 @@ final class PhoneVerificationViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
+        
+        let indicator = ActivityIndicator()
+        let loading = indicator.asDriver()
+        
+        // MARK: SMS Validation
+        
         let validatedPhoneNumber = input.phoneNumber
-        
-        Task {
-            for await phoneNumber in validatedPhoneNumber.values {
-                Swift.print("-- phoneNumber: \(phoneNumber)")
+            .flatMapLatest { [weak self] phoneNumber -> Driver<ValidationResult> in
+                guard let strongSelf = self else { return .empty() }
+                return strongSelf.validationService.validatePhoneNumber(phoneNumber)
+                    .asDriver()
             }
-        }
         
-        Task {
-            for await password in input.sendAuth.values {
-                Swift.print("-- sendAuth: sendAuth button tapped")
+        let smsValidationEnabled = Driver.combineLatest(
+            validatedPhoneNumber, loading) { phoneNumber, loading in
+                phoneNumber.isValid &&
+                !loading
             }
-        }
+            .distinctUntilChanged()
         
-        let requested = input.sendAuth.withLatestFrom(validatedPhoneNumber)
+        let validatedSMS = input.validateSMS.withLatestFrom(input.phoneNumber)
             .flatMapLatest { [weak self] phoneNumber -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase.smsVerification(phoneNumber, nil)
-                // .trackActivity(signingIn)
+                    .trackActivity(indicator)
                     .asDriver(onErrorJustReturn: false)
                 // TODO: 틀린 경우 얼럿
             }
+            .startWith(false)
         
-        let validatedCode = input.authCode
+        // MARK: Code Verification
         
-        let verified = input.verifyCode.withLatestFrom(validatedCode)
-            .flatMapLatest { [weak self] authCode -> Driver<Bool> in
+        let validatedCode = input.code
+            .map { $0.count == 6 }
+        let codeVerificationEnabled = Driver.combineLatest(
+            validatedCode, loading) { code, loading in
+                code &&
+                !loading
+            }
+            .distinctUntilChanged()
+        
+        let verifiedCode = input.verifyCode.withLatestFrom(input.code)
+            .flatMapLatest { [weak self] code -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
-                return strongSelf.authUseCase.authCodeVerification(authCode)
-                // .trackActivity(signingIn)
+                return strongSelf.authUseCase
+                    .codeVerification(code)
+                    .trackActivity(indicator)
                     .asDriver(onErrorJustReturn: false)
             }
             .startWith(false)
         
+        // MARK: Flow Logic
+        
+        let nextStepEnabled = Driver.combineLatest(
+            validatedSMS, verifiedCode, loading) { validated, verified, loading in
+                validated &&
+                verified &&
+                !loading
+            }
+            .distinctUntilChanged()
         
         Task {
             for await _ in input.nextStep.values {
-                coordinator.showAccountSetup()
+                coordinator.showAccountSetup(request: SignupRequest())
             }
         }
         
         return Output(
-            requested: requested,
-            verified: verified
+            validatedPhoneNumber: validatedPhoneNumber,
+            smsValidationEnabled: smsValidationEnabled,
+            validatedSMS: validatedSMS,
+            codeVerificationEnabled: codeVerificationEnabled,
+            verifiedCode: verifiedCode,
+            nextStepEnabled: nextStepEnabled
         )
     }
 }

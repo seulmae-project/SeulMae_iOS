@@ -28,7 +28,7 @@ final class PhoneVerificationViewController: UIViewController {
         static let secondAuthCodeFieldGuide = "인증번호 재전송은 3회까지만 가능합니다"
         static let sendAuthCode = "인증번호 받기"
         static let verifyCode = "인증번호 확인"
-        static let reSendAuthCode = "인증번호 재전송"
+        static let resendAuthCode = "인증번호 재전송"
         static let nextStep = "다음으로"
     }
     
@@ -51,9 +51,9 @@ final class PhoneVerificationViewController: UIViewController {
     }()
     
     private let secondAuthCodeFieldGuideLabel: UILabel = .footnote(title: Text.secondAuthCodeFieldGuide)
-    private let sendAuthCodeButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
+    private let smsValidationButton: UIButton = .common(title: Text.sendAuthCode, cornerRadius: 16)
     
-    private let verifyCodeButton: UIButton = .common(title: Text.verifyCode, cornerRadius: 16)
+    private let codeVerificationButton: UIButton = .common(title: Text.verifyCode, cornerRadius: 16)
 
     private let nextStepButton: UIButton = .common(title: Text.nextStep, isEnabled: false)
     
@@ -70,27 +70,59 @@ final class PhoneVerificationViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindInternalSubviews() {
-        let sendAuth = sendAuthCodeButton.rx.tap.asSignal()
+        let validateSMS = smsValidationButton.rx.tap.asSignal()
 
         let output = viewModel.transform(
             .init(
                 phoneNumber: phoneNumberTextField.rx.text.orEmpty.asDriver(),
-                authCode: authCodeTextField.rx.text.orEmpty.asDriver(),
-                sendAuth: sendAuth,
-                verifyCode: verifyCodeButton.rx.tap.asSignal(),
+                code: authCodeTextField.rx.text.orEmpty.asDriver(),
+                validateSMS: validateSMS,
+                verifyCode: codeVerificationButton.rx.tap.asSignal(),
                 nextStep: nextStepButton.rx.tap.asSignal()
             )
         )
         
         Task {
-            for await _ in sendAuth.values {
+            for await enabled in output.smsValidationEnabled.values {
+                print("smsValidationEnabled: \(enabled)")
+                smsValidationButton.ext.setEnabled(enabled)
+            }
+        }
+        
+//        Task {
+//            for await _ in output.validatedSMS.values {
+//                
+//            }
+//        }
+        
+        Task {
+            for await enabled in output.codeVerificationEnabled.values {
+                print("codeVerificationEnabled: \(enabled)")
+                codeVerificationButton.ext.setEnabled(enabled)
+            }
+        }
+        
+//        Task {
+//            for await _ in output.verifiedCode.values {
+//                
+//            }
+//        }
+        
+        Task {
+            for await enabled in output.nextStepEnabled.values {
+                nextStepButton.ext.setEnabled(enabled)
+            }
+        }
+        
+        Task {
+            for await _ in validateSMS.values {
                 // TODO: 00:00이 되면 인증번호 받기로 바뀌고 03:00 으로 변경해야 함
                 // callback 사용
                 // 한번만 텍스트 변경되도록 변경 -> label 과 합쳐
                 if !(remainingTimeLabel.text == "00:00") {
-                    sendAuthCodeButton.setTitle("인증번호 재전송", for: .normal)
-                    sendAuthCodeButton.backgroundColor = UIColor(hexCode: "F0F0F0")
-                    sendAuthCodeButton.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
+                    smsValidationButton.setTitle("인증번호 재전송", for: .normal)
+                    smsValidationButton.backgroundColor = UIColor(hexCode: "F0F0F0")
+                    smsValidationButton.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
                 }
                 
                 enum RequestButtonStatus {
@@ -101,16 +133,8 @@ final class PhoneVerificationViewController: UIViewController {
         }
         
         Task {
-            for await _ in output.requested.values {
+            for await _ in output.validatedSMS.values {
                 remainingTimeLabel.startTimer()
-            }
-        }
-        
-        Task {
-            for await verified in output.verified.values {
-                nextStepButton.isEnabled = verified
-                nextStepButton.alpha = verified ? 1.0 : 0.5
-                // TODO: enabled 에 따라 디자인 변경
             }
         }
     }
@@ -127,7 +151,7 @@ final class PhoneVerificationViewController: UIViewController {
         view.backgroundColor = .systemBackground
         
         let phoneNumberFeildHStack = UIStackView(arrangedSubviews: [
-            phoneNumberTextField, sendAuthCodeButton
+            phoneNumberTextField, smsValidationButton
         ])
         phoneNumberFeildHStack.spacing = 8.0
         phoneNumberFeildHStack.distribution = .fillProportionally
@@ -137,7 +161,7 @@ final class PhoneVerificationViewController: UIViewController {
         phoneNumberFieldVStack.axis = .vertical
         
         let authCodeFieldHStack = UIStackView(arrangedSubviews: [
-            authCodeTextField, verifyCodeButton
+            authCodeTextField, codeVerificationButton
         ])
         authCodeFieldHStack.spacing = 8.0
         authCodeFieldHStack.distribution = .fillProportionally
@@ -166,11 +190,13 @@ final class PhoneVerificationViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        phoneNumberTextField.snp.makeConstraints { make in
+        smsValidationButton.snp.makeConstraints { make in
+            make.width.equalTo(127)
             make.height.equalTo(48)
         }
         
-        authCodeFieldHStack.snp.makeConstraints { make in
+        codeVerificationButton.snp.makeConstraints { make in
+            make.width.equalTo(127)
             make.height.equalTo(48)
         }
         
