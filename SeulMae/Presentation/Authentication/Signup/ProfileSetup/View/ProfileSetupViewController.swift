@@ -6,6 +6,9 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
+import PhotosUI
 
 final class ProfileSetupViewController: UIViewController {
     
@@ -33,18 +36,24 @@ final class ProfileSetupViewController: UIViewController {
     
     private var viewModel: ProfileSetupViewModel!
     
+    private var phpPicker: PHPickerViewController?
+    
     // MARK: - UI
     
     private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
     private let profileImageView = UIImageView()
     private let nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
     private let nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
+    private let usernameValidationResultLabel: UILabel = .footnote()
+    
     private let genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
-    private let mailRadioButton: RadioButton = .common(title: Text.male)
-    private let femailRadioButton: RadioButton = .common(title: Text.female)
+    private let maleRadioButton: RadioButton = .common(title: Text.male)
+    private let femaleRadioButton: RadioButton = .common(title: Text.female)
     private let birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
     private let birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
     private let nextStepButton: UIButton = .common(title: Text.nextStep)
+    
+    private var picker: UIPickerView!
     
     // MARK: - Life Cycle
 
@@ -53,6 +62,49 @@ final class ProfileSetupViewController: UIViewController {
         
         configureNavItem()
         configureHierarchy()
+        bindInternalSubviews()
+    }
+    
+    // MARK: - Data Binding
+    
+    private func bindInternalSubviews() {
+        
+        let tapBackground = UITapGestureRecognizer()
+        Task {
+            for try await available in tapBackground.rx.event.values {
+                view.endEditing(true)
+            }
+        }
+        
+        view.addGestureRecognizer(tapBackground)
+        
+        let male = maleRadioButton.rx.tag.asSignal()
+        let female = femaleRadioButton.rx.tag.asSignal()
+        let gender = Signal.merge(male, female)
+
+        let output = viewModel.transform(
+            .init(
+                image: phpPicker!.rx.data.asSignal(),
+                gender: gender,
+                username: nameTextField.rx.text.orEmpty.asDriver(),
+                year: picker.rx.itemSelected.map { $1 }.asSignal(),
+                month: picker.rx.itemSelected.map { $1 }.asSignal(),
+                day: picker.rx.itemSelected.map { $1 }.asSignal(),
+                nextStep: nextStepButton.rx.tap.asSignal()
+            )
+        )
+        
+        Task {
+            for await validatedUsername in output.validatedUsername.values {
+                usernameValidationResultLabel.rx.validationResult.onNext(validatedUsername)
+            }
+        }
+        
+        Task {
+            for await available in output.nextStepEnabled.values {
+                nextStepButton.isEnabled = !available
+            }
+        }
     }
 
     // MARK: - Nav Item
@@ -65,7 +117,7 @@ final class ProfileSetupViewController: UIViewController {
     
     private func configureHierarchy() {
         let genderFieldHStack = UIStackView(arrangedSubviews: [
-            mailRadioButton, femailRadioButton
+            maleRadioButton, femaleRadioButton
         ])
         genderFieldHStack.spacing = 24
         
@@ -74,9 +126,10 @@ final class ProfileSetupViewController: UIViewController {
         ])
         
         let nameFieldVStack = UIStackView(arrangedSubviews: [
-            nameFieldGuideLabel, nameFieldGuideLabel
+            nameFieldGuideLabel, nameFieldGuideLabel, usernameValidationResultLabel
         ])
         nameFieldVStack.axis = .vertical
+        nameFieldVStack.spacing = 4.0
         
         let birthdayFieldHStack = UIStackView(arrangedSubviews: [
             
