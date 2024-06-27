@@ -31,9 +31,12 @@ enum SignupState {
 }
 
 protocol ValidationService {
+    func validatePhoneNumber(_ phoneNumber: String) -> Observable<ValidationResult>
+    func validateUserID(_ userID: String) -> RxSwift.Observable<ValidationResult>
     func validateEmail(_ eamil: String) -> Observable<ValidationResult>
     func validatePassword(_ password: String) -> ValidationResult
     func validateRepeatedPassword(_ password: String, repeatedPassword: String) -> ValidationResult
+    func validateUsername(_ username: String) -> Observable<ValidationResult>
 }
 
 extension CharacterSet: Extended {}
@@ -52,15 +55,52 @@ extension Extension where ExtendedType == CharacterSet {
 
 class DefaultValidationService: ValidationService {
     
-    // static let shared = DefaultValidationService(API: GitHubDefaultAPI.sharedAPI)
+    static let shared = DefaultValidationService()
     
-    // let API: GitHubAPI
-
     let minPasswordCount: Int = 8
+    let minUserIDCount: Int = 5
 
-//    init (API: GitHubAPI) {
-//        self.API = API
-//    }
+    private init() {}
+    
+    // MARK: Phone Number
+    
+    func validatePhoneNumber(_ phoneNumber: String) -> RxSwift.Observable<ValidationResult> {
+        if phoneNumber.isEmpty {
+            return .just(.empty)
+        }
+        
+        let cleanedPhoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
+        if !cleanedPhoneNumber.allSatisfy({ $0.isNumber }) {
+            return .just(.failed(message: "휴대폰 번호는 숫자만 입력 가능합니다."))
+        }
+        
+        if !(cleanedPhoneNumber.count == 11) {
+            return .just(.failed(message: "휴대폰 번호 11자리를 모두 입력해주세요"))
+        }
+        
+        return .just(.ok(message: ""))
+    }
+    
+    // MARK: UserID
+    
+    func validateUserID(_ userID: String) -> RxSwift.Observable<ValidationResult> {
+        let numberOfCharacters = userID.count
+        if numberOfCharacters == 0 { return .just(.empty) }
+        if numberOfCharacters < minPasswordCount {
+            return .just(.failed(message: "영문, 숫자 포함 \(minUserIDCount)자 이상 입력해주세요"))
+        }
+        
+        let pattern = "^[a-z]+[a-z0-9]{5,19}$"
+        let regex = try? NSRegularExpression(pattern: pattern)
+        let range = NSRange(location: 0, length: userID.utf16.count)
+        if let match = regex?.firstMatch(in: userID, options: [], range: range) {
+            return .just(.failed(message: "유효하지 않은 문자열입니다."))
+        }
+                
+        return .just(.ok(message: ""))
+    }
+    
+    // MARK: Email
     
     func validateEmail(_ email: String) -> RxSwift.Observable<ValidationResult> {
         if email.isEmpty {
@@ -84,6 +124,8 @@ class DefaultValidationService: ValidationService {
         return .just(.ok(message: "Username available"))
     }
     
+    // MARK: Password
+    
     func validatePassword(_ password: String) -> ValidationResult {
         let numberOfCharacters = password.count
         if numberOfCharacters == 0 { return .empty }
@@ -103,5 +145,20 @@ class DefaultValidationService: ValidationService {
     
     func validateRepeatedPassword(_ password: String, repeatedPassword: String) -> ValidationResult {
         return repeatedPassword == password ? .ok(message: "Password repeated") : .failed(message: "Password different")
+    }
+    
+    // MARK: Username
+    
+    func validateUsername(_ username: String) -> Observable<ValidationResult> {
+        if username.isEmpty {
+            return .just(.empty)
+        }
+        
+        if username.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) != nil {
+            return .just(.failed(message: "Username can only contain numbers or digits"))
+        }
+        
+        return .just(.ok(message: "Username available"))
+            .startWith(.validating)
     }
 }
