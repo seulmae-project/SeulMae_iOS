@@ -51,12 +51,13 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signup
     
-    func emailVerification(_ authCode: String) -> Single<Bool> {
-        return Single<BaseResponseDTO<String>>.create { observer in
-            if authCode == "123456" {
-                observer(.success(authCodeCertificationResponse_success))
+    func userIDAvailable(_ userID: String) -> Single<Bool> {
+        Swift.print(#fileID, #function, "\n-userID: \(userID)\n -testUserID: yonggipo\n")
+        return Single<BaseResponseDTO<Bool>>.create { observer in
+            if userID == "yonggipo" {
+                observer(.success(emailValidationResponse_true))
             } else {
-                observer(.failure(DomainError.failedToSMSVerification))
+                observer(.success(emailValidationResponse_false))
             }
             return Disposables.create()
         }
@@ -101,6 +102,7 @@ class DefaultAuthRepository: AuthRepository {
     // MARK: - Common
     
     func phoneVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool> {
+        Swift.print(#fileID, #function, "\n-phoneNumber: \(phoneNumber),\n-email: \(email ?? "")\n")
         return Single<BaseResponseDTO<EmailDTO>>.create { observer in
             observer(.success(requestSmsCertificationResponse_success))
             return Disposables.create()
@@ -112,6 +114,7 @@ class DefaultAuthRepository: AuthRepository {
     }
     
     func authCodeVerification(_ authCode: String) -> Single<Bool> {
+        Swift.print(#fileID, #function, "\n-authCode: \(authCode)\n -testCode: 123456\n")
         return Single<BaseResponseDTO<String>>.create { observer in
             if authCode == "123456" {
                 observer(.success(authCodeCertificationResponse_success))
