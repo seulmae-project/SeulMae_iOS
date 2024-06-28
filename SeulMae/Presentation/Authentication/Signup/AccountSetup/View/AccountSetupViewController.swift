@@ -67,7 +67,7 @@ final class AccountSetupViewController: UIViewController {
         
         let tapBackground = UITapGestureRecognizer()
         Task {
-            for try await available in tapBackground.rx.event.values {
+            for try await _ in tapBackground.rx.event.values {
                 view.endEditing(true)
             }
         }
@@ -118,7 +118,7 @@ final class AccountSetupViewController: UIViewController {
     // MARK: - Nav Item
     
     private func configureNavItem() {
-        
+        navigationItem.title = signup
     }
 
     // MARK: - Hierarchy

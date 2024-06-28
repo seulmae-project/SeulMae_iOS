@@ -5,7 +5,7 @@
 //  Created by 조기열 on 6/18/24.
 //
 
-import UIKit.UIView
+import UIKit
 
 extension Notification.Name {
     static let KeyboardWatcherKeyboardWillShow = Notification.Name("KeyboardWatcherKeyboardWillShowNotification")

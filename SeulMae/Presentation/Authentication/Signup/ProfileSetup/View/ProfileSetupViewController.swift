@@ -10,6 +10,8 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 
+let signup = "회원가입"
+
 final class ProfileSetupViewController: UIViewController {
     
     // MARK: - Flow
@@ -110,7 +112,7 @@ final class ProfileSetupViewController: UIViewController {
     // MARK: - Nav Item
     
     private func configureNavItem() {
-        
+        navigationItem.title = signup
     }
     
     // MARK: - Hierarchy

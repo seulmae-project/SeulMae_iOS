@@ -96,11 +96,7 @@ final class ProfileSetupViewModel: ViewModel {
             }
             .startWith(false)
         
-        Task {
-            for await _ in input.nextStep.values {
-                coordinator.showSignupCompletion()
-            }
-        }
+        // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
             validatedName, signingUp) { name, signingUp in
@@ -108,6 +104,12 @@ final class ProfileSetupViewModel: ViewModel {
                 !signingUp
             }
             .distinctUntilChanged()
+        
+        Task {
+            for await _ in input.nextStep.values {
+                // coordinator.showSignupCompletion()
+            }
+        }
         
         return Output(
             validatedUsername: validatedName,

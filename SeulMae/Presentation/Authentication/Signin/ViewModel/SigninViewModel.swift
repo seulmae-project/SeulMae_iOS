@@ -16,8 +16,7 @@ final class SigninViewModel: ViewModel {
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
-        let accountRecovery: Signal<()>
-        let signup: Signal<()>
+        let validateSMS: Signal<SMSValidationItem>
     }
     
     struct Output {
@@ -105,11 +104,9 @@ final class SigninViewModel: ViewModel {
         
         
         // MARK: - Kakao Signin
-        
+
         let _ = input.kakaoSignin
-        
-        // MARK: - Flow
-        
+
 //        let accountRecovery = input.accountRecovery
 //            .flatMapLatest { _ -> Driver<Bool> in
 //                let email = "Mock: Signed in to GitHub."
@@ -121,23 +118,18 @@ final class SigninViewModel: ViewModel {
 //                    .asDriver(onErrorJustReturn: false)
 //            })
         
-//        Task {
-//            for await _ in await accountRecovery.values {
-//                Swift.print("-- flow: showEmailRecovery")
-//                ? authCoordinator.showEmailRecovery() : authCoordinator.showEmailRecovery()
-//            }
-//        }
+  
+        // MARK: - Flow Logic
         
         Task {
             for await _ in signedIn.values {
                 self.coordinator.startMain()
             }
         }
-        let a = input.signup.values
-    
+            
         Task {
-            for await _ in input.signup.values {
-                coordinator.showPhoneVerification()
+            for await item in input.validateSMS.values {
+                coordinator.showSMSValidation(item: item)
             }
         }
         

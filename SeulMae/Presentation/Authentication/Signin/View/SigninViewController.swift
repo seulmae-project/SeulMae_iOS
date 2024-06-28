@@ -47,7 +47,6 @@ final class SigninViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
         configureHierarchy()
         bindInternalSubviews()
     }
@@ -62,8 +61,7 @@ final class SigninViewController: UIViewController {
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signinButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
-                accountRecovery: findCredentials.rx.tap.asSignal(),
-                signup: signupButton.rx.tap.asSignal()
+                validateSMS: .just(.idRecovery)
             )
         )
         
@@ -74,12 +72,6 @@ final class SigninViewController: UIViewController {
                 }
             }
         }
-    }
-    
-    // MARK: - Nav Item
-    
-    private func configureNavItem() {
-        
     }
     
     // MARK: - Hierarchy
