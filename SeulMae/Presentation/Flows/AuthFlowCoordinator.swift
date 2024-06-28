@@ -9,10 +9,11 @@ import UIKit
 
 protocol AuthFlowCoordinatorDependencies {
     func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
-    func makePhoneVerificationViewController(coordinator: AuthFlowCoordinator) -> PhoneVerificationViewController
-    func makeAccountSetupViewController(coordinator: AuthFlowCoordinator) -> AccountSetupViewController
-    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator) -> ProfileSetupViewController
-    func makeSignupCompletionViewController(coordinator: AuthFlowCoordinator) -> SignupCompletionViewController
+    func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSValidationItem) -> SMSValidationViewController
+    func makeAccountSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> AccountSetupViewController
+    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
+    func makeCompletionViewController(coordinator: AuthFlowCoordinator, item: CompletionItem) -> CompletionViewController
+    func makeIDRecoveryViewController(coordinator: AuthFlowCoordinator) -> IDRecoveryViewController
 }
 
 protocol AuthFlowCoordinator {
@@ -20,22 +21,19 @@ protocol AuthFlowCoordinator {
     func start()
     func startMain()
     
+    /// - Tag: Common
+    func showSMSValidation(item: SMSValidationItem)
+    func showCompletion(item: CompletionItem)
+
     /// - Tag: Signin
     func showSingin()
     
     /// - Tag: Signup
-    func showPhoneVerification()
-    func showAccountSetup()
-    func showProfileSetup()
-    func showSignupCompletion()
+    func showAccountSetup(request: SignupRequest)
+    func showProfileSetup(request: SignupRequest)
     
     /// - Tag: Account Service
-    func showPhoneVerificationForEmailRecovery()
-    func showEmailRecovery()
-    func showEmailRecoveryCompletion()
-    func showPhoneVerificationForPasswordRecovery()
-    func showPasswordRecovery()
-    func showPasswordRecoveryCompletion()
+    func showAccountIDRecovery()
 }
 
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
@@ -68,6 +66,18 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         mainFlowCoordinator.showMain()
     }
     
+    // MARK: - Common
+    
+    func showSMSValidation(item: SMSValidationItem) {
+        let vc = dependencies.makeSMSValidationViewController(coordinator: self, item: item)
+        navigationController.pushViewController(vc, animated: false)
+    }
+    
+    func showCompletion(item: CompletionItem) {
+        let vc = dependencies.makeCompletionViewController(coordinator: self, item: item)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
     // MARK: - Signin
     
     func showSingin() {
@@ -77,49 +87,20 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Signup
     
-    func showPhoneVerification() {
-        let vc = dependencies.makePhoneVerificationViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func showAccountSetup() {
-        let vc = dependencies.makeAccountSetupViewController(coordinator: self)
+    func showAccountSetup(request: SignupRequest) {
+        let vc = dependencies.makeAccountSetupViewController(coordinator: self, request: request)
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showProfileSetup() {
-        let vc = dependencies.makeProfileSetupViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func showSignupCompletion() {
-        let vc = dependencies.makeSignupCompletionViewController(coordinator: self)
+    func showProfileSetup(request: SignupRequest) {
+        let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request)
         navigationController.pushViewController(vc, animated: true)
     }
     
     // MARK: - Account Sevice
     
-    func showPhoneVerificationForEmailRecovery() {
-        
-    }
-    
-    func showEmailRecovery() {
-        
-    }
-    
-    func showEmailRecoveryCompletion() {
-        
-    }
-    
-    func showPhoneVerificationForPasswordRecovery() {
-        
-    }
-    
-    func showPasswordRecovery() {
-        
-    }
-    
-    func showPasswordRecoveryCompletion() {
-        
+    func showAccountIDRecovery() {
+        let vc = dependencies.makeIDRecoveryViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
     }
 }
