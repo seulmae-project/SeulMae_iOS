@@ -1,48 +1,56 @@
 //
-//  SignupCompletionViewController.swift
+//  CompletionViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/10/24.
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class SignupCompletionViewController: UIViewController {
+final class CompletionViewController: UIViewController {
     
     // MARK: - Flow
     
-    static func create(viewModel: SignupCompletionViewModel) -> SignupCompletionViewController {
-        let view = SignupCompletionViewController()
+    static func create(viewModel: CompletionViewModel) -> CompletionViewController {
+        let view = CompletionViewController()
         view.viewModel = viewModel
         return view
     }
     
-    enum Text {
-        static let completion = "회원 가입 완료"
-        static let stepGuide = "원트립님,\n만나서 반가워요!"
-        static let nextStep = "로그인하러가기"
-    }
-    
     // MARK: - Dependency
     
-    private var viewModel: SignupCompletionViewModel!
+    private var viewModel: CompletionViewModel!
     
-    private let completionGuideLabel: UILabel = .callout(title: Text.completion)
-    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let completionGuideLabel: UILabel = .callout()
+    private let stepGuideLabel: UILabel = .title()
     private let completionImageView: UIImageView = UIImageView()
-    private let nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let nextStepButton: UIButton = .common()
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
         configureHierarchy()
+        bindInternalSubviews()
     }
-
-    // MARK: - Nav Item
     
-    private func configureNavItem() {
+    // MARK: - Data Binding
+    
+    private func bindInternalSubviews() {
+
+        let output = viewModel.transform(
+            .init(nextStep: nextStepButton.rx.tap.asSignal())
+        )
         
+        Task {
+            for await type in output.item.values {
+                completionGuideLabel.text = type.completion
+                stepGuideLabel.text = type.stepGuide
+                completionImageView.image = type.image
+                nextStepButton.setTitle(type.stepGuide, for: .normal)
+            }
+        }
     }
     
     // MARK: - Hierarchy

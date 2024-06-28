@@ -8,18 +8,19 @@
 import UIKit
 import SnapKit
 
-final class PhoneVerificationViewController: UIViewController {
+final class SMSValidationViewController: UIViewController {
     
     // MARK: - Flow
     
-    static func create(viewModel: PhoneVerificationViewModel) -> PhoneVerificationViewController {
-        let view = PhoneVerificationViewController()
+    static func create(viewModel: SMSValidationViewModel) -> SMSValidationViewController {
+        let view = SMSValidationViewController()
         view.viewModel = viewModel
         return view
     }
     
     enum Text {
-        static let stepGuide = "정보 확인을 위해\n휴대폰번호를 입력해주세요"
+        static let accountIDFieldGuide = "아이디"
+        static let accountIDTextFieldGuide = "아이디 입력"
         static let phoneNumberFieldGuide = "휴대폰 번호"
         static let phoneNumberTextFieldGuide = "휴대폰번호 입력"
         static let authCodeFieldGuide = "인증번호"
@@ -34,13 +35,18 @@ final class PhoneVerificationViewController: UIViewController {
     
     // MARK: - Dependency
     
-    private var viewModel: PhoneVerificationViewModel!
+    private var viewModel: SMSValidationViewModel!
     
     // MARK: - UI
     
-    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let stepGuideLabel: UILabel = .title()
+    
+    private let accountIDFieldGuideLabel: UILabel = .callout(title: Text.accountIDFieldGuide)
+    private let accountIDTextField: UITextField = .common(placeholder: Text.accountIDTextFieldGuide)
+    
     private let phoneNumberFieldGuideLabel: UILabel = .callout(title: Text.phoneNumberFieldGuide)
     private let phoneNumberTextField: UITextField = .tel(placeholder: Text.phoneNumberTextFieldGuide)
+    
     private let authCodeFieldGuideLabel: UILabel = .callout(title: Text.authCodeFieldGuide)
     private let authCodeTextField: UITextField = .common(placeholder: Text.authCodeTextFieldGuide)
     
@@ -62,7 +68,6 @@ final class PhoneVerificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
         configureHierarchy()
         bindInternalSubviews()
     }
@@ -81,6 +86,12 @@ final class PhoneVerificationViewController: UIViewController {
                 nextStep: nextStepButton.rx.tap.asSignal()
             )
         )
+        
+        Task {
+            for await item in output.item.values {
+                applyItem(item)
+            }
+        }
         
         Task {
             for await enabled in output.smsValidationEnabled.values {
@@ -139,42 +150,57 @@ final class PhoneVerificationViewController: UIViewController {
         }
     }
     
-    // MARK: - Nav Item
-    
-    private func configureNavItem() {
-        
-    }
-    
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
         view.backgroundColor = .systemBackground
         
-        let phoneNumberFeildHStack = UIStackView(arrangedSubviews: [
+        /// - Tag: Account ID
+        let accountIDVStack = UIStackView(arrangedSubviews: [
+            accountIDFieldGuideLabel, accountIDTextField
+        ])
+        accountIDVStack.axis = .vertical
+
+        /// - Tag: Phone Number
+        let phoneNumberHStack = UIStackView(arrangedSubviews: [
             phoneNumberTextField, smsValidationButton
         ])
-        phoneNumberFeildHStack.spacing = 8.0
-        phoneNumberFeildHStack.distribution = .fillProportionally
+        phoneNumberHStack.spacing = 8.0
+        phoneNumberHStack.distribution = .fillProportionally
         
-        let phoneNumberFieldVStack = UIStackView(arrangedSubviews: [
-            phoneNumberFieldGuideLabel, phoneNumberFeildHStack])
-        phoneNumberFieldVStack.axis = .vertical
+        let phoneNumberVStack = UIStackView(arrangedSubviews: [
+            phoneNumberFieldGuideLabel, phoneNumberHStack])
+        phoneNumberVStack.axis = .vertical
         
-        let authCodeFieldHStack = UIStackView(arrangedSubviews: [
+        /// - Tag: Verification Code
+        let codeHStack = UIStackView(arrangedSubviews: [
             authCodeTextField, codeVerificationButton
         ])
-        authCodeFieldHStack.spacing = 8.0
-        authCodeFieldHStack.distribution = .fillProportionally
+        codeHStack.spacing = 8.0
+        codeHStack.distribution = .fillProportionally
         
-        let authCodeFieldVStack = UIStackView(arrangedSubviews: [
-            authCodeFieldGuideLabel, authCodeFieldHStack, secondAuthCodeFieldGuideLabel
+        let codeVStack = UIStackView(arrangedSubviews: [
+            authCodeFieldGuideLabel, codeHStack, secondAuthCodeFieldGuideLabel
         ])
         
-        authCodeFieldVStack.axis = .vertical
-        authCodeFieldVStack.setCustomSpacing(8.0, after: authCodeFieldHStack)
+        codeVStack.axis = .vertical
+        codeVStack.setCustomSpacing(8.0, after: codeHStack)
+        
+        /// - Tag: Input
+        
+        let inputVStack = UIStackView(arrangedSubviews: [
+            accountIDVStack, phoneNumberVStack, codeVStack
+        ])
+        inputVStack.axis = .vertical
+        inputVStack.spacing = 16
+
+        /// - Tag: Hierarchy
         
         let subViews: [UIView] = [
-            stepGuideLabel, phoneNumberFieldVStack, authCodeFieldVStack, remainingTimeLabel, nextStepButton
+            stepGuideLabel,
+            inputVStack,
+            remainingTimeLabel,
+            nextStepButton
         ]
         subViews.forEach(view.addSubview)
         
@@ -184,7 +210,7 @@ final class PhoneVerificationViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        phoneNumberFieldVStack.snp.makeConstraints { make in
+        inputVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(stepGuideLabel.snp.bottom).offset(52)
             make.centerX.equalToSuperview()
@@ -200,12 +226,6 @@ final class PhoneVerificationViewController: UIViewController {
             make.height.equalTo(48)
         }
         
-        authCodeFieldVStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(phoneNumberFieldVStack.snp.bottom).offset(16)
-            make.centerX.equalToSuperview()
-        }
-        
         remainingTimeLabel.snp.makeConstraints { make in
             make.trailing.equalTo(authCodeTextField.snp.trailing).inset(16)
             make.centerY.equalTo(authCodeTextField.snp.centerY)
@@ -217,5 +237,12 @@ final class PhoneVerificationViewController: UIViewController {
             make.height.equalTo(56)
             make.centerX.equalToSuperview()
         }
+    }
+    
+    private func applyItem(_ item: SMSValidationItem) {
+        stepGuideLabel.text = item.stepGuide
+        navigationItem.title = item.navItemTitle
+        accountIDTextField.isHidden = item.isHiddenAccountIDField
+        accountIDFieldGuideLabel.isHidden = item.isHiddenAccountIDField
     }
 }

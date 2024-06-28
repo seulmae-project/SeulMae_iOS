@@ -7,12 +7,12 @@
 
 import UIKit
 
-final class EmailRecoveryViewController: UIViewController {
+final class AccountIDRecoveryViewController: UIViewController {
     
     // MARK: - Flow
     
-    static func create(viewModel: EmailRecoveryViewModel) -> EmailRecoveryViewController {
-        let view = EmailRecoveryViewController()
+    static func create(viewModel: EmailRecoveryViewModel) -> AccountIDRecoveryViewController {
+        let view = AccountIDRecoveryViewController()
         view.viewModel = viewModel
         return view
     }

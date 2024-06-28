@@ -1,5 +1,5 @@
 //
-//  PhoneVerificationViewModel.swift
+//  SMSValidationViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/11/24.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class PhoneVerificationViewModel: ViewModel {
+final class SMSValidationViewModel: ViewModel {
     
     struct Input {
         let phoneNumber: Driver<String>
@@ -20,6 +20,7 @@ final class PhoneVerificationViewModel: ViewModel {
     }
     
     struct Output {
+        let item: Driver<SMSValidationItem>
         let validatedPhoneNumber: Driver<ValidationResult>
         let smsValidationEnabled: Driver<Bool>
         let validatedSMS: Driver<Bool>
@@ -38,6 +39,8 @@ final class PhoneVerificationViewModel: ViewModel {
 
     private let wireframe: Wireframe
     
+    private let item: SMSValidationItem
+    
     // MARK: - Life Cycle
     
     init(
@@ -45,13 +48,15 @@ final class PhoneVerificationViewModel: ViewModel {
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
             validationService: ValidationService,
-            wireframe: Wireframe
+            wireframe: Wireframe,
+            item: SMSValidationItem
         )
     ) {
         self.coordinator = dependency.coordinator
         self.authUseCase = dependency.authUseCase
         self.validationService = dependency.validationService
         self.wireframe = dependency.wireframe
+        self.item = dependency.item
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -123,6 +128,7 @@ final class PhoneVerificationViewModel: ViewModel {
         }
         
         return Output(
+            item: .just(item),
             validatedPhoneNumber: validatedPhoneNumber,
             smsValidationEnabled: smsValidationEnabled,
             validatedSMS: validatedSMS,
