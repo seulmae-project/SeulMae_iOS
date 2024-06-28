@@ -32,7 +32,7 @@ extension UIImageView {
 // MARK: - UILabel
 
 extension UILabel {
-    static func title(title: String) -> UILabel {
+    static func title(title: String = "") -> UILabel {
         let label = UILabel()
         label.text = title
         label.numberOfLines = 2
@@ -40,7 +40,7 @@ extension UILabel {
         return label
     }
     
-    static func callout(title: String) -> UILabel {
+    static func callout(title: String = "") -> UILabel {
         let label = UILabel()
         label.text = title
         label.font = .systemFont(ofSize: 16)
@@ -59,7 +59,7 @@ extension UILabel {
 // MARK: - UIButton
 
 extension UIButton {
-    static func common(title: String, cornerRadius: CGFloat = 8.0, isEnabled: Bool = true) -> UIButton {
+    static func common(title: String = "", cornerRadius: CGFloat = 8.0, isEnabled: Bool = true) -> UIButton {
         let button = UIButton()
         button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
