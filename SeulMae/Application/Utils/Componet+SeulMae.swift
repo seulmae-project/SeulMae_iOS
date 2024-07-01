@@ -64,7 +64,7 @@ extension UIButton {
         button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = UIColor(hexCode: "0086FF") // UIColor(hexCode: "D0D0D0")
+        button.backgroundColor = .primary
         button.layer.cornerRadius = cornerRadius
         button.layer.cornerCurve = .continuous
         return button
