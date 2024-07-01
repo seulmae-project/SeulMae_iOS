@@ -147,7 +147,7 @@ class CalendarView: UIView {
         /// Tag: add next month day
         totalDayCount = totalDayCount % 7 == 0 ? totalDayCount : totalDayCount + 7 - (totalDayCount % 7)
         
-        var items = (1...totalDayCount).map {
+        let items = (1...totalDayCount).map {
             if $0 <= previousDayCount {
                 /// Tag: previous month day
                 let previousMonth = currentMonth < 2 ? 12 : currentMonth - 1
