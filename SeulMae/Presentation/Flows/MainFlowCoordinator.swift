@@ -8,7 +8,7 @@
 import UIKit
 
 protocol MainFlowCoordinatorDependencies {
-    func makeMainViewController(coordinator: MainFlowCoordinator) -> ViewController
+    func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
 }
 
 protocol MainFlowCoordinator {
