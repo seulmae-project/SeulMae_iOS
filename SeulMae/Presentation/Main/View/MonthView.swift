@@ -9,6 +9,8 @@ import UIKit
 
 final class MonthView: UIView {
     
+    // MARK: - Internal Types
+    
     struct CalendarConfiguration {
         struct LabelProperties {
             var textColor: UIColor = .label
@@ -25,7 +27,7 @@ final class MonthView: UIView {
         var previousMonthButtonProperties: ButtonProperties = ButtonProperties()
     }
         
-    // MARK: - UI
+    // MARK: - UI Properties
     
     private lazy var monthLabel: UILabel = {
         let label = UILabel()
@@ -70,7 +72,7 @@ final class MonthView: UIView {
 //        "JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"
 //    ]
 
-    // MARK: - Life Cycle
+    // MARK: - Life Cycle Methods
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -108,7 +110,7 @@ final class MonthView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    // MARK: - Handler
+    // MARK: - Handler Methods
     
     @objc func didButtonSelected(_ sender: UIButton) {
         presentMonth += (sender == previousMonthButton) ? 1 : -1
