@@ -12,7 +12,13 @@ import RxCocoa
 final class MainViewModel: ViewModel {
     
     struct Input {
-        
+        let showWorkplace: Signal<()>
+        let changeWorkplace: Signal<()>
+        let showRemainders: Signal<()>
+        let showMemberDetail: Signal<()>
+        let showNotices: Signal<()>
+        let workStart: Signal<()>
+        let addWorkLog: Signal<()>
     }
     
     struct Output {
