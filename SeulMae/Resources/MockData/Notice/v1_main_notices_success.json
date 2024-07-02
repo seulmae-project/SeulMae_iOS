@@ -1,0 +1,26 @@
+{
+  "data": [
+    {
+      "announcementId": 14,
+      "title": "공지상213124124124122145"
+    },
+    {
+      "announcementId": 13,
+      "title": "공지상21312412412412245"
+    },
+    {
+      "announcementId": 12,
+      "title": "공지상2131241241241245"
+    },
+    {
+      "announcementId": 11,
+      "title": "공지상2135"
+    },
+    {
+      "announcementId": 10,
+      "title": "공지상213"
+    }
+  ],
+  "status": 200,
+  "resultMsg": "SELECT SUCCESS"
+}

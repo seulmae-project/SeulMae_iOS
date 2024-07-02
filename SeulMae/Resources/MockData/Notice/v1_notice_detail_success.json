@@ -1,0 +1,12 @@
+{
+  "data": {
+    "workplaceId": 1,
+    "title": "첫공지",
+    "content": "내용이다",
+    "regDate": "2024-06-27",
+    "revisionDate": "2024-06-27",
+    "views": 1
+  },
+  "status": 200,
+  "resultMsg": "SELECT SUCCESS"
+}

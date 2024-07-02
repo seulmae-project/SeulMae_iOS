@@ -1,0 +1,7 @@
+{
+  "status": 403,
+  "divisionCode": "G009",
+  "resultMsg": "Forbidden Exception",
+  "errors": null,
+  "reason": "해당 근무지 소속이 아닙니다."
+}

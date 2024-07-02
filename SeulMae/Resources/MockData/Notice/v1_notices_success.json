@@ -1,0 +1,45 @@
+{
+  "data": {
+    "data": [
+      {
+        "announcementId": 14,
+        "title": "공지상213124124124122145",
+        "content": "내용이다",
+        "regDate": "2024.06.27",
+        "views": 0
+      },
+      {
+        "announcementId": 13,
+        "title": "공지상21312412412412245",
+        "content": "내용이다",
+        "regDate": "2024.06.27",
+        "views": 0
+      },
+      {
+        "announcementId": 12,
+        "title": "공지상2131241241241245",
+        "content": "내용이다",
+        "regDate": "2024.06.27",
+        "views": 0
+      },
+      {
+        "announcementId": 11,
+        "title": "공지상2135",
+        "content": "내용이다",
+        "regDate": "2024.06.27",
+        "views": 0
+      },
+      {
+        "announcementId": 10,
+        "title": "공지상213",
+        "content": "내용이다",
+        "regDate": "2024.06.27",
+        "views": 0
+      }
+    ],
+    "totalPages": 3,
+    "totalElements": 14
+  },
+  "status": 200,
+  "resultMsg": "SELECT SUCCESS"
+}
