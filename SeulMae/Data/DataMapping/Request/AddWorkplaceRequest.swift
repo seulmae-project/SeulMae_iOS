@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AddWorkplaceRequest {
+struct AddWorkplaceRequest: ModelType {
     var workplaceName: String
     var mainAddress: String
     var subAddress: String

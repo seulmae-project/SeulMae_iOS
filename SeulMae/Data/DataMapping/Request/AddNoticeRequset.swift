@@ -6,3 +6,10 @@
 //
 
 import Foundation
+
+struct AddNoticeRequset: ModelType {
+    let workplaceId: Int
+    let title: String
+    let content: String
+    let isImportant: Bool
+}

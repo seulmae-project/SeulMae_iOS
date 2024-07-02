@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+struct UpdateNoticeRequest: ModelType {
+    let title: String
+    let content: String
+    let isImportant: Bool
+}
