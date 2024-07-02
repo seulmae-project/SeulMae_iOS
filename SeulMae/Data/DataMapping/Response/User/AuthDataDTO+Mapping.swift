@@ -24,11 +24,11 @@ extension BaseResponseDTO<AuthDataDTO> {
     func toDomain() throws -> Token {
         guard let token = data?.tokenResponse else {
             if let reason {
-                throw DomainError.faildedToSignin(reason)
+                throw APIError.faildedToSignin(reason)
             }
             
             let keyPath = String(describing: \AuthDataDTO.tokenResponse)
-            throw DomainError.empty(keyPath)
+            throw APIError.empty(keyPath)
         }
         
         return try token.toDomain()
@@ -39,7 +39,7 @@ extension AuthDataDTO.TokenDTO {
     func toDomain() throws -> Token {
         guard let accessToken else {
             let keyPath = NSExpression(forKeyPath: \AuthDataDTO.TokenDTO.accessToken).keyPath
-            throw DomainError.empty(keyPath)
+            throw APIError.empty(keyPath)
         }
         return Token(
             accessToken: accessToken,

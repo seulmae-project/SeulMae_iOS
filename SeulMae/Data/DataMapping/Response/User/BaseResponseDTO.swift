@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct BaseResponseDTO<T: Codable>: ModelType {
-    let data: T?
+struct BaseResponseDTO<Data: Codable>: ModelType {
+    let data: Data?
     let status: Int?
     let resultMsg: String?
     let divisionCode: String?
