@@ -20,12 +20,38 @@ var signinResponse_failed: BaseResponseDTO<AuthDataDTO> = load("signin-failed.js
 var passwordRecoveryResponse_success: BaseResponseDTO<String> = load("password-recovery-success.json")
 var passwordRecoveryResponse_failed: BaseResponseDTO<String> = load("password-recovery-failed.json")
 
-// MARK: - Workplace
+enum MockData {
+    
+    // MARK: - WorkplaceAPI
+    
+    enum WorkplaceAPI {
+        static let addSuccess: BaseResponseDTO<Bool> = load("v1_add_workplace_success.json")
+        static let workplacesSuccess: BaseResponseDTO<[WorkplaceDTO]> = load("v1_workplaces_success.json")
+        static let detailSuccess: BaseResponseDTO<WorkplaceDTO> = load("v1_workplace_detail_success.json")
+        static let updateSuccess: BaseResponseDTO<Bool> = load("v1_update_workplace_success.json")
+        static let deleteSuccess: BaseResponseDTO<Bool> = load("v1_delete_workplace_success.json")
+        static let submitApplicationSuccess: BaseResponseDTO<Bool> = load("v1_submit_application_success.json")
+        static let acceptApplicationSuccess: BaseResponseDTO<Bool> = load("v1_accept_application_success.json")
+        static let denyApplicationSuccess: BaseResponseDTO<Bool> = load("v1_deny_application_success.json")
+    }
+    
+    // MARK: - NoticeAPI
 
-var addWorkplaceResponse_success: BaseResponseDTO<String> = load("v1-add-success.json")
-var getWorkplaceListRequestResponse_success: BaseResponseDTO<[WorkplaceDTO]> = load("v1-info-all-success.json")
-var getWorkplaceResponse_success: BaseResponseDTO<String> = load("v1-info-success.json")
-var deleteWorkplaceResponse_success: BaseResponseDTO<String> = load("v1-delete-success.json")
+    enum NoticeAPI {
+        static let addSuccess: BaseResponseDTO<Bool> = load("v1_add_notice_success.json")
+        static let addFailed: BaseResponseDTO<Bool> = load("v1_add_notice_failed.json")
+        static let updateSuccess: BaseResponseDTO<Bool> = load("v1_update_notice_success.json")
+        static let updateFailed: BaseResponseDTO<Bool> = load("v1_update_notice_failed.json")
+        static let detailSuccess: BaseResponseDTO<NoticeDetailDTO> = load("v1_notice_detail_success.json")
+        static let detailFailed: BaseResponseDTO<NoticeDetailDTO> = load("v1_notice_detail_failed.json")
+        static let noticesSuccess: BaseResponseDTO<[NoticeDTO]> = load("v1_notices_success.json")
+        static let noticesFailed: BaseResponseDTO<[NoticeDTO]> = load("v1_notices_Failed.json")
+        static let mustReadNoticesSuccess: BaseResponseDTO<[NoticeDTO]> = load("v1_must_read_notices_success.json")
+        static let mainNoticesSuccess: BaseResponseDTO<[NoticeDTO]> = load("v1_main_notices_success.json")
+        static let deleteSuccess: BaseResponseDTO<Bool> = load("v1_delete_notice_success.json")
+        static let deleteFailed: BaseResponseDTO<Bool> = load("v1_delete_notice_failed.json")
+    }
+}
 
 func load<T: ModelType>(_ filename: String) -> T {
     let data: Data
