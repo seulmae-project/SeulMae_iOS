@@ -18,10 +18,16 @@ protocol MainRepository {
     func fetchWorkplaceDetail(_ workplaceID: String) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(_ workplaceID: String) -> Single<Bool>
-    func submitApplication(_workplaceID: String) -> Single<Bool>    // body
-    func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
-    func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
+    func submitApplication(_ workplaceID: String) -> Single<Bool>    // body
+    func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
+    func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     
     /// - Tag: Common
-   
+    func addNotice(_ request: AddNoticeRequset) -> Single<Bool>
+    func updateNotice(noticeID: String, _ request: UpdateNoticeRequest) -> Single<Bool>
+    func fetchNoticeDetail(noticeID: String) -> Single<NoticeDetail>
+    func fetchAllNotice(workplaceID: String, page: Int, size: Int) -> Single<[Notice]>
+    func fetchMustReadNoticeList(workplaceID: Int) -> Single<[Notice]>
+    func fetchMainNoticeList(workplaceID: Int) -> Single<[Notice]>
+    func deleteNotice(noticeID: Int) -> Single<Bool>
 }
