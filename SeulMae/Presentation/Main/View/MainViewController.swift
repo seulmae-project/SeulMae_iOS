@@ -40,10 +40,6 @@ class MainViewController: UIViewController {
         static let addWorkLog = "근무 등록"
     }
     
-    // MARK: - Dependencies
-    
-    private var viewModel: MainViewModel!
-    
     // MARK: - UI Properties
     
     private let scrollView: UIScrollView = .init()
@@ -76,6 +72,10 @@ class MainViewController: UIViewController {
     
     private var memberDataSource: MemberDataSource!
     
+    // MARK: - Dependencies
+    
+    private var viewModel: MainViewModel!
+    
     // MARK: - Life Cycle Methods
     
     override func viewDidLoad() {
@@ -83,9 +83,10 @@ class MainViewController: UIViewController {
         
         configureNavItem()
         configureHierarchy()
+        bindInternalSubviews()
     }
     
-    // MARK: - Navi Item
+    // MARK: - Nav Item
     
     private func configureNavItem() {
         // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리
@@ -97,6 +98,7 @@ class MainViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindInternalSubviews() {
+    
         let output = viewModel.transform(
             .init(
                 showWorkplace: .empty(),
@@ -104,10 +106,16 @@ class MainViewController: UIViewController {
                 showRemainders: .empty(),
                 showMemberDetail: .empty(),
                 showNotices: .empty(),
-                workStart: .empty(),
-                addWorkLog: .empty()
+                workStart: workStartButton.rx.tap.asSignal(),
+                addWorkLog: addWorkLogButton.rx.tap.asSignal()
             )
         )
+        
+        Task {
+            for await item in output.members.values {
+                Swift.print(#fileID, "(MainVC) Did received members")
+            }
+        }
         
         //        Task {
         //            for await item in output.item.values {

@@ -22,6 +22,7 @@ final class MainViewModel: ViewModel {
     }
     
     struct Output {
+        let members: Driver<Member>
     
     }
     
@@ -29,8 +30,8 @@ final class MainViewModel: ViewModel {
     
 //    private let coordinator: AuthFlowCoordinator
 //    
-//    private let authUseCase: AuthUseCase
-//    
+    private let workplaceUseCase: WorkplaceUseCase
+//
 //    private let validationService: ValidationService
 //
 //    private let wireframe: Wireframe
@@ -55,6 +56,19 @@ final class MainViewModel: ViewModel {
         
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
+        
+        Task {
+            for await item in input.workStart.values {
+                Swift.print("Work start button taapped!")
+            }
+        }
+        
+        Task {
+            for await item in input.addWorkLog.values {
+                Swift.print("Add work log button taapped!")
+            }
+        }
+        
        
         // MARK: Code Verification
         
@@ -94,7 +108,7 @@ final class MainViewModel: ViewModel {
 //        }
         
         return Output(
-       
+            members: .empty()
         )
     }
 }
