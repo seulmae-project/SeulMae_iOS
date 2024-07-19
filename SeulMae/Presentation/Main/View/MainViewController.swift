@@ -150,6 +150,11 @@ class MainViewController: UIViewController {
     private func configureHierarchy() {
         view.backgroundColor = .systemBackground
         
+        let separator = UIView()
+        separator.backgroundColor = .separator
+        separator.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        
         let workButtonHStack = UIStackView(arrangedSubviews: [
             workStartButton,
             addWorkLogButton
@@ -170,27 +175,31 @@ class MainViewController: UIViewController {
         modalVStack.spacing = 16
         
         /// - Tag: Hierarchy
-        
-        let subViews: [UIView] = [
-            label,
-            calendarView,
+        let stack = UIStackView(arrangedSubviews: [
             noticeView,
+            separator,
+            label
+        ])
+        
+        stack.axis = .vertical
+        stack.spacing = 16
+
+        let subViews: [UIView] = [
+            stack,
+            calendarView,
             modalVStack
         ]
         subViews.forEach(view.addSubview)
-        
         
         noticeView.snp.makeConstraints { make in
             make.height.equalTo(64)
         }
         
-        noticeView.snp.makeConstraints { make in
+        stack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.top.equalTo(view.snp_topMargin).inset(16)
             make.centerX.equalToSuperview()
         }
-        
-        
         
         workButtonHStack.snp.makeConstraints { make in
             make.height.equalTo(56)
