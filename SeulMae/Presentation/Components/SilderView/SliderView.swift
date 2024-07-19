@@ -68,6 +68,8 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
         }
     }
     
+    var itemSize: Double?
+    
     override public init(frame: CGRect) {
         super.init(frame: frame)
         initialSetup()
@@ -145,21 +147,21 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
         let bottomInset = (pageControl?.frame.size)
             .map { frameCalculator.underPadding(for: $0) } ?? 0
         scrollView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - bottomInset)
-        scrollView.contentSize = CGSize(width: scrollView.frame.width * CGFloat(items.count), height: scrollView.frame.height)
-        layoutContentViews()
-        // moveTo(pageIndex: 0, animated: false)
-        
-        self.bringSubviewToFront(pageControl!)
+        let width = itemSize ?? scrollView.frame.width
+            scrollView.contentSize = CGSize(width: width * CGFloat(items.count), height: scrollView.frame.height)
+            layoutContentViews(itemSize: itemSize)
+        moveTo(pageIndex: 0, animated: false)
     }
     
-    private func layoutContentViews() {
+    private func layoutContentViews(itemSize: Double? = nil) {
         if let contentViews = items as? [UIView] {
             Swift.print(#function, #fileID, "items count: \(items)")
             for (index, view) in contentViews.enumerated() {
+                let width = itemSize ?? scrollView.frame.width
                 view.frame = CGRect(
-                    x: scrollView.frame.width * CGFloat(index),
+                    x: width * CGFloat(index),
                     y: 0,
-                    width: scrollView.frame.width,
+                    width: width,
                     height: scrollView.frame.height
                 )
             }

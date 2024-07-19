@@ -46,17 +46,9 @@ class MainViewController: UIViewController {
     
     private let reminderBarButton: UIBarButtonItem = .init()
     
-    private lazy var memberCollectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .systemBackground
-        collectionView.showsHorizontalScrollIndicator = false
-        collectionView.showsVerticalScrollIndicator = false
-        return collectionView
-    }()
+    private let memberSliderView = SliderView<MemberView>()
     
-    private let noticeView: SliderView<NoticeView> = SliderView()
-    // 공지 뷰 > 커스텀..? 슬라이더 뷰 수정해서 쓰기
+    private let noticeSliderView = SliderView<NoticeView>()
     
     private let label: UILabel = .title(title: "이번달\n-- 을 확인해 보세요")
     
@@ -70,7 +62,6 @@ class MainViewController: UIViewController {
     
     // MARK: - Properties
     
-    private var memberDataSource: MemberDataSource!
     
     // MARK: - Dependencies
     
@@ -114,6 +105,11 @@ class MainViewController: UIViewController {
         Task {
             for await members in output.members.values {
                 Swift.print(#fileID, "(MainVC) Did received members: \(members)")
+                memberSliderView.items = members.map { member in
+                    let view = MemberView()
+                    view.member = member
+                    return view
+                }
             }
         }
         
@@ -127,7 +123,7 @@ class MainViewController: UIViewController {
         Task {
             for await notices in output.notices.values {
                 Swift.print(#fileID, "(MainVC) Did received notices: \(notices)")
-                noticeView.items = notices.map { notice in
+                noticeSliderView.items = notices.map { notice in
                     let view = NoticeView()
                     view.title = notice.title
                     return view
@@ -175,9 +171,13 @@ class MainViewController: UIViewController {
         modalVStack.axis = .vertical
         modalVStack.spacing = 16
         
+        memberSliderView.itemSize = 44
+        // inset + margin 줄 수 있게끔
+        
         /// - Tag: Hierarchy
         let stack = UIStackView(arrangedSubviews: [
-            noticeView,
+            memberSliderView,
+            noticeSliderView,
             separator,
             label
         ])
@@ -192,7 +192,11 @@ class MainViewController: UIViewController {
         ]
         subViews.forEach(view.addSubview)
         
-        noticeView.snp.makeConstraints { make in
+        memberSliderView.snp.makeConstraints { make in
+            make.height.equalTo(44)
+        }
+        
+        noticeSliderView.snp.makeConstraints { make in
             make.height.equalTo(64)
         }
         
@@ -211,50 +215,6 @@ class MainViewController: UIViewController {
             make.bottom.equalTo(view.snp_bottomMargin).inset(16)
             make.centerX.equalToSuperview()
         }
-    }
-    
-    // MARK: - DataSource
-    
-    private func configureDataSource() {
-        let memberCellRegistration = createMemberCellRegistration()
-        
-        memberDataSource = MemberDataSource(collectionView: memberCollectionView) { (view, index, item) in
-            view.dequeueConfiguredReusableCell(using: memberCellRegistration, for: index, item: item)
-        }
-    }
-    
-    // MARK: - Snapshot
-    
-    private func applySnapshot(items: [Item]) {
-        var snapshot = MemberSnapshot()
-        let sections = Section.allCases
-        snapshot.appendSections(sections)
-        snapshot.appendItems(items, toSection: .list)
-        memberDataSource.apply(snapshot)
-    }
-    
-    // MARK: - Cell Registration
-    
-    private func createMemberCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-            var content = MemberContentView.Configuration()
-            content.imageURL = item.imageURL
-            content.isManager = item.isManager
-        }
-    }
-    
-    // MARK: - UICollectionViewLayout
-    
-    func createLayout() -> UICollectionViewLayout {
-        let item = NSCollectionLayoutItem(layoutSize: .init(widthDimension: .fractionalWidth(0.2), heightDimension: .fractionalHeight(1.0)))
-        item.contentInsets = NSDirectionalEdgeInsets(top: 5, leading: 5, bottom: 5, trailing: 5)
-        let group = NSCollectionLayoutGroup.horizontal(layoutSize: .init(widthDimension: .fractionalWidth(0.28), heightDimension: .fractionalWidth(0.2)), subitems: [item])
-        let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 10
-        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-        section.contentInsets = NSDirectionalEdgeInsets(top: 10, leading: 10, bottom: 10, trailing: 10)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
     }
 }
 

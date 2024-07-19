@@ -1,22 +1,24 @@
 //
-//  MemberContentView.swift
+//  MemberView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/2/24.
 //
 
 import UIKit
+import Kingfisher
 
-class MemberContentView: UIView, UIContentView {
+final class MemberView: UIView {
     
-    // MARK: Internal Types
-    
-    struct Configuration: UIContentConfiguration {
-        var imageURL: String = ""
-        var isManager: Bool = false
-        
-        func makeContentView() -> UIView & UIContentView {
-            return MemberContentView(self)
+    var member: Member? {
+        didSet {
+            guard let member else { return }
+            if let imageURL = URL(string: member.imageURL) {
+                memberImageView.kf.setImage(with: imageURL, options: [
+                    .onFailureImage(UIImage(systemName: "circle.fill"))
+                ])
+            }
+            iconImageView.isHidden = !(member.isManager)
         }
     }
     
@@ -38,39 +40,11 @@ class MemberContentView: UIView, UIContentView {
         return imageView
     }()
     
-    // MARK: - Properties
-        
-    var configuration: UIContentConfiguration {
-        didSet {
-            apply(config: configuration)
-        }
-    }
-    
     // MARK: Life Cycle Methods
-            
-    init(_ configuration: UIContentConfiguration) {
-        self.configuration = configuration
-        super.init(frame: .zero)
-        setupInternalViews()
-    }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    override var intrinsicContentSize: CGSize {
-        CGSize(width: 0, height: 44)
-    }
-    
-    // MARK: - Configuration Methods
+    override init(frame: CGRect) {
+        super.init(frame: frame)
         
-    func apply(config: UIContentConfiguration) {
-        guard let config = config as? Configuration else { return }
-        // memberImageView. = config.imageURL
-        iconImageView.isHidden = !config.isManager
-    }
-    
-    private func setupInternalViews() {
         addSubview(memberImageView)
         NSLayoutConstraint.activate([
             memberImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -85,5 +59,19 @@ class MemberContentView: UIView, UIContentView {
             iconImageView.leadingAnchor.constraint(equalTo: memberImageView.leadingAnchor, constant: -inset),
             iconImageView.topAnchor.constraint(equalTo: memberImageView.topAnchor, constant: -inset)
         ])
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Configuration Methods
+    
+    func apply(config: UIContentConfiguration) {
+        
+    }
+    
+    private func setupInternalViews() {
+        
     }
 }

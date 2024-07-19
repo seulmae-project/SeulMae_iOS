@@ -7,8 +7,8 @@
 
 import Foundation
 
-struct Workplace {
-    let workplaceId: Int
+struct Workplace: Identifiable {
+    let id: Int
     let workplaceCode: String
     let workplaceName: String
     let workplaceTel: String
