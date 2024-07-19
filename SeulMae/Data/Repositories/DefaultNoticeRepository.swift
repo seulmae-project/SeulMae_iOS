@@ -1,5 +1,5 @@
 //
-//  DefaultMainRepository.swift
+//  DefaultNoticeRepository.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/22/24.
@@ -9,7 +9,7 @@ import Moya
 import RxMoya
 import RxSwift
 
-class DefaultMainRepository: MainRepository {
+class DefaultNoticeRepository: NoticeRepository {
     
     // MARK: - Dependancies
     
