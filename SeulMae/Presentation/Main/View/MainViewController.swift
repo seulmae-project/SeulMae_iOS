@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
         return collectionView
     }()
     
-    private let noticeView: UIView = UIView()
+    private let noticeView: SliderView<NoticeView> = SliderView()
     // 공지 뷰 > 커스텀..? 슬라이더 뷰 수정해서 쓰기
     
     private let label: UILabel = .title(title: "이번달\n-- 을 확인해 보세요")
@@ -112,8 +112,25 @@ class MainViewController: UIViewController {
         )
         
         Task {
-            for await item in output.members.values {
-                Swift.print(#fileID, "(MainVC) Did received members")
+            for await members in output.members.values {
+                Swift.print(#fileID, "(MainVC) Did received members: \(members)")
+            }
+        }
+        
+        Task {
+            for await remainders in output.notices.values {
+                Swift.print(#fileID, "(MainVC) Did received remainders: \(remainders)")
+            }
+        }
+        
+        Task {
+            for await notices in output.notices.values {
+                Swift.print(#fileID, "(MainVC) Did received notices: \(notices)")
+                noticeView.items = notices.map { notice in
+                    let view = NoticeView()
+                    view.title = notice.title
+                    return view
+                }
             }
         }
         
@@ -157,9 +174,23 @@ class MainViewController: UIViewController {
         let subViews: [UIView] = [
             label,
             calendarView,
+            noticeView,
             modalVStack
         ]
         subViews.forEach(view.addSubview)
+        
+        
+        noticeView.snp.makeConstraints { make in
+            make.height.equalTo(64)
+        }
+        
+        noticeView.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(16)
+            make.top.equalTo(view.snp_topMargin).inset(16)
+            make.centerX.equalToSuperview()
+        }
+        
+        
         
         workButtonHStack.snp.makeConstraints { make in
             make.height.equalTo(56)

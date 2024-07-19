@@ -22,15 +22,20 @@ final class MainViewModel: ViewModel {
     }
     
     struct Output {
-        let members: Driver<Member>
-    
+        let members: Driver<[Member]>
+        let notices: Driver<[Notice]>
     }
     
     // MARK: - Dependency
     
 //    private let coordinator: AuthFlowCoordinator
-//    
-    private let workplaceUseCase: WorkplaceUseCase
+    
+    // TODO: workplace 변경시 변경되어야 함 userInfo?
+    private let workplaceIdentifer: Int = 0
+    
+    private let workplaceUseCase: WorkplaceUseCase = DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository())
+    
+    private let noticeUseCase: NoticeUseCase = DefaultNoticeUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking()))
 //
 //    private let validationService: ValidationService
 //
@@ -58,16 +63,21 @@ final class MainViewModel: ViewModel {
         let loading = indicator.asDriver()
         
         Task {
-            for await item in input.workStart.values {
+            for await _ in input.workStart.values {
                 Swift.print("Work start button taapped!")
             }
         }
         
         Task {
-            for await item in input.addWorkLog.values {
+            for await _ in input.addWorkLog.values {
                 Swift.print("Add work log button taapped!")
             }
         }
+        
+        let notices = noticeUseCase.fetchMainNoticeList(workplaceID: workplaceIdentifer)
+            .asDriver()
+        
+        
         
        
         // MARK: Code Verification
@@ -108,7 +118,8 @@ final class MainViewModel: ViewModel {
 //        }
         
         return Output(
-            members: .empty()
+            members: .empty(),
+            notices: notices
         )
     }
 }
