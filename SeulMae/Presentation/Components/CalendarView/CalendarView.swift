@@ -19,17 +19,19 @@ class CalendarView: UIView {
         case day
     }
     
-    struct Item: Hashable {
+    struct Item: Hashable, Identifiable {
         enum ItemType {
             case weekday, day
         }
         
+        let id: String
         let itemType: ItemType
         let weekday: String?
         let day: Int?
         let status: DayContentView.Configuration.Status?
         
         init(weekday: String) {
+            self.id = UUID().uuidString
             self.itemType = .weekday
             self.weekday = weekday
             self.day = nil
@@ -37,6 +39,7 @@ class CalendarView: UIView {
         }
         
         init(day: Int, status: DayContentView.Configuration.Status) {
+            self.id = UUID().uuidString
             self.itemType = .day
             self.day = day
             self.status = status
@@ -48,12 +51,14 @@ class CalendarView: UIView {
     
     private lazy var calendarCollectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: bounds, collectionViewLayout: createLayout())
+        Swift.print("collectionView.bounds: \(collectionView.bounds)")
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
+    
+    private var calendarControl = MonthView()
     
     // MARK: - Properties
     
@@ -80,21 +85,43 @@ class CalendarView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = .gray
+        
         let now = Date.ext.now
-        currentYear = Calendar.current.component(.year, from:  now)
+        currentYear = Calendar.current.component(.year, from: now)
         currentMonth = Calendar.current.component(.month, from: now)
-        currentDay = Calendar.current.component(.day, from: Date())
+        currentDay = Calendar.current.component(.day, from: now)
         firstWeekDay = now.ext.firstWeekDay
+        
+        configureHierarchy()
+        configureDataSource()
+        Swift.print(#function, #fileID, "test")
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        Swift.print(#function, #fileID, "view: \(frame)")
+        Swift.print("calendarControl: \(calendarControl.frame)")
+        Swift.print("calendarCollectionView: \(calendarCollectionView.frame)")
+        
+        calendarControl.frame = CGRect(origin: .zero, size: CGSize(width: 94, height: 24))
+        
+        addSubview(calendarCollectionView)
+        calendarCollectionView.frame = CGRect(x: 0, y: 24, width: frame.width, height: frame.height - 24)
+    }
+    
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
-        addSubview(calendarCollectionView)
+        addSubview(calendarControl)
+        // 이친구도 높이를 어떻게 정할 것인가..?
+//        calendarControl.frame = CGRect(origin: frame.origin, size: CGSize(width: frame.width, height: 100))
+//        
+//        addSubview(calendarCollectionView)
+//        calendarCollectionView.frame = CGRect(x: 0, y: 100, width: frame.width, height: frame.height - 100)
 //        collectionView.snp.makeConstraints {
 //            $0.leading.trailing.top.bottom.equalToSuperview()
 //        }
@@ -134,6 +161,7 @@ class CalendarView: UIView {
     
     private func createDayItem() -> [Item] {
         var currentDayCount = numOfDaysInMonth[currentMonth - 1]
+        Swift.print("currentDayCount: \(currentDayCount)")
         ForLeapYears: if currentYear.ext.isLeapYear && currentMonth == 2 {
             currentDayCount += 1
         }
@@ -142,33 +170,44 @@ class CalendarView: UIView {
         
         /// Tag: add previous month day
         let previousDayCount = (firstWeekDay - 1)
+        Swift.print("previousDayCount: \(previousDayCount)")
         totalDayCount += previousDayCount
         
         /// Tag: add next month day
         totalDayCount = totalDayCount % 7 == 0 ? totalDayCount : totalDayCount + 7 - (totalDayCount % 7)
         
+        Swift.print("totalDayCount: \(totalDayCount)")
+        
         let items = (1...totalDayCount).map {
             if $0 <= previousDayCount {
                 /// Tag: previous month day
-                let previousMonth = currentMonth < 2 ? 12 : currentMonth - 1
+                let previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1
                 var previousMonthCount = numOfDaysInMonth[previousMonth - 1]
                 ForLeapYears: if currentYear.ext.isLeapYear && previousMonth == 2 {
                     previousMonthCount += 1
                 }
                 
+                // 30 -(2 - 2)
+                print("previousMonthCount: \(previousMonthCount)")
+                print("firstWeekDay: \(firstWeekDay)")
+                // 31
                 let day = previousMonthCount - (firstWeekDay - 2)
+                print("1 $0: \($0), day: \(day)")
                 return Item(day: day, status: .normal)
             } else if $0 > (currentDayCount + previousDayCount) {
                 /// Tag: next month day
                 let day = $0 - (currentDayCount + previousDayCount)
+                print("2 $0: \($0), day: \(day)")
                 return Item(day: day, status: .normal)
             } else {
                 /// Tag: current month day
-                let day = ($0 - firstWeekDay - 1)
+                let day = ($0 - (firstWeekDay - 1))
+                print("3 $0: \($0), day: \(day)")
                 return Item(day: day, status: .normal)
             }
         }
         
+        Swift.print(#function, #fileID, "items.count: \(items.count)")
         return items
     }
     
@@ -181,29 +220,42 @@ class CalendarView: UIView {
     
     private func createWeekdayCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
+            Swift.print(#function, #fileID, "test1")
+
             var content = cell.defaultContentConfiguration()
             content.text = item.weekday
             content.textProperties.font = .systemFont(ofSize: 16, weight: .semibold)
             content.textProperties.color = .graphite
+            cell.contentConfiguration = content
+
         }
     }
     
     private func createDateCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
+            Swift.print(#function, #fileID, "test2")
+
             var content = DayContentView.Configuration()
             content.day = item.day
             content.status = item.status ?? .normal
+            
+            cell.contentConfiguration = content
         }
     }
     
-    // MARK: - CollectionView Layout
+    // MARK: - UICollectionViewLayout
     
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             let item = NSCollectionLayoutItem(
-                layoutSize: .init(widthDimension: .fractionalWidth(44), heightDimension: .estimated(44)))
+                layoutSize: .init(
+                    widthDimension: .fractionalWidth(1.0 / 7.0),
+                    heightDimension: .estimated(44)))
+            // item.contentInsets = NSDirectionalEdgeInsets(top: 2, leading: 2, bottom: 2, trailing: 2)
             let group = NSCollectionLayoutGroup.horizontal(
-                layoutSize: .init(widthDimension: .estimated(44), heightDimension: .estimated(44)),
+                layoutSize: .init(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .estimated(44)),
                 subitems: [item])
             let section = NSCollectionLayoutSection(group: group)
             return section

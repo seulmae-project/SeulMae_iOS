@@ -77,6 +77,8 @@ final class MonthView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
+        backgroundColor = .systemPink
+        
         presentMonth = Calendar.current.component(.month, from: Date()) - 1
         presentYear = Calendar.current.component(.year, from: Date())
         

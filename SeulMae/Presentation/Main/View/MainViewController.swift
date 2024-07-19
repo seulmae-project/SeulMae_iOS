@@ -52,7 +52,7 @@ class MainViewController: UIViewController {
     
     private let label: UILabel = .title(title: "이번달\n-- 을 확인해 보세요")
     
-    private let calendarView: UIView = UIView()
+    private let calendarView = CalendarView()
     
     private let workStatusView: WorkStatusView = WorkStatusView()
     
@@ -179,7 +179,8 @@ class MainViewController: UIViewController {
             memberSliderView,
             noticeSliderView,
             separator,
-            label
+            label,
+            calendarView
         ])
         
         stack.axis = .vertical
@@ -187,7 +188,6 @@ class MainViewController: UIViewController {
 
         let subViews: [UIView] = [
             stack,
-            calendarView,
             modalVStack
         ]
         subViews.forEach(view.addSubview)
@@ -199,6 +199,15 @@ class MainViewController: UIViewController {
         noticeSliderView.snp.makeConstraints { make in
             make.height.equalTo(64)
         }
+        
+        calendarView.snp.makeConstraints { make in
+            // 1대 1말고 사이즈를 자동으로 계산했으면 하는데..?
+            // width 고정되어 있음
+            make.height.equalTo(450)
+        }
+        
+        Swift.print("calendarView.frame: \(calendarView.frame)")
+
         
         stack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
