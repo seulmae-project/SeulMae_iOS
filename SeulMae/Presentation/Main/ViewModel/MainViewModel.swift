@@ -31,7 +31,7 @@ final class MainViewModel: ViewModel {
 //    private let coordinator: AuthFlowCoordinator
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
-    private let workplaceIdentifer: Int = 0
+    private let workplaceIdentifier: Int = 0
     
     private let workplaceUseCase: WorkplaceUseCase = DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository())
     
@@ -74,11 +74,15 @@ final class MainViewModel: ViewModel {
             }
         }
         
-        let notices = noticeUseCase.fetchMainNoticeList(workplaceID: workplaceIdentifer)
+        let members = workplaceUseCase.fetchMemberList(workplaceIdentifier: workplaceIdentifier)
+            .asDriver()
+        
+        let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceIdentifier)
             .asDriver()
         
         
         
+
        
         // MARK: Code Verification
         
@@ -118,7 +122,7 @@ final class MainViewModel: ViewModel {
 //        }
         
         return Output(
-            members: .empty(),
+            members: members,
             notices: notices
         )
     }

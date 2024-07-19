@@ -119,6 +119,7 @@ class MainViewController: UIViewController {
         
         Task {
             for await remainders in output.notices.values {
+                // 알림 겟수 필요함
                 Swift.print(#fileID, "(MainVC) Did received remainders: \(remainders)")
             }
         }

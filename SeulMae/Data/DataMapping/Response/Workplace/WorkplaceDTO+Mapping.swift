@@ -8,7 +8,7 @@
 import Foundation
 
 struct WorkplaceDTO: ModelType {
-    let workplaceId: Int?
+    let id: Int?
     let workplaceCode: String?
     let workplaceName: String?
     let workplaceTel: String?
@@ -16,6 +16,8 @@ struct WorkplaceDTO: ModelType {
     let workplaceManagerName: String?
     let subAddress: String?
     let mainAddress: String?
+    
+    
 }
 
 // MARK: - Mappings To Domain
@@ -42,12 +44,12 @@ extension BaseResponseDTO<WorkplaceDTO> {
 
 extension WorkplaceDTO {
     func toDomain() throws -> Workplace {
-        guard let workplaceId else {
+        guard let id else {
             throw MappingError.invalidData(Self.self)
         }
         
         return .init(
-            workplaceId: workplaceId,
+            id: id,
             workplaceCode: workplaceCode ?? "",
             workplaceName: workplaceName ?? "",
             workplaceTel: workplaceTel ?? "",

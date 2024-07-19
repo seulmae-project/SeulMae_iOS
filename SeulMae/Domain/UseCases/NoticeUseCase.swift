@@ -10,12 +10,12 @@ import RxSwift
 
 protocol NoticeUseCase {
     func addNotice(_ request: AddNoticeRequset) -> Single<Bool>
-    func updateNotice(noticeID: String, _ request: UpdateNoticeRequest) -> Single<Bool>
-    func fetchNoticeDetail(noticeID: String) -> Single<NoticeDetail>
-    func fetchAllNotice(workplaceID: String, page: Int, size: Int) -> Single<[Notice]>
-    func fetchMustReadNoticeList(workplaceID: Int) -> Single<[Notice]>
-    func fetchMainNoticeList(workplaceID: Int) -> Single<[Notice]>
-    func deleteNotice(noticeID: Int) -> Single<Bool>
+    func updateNotice(noticeIdentifier id: Notice.ID, _ request: UpdateNoticeRequest) -> Single<Bool>
+    func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> Single<NoticeDetail>
+    func fetchAllNotice(workplaceIdentifier id: Workplace.ID, page: Int, size: Int) -> Single<[Notice]>
+    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
+    func fetchMainNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
+    func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool>
 }
 
 class DefaultNoticeUseCase: NoticeUseCase {
@@ -31,40 +31,40 @@ class DefaultNoticeUseCase: NoticeUseCase {
     }
     
     func updateNotice(
-        noticeID: String,
+        noticeIdentifier id: Notice.ID,
         _ request: UpdateNoticeRequest
     ) -> Single<Bool> {
         noticeRepository.updateNotice(
-            noticeID: noticeID,
+            noticeIdentifier: id,
             request
         )
     }
     
-    func fetchNoticeDetail(noticeID: String) -> Single<NoticeDetail> {
-        noticeRepository.fetchNoticeDetail(noticeID: noticeID)
+    func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> Single<NoticeDetail> {
+        noticeRepository.fetchNoticeDetail(noticeIdentifier: id)
     }
     
     func fetchAllNotice(
-        workplaceID: String,
+        workplaceIdentifier id: Workplace.ID,
         page: Int,
         size: Int
     ) -> Single<[Notice]> {
         noticeRepository.fetchAllNotice(
-            workplaceID: workplaceID,
+            workplaceIdentifier: id,
             page: page,
             size: size
         )
     }
     
-    func fetchMustReadNoticeList(workplaceID: Int) -> Single<[Notice]> {
-        noticeRepository.fetchMustReadNoticeList(workplaceID: workplaceID)
+    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]> {
+        noticeRepository.fetchMustReadNoticeList(workplaceIdentifier: id)
     }
     
-    func fetchMainNoticeList(workplaceID: Int) -> Single<[Notice]> {
-        noticeRepository.fetchMainNoticeList(workplaceID: workplaceID)
+    func fetchMainNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]> {
+        noticeRepository.fetchMainNoticeList(workplaceIdentifier: id)
     }
     
-    func deleteNotice(noticeID: Int) -> Single<Bool> {
-        noticeRepository.deleteNotice(noticeID: noticeID)
+    func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool> {
+        noticeRepository.deleteNotice(noticeIdentifier: id)
     }
 }

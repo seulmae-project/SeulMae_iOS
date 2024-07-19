@@ -9,11 +9,17 @@ import Foundation
 import RxSwift
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
-    
-    func fetchMemberList(_ workplaceID: String) -> RxSwift.Single<[Member]> {
-        .error(APIError.faildedToSignup)
+    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
+        return Single<BaseResponseDTO<[MemberDTO]>>.create { observer in
+            observer(.success(MockData.WorkplaceAPI.memberListSuccess))
+            return Disposables.create()
+        }
+        .map { try $0.toDomain() }
+        .do(onError: { error in
+            print("error: \(error)")
+        })
     }
-    
+
     func addWorkplace(_ request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- request: \(request)\n")
         return Single<BaseResponseDTO<Bool>>.create { observer in
@@ -38,8 +44,8 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func fetchWorkplaceDetail(_ workplaceID: String) -> RxSwift.Single<Workplace> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(workplaceID)\n")
+    func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {
+        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
         return Single<BaseResponseDTO<WorkplaceDTO>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.detailSuccess))
             return Disposables.create()
@@ -62,8 +68,8 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func deleteWorkplace(_ workplaceID: String) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(workplaceID)\n")
+    func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
+        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
         return Single<BaseResponseDTO<Bool>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.deleteSuccess))
             return Disposables.create()
@@ -74,8 +80,8 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func submitApplication(_ workplaceID: String) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(workplaceID)\n")
+    func submitApplication(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
+        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
         return Single<BaseResponseDTO<Bool>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.submitApplicationSuccess))
             return Disposables.create()

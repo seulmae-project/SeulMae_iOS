@@ -1,0 +1,13 @@
+{
+    "status": 200,
+    "message": "SELECT SUCCESS",
+    "data": [
+        {
+            "userId": 1,
+            "userName": "테스트",
+            "userImageURL": "http://localhost:8080/api/users/file?userImageId=1",
+            "isManager": true
+        }
+    ],
+    "timestamp": "2024-07-04T13:53:13.196107"
+}

@@ -9,13 +9,13 @@ import Foundation
 import RxSwift
 
 protocol WorkplaceUseCase {
-    func fetchMemberList(_ workplaceID: String) -> RxSwift.Single<[Member]>
+    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]>
     func addWorkplace(_ request: AddWorkplaceRequest) -> Single<Bool>
     func fetchWorkplaceList(_ keyword: String) -> Single<[Workplace]>
-    func fetchWorkplaceDetail(_ workplaceID: String) -> Single<Workplace>
+    func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
-    func deleteWorkplace(_ workplaceID: String) -> Single<Bool>
-    func submitApplication(_ workplaceID: String) -> Single<Bool>    // body
+    func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
+    func submitApplication(workplaceIdentifier id: Workplace.ID) -> Single<Bool>    // body
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
 }
@@ -28,8 +28,8 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         self.workplaceRepository = workplaceRepository
     }
     
-    func fetchMemberList(_ workplaceID: String) -> RxSwift.Single<[Member]> {
-        workplaceRepository.fetchMemberList(workplaceID)
+    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
+        workplaceRepository.fetchMemberList(workplaceIdentifier: id)
     }
     
     func addWorkplace(_ request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
@@ -40,20 +40,20 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.fetchWorkplaceList(keyword)
     }
     
-    func fetchWorkplaceDetail(_ workplaceID: String) -> RxSwift.Single<Workplace> {
-        workplaceRepository.fetchWorkplaceDetail(workplaceID)
+    func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {
+        workplaceRepository.fetchWorkplaceDetail(workplaceIdentifier: id)
     }
     
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         workplaceRepository.updateWorkplace(request)
     }
     
-    func deleteWorkplace(_ workplaceID: String) -> RxSwift.Single<Bool> {
-        workplaceRepository.deleteWorkplace(workplaceID)
+    func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
+        workplaceRepository.deleteWorkplace(workplaceIdentifier: id)
     }
     
-    func submitApplication(_ workplaceID: String) -> RxSwift.Single<Bool> {
-        workplaceRepository.submitApplication(workplaceID)
+    func submitApplication(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
+        workplaceRepository.submitApplication(workplaceIdentifier: id)
     }
     
     func acceptApplication(
