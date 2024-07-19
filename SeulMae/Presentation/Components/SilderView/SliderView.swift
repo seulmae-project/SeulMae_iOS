@@ -38,7 +38,18 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     
     let scrollView: UIScrollView = UIScrollView()
     
-    var pageControl: PageControl?
+    var pageControl: PageControl? {
+        didSet {
+            oldValue?.removeFromSuperview()
+            if let pageControl {
+                addSubview(pageControl)
+                if let _pageControl = pageControl as? UIControl {
+                    _pageControl.addTarget(self, action: #selector(didPageControlValueChanged), for: .valueChanged)
+                }
+            }
+            setNeedsLayout()
+        }
+    }
     
     var items: [Item] = [] {
         didSet {
@@ -77,7 +88,7 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     func configureHierarchy() {
         autoresizesSubviews = true
         clipsToBounds = true
-        backgroundColor = .systemBackground
+        backgroundColor = .gray
         
         let pageControlInset: CGFloat = 50
         scrollView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - pageControlInset)
@@ -106,8 +117,8 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     override func layoutSubviews() {
         super.layoutSubviews()
         
-        layoutScrollView()
         layoutPageControl()
+        layoutScrollView()
     }
     
     override func removeFromSuperview() {
@@ -117,6 +128,9 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     
     private func layoutPageControl() {
         guard let pageControl else { return }
+        print("🐹 pageControl.numberOfPages: \(pageControl.numberOfPages)")
+        pageControl.numberOfPages = items.count
+        print("🐹 pageControl.numberOfPages: \(pageControl.numberOfPages)")
         pageControl.isHidden = items.count < 2
         pageControl.sizeToFit()
         pageControl.frame = frameCalculator.caculate(
@@ -124,6 +138,7 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
             viewSize: pageControl.frame.size,
             edgeInsets: safeAreaInsets
         )
+        Swift.print(#function, #fileID, "pageControlFrame: \(pageControl.frame)")
     }
     
     private func layoutScrollView() {
@@ -134,6 +149,7 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
         layoutContentViews()
         // moveTo(pageIndex: 0, animated: false)
         
+        self.bringSubviewToFront(pageControl!)
     }
     
     private func layoutContentViews() {
@@ -219,6 +235,30 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
         //            }
         //        }
     }
+    
+    // MARK: - PageControl
+    
+    @objc private func didPageControlValueChanged() {
+        if let pageIndex = pageControl?.currentPage {
+            moveTo(pageIndex: pageIndex, animated: true)
+        }
+    }
+    
+    private func moveTo(pageIndex index: Int, animated: Bool = true) {
+        let page = max(index, 0) + 1
+        if page <= items.count {
+            let visibleSize = scrollView.frame.size
+            let visibleRect = CGRect(
+                x: visibleSize.width * CGFloat(page),
+                y: 0,
+                width: visibleSize.width,
+                height: visibleSize.height
+            )
+            scrollView.scrollRectToVisible(visibleRect, animated: animated)
+            // loadContentView(pageIndex: index)
+        }
+    }
+    
     
     // MARK: - UIScrollViewDelegate
     
