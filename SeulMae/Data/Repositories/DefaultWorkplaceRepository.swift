@@ -9,6 +9,17 @@ import Foundation
 import RxSwift
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
+    func fetchMemberInfo(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<MemberInfo> {
+        return Single<BaseResponseDTO<MemberInfoDTO>>.create { observer in
+            observer(.success(MockData.WorkplaceAPI.memberInfoSuccess))
+            return Disposables.create()
+        }
+        .map { try $0.toDomain() }
+        .do(onError: { error in
+            print("error: \(error)")
+        })
+    }
+    
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
         return Single<BaseResponseDTO<[MemberDTO]>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.memberListSuccess))

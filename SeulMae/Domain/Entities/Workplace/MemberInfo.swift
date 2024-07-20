@@ -14,17 +14,17 @@ struct MemberInfo {
         let days: [Int]
     }
     
-    let name: String
-    let phoneNumber: String
-    let imageURL: String
-    let joinDate: Date // 2024-07-19
+    let name: String?
+    let phoneNumber: String?
+    let imageURL: String?
+    let joinDate: Date? // 2024-07-19
     
     // let workSchedule: WorkSchedule
-    let workScheduleIdentifier: String
-    let workScheduleTitle: String
-    let days: [Int]
+    let workScheduleIdentifier: String?
+    let workScheduleTitle: String?
+    let days: [Int]?
     
-    let payDay: Int
-    let baseWage: Int
-    let memo: String
+    let payDay: Int?
+    let baseWage: Int?
+    let memo: String?
 }
