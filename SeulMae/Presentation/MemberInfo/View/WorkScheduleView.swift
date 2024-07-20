@@ -50,7 +50,9 @@ final class WorkScheduleView: UIView {
     var weekdays: [Int] = [] {
         didSet {
             for i in 1...7 {
-                weekdayStack.addArrangedSubview(createWeekdayLabel(isActive: weekdays.contains(i)))
+                weekdayStack.addArrangedSubview(
+                    createWeekdayLabel(isActive: weekdays.contains(i))
+                )
             }
         }
     }

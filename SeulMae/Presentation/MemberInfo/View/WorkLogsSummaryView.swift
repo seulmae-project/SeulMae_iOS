@@ -66,7 +66,7 @@ final class WorkLogsSummaryView: UIView {
         addSubview(totalHoursLabel)
         addSubview(totalWageLabel)
         
-        let inset = 16.0
+        let inset: CGFloat = 16
         
         NSLayoutConstraint.activate([
             baseWageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
