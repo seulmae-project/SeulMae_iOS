@@ -1,0 +1,20 @@
+{
+  "status": 200,
+  "message": "SELECT SUCCESS",
+  "data": {
+    "name": "테스트",
+    "phoneNumber": "01013545618",
+    "imageURL": null,
+    "joinDate": "2024-07-19",
+    "workScheduleId": 1,
+    "workScheduleTitle": "오후파트",
+    "days": [
+      1,
+      2
+    ],
+    "payDay": 25,
+    "baseWage": 10000,
+    "memo": "메모"
+  },
+  "timestamp
+}
