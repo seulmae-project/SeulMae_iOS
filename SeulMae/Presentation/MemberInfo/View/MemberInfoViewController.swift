@@ -8,11 +8,10 @@
 import UIKit
 import RxSwift
 import RxCocoa
-import Kingfisher
 
 final class MemberInfoViewController: UIViewController {
     
-    // MARK: - Flow Methods
+    // MARK: - Flow
     
     static func create(viewModel: MemberViewModel) -> MemberInfoViewController {
         let view = MemberInfoViewController()
@@ -20,69 +19,65 @@ final class MemberInfoViewController: UIViewController {
         return view
     }
     
-    // MARK: - Public UI Properties
+    static let reuseIdentifier = "reuse-id"
     
-    /// 프로필 사진
-    private let memberImageView = UIImageView()
+    // MARK: - Internal Types
     
-    /// 이름
-    private let nameLabel = UILabel()
+    typealias DataSource = UITableViewDiffableDataSource<Section, Item>
     
-    /// 가입일
-    private let joinDateLabel = UILabel()
+    enum Section: CaseIterable {
+        case list
+    }
     
-    /// 연락처
-    private let contactLabel = UILabel()
+    struct Item: Hashable {
+        var id: String = UUID().uuidString
+        var isAccept: Bool = false
+        var date: Date?
+        var duration: String = ""
+        var wage: String = ""
+    }
     
-    /// 근무 일정
-    private let scheduleListView = UIView()
+    // MARK: - Public UI
+
+    private let memberProfileView = MemberProfileView()
     
-    // MARK: - Personal UI Properties
+    private let workScheduleLabel = UILabel.title(title: AppText.workSchedule)
+
+    private let workScheduleView = WorkScheduleView()
     
-    /// 시급
+    // MARK: - Personal UI
+    
     private let wageLabel = UILabel()
     
-    /// 근무 이력 섹션 타이틀
-    private let workLogSectionTitle = UILabel.title(title: "이번달\n-- 을 확인해 보세요")
+    private let workLogLabel = UILabel.title(title: AppText.workLog)
+
+    private let dateRangePickerView = DateRangePickerView()
     
-    /// 기간 선택
-    private let dateRangePickerView = UIView()
-    
-    /// 근무 요약 정보
     private let workLogSummaryView = UIView()
     
-    /// 근무 이력 리스트
-    private let workLogListView = UIView()
+    private let workLogTableView = UITableView()
     
     // MARK: - Properties
     
-    
-    
+    private var dataSource: DataSource!
     
     // MARK: - Dependencies
     
     private var viewModel: MemberViewModel!
     
-    // MARK: - Life Cycle Methods
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        // onNavItem()
+        onLoad()
+        setDataSource()
         onBind()
-    }
-    
-    // MARK: - Nav Item
-    
-    private func configureNavItem() {
-        navigationItem.title = ""
-        navigationItem.largeTitleDisplayMode = .automatic
     }
     
     // MARK: - Data Binding
     
     private func onBind() {
-        
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
@@ -100,15 +95,10 @@ final class MemberInfoViewController: UIViewController {
         Task {
             for await memberInfo in output.memberInfo.values {
                 // TODO: memberInfo -> item 변환하여 필수 정보가 없을 시 error
-                if  let urlStr = memberInfo.imageURL,
-                    let imageURL = URL(string: urlStr) {
-                    memberImageView.kf.setImage(with: imageURL, options: [
-                        .onFailureImage(UIImage(systemName: "circle.fill"))
-                    ])
-                }
-                nameLabel.text = memberInfo.name
-                joinDateLabel.text = memberInfo.joinDate?.description
-                contactLabel.text = memberInfo.phoneNumber
+                memberProfileView.imageURL = memberInfo.imageURL
+                memberProfileView.name = memberInfo.name
+                memberProfileView.joinDate = memberInfo.joinDate
+                memberProfileView.phoneNumber = memberInfo.phoneNumber
                 // scheduleListView.items = memberInfo.sch
                 //
             }
@@ -121,8 +111,48 @@ final class MemberInfoViewController: UIViewController {
 //        }
     }
     
+    // MARK: - On Load
     
-    // MARK: - Hierarchy
+    private func onLoad() {
+        let separator = UIView()
+        separator.backgroundColor = .separator
+        separator.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        
+        let stack = UIStackView(arrangedSubviews: [
+            memberProfileView,
+            workScheduleLabel,
+            workScheduleView,
+            separator,
+            workLogLabel,
+            workLogTableView
+        ])
+        stack.axis = .vertical
+        stack.spacing = 8.0
+        stack.setCustomSpacing(8.0, after: memberProfileView)
+        stack.setCustomSpacing(8.0, after: workScheduleView)
+        stack.setCustomSpacing(8.0, after: separator)
+        view.addSubview(stack)
+        
+        stack.snp.makeConstraints { make in
+            make.leading.top.bottom.trailing.equalToSuperview()
+        }
+    }
     
+    // MARK: - Set Data Source
+    
+    func setDataSource() {
+        dataSource = DataSource(tableView: workLogTableView, cellProvider: { view, index, item in
+            let cell = view.dequeueReusableCell(withIdentifier: Self.reuseIdentifier, for: index)
+            var content = WorkLogContentView.Configuration()
+            content.isAccept = item.isAccept
+            content.date = item.date
+            content.duration = item.duration
+            content.wage = item.wage
+            cell.contentConfiguration = content
+            return cell
+        })
+        
+        dataSource.defaultRowAnimation = .fade
+    }
 }
 
