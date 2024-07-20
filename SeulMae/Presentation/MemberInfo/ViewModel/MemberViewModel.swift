@@ -12,87 +12,78 @@ import RxCocoa
 final class MemberViewModel: ViewModel {
     
     struct Input {
-
+        let onLoad: Signal<()>
     }
     
     struct Output {
-
+        let memberInfo: Driver<MemberInfo>
     }
     
     // MARK: - Dependency
     
-//    private let coordinator: AuthFlowCoordinator
+    //    private let coordinator: AuthFlowCoordinator
     
     private let workplaceIdentifier: Int = 0
+    private let memberIdentifier: Member.ID = 0
     
     private let workplaceUseCase: WorkplaceUseCase = DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository())
     
     private let noticeUseCase: NoticeUseCase = DefaultNoticeUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking()))
-
+    
     // MARK: - Life Cycle
     
     init(
         dependency: (
-//            coordinator: AuthFlowCoordinator,
-//            authUseCase: AuthUseCase,
-//            validationService: ValidationService,
-//            wireframe: Wireframe
+            //            coordinator: AuthFlowCoordinator,
+            //            authUseCase: AuthUseCase,
+            //            validationService: ValidationService,
+            //            wireframe: Wireframe
         )
     ) {
-//        self.coordinator = dependency.coordinator
-//        self.authUseCase = dependency.authUseCase
-//        self.validationService = dependency.validationService
-//        self.wireframe = dependency.wireframe
+        //        self.coordinator = dependency.coordinator
+        //        self.authUseCase = dependency.authUseCase
+        //        self.validationService = dependency.validationService
+        //        self.wireframe = dependency.wireframe
     }
     
     @MainActor func transform(_ input: Input) -> Output {
         
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-      
         
+        // MARK: Member Info
         
+        let memberInfo = input.onLoad
+            .flatMap { [unowned self] _ in
+                self.workplaceUseCase.fetchMemberInfo(mmemberIdentifier: self.memberIdentifier)
+                    .asDriver()
+            }
+        
+        // MARK: Member Work Log
+        
+//        _ = input.onLoad
+//            .flatMap { [unowned self] _ in
+//                self.workplaceUseCase.fetch
+//            }
 
-       
-        // MARK: Code Verification
-        
-//        let validatedCode = input.code
-//            .map { $0.count == 6 }
-//        let codeVerificationEnabled = Driver.combineLatest(
-//            validatedCode, loading) { code, loading in
-//                code &&
-//                !loading
-//            }
-//            .distinctUntilChanged()
-//
-//        let verifiedCode = input.verifyCode.withLatestFrom(input.code)
-//            .flatMapLatest { [weak self] code -> Driver<Bool> in
-//                guard let strongSelf = self else { return .empty() }
-//                return strongSelf.authUseCase
-//                    .codeVerification(code)
-//                    .trackActivity(indicator)
-//                    .asDriver(onErrorJustReturn: false)
-//            }
-//            .startWith(false)
-//
         // MARK: Flow Logic
         
-//        let nextStepEnabled = Driver.combineLatest(
-//            validatedSMS, verifiedCode, loading) { validated, verified, loading in
-//                validated &&
-//                verified &&
-//                !loading
-//            }
-//            .distinctUntilChanged()
-//
-//        Task {
-//            for await _ in input.nextStep.values {
-//                coordinator.showAccountSetup(request: SignupRequest())
-//            }
-//        }
+        //        let nextStepEnabled = Driver.combineLatest(
+        //            validatedSMS, verifiedCode, loading) { validated, verified, loading in
+        //                validated &&
+        //                verified &&
+        //                !loading
+        //            }
+        //            .distinctUntilChanged()
+        //
+        //        Task {
+        //            for await _ in input.nextStep.values {
+        //                coordinator.showAccountSetup(request: SignupRequest())
+        //            }
+        //        }
         
         return Output(
-            
+            memberInfo: memberInfo
         )
     }
 }

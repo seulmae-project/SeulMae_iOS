@@ -68,8 +68,8 @@ final class MemberInfoViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
-        bindInternalSubviews()
+        // onNavItem()
+        onBind()
     }
     
     // MARK: - Nav Item
@@ -81,7 +81,7 @@ final class MemberInfoViewController: UIViewController {
     
     // MARK: - Data Binding
     
-    private func bindInternalSubviews() {
+    private func onBind() {
         
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
@@ -89,32 +89,30 @@ final class MemberInfoViewController: UIViewController {
         
         let output = viewModel.transform(
             .init(
-//                onLoad: ,
+                onLoad: onLoad
 //                onContactTap: ,
-//                dateRange: ,
+//                onDateRangeSelected: ,
 //                onScheduleTap: ,
 //                onWorkLogTap:
             )
         )
         
-//        Task {
-//            for await member in output.member.values {
-//                if let imageURL = URL(string: member.imageURL) {
-//                    memberImageView.kf.setImage(with: imageURL, options: [
-//                        .onFailureImage(UIImage(systemName: "circle.fill"))
-//                    ])
-//                }
-//                nameLabel.text = member.name
-//                joinDateLabel.text = member.
-//                contactLabel.text = member.tel
-//            }
-//        }
-            
-//        Task {
-//            for await scheduleList in output.scheduleList.values {
-//                scheduleListView = scheduleList
-//            }
-//        }
+        Task {
+            for await memberInfo in output.memberInfo.values {
+                // TODO: memberInfo -> item 변환하여 필수 정보가 없을 시 error
+                if  let urlStr = memberInfo.imageURL,
+                    let imageURL = URL(string: urlStr) {
+                    memberImageView.kf.setImage(with: imageURL, options: [
+                        .onFailureImage(UIImage(systemName: "circle.fill"))
+                    ])
+                }
+                nameLabel.text = memberInfo.name
+                joinDateLabel.text = memberInfo.joinDate?.description
+                contactLabel.text = memberInfo.phoneNumber
+                // scheduleListView.items = memberInfo.sch
+                //
+            }
+        }
         
 //        Task {
 //            for await workLogList in output.workLogList.values {
