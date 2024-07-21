@@ -19,12 +19,20 @@ final class MainSceneDIContainer {
         self.dependencies = dependencies
     }
     
-    func makeMainUseCase() -> MainUseCase {
-        return DefaultMainUseCase(mainRepository: makeMainRepository())
+    func makeNoticeUseCase() -> NoticeUseCase {
+        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
     }
     
-    private func makeMainRepository() -> MainRepository {
-        return DefaultMainRepository(network: dependencies.mainNetworking)
+    private func makeNoticeRepository() -> NoticeRepository {
+        return DefaultNoticeRepository(network: dependencies.mainNetworking)
+    }
+    
+    func makeWorkplaceUseCase() -> WorkplaceUseCase {
+        return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
+    }
+    
+    private func makeWorkplaceRepository() -> WorkplaceRepository {
+        return DefaultWorkplaceRepository()
     }
     
     // MARK: - Flow Coordinators
@@ -43,9 +51,57 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
    
     // MARK: - Main
     
-    func makeMainViewController(coordinator: any MainFlowCoordinator) -> ViewController {
-        return ViewController()
+    func makeMainViewController(coordinator: any MainFlowCoordinator) -> MainViewController {
+        return MainViewController.create(
+            viewModel: makeMainViewModel(coordinator: coordinator)
+        )
     }
+    
+    func makeMainViewModel(
+        coordinator: any MainFlowCoordinator
+    ) -> MainViewModel {
+        return MainViewModel(
+            dependency: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                noticeUseCase: makeNoticeUseCase()
+            )
+        )
+    }
+    
+    // MARK: - Search Place
+    
+    func makeSearchPlaceViewController(coordinator: any MainFlowCoordinator) -> SearchPlaceViewController {
+        return SearchPlaceViewController()
+    }
+    
+    // MARK: - Member Info
+    
+    func makeMemberInfoViewController(
+        member: Member,
+        coordinator: any MainFlowCoordinator
+    ) -> MemberInfoViewController {
+        return MemberInfoViewController.create(
+            viewModel: makeMemberInfoViewModel(
+                member: member,
+                coordinator: coordinator
+            )
+        )
+    }
+    
+    private func makeMemberInfoViewModel(
+        member: Member,
+        coordinator: MainFlowCoordinator
+    ) -> MemberInfoViewModel {
+        return MemberInfoViewModel(
+            dependency: (
+                member: member,
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase()
+            )
+        )
+    }
+
 
     
 //    func makeAccountSetupViewController(coordinator: any AuthFlowCoordinator

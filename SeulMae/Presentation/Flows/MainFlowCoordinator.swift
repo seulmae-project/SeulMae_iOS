@@ -9,6 +9,10 @@ import UIKit
 
 protocol MainFlowCoordinatorDependencies {
     func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
+    
+    func makeSearchPlaceViewController(coordinator: MainFlowCoordinator) -> SearchPlaceViewController
+    
+    func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
 }
 
 protocol MainFlowCoordinator {
@@ -17,6 +21,8 @@ protocol MainFlowCoordinator {
     
     /// - Tag: Main
     func showMain()
+    
+    func showMemberInfo(member: Member)
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -40,10 +46,23 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         showMain()
     }
     
-    // MARK: - Signin
+    // MARK: - Main
     
     func showMain() {
         let vc = dependencies.makeMainViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
+    }
+    
+    func showSearchPlace() {
+        let vc = dependencies.makeSearchPlaceViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
+    }
+
+    func showMemberInfo(member: Member) {
+        let vc = dependencies.makeMemberInfoViewController(
+            member: member,
+            coordinator: self
+        )
+        navigationController.pushViewController(vc, animated: true)
     }
 }
