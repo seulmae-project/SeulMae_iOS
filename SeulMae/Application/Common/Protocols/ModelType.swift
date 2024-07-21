@@ -13,7 +13,9 @@ extension ModelType {
             let dateFormats = [
                 "yyyyMMddHHmmss",
                 "yyyyMMdd",
-                "yyyy-MM-dd'T'HH:mm:ss"
+                "yyyy-MM-dd",
+                "yyyy-MM-dd'T'HH:mm:ss",
+                "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
             ]
             
             if let matched = dateFormats.first(where: { $0.count == dateString.count }),
