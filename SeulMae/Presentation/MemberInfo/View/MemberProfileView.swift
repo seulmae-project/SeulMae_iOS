@@ -12,28 +12,36 @@ final class MemberProfileView: UIView {
 
     private let memberImageView: UIImageView = {
         let iv = UIImageView()
-        iv.widthAnchor.constraint(equalToConstant: 64).isActive = true
-        iv.heightAnchor.constraint(equalToConstant: 64).isActive = true
         iv.layer.cornerRadius = 32
         iv.layer.cornerCurve = .continuous
+        iv.image = .userProfile
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        iv.contentMode = .scaleAspectFill
         return iv
     }()
     
     private let nameLabel: UILabel = {
         let l = UILabel()
+        l.textColor = .label
         l.font = .systemFont(ofSize: 16, weight: .semibold)
+        l.text = "name"
+        l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
     
     private let joinDateLabel: UILabel = {
         let l = UILabel()
+        l.textColor = .label
         l.font = .systemFont(ofSize: 16, weight: .semibold)
+        l.text = "join_date"
+        l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
     
     private let contactButton: UIButton = {
         let b = UIButton()
         
+        b.translatesAutoresizingMaskIntoConstraints = false
         return b
     }()
     
@@ -71,7 +79,7 @@ final class MemberProfileView: UIView {
         
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
-        layer.borderColor = UIColor.gray.cgColor
+        layer.borderColor = UIColor.border.cgColor
         layer.borderWidth = 1.0
         
         let labelStack = UIStackView(arrangedSubviews: [
@@ -79,22 +87,26 @@ final class MemberProfileView: UIView {
         ])
         labelStack.axis = .vertical
         labelStack.spacing = 4.0
+        labelStack.alignment = .leading
+        labelStack.translatesAutoresizingMaskIntoConstraints = false
         
         addSubview(memberImageView)
         addSubview(labelStack)
-        addSubview(contactButton)
+        // addSubview(contactButton)
         
-        let inset: CGFloat = 14
+        let inset: CGFloat = 16
         
         NSLayoutConstraint.activate([
             memberImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
             memberImageView.topAnchor.constraint(equalTo: topAnchor, constant: inset),
-            memberImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: inset),
+            memberImageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),
+            memberImageView.widthAnchor.constraint(equalToConstant: 64),
+            memberImageView.heightAnchor.constraint(equalToConstant: 64),
             
             labelStack.leadingAnchor.constraint(equalTo: memberImageView.trailingAnchor, constant: inset),
             labelStack.centerYAnchor.constraint(equalTo: memberImageView.centerYAnchor),
-            labelStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
-            
+            labelStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+
             // TODO: 연락하기 버튼 디자인, 레이아웃, 로직
         ])
     }

@@ -13,7 +13,7 @@ final class MemberInfoViewController: UIViewController {
     
     // MARK: - Flow
     
-    static func create(viewModel: MemberViewModel) -> MemberInfoViewController {
+    static func create(viewModel: MemberInfoViewModel) -> MemberInfoViewController {
         let view = MemberInfoViewController()
         view.viewModel = viewModel
         return view
@@ -41,19 +41,17 @@ final class MemberInfoViewController: UIViewController {
 
     private let memberProfileView = MemberProfileView()
     
-    private let workScheduleLabel = UILabel.title(title: AppText.workSchedule)
+    private let _workScheduleLabel = UILabel.section(title: AppText.workSchedule)
 
     private let workScheduleView = WorkScheduleView()
     
     // MARK: - Personal UI
-    
-    private let wageLabel = UILabel()
-    
-    private let workLogLabel = UILabel.title(title: AppText.workLog)
+        
+    private let _workLogLabel = UILabel.section(title: AppText.workLog)
 
     private let dateRangePickerView = DateRangePickerView()
     
-    private let workLogSummaryView = UIView()
+    private let workLogsSummaryView = WorkLogsSummaryView()
     
     private let workLogTableView = UITableView()
     
@@ -63,7 +61,7 @@ final class MemberInfoViewController: UIViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: MemberViewModel!
+    private var viewModel: MemberInfoViewModel!
     
     // MARK: - Life Cycle
     
@@ -75,17 +73,33 @@ final class MemberInfoViewController: UIViewController {
         onBind()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Swift.print(#fileID, #line, "🐹🐹🐹🐹🐹🐹")
+    }
+    
     // MARK: - Data Binding
     
     private func onBind() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
+            .do { _ in
+                Swift.print(#fileID, #line, "🐹🐹🐹🐹🐹🐹")
+            }
+        
+        Task {
+            for await onLoad in onLoad.values {
+                Swift.print(#fileID, #line, "🐹🐹🐹🐹🐹🐹")
+            }
+        }
         
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad
-//                onContactTap: ,
+                // onUserImageTap -> view 에서 처리..?
+//                onContactTap: -> view 에서 처리?,
+                // onWorkScheduleTap
 //                onDateRangeSelected: ,
 //                onScheduleTap: ,
 //                onWorkLogTap:
@@ -95,6 +109,7 @@ final class MemberInfoViewController: UIViewController {
         Task {
             for await memberInfo in output.memberInfo.values {
                 // TODO: memberInfo -> item 변환하여 필수 정보가 없을 시 error
+                Swift.print(#fileID, "🐹 RECEVIED DATA:\nmemberInfo: \(memberInfo)")
                 memberProfileView.imageURL = memberInfo.imageURL
                 memberProfileView.name = memberInfo.name
                 memberProfileView.joinDate = memberInfo.joinDate
@@ -103,38 +118,37 @@ final class MemberInfoViewController: UIViewController {
                 //
             }
         }
-        
-//        Task {
-//            for await workLogList in output.workLogList.values {
-//                workLogListView = workLogList
-//            }
-//        }
     }
     
     // MARK: - On Load
     
     private func onLoad() {
+        view.backgroundColor = .systemBackground
+        
         let separator = UIView()
-        separator.backgroundColor = .separator
-        separator.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        separator.backgroundColor = .border
+        separator.heightAnchor
+            .constraint(equalToConstant: 1.0)
+            .isActive = true
         
         let stack = UIStackView(arrangedSubviews: [
             memberProfileView,
-            workScheduleLabel,
+            _workScheduleLabel,
             workScheduleView,
             separator,
-            workLogLabel,
+            _workLogLabel,
+            dateRangePickerView,
+            workLogsSummaryView,
             workLogTableView
         ])
         stack.axis = .vertical
-        stack.spacing = 8.0
-        stack.setCustomSpacing(8.0, after: memberProfileView)
-        stack.setCustomSpacing(8.0, after: workScheduleView)
-        stack.setCustomSpacing(8.0, after: separator)
+        stack.spacing = 16
+        
         view.addSubview(stack)
         
         stack.snp.makeConstraints { make in
-            make.leading.top.bottom.trailing.equalToSuperview()
+            make.edges.equalTo(view.safeAreaLayoutGuide)
+                .inset(16)
         }
     }
     

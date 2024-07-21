@@ -12,7 +12,8 @@ final class WorkLogsSummaryView: UIView {
     private let baseWageLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 12)
-        l.textColor = .gray
+        l.textColor = .label
+        l.text = "총 합계 (시급 9,900)"
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -20,14 +21,17 @@ final class WorkLogsSummaryView: UIView {
     private let totalHoursLabel: UILabel = {
         let l = UILabel()
         l.font = .systemFont(ofSize: 12)
-        l.textColor = .gray
+        l.textColor = .label
+        l.text = "총 20시간"
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
     
     private let totalWageLabel: UILabel = {
         let l = UILabel()
+        l.textColor = .label
         l.font = .systemFont(ofSize: 24, weight: .semibold)
+        l.text = "621,000원"
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }()
@@ -60,23 +64,32 @@ final class WorkLogsSummaryView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        backgroundColor = .gray
+        backgroundColor = .border
+        layer.cornerRadius = 16
+        layer.cornerCurve = .continuous
         
         addSubview(baseWageLabel)
         addSubview(totalHoursLabel)
         addSubview(totalWageLabel)
         
         let inset: CGFloat = 16
-        
         NSLayoutConstraint.activate([
-            baseWageLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
-            baseWageLabel.topAnchor.constraint(equalTo: topAnchor, constant: inset),
+            baseWageLabel.leadingAnchor
+                .constraint(equalTo: leadingAnchor, constant: inset),
+            baseWageLabel.topAnchor
+                .constraint(equalTo: topAnchor, constant: inset),
             
-            totalHoursLabel.topAnchor.constraint(equalTo: baseWageLabel.topAnchor),
-            totalHoursLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            totalHoursLabel.topAnchor
+                .constraint(equalTo: baseWageLabel.topAnchor),
+            totalHoursLabel.trailingAnchor
+                .constraint(equalTo: trailingAnchor, constant: -inset),
             
-            totalWageLabel.topAnchor.constraint(equalTo: totalHoursLabel.bottomAnchor),
-            totalWageLabel.trailingAnchor.constraint(equalTo: totalHoursLabel.trailingAnchor)
+            totalWageLabel.topAnchor
+                .constraint(equalTo: totalHoursLabel.bottomAnchor),
+            totalWageLabel.trailingAnchor
+                .constraint(equalTo: totalHoursLabel.trailingAnchor),
+            totalWageLabel.bottomAnchor
+                .constraint(equalTo: bottomAnchor, constant: -inset)
         ])
     }
     
