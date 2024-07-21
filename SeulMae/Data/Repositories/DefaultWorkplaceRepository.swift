@@ -9,7 +9,10 @@ import Foundation
 import RxSwift
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
-    func fetchMemberInfo(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<MemberInfo> {
+        
+    func fetchMemberInfo(
+        memberIdentifier id: Member.ID
+    ) -> RxSwift.Single<MemberInfo> {
         return Single<BaseResponseDTO<MemberInfoDTO>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.memberInfoSuccess))
             return Disposables.create()

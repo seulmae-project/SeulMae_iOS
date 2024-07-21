@@ -14,7 +14,7 @@ struct MemberInfoDTO: ModelType {
     let joinDate: Date? // 2024-07-19
     
     // let workSchedule: WorkSchedule
-    let workScheduleIdentifier: String?
+    let workScheduleIdentifier: Int?
     let workScheduleTitle: String?
     let days: [Int]?
     

@@ -9,7 +9,7 @@ import Foundation
 
 struct MemberInfo {
     struct WorkSchedule {
-        let workScheduleIdentifier: String
+        let workScheduleIdentifier: Int
         let workScheduleTitle: String
         let days: [Int]
     }
@@ -20,7 +20,7 @@ struct MemberInfo {
     let joinDate: Date? // 2024-07-19
     
     // let workSchedule: WorkSchedule
-    let workScheduleIdentifier: String?
+    let workScheduleIdentifier: Int?
     let workScheduleTitle: String?
     let days: [Int]?
     
