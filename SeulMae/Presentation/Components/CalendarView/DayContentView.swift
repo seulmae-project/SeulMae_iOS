@@ -23,12 +23,14 @@ class DayContentView: UIView, UIContentView {
     }
     
     let dayLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .semibold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.layer.cornerRadius = 8.0
-        label.layer.cornerCurve = .continuous
-        return label
+        let l = UILabel()
+        l.font = .systemFont(ofSize: 18, weight: .semibold)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.layer.cornerRadius = 8.0
+        l.layer.cornerCurve = .continuous
+        l.clipsToBounds = true
+        l.textAlignment = .center
+        return l
     }()
     
     var configuration: UIContentConfiguration {
@@ -40,7 +42,16 @@ class DayContentView: UIView, UIContentView {
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
-        setupInternalViews()
+                
+        self.addSubview(dayLabel)
+        
+        NSLayoutConstraint.activate([
+            dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
+            dayLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
+            dayLabel.topAnchor.constraint(equalTo: topAnchor),
+            dayLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
+            dayLabel.widthAnchor.constraint(equalTo: dayLabel.heightAnchor),
+        ])
     }
     
     required init?(coder: NSCoder) {
@@ -65,16 +76,6 @@ class DayContentView: UIView, UIContentView {
             dayLabel.textColor = .cloudy
             dayLabel.backgroundColor = .lightPrimary
         }
-    }
-    
-    private func setupInternalViews() {
-        addSubview(dayLabel)
-        NSLayoutConstraint.activate([
-            dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
-            dayLabel.trailingAnchor.constraint(equalTo: trailingAnchor),
-            dayLabel.topAnchor.constraint(equalTo: topAnchor),
-            dayLabel.bottomAnchor.constraint(equalTo: bottomAnchor)
-        ])
     }
 }
 

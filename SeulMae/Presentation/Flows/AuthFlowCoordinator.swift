@@ -59,7 +59,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-        showSingin()
+        // showSingin()
+        mainFlowCoordinator.showMain()
     }
     
     func startMain() {

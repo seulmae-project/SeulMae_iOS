@@ -15,10 +15,8 @@ final class MainViewModel: ViewModel {
         let showWorkplace: Signal<()>
         let changeWorkplace: Signal<()>
         let showRemainders: Signal<()>
-        let showMemberDetail: Signal<()>
-        let showNotices: Signal<()>
-        let workStart: Signal<()>
-        let addWorkLog: Signal<()>
+        let onMemberTap: Signal<Member>
+        let onBarButtonTap: Signal<()>
     }
     
     struct Output {
@@ -28,14 +26,14 @@ final class MainViewModel: ViewModel {
     
     // MARK: - Dependency
     
-//    private let coordinator: AuthFlowCoordinator
+    private let coordinator: MainFlowCoordinator
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
     private let workplaceIdentifier: Int = 0
     
-    private let workplaceUseCase: WorkplaceUseCase = DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository())
+    private let workplaceUseCase: WorkplaceUseCase
     
-    private let noticeUseCase: NoticeUseCase = DefaultNoticeUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking()))
+    private let noticeUseCase: NoticeUseCase
 //
 //    private let validationService: ValidationService
 //
@@ -45,14 +43,17 @@ final class MainViewModel: ViewModel {
     
     init(
         dependency: (
-//            coordinator: AuthFlowCoordinator,
-//            authUseCase: AuthUseCase,
+            coordinator: MainFlowCoordinator,
+            workplaceUseCase: WorkplaceUseCase,
+            noticeUseCase: NoticeUseCase
+            
 //            validationService: ValidationService,
 //            wireframe: Wireframe
         )
     ) {
-//        self.coordinator = dependency.coordinator
-//        self.authUseCase = dependency.authUseCase
+        self.coordinator = dependency.coordinator
+        self.workplaceUseCase = dependency.workplaceUseCase
+        self.noticeUseCase = dependency.noticeUseCase
 //        self.validationService = dependency.validationService
 //        self.wireframe = dependency.wireframe
     }
@@ -62,27 +63,11 @@ final class MainViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        Task {
-            for await _ in input.workStart.values {
-                Swift.print("Work start button taapped!")
-            }
-        }
-        
-        Task {
-            for await _ in input.addWorkLog.values {
-                Swift.print("Add work log button taapped!")
-            }
-        }
-        
         let members = workplaceUseCase.fetchMemberList(workplaceIdentifier: workplaceIdentifier)
             .asDriver()
         
         let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceIdentifier)
             .asDriver()
-        
-        
-        
-
        
         // MARK: Code Verification
         
@@ -107,6 +92,19 @@ final class MainViewModel: ViewModel {
 //        
         // MARK: Flow Logic
         
+        Task {
+            for await member in input.onMemberTap.values {
+                coordinator.showMemberInfo(member: member)
+            }
+        }
+        
+        Task {
+            for await _ in input.onBarButtonTap.values {
+                coordinator.showNotiList()
+            }
+        }
+        
+        
 //        let nextStepEnabled = Driver.combineLatest(
 //            validatedSMS, verifiedCode, loading) { validated, verified, loading in
 //                validated &&
@@ -115,12 +113,6 @@ final class MainViewModel: ViewModel {
 //            }
 //            .distinctUntilChanged()
 //        
-//        Task {
-//            for await _ in input.nextStep.values {
-//                coordinator.showAccountSetup(request: SignupRequest())
-//            }
-//        }
-        
         return Output(
             members: members,
             notices: notices

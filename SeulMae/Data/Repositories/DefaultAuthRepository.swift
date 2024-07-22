@@ -119,7 +119,7 @@ class DefaultAuthRepository: AuthRepository {
             if authCode == "123456" {
                 observer(.success(authCodeCertificationResponse_success))
             } else {
-                observer(.failure(DomainError.failedToSMSVerification))
+                observer(.failure(APIError.failedToSMSVerification))
             }
             return Disposables.create()
         }

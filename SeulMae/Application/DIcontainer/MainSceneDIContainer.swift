@@ -101,6 +101,30 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
+    
+    // MARK: - Noti List
+    
+    func makeNotiListViewController(
+        coordinator: any MainFlowCoordinator
+    ) -> NotiListViewController {
+        return NotiListViewController.create(
+            viewModel: makeNotiListViewModel(
+                coordinator: coordinator
+            )
+        )
+    }
+    
+    private func makeNotiListViewModel(
+        coordinator: MainFlowCoordinator
+    ) -> NotiListViewModel {
+        return NotiListViewModel(
+            dependency: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                noticeUseCase: makeNoticeUseCase()
+            )
+        )
+    }
 
 
     

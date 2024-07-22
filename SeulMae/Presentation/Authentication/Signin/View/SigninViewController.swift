@@ -61,7 +61,7 @@ final class SigninViewController: UIViewController {
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signinButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
-                validateSMS: .just(.idRecovery)
+                validateSMS: .empty()// .just(.idRecovery)
             )
         )
         

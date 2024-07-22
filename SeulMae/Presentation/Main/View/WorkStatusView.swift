@@ -34,7 +34,6 @@ final class WorkStatusView: UIView {
     
     let progressView: UIProgressView = UIProgressView()
     
-    
     override init(frame: CGRect) {
         super.init(frame: frame)
         

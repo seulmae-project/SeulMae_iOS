@@ -32,8 +32,8 @@ public struct SliderConfiguration {
     }
 }
 
-final class SliderView<Item>: UIView, UIScrollViewDelegate{
-    
+final class SliderView<Item>: UIView, UIScrollViewDelegate, Sendable {
+
     // MARK: - Properties
     
     let scrollView: UIScrollView = UIScrollView()
@@ -44,7 +44,11 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
             if let pageControl {
                 addSubview(pageControl)
                 if let _pageControl = pageControl as? UIControl {
-                    _pageControl.addTarget(self, action: #selector(didPageControlValueChanged), for: .valueChanged)
+                    _pageControl.addTarget(
+                        self,
+                        action: #selector(didPageControlValueChanged),
+                        for: .valueChanged
+                    )
                 }
             }
             setNeedsLayout()
@@ -57,6 +61,8 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
             setNeedsLayout()
         }
     }
+    
+    var onItemTap: ((Item) -> Void)?
     
     var timer: Timer?
     
@@ -84,16 +90,19 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     
     private func initialSetup() {
         configureHierarchy()
+        print("view frame: \(frame.size) ")
+        print("scroll view frame: \(scrollView.frame.size)")
         setTimerIfNeeded()
+    
     }
     
     func configureHierarchy() {
         autoresizesSubviews = true
         clipsToBounds = true
-        backgroundColor = .gray
         
         let pageControlInset: CGFloat = 50
         scrollView.frame = CGRect(x: 0, y: 0, width: frame.size.width, height: frame.size.height - pageControlInset)
+      
         scrollView.delegate = self
         scrollView.isPagingEnabled = true
         scrollView.bounces = true
@@ -106,7 +115,7 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
             scrollView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi))
         }
         addSubview(scrollView)
-        
+
         if pageControl == nil {
             pageControl = UIPageControl()
         }
@@ -144,17 +153,21 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     }
     
     private func layoutScrollView() {
+        print("view frame: \(frame.size) ")
+        print("scroll view frame: \(scrollView.frame.size)")
         let bottomInset = (pageControl?.frame.size)
             .map { frameCalculator.underPadding(for: $0) } ?? 0
         scrollView.frame = CGRect(x: 0, y: 0, width: frame.width, height: frame.height - bottomInset)
         let width = itemSize ?? scrollView.frame.width
             scrollView.contentSize = CGSize(width: width * CGFloat(items.count), height: scrollView.frame.height)
-            layoutContentViews(itemSize: itemSize)
+        layoutContentViews(itemSize: itemSize)
+        
         moveTo(pageIndex: 0, animated: false)
     }
     
     private func layoutContentViews(itemSize: Double? = nil) {
         if let contentViews = items as? [UIView] {
+            
             Swift.print(#function, #fileID, "items count: \(items)")
             for (index, view) in contentViews.enumerated() {
                 let width = itemSize ?? scrollView.frame.width
@@ -200,10 +213,33 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     
     // MARK: - Content Load & ReLoad
     
+    @objc
+    func onItemTapped(_ sender: UITapGestureRecognizer) {
+        if let item = sender.view as? Item {
+            onItemTap?(item)
+        }
+    }
+    
     func loadContentViews() {
+        // item
+        
+        // onTap?
+        // rx로 바꾸기 쉬워야 함
+        // item,
+        // view -> configuration 들어 있음
+        // contentConfiguration
+        // Item 자체에 탭을 달 경우 -> view에 들어간 아이템은 뭐로 식별?
+        // item.type
+//        print("view frame: \(frame.size) ")
+//        print("scroll view frame: \(scrollView.frame.size)")
+//        // ContentConfiguration
         for item in items {
             if let view = item as? UIView {
+                let tapGesture = UITapGestureRecognizer(target: self, action: #selector(onItemTapped(_:)))
+                view.addGestureRecognizer(tapGesture)
                 scrollView.addSubview(view)
+                // dispose 하는 거 만들기..?
+                // view.removeGestureRecognizer(tapGesture)
             }
             
             //            let contentView = SliderContentView(
@@ -214,6 +250,9 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
             //            sliderContentViews.append(contentView)
             //            scrollView.addSubview(contentView)
         }
+        
+//        print("view frame: \(frame.size) ")
+//        print("scroll view frame: \(scrollView.frame.size)")
     }
     
     func reloadContentViews() {
@@ -247,6 +286,8 @@ final class SliderView<Item>: UIView, UIScrollViewDelegate{
     }
     
     private func moveTo(pageIndex index: Int, animated: Bool = true) {
+        print("view frame: \(frame.size) ")
+        print("scroll view frame: \(scrollView.frame.size)")
         let page = max(index, 0) + 1
         if page <= items.count {
             let visibleSize = scrollView.frame.size

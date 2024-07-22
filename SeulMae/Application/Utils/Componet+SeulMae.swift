@@ -32,6 +32,13 @@ extension UIImageView {
 // MARK: - UILabel
 
 extension UILabel {
+    static func section(title: String = "") -> UILabel {
+        let l = UILabel()
+        l.text = title
+        l.font = .systemFont(ofSize: 20, weight: .semibold)
+        return l
+    }
+    
     static func title(title: String = "") -> UILabel {
         let label = UILabel()
         label.text = title

@@ -13,21 +13,31 @@ final class NoticeView: UIView {
     
     var title: String = "" {
         didSet {
-            Swift.print("Did change title to \(title)")
-            DispatchQueue.main.async {
-                self.titleLabel.text = self.title
-            }
+            titleLabel.text = self.title
         }
     }
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        titleLabel.text = title
+        
+        backgroundColor = .border
+        layer.cornerRadius = 16
+        layer.cornerCurve = .continuous
+        
+        titleLabel.font = .systemFont(ofSize: 14)
+        titleLabel.textColor = .secondaryLabel
+        titleLabel.textAlignment = .natural
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(titleLabel)
+    
+        self.addSubview(titleLabel)
+        
+        let inset: CGFloat = 16
         NSLayoutConstraint.activate([
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: inset),
+            titleLabel.topAnchor.constraint(lessThanOrEqualTo: topAnchor, constant: inset),
+            titleLabel.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor, constant: -inset),
+            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -inset),
+            titleLabel.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     

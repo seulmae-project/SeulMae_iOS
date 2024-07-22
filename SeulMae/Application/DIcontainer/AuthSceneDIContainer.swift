@@ -152,18 +152,18 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         )
     }
     
-    // MARK: - Account ID Recovery
+    // MARK: - ID Recovery
     
-    func makeAccountIDRecoveryViewController(
+    func makeIDRecoveryViewController(
         coordinator: any AuthFlowCoordinator
-    ) -> AccountIDRecoveryViewController {
-        return .create(viewModel: makeAccountIDRecoveryViewModel(coordinator: coordinator))
+    ) -> IDRecoveryViewController {
+        return .create(viewModel: makeIDRecoveryViewModel(coordinator: coordinator))
     }
     
-    private func makeAccountIDRecoveryViewModel(
+    private func makeIDRecoveryViewModel(
         coordinator: AuthFlowCoordinator
-    ) -> AccountIDRecoveryViewModel {
-        return AccountIDRecoveryViewModel(
+    ) -> IDRecoveryViewModel {
+        return IDRecoveryViewModel(
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),

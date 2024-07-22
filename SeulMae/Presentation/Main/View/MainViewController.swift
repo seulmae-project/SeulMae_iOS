@@ -9,9 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
 class MainViewController: UIViewController {
     
-    // MARK: - Flow Methods
+    // MARK: - Flow
     
     static func create(viewModel: MainViewModel) -> MainViewController {
         let view = MainViewController()
@@ -21,95 +22,93 @@ class MainViewController: UIViewController {
     
     // MARK: - Internal Types
     
-    typealias MemberDataSource = UICollectionViewDiffableDataSource<Section, Item>
-    typealias MemberSnapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    typealias MemberListSnapshot = NSDiffableDataSourceSnapshot<MemberListSection, MemberListItem>
+    typealias MemberListDataSource = UICollectionViewDiffableDataSource<MemberListSection, MemberListItem>
     
-    enum Section: Int, Hashable, CaseIterable {
-        case list
+    enum MemberListSection: Hashable {
+        case row
     }
     
-    struct Item: Hashable {
-        let imageURL: String
-        let isManager: Bool
+    struct MemberListItem: Hashable {
+        var member: Member
+        var isManager: Bool
+        var imageURL: String
+        
+        init(member: Member) {
+            self.member = member
+            self.isManager = member.isManager
+            self.imageURL = member.imageURL
+        }
     }
     
-    enum Text {
-        static let changeWorkplace = "근무지 변경"
-        static let workStart = "출근"
-        static let workEnd = "퇴근"
-        static let addWorkLog = "근무 등록"
-    }
+    // MARK: - UI
     
-    // MARK: - UI Properties
+    private let reminderBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     
-    private let scrollView: UIScrollView = .init()
-    
-    private let reminderBarButton: UIBarButtonItem = .init()
-    
-    private let memberSliderView = SliderView<MemberView>()
+    private lazy var memberCollectionView: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: createMemberListLayout())
+        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
+        cv.isScrollEnabled = false
+        cv.clipsToBounds = false
+        return cv
+    }()
     
     private let noticeSliderView = SliderView<NoticeView>()
     
-    private let label: UILabel = .title(title: "이번달\n-- 을 확인해 보세요")
+    private let _mainTitleLabel = UILabel.title(title: AppText.mainTitle)
     
     private let calendarView = CalendarView()
     
-    private let workStatusView: WorkStatusView = WorkStatusView()
-    
-    private let workStartButton: UIButton = .common(title: Text.workStart)
-    
-    private let addWorkLogButton: UIButton = .common(title: Text.addWorkLog)
-    
     // MARK: - Properties
     
+    private var memberListDataSource: MemberListDataSource!
     
     // MARK: - Dependencies
     
     private var viewModel: MainViewModel!
     
-    // MARK: - Life Cycle Methods
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
-        configureHierarchy()
-        bindInternalSubviews()
+        setNav()
+        setDataSource()
+        setHierarchy()
+        bindSubviews()
     }
     
-    // MARK: - Nav Item
-    
-    private func configureNavItem() {
-        // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리
-        navigationItem.title = ""
-        navigationItem.largeTitleDisplayMode = .automatic
-        navigationItem.rightBarButtonItem = reminderBarButton
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        Swift.print(#fileID, "🐶🐶🐶 - view will appear")
     }
     
     // MARK: - Data Binding
     
-    private func bindInternalSubviews() {
-    
+    private func bindSubviews() {
+        let onMemberTap = memberCollectionView.rx
+            .itemSelected
+            .compactMap { [unowned self] index in
+                return memberListDataSource.itemIdentifier(for: index)?
+                    .member
+            }
+            .asSignal()
+        
         let output = viewModel.transform(
             .init(
                 showWorkplace: .empty(),
                 changeWorkplace: .empty(),
                 showRemainders: .empty(),
-                showMemberDetail: .empty(),
-                showNotices: .empty(),
-                workStart: workStartButton.rx.tap.asSignal(),
-                addWorkLog: addWorkLogButton.rx.tap.asSignal()
+                onMemberTap: onMemberTap,
+                onBarButtonTap: reminderBarButton.rx.tap.asSignal()
             )
         )
         
         Task {
             for await members in output.members.values {
-                Swift.print(#fileID, "(MainVC) Did received members: \(members)")
-                memberSliderView.items = members.map { member in
-                    let view = MemberView()
-                    view.member = member
-                    return view
-                }
+                Swift.print(#fileID, "🐡🐡🐡 Did received members: \(members)")
+                applyMemberSnapshot(members)
             }
         }
         
@@ -130,70 +129,66 @@ class MainViewController: UIViewController {
                 }
             }
         }
-        
-        //        Task {
-        //            for await item in output.item.values {
-        //                applyItem(item)
-        //            }
-        //        }
     }
     
-    private func apply(item: MainViewItem) {
-        navigationItem.title = item.navItemTitle
+    // MARK: - Nav Item
+    
+    private func setNav() {
+        // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리..?
+        
+        navigationItem.title = ""
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationItem.rightBarButtonItem = reminderBarButton
+    }
+    
+    // MARK: - Data Source
+    
+    private func setDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, MemberListItem> { (cell, indexPath, item) in
+            var content = MemberContentView.Configuration()
+            content.member = item.member
+            cell.contentConfiguration = content
+        }
+        
+        memberListDataSource = MemberListDataSource(collectionView: memberCollectionView) { (view, index, item) -> UICollectionViewCell? in
+            return view.dequeueConfiguredReusableCell(using: cellRegistration, for: index, item: item)
+        }
+    }
+    
+    private func applyMemberSnapshot(_ members: [Member]) {
+        let items = members.map(MemberListItem.init)
+        var snapshot = MemberListSnapshot()
+        snapshot.appendSections([.row])
+        snapshot.appendItems(items, toSection: .row)
+        memberListDataSource.apply(snapshot)
     }
     
     // MARK: - Hierarchy
     
-    private func configureHierarchy() {
+    private func setHierarchy() {
         view.backgroundColor = .systemBackground
         
         let separator = UIView()
-        separator.backgroundColor = .separator
-        separator.heightAnchor.constraint(equalToConstant: 2).isActive = true
+        separator.backgroundColor = .border
+        separator.heightAnchor
+            .constraint(equalToConstant: 1.0)
+            .isActive = true
         
-        
-        let workButtonHStack = UIStackView(arrangedSubviews: [
-            workStartButton,
-            addWorkLogButton
-        ])
-        workButtonHStack.spacing = 12
-        workButtonHStack.distribution = .fillEqually
-        
-        workStatusView.label.text = "남은시간"
-        workStatusView.label3.text = "-월 합계 -원"
-        workStatusView.label4.text = "-원"
-        workStatusView.progressView.progress = 0.5
-        
-        let modalVStack = UIStackView(arrangedSubviews: [
-            workStatusView,
-            workButtonHStack
-        ])
-        modalVStack.axis = .vertical
-        modalVStack.spacing = 16
-        
-        memberSliderView.itemSize = 44
-        // inset + margin 줄 수 있게끔
-        
-        /// - Tag: Hierarchy
         let stack = UIStackView(arrangedSubviews: [
-            memberSliderView,
+            memberCollectionView,
             noticeSliderView,
             separator,
-            label,
+            _mainTitleLabel,
             calendarView
         ])
         
         stack.axis = .vertical
         stack.spacing = 16
-
-        let subViews: [UIView] = [
-            stack,
-            modalVStack
-        ]
-        subViews.forEach(view.addSubview)
         
-        memberSliderView.snp.makeConstraints { make in
-            make.height.equalTo(44)
+        view.addSubview(stack)
+        
+        memberCollectionView.snp.makeConstraints { make in
+            make.height.equalTo(40)
         }
         
         noticeSliderView.snp.makeConstraints { make in
@@ -206,24 +201,29 @@ class MainViewController: UIViewController {
             make.height.equalTo(450)
         }
         
-        Swift.print("calendarView.frame: \(calendarView.frame)")
-
-        
         stack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(16)
             make.top.equalTo(view.snp_topMargin).inset(16)
             make.centerX.equalToSuperview()
         }
-        
-        workButtonHStack.snp.makeConstraints { make in
-            make.height.equalTo(56)
-        }
-        
-        modalVStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.bottom.equalTo(view.snp_bottomMargin).inset(16)
-            make.centerX.equalToSuperview()
-        }
+    }
+    
+    // MARK: - CollectionView Layout
+    
+    private func createMemberListLayout() -> UICollectionViewLayout {
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0 / 7.0),
+                heightDimension: .estimated(44)))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44)),
+            subitems: [item])
+        group.interItemSpacing = .fixed(12)
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }
 

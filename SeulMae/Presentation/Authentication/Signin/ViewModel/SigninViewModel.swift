@@ -87,7 +87,7 @@ final class SigninViewModel: ViewModel {
                 // .trackActivity(signingIn)
                     .asDriver { error in
                         let message: String
-                        if case .faildedToSignin(let reason) = error as? DomainError {
+                        if case .faildedToSignin(let reason) = error as? APIError {
                             message = reason
                         } else {
                             message = "??"
