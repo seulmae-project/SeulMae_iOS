@@ -98,7 +98,17 @@ final class NotiListViewController: UIViewController {
             }
             .asSignal()
         
+        let output = viewModel.transform(
+            .init(
+                onItemTap: onItemTap
+            )
+        )
         
+        Task {
+            for await items in output.items.values {
+                apply(items: items)
+            }
+        }
     }
     
     // MARK: - Data Source
@@ -117,6 +127,13 @@ final class NotiListViewController: UIViewController {
         }
     }
     
+    private func apply(items: [NotiListItem]) {
+        var snapshot = Snapshot()
+        snapshot.appendSections([.list])
+        snapshot.appendItems(items, toSection: .list)
+        dataSource.apply(snapshot)
+    }
+    
     // MARK: - Hierarchy
     
     private func setHierarchy() {
@@ -130,15 +147,18 @@ final class NotiListViewController: UIViewController {
         view.addSubview(categoryStack)
         view.addSubview(collectionView)
         
+        let inset = CGFloat(16)
+        
         categoryStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.top.equalTo(view.snp_topMargin).inset(16)
+            make.leading.equalToSuperview().inset(inset)
+            make.top.equalTo(view.snp_topMargin).inset(inset)
         }
         
         collectionView.snp.makeConstraints { make in
-            make.leading.bottom.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.leading.bottom.trailing.equalToSuperview()
+                .inset(inset)
             make.top.equalTo(categoryStack.snp.bottom)
-                .offset(16)
+                .offset(inset)
         }
     }
     
@@ -154,8 +174,8 @@ final class NotiListViewController: UIViewController {
                 widthDimension: .fractionalWidth(1.0),
                 heightDimension: .estimated(60)),
             subitems: [item])
-        group.interItemSpacing = .fixed(12)
         let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 16
         return UICollectionViewCompositionalLayout(section: section)
     }
 }

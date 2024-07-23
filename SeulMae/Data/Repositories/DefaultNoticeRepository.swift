@@ -69,12 +69,14 @@ class DefaultNoticeRepository: NoticeRepository {
         size: Int
     ) -> RxSwift.Single<[Notice]> {
         Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n - page: \(page)\n - size: \(size)\n")
-        return Single<BaseResponseDTO<[NoticeDTO]>>.create { observer in
-            observer(.success(MockData.NoticeAPI.noticesSuccess))
+        return Single<[Notice]>.create { observer in
+            let notices = MockData.NoticeAPI
+                .noticesSuccess
+                .compactMap { try? $0.toDomain() }
+            observer(.success(notices))
             // observer(.success(MockData.NoticeAPI.noticesFailed))
             return Disposables.create()
         }
-        .map { try $0.toDomain() }
         .do(onError: { error in
             print("error: \(error)")
         })
