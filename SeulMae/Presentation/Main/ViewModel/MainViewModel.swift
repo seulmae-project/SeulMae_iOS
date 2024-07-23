@@ -100,7 +100,7 @@ final class MainViewModel: ViewModel {
         
         Task {
             for await _ in input.onBarButtonTap.values {
-                coordinator.showNotiList()
+                coordinator.showNotiList(workplaceIdentifier: 0)
             }
         }
         

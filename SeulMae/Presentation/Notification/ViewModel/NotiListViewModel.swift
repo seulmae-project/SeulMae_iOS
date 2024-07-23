@@ -11,7 +11,7 @@ import RxCocoa
 
 final class NotiListViewModel: ViewModel {
     struct Input {
-
+        let onItemTap: Signal<Notice.ID>
     }
     
     struct Output {
@@ -25,39 +25,46 @@ final class NotiListViewModel: ViewModel {
     private let workplaceUseCase: WorkplaceUseCase
     
     private let noticeUseCase: NoticeUseCase
+    
+    private let workplaceIdentifier: Workplace.ID
         
     // MARK: - Life Cycle
     
     init(
         dependency: (
+            workplaceIdentifier: Workplace.ID,
             coordinator: MainFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             noticeUseCase: NoticeUseCase
-//            validationService: ValidationService,
-//            wireframe: Wireframe
         )
     ) {
+        self.workplaceIdentifier = dependency.workplaceIdentifier
         self.coordinator = dependency.coordinator
         self.workplaceUseCase = dependency.workplaceUseCase
         self.noticeUseCase = dependency.noticeUseCase
-//        self.validationService = dependency.validationService
-//        self.wireframe = dependency.wireframe
     }
     
     @MainActor func transform(_ input: Input) -> Output {
         
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-        
    
-//        
-//        let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceIdentifier)
-//            .asDriver()
+        let size = 10
+        let notices = noticeUseCase.fetchAllNotice(workplaceIdentifier: workplaceIdentifier, page: 0, size: size)
+            .map { $0.map(NotiListItem.init(notice:)) }
+            .asDriver()
        
         // MARK: Flow Logic
+        
+        Task {
+            for await noticeIdentifier in input.onItemTap.values {
+                
+            }
+        }
+        
 
         return Output(
-            items: .empty()
+            items: notices
         )
     }
 }
