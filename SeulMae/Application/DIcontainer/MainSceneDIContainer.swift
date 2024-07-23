@@ -48,6 +48,7 @@ final class MainSceneDIContainer {
 }
 
 extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
+ 
    
     // MARK: - Main
     
@@ -129,21 +130,33 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
-
-
     
-//    func makeAccountSetupViewController(coordinator: any AuthFlowCoordinator
-//    ) -> AccountSetupViewController {
-//        return .create(viewModel: makeAccountSetupViewModel(coordinator: coordinator))
-//    }
-//    
-//    private func makeAccountSetupViewModel(coordinator: AuthFlowCoordinator
-//    ) -> AccountSetupViewModel {
-//        return AccountSetupViewModel(
-//            dependency: (
-//                authUseCase: makeMapUseCase(),
-//                coordinator: coordinator
-//            )
-//        )
-//    }
+    // MARK: - Notice Detail
+    
+    func makeNoticeDetailViewController(
+        noticeIdentifier: Notice.ID,
+        coordinator: any MainFlowCoordinator
+    ) -> NoticeDetailViewController {
+        return NoticeDetailViewController.create(
+            viewModel: makeNoticeDtailViewModel(
+                noticeIdentifier: noticeIdentifier,
+                coordinator: coordinator,
+                noticeUseCase: makeNoticeUseCase()
+            )
+        )
+    }
+    
+    private func makeNoticeDtailViewModel(
+        noticeIdentifier: Notice.ID,
+        coordinator: MainFlowCoordinator,
+        noticeUseCase: NoticeUseCase
+    ) -> NoticeDetailViewModel {
+        return NoticeDetailViewModel(
+            dependencies: (
+                noticeIdentifier: noticeIdentifier,
+                coordinator: coordinator,
+                noticeUseCase: noticeUseCase
+            )
+        )
+    }
 }

@@ -73,6 +73,7 @@ final class NoticeDetailViewController: UIViewController {
     }
     
     func onLayout() {
+        view.backgroundColor = .systemBackground
         
     }
 }

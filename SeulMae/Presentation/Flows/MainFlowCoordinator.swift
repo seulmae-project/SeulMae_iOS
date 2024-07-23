@@ -12,15 +12,17 @@ protocol MainFlowCoordinatorDependencies {
     func makeSearchPlaceViewController(coordinator: MainFlowCoordinator) -> SearchPlaceViewController
     func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
+    func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> NoticeDetailViewController
 }
 
 protocol MainFlowCoordinator {
     
     func start()
+    func goBack()
     func showMain()
     func showMemberInfo(member: Member)
     func showNotiList(workplaceIdentifier: Workplace.ID)
-    func goBack()
+    func showNotiDetail(noticeIdentifier: Notice.ID)
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -63,14 +65,20 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     func showMemberInfo(member: Member) {
         let vc = dependencies.makeMemberInfoViewController(
             member: member,
-            coordinator: self
-        )
+            coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
     
     func showNotiList(workplaceIdentifier: Workplace.ID) {
         let vc = dependencies.makeNotiListViewController(
             workplaceIdentifier: workplaceIdentifier,
+            coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showNotiDetail(noticeIdentifier: Notice.ID) {
+        let vc = dependencies.makeNoticeDetailViewController(
+            noticeIdentifier: noticeIdentifier,
             coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }

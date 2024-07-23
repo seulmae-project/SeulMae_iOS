@@ -58,7 +58,7 @@ final class NotiListViewModel: ViewModel {
         
         Task {
             for await noticeIdentifier in input.onItemTap.values {
-                
+                coordinator.showNotiDetail(noticeIdentifier: noticeIdentifier)
             }
         }
         
