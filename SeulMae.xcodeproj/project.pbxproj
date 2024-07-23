@@ -141,7 +141,8 @@
 		86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4642C4B8D3500D83488 /* Sendable+Rx.swift */; };
 		86C2930D2C24725A0006AC72 /* DefaultAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */; };
 		86C40B042C4F386E0051EF2B /* NoticeDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B032C4F386E0051EF2B /* NoticeDetailViewController.swift */; };
-		86C40B062C4F38E30051EF2B /* DetailNoticeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B052C4F38E30051EF2B /* DetailNoticeViewModel.swift */; };
+		86C40B062C4F38E30051EF2B /* NoticeDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B052C4F38E30051EF2B /* NoticeDetailViewModel.swift */; };
+		86C40B082C4F3C320051EF2B /* NoticeDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B072C4F3C320051EF2B /* NoticeDetailItem.swift */; };
 		86D309C72C33975100C08DA8 /* AddNoticeRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C62C33975100C08DA8 /* AddNoticeRequset.swift */; };
 		86D309C92C3397C800C08DA8 /* UpdateNoticeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C82C3397C800C08DA8 /* UpdateNoticeRequest.swift */; };
 		86D309CB2C339D8A00C08DA8 /* NoticeDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309CA2C339D8A00C08DA8 /* NoticeDetail.swift */; };
@@ -340,7 +341,8 @@
 		86B4B4642C4B8D3500D83488 /* Sendable+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sendable+Rx.swift"; sourceTree = "<group>"; };
 		86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAuthRepository.swift; sourceTree = "<group>"; };
 		86C40B032C4F386E0051EF2B /* NoticeDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewController.swift; sourceTree = "<group>"; };
-		86C40B052C4F38E30051EF2B /* DetailNoticeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailNoticeViewModel.swift; sourceTree = "<group>"; };
+		86C40B052C4F38E30051EF2B /* NoticeDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailViewModel.swift; sourceTree = "<group>"; };
+		86C40B072C4F3C320051EF2B /* NoticeDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetailItem.swift; sourceTree = "<group>"; };
 		86D309C62C33975100C08DA8 /* AddNoticeRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoticeRequset.swift; sourceTree = "<group>"; };
 		86D309C82C3397C800C08DA8 /* UpdateNoticeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNoticeRequest.swift; sourceTree = "<group>"; };
 		86D309CA2C339D8A00C08DA8 /* NoticeDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeDetail.swift; sourceTree = "<group>"; };
@@ -1077,7 +1079,8 @@
 			isa = PBXGroup;
 			children = (
 				86C40B032C4F386E0051EF2B /* NoticeDetailViewController.swift */,
-				86C40B052C4F38E30051EF2B /* DetailNoticeViewModel.swift */,
+				86C40B052C4F38E30051EF2B /* NoticeDetailViewModel.swift */,
+				86C40B072C4F3C320051EF2B /* NoticeDetailItem.swift */,
 			);
 			path = NoticeDetail;
 			sourceTree = "<group>";
@@ -1626,7 +1629,7 @@
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
-				86C40B062C4F38E30051EF2B /* DetailNoticeViewModel.swift in Sources */,
+				86C40B062C4F38E30051EF2B /* NoticeDetailViewModel.swift in Sources */,
 				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */,
 				861B96A22C2061D70032C94A /* SheetContainerView.swift in Sources */,
@@ -1641,6 +1644,7 @@
 				866577B52C340D840048A111 /* SearchPlaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
+				86C40B082C4F3C320051EF2B /* NoticeDetailItem.swift in Sources */,
 				8693C4342C22E07D00D7DCD3 /* ShapeLayer.swift in Sources */,
 				86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */,
 			);

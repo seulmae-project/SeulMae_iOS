@@ -20,6 +20,7 @@ protocol MainFlowCoordinator {
     func showMain()
     func showMemberInfo(member: Member)
     func showNotiList(workplaceIdentifier: Workplace.ID)
+    func goBack()
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -41,6 +42,10 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     func start() {
         showMain()
+    }
+    
+    func goBack() {
+        navigationController.popViewController(animated: true)
     }
     
     // MARK: - Main

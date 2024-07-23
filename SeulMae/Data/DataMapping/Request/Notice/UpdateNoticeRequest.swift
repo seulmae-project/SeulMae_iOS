@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateNoticeRequest: ModelType {
+struct UpdateNoticeRequest: ModelType, Equatable {
     let title: String
     let content: String
     let isImportant: Bool

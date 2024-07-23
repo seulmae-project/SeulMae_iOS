@@ -10,7 +10,7 @@ import RxSwift
 
 protocol NoticeUseCase {
     func addNotice(_ request: AddNoticeRequset) -> Single<Bool>
-    func updateNotice(noticeIdentifier id: Notice.ID, _ request: UpdateNoticeRequest) -> Single<Bool>
+    func updateNotice(noticeIdentifier id: Notice.ID, with request: UpdateNoticeRequest) -> Single<Bool>
     func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> Single<NoticeDetail>
     func fetchAllNotice(workplaceIdentifier id: Workplace.ID, page: Int, size: Int) -> Single<[Notice]>
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
@@ -32,7 +32,7 @@ class DefaultNoticeUseCase: NoticeUseCase {
     
     func updateNotice(
         noticeIdentifier id: Notice.ID,
-        _ request: UpdateNoticeRequest
+        with request: UpdateNoticeRequest
     ) -> Single<Bool> {
         noticeRepository.updateNotice(
             noticeIdentifier: id,

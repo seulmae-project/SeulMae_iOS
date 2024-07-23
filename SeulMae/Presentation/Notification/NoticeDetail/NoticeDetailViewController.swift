@@ -11,7 +11,7 @@ final class NoticeDetailViewController: UIViewController {
     
     // MARK: - Flow
     
-    static func create(viewModel: DetailNoticeViewModel) -> NoticeDetailViewController {
+    static func create(viewModel: NoticeDetailViewModel) -> NoticeDetailViewController {
         let vc = NoticeDetailViewController()
         vc.viewModel = viewModel
         return vc
@@ -62,7 +62,7 @@ final class NoticeDetailViewController: UIViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: DetailNoticeViewModel!
+    private var viewModel: NoticeDetailViewModel!
     
     // MARK: - Life Cycle
     
