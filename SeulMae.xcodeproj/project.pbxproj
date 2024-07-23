@@ -192,6 +192,7 @@
 		86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E72C17289800805AD0 /* AccountSetupViewController.swift */; };
 		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
 		86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86E299ED2C17357E00805AD0 /* SnapKit */; };
+		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -395,6 +396,7 @@
 		86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Componet+SeulMae.swift"; sourceTree = "<group>"; };
 		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
 		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
+		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1079,6 +1081,7 @@
 			isa = PBXGroup;
 			children = (
 				86C40B032C4F386E0051EF2B /* NoticeDetailViewController.swift */,
+				86E49BD82C4FA85F00429FF9 /* _TextView.swift */,
 				86C40B052C4F38E30051EF2B /* NoticeDetailViewModel.swift */,
 				86C40B072C4F3C320051EF2B /* NoticeDetailItem.swift */,
 			);
@@ -1520,6 +1523,7 @@
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
+				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
