@@ -196,6 +196,8 @@
 		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
 		86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86E299ED2C17357E00805AD0 /* SnapKit */; };
 		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
+		86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */; };
+		86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -403,6 +405,8 @@
 		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
 		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
 		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
+		86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
+		86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStatusView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -679,6 +683,7 @@
 			isa = PBXGroup;
 			children = (
 				86E299AC2C1721FF00805AD0 /* MainViewController.swift */,
+				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
 				8606F6832C33282100FFC68E /* MemberContentView.swift */,
 				86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */,
 				8684C5B82C4A0CB700EB3D28 /* NoticeView.swift */,
@@ -811,6 +816,7 @@
 				86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */,
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 				8697FBEA2C2D19140027A035 /* Rxswift+ */,
+				86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1517,6 +1523,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
 				86DE556C2C19E9C7009CC520 /* IDRecoveryViewController.swift in Sources */,
@@ -1586,6 +1593,7 @@
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
 				869054AD2C60C1C40037B61A /* Table.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
+				86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */,
 				86B4B45B2C4B4AA200D83488 /* WorkScheduleView.swift in Sources */,
 				8684C5B02C49F9AB00EB3D28 /* WorkplaceRepository.swift in Sources */,
 				863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */,

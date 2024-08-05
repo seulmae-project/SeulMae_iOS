@@ -9,6 +9,10 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum UserKind {
+    case manager
+    case member
+}
 
 class MainViewController: UIViewController {
     
@@ -58,6 +62,8 @@ class MainViewController: UIViewController {
     
     private let _mainTitleLabel = UILabel.title(title: AppText.mainTitle)
     
+    private let currentStatusView = CurrentStatusView()
+    
     private let calendarView = CalendarView()
     
     // MARK: - Properties
@@ -85,14 +91,15 @@ class MainViewController: UIViewController {
     }
     
     func onLoad() {
-        // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리..?
-        // 근무지 리스트에서 선택된 근무지 정보를 받아올 수 있도록?
-        // 일단은 pass?
-        
-        
-        
-        navigationItem.title = ""
-        navigationItem.largeTitleDisplayMode = .automatic
+        let appearance = UINavigationBarAppearance()
+        appearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
+        appearance.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 24, weight: .bold),
+            .foregroundColor: UIColor.red
+        ]
+        navigationController?.navigationBar.standardAppearance = appearance
+        let workplace = WorkplaceTable.get().first
+        navigationItem.title = workplace?.workplaceName ?? "근무지 이름"
         navigationItem.rightBarButtonItem = reminderBarButton
     }
     
@@ -174,17 +181,13 @@ class MainViewController: UIViewController {
     private func setHierarchy() {
         view.backgroundColor = .systemBackground
         
-        let separator = UIView()
-        separator.backgroundColor = .border
-        separator.heightAnchor
-            .constraint(equalToConstant: 1.0)
-            .isActive = true
-        
         let stack = UIStackView(arrangedSubviews: [
             memberCollectionView,
+            .separator,
             noticeSliderView,
-            separator,
+            .separator,
             _mainTitleLabel,
+            currentStatusView,
             calendarView
         ])
         
@@ -192,6 +195,11 @@ class MainViewController: UIViewController {
         stack.spacing = 16
         
         view.addSubview(stack)
+        stack.snp.makeConstraints { make in
+            make.leading.equalToSuperview().inset(20)
+            make.top.equalTo(view.snp_topMargin).inset(20)
+            make.centerX.equalToSuperview()
+        }
         
         memberCollectionView.snp.makeConstraints { make in
             make.height.equalTo(40)
@@ -204,13 +212,8 @@ class MainViewController: UIViewController {
         calendarView.snp.makeConstraints { make in
             // 1대 1말고 사이즈를 자동으로 계산했으면 하는데..?
             // width 고정되어 있음
+            // 자동으로 사이즈를 계산해야함
             make.height.equalTo(450)
-        }
-        
-        stack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(16)
-            make.top.equalTo(view.snp_topMargin).inset(16)
-            make.centerX.equalToSuperview()
         }
     }
     

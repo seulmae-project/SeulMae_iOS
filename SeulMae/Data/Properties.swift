@@ -23,11 +23,8 @@ public class WorkplaceTable: Table {
         return WorkplaceTable().set(sql: sql)
     }
     
-    static func get(
-        workplaceIdentifier id: Int,
-        defaultValue: String = ""
-    ) -> [Workplace] {
-        let sql = String(format: "SELECT value FROM workpkace WHERE id='%@'", id)
+    static func get() -> [Workplace] {
+        let sql = String(format: "SELECT value FROM workpkace")
         let result: Array<[String: String]> = WorkplaceTable().get(sql: sql)
         guard let json = try? JSONSerialization.data(withJSONObject: result, options: []),
               let data = try? JSONDecoder().decode([WorkplaceDTO].self, from: json) else {
