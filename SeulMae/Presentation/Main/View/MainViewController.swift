@@ -73,7 +73,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setNav()
+        onLoad()
         setDataSource()
         setHierarchy()
         bindSubviews()
@@ -82,6 +82,18 @@ class MainViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         Swift.print(#fileID, "🐶🐶🐶 - view will appear")
+    }
+    
+    func onLoad() {
+        // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리..?
+        // 근무지 리스트에서 선택된 근무지 정보를 받아올 수 있도록?
+        // 일단은 pass?
+        
+        
+        
+        navigationItem.title = ""
+        navigationItem.largeTitleDisplayMode = .automatic
+        navigationItem.rightBarButtonItem = reminderBarButton
     }
     
     // MARK: - Data Binding
@@ -131,16 +143,6 @@ class MainViewController: UIViewController {
         }
     }
     
-    // MARK: - Nav Item
-    
-    private func setNav() {
-        // TODO: 인터넷이 연결되어 있지 않아도 기본 근무지 정보를 받아올 수 있도록 처리..?
-        
-        navigationItem.title = ""
-        navigationItem.largeTitleDisplayMode = .automatic
-        navigationItem.rightBarButtonItem = reminderBarButton
-    }
-    
     // MARK: - Data Source
     
     private func setDataSource() {
@@ -164,6 +166,10 @@ class MainViewController: UIViewController {
     }
     
     // MARK: - Hierarchy
+    
+    func layoutSubviews() {
+        
+    }
     
     private func setHierarchy() {
         view.backgroundColor = .systemBackground
