@@ -8,6 +8,9 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import KakaoSDKAuth
+import KakaoSDKUser
+import RxKakaoSDKUser
 
 final class SigninViewModel: ViewModel {
     
@@ -104,8 +107,36 @@ final class SigninViewModel: ViewModel {
         
         
         // MARK: - Kakao Signin
-
-        let _ = input.kakaoSignin
+        
+        let oAuthToken = input.kakaoSignin
+            .flatMapLatest { _ -> Driver<OAuthToken> in
+                if (UserApi.isKakaoTalkLoginAvailable()) {
+                    Swift.print("☘️ login With Kakao Talk")
+                    return UserApi.shared
+                        .rx
+                        .loginWithKakaoTalk()
+                        .asDriver()
+                } else {
+                    Swift.print("☘️ login With Kakao Account")
+                    return UserApi.shared
+                        .rx
+                        .loginWithKakaoAccount()
+                        .asDriver()
+                }
+            }
+        
+//        let isSignedUp = oAuthToken.flatMapLatest { token in
+//            
+//        }
+        
+        
+        Task {
+            for await token in oAuthToken.values {
+                Swift.print("☘️ Login With Kakao Success: \(token)")
+                
+            }
+        }
+        
 
 //        let accountRecovery = input.accountRecovery
 //            .flatMapLatest { _ -> Driver<Bool> in

@@ -36,7 +36,7 @@ enum MainAPI: SugarTargetType {
 
 extension MainAPI {
     var baseURL: URL {
-        return URL(string: Secrets.BASE_URL)!
+        return URL(string: Bundle.main.baseURL)!
     }
     
     var route: Route {

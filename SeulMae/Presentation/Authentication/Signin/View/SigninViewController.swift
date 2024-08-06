@@ -9,6 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+
 final class SigninViewController: UIViewController {
     
     // MARK: - Flow
@@ -23,7 +24,6 @@ final class SigninViewController: UIViewController {
         static let emailTextFieldPlaceholder = "이메일을 입력해주세요"
         static let passwordTextFieldPlaceholder = "비밀번호를 입력해주세요"
         static let signin = "로그인"
-        static let kakaoSignin = "카카오톡 로그인"
         static let passwordReset = "이메일 또는 비밀번호 찾기"
         static let signup = "회원가입"
     }
@@ -38,7 +38,7 @@ final class SigninViewController: UIViewController {
     private let eamilTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
     private let passwordTextField: UITextField = .password(placeholder: Text.passwordTextFieldPlaceholder)
     private let signinButton: UIButton = .common(title: Text.signin)
-    private let kakaoSigninButton: UIButton = .common(title: Text.kakaoSignin)
+    private let kakaoSigninButton: UIButton = .common(title: "카카오톡 로그인")
     private let findCredentials: UIButton = .callout(title: Text.passwordReset)
     private let signupButton: UIButton = .callout(title: Text.signup)
 
