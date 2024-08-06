@@ -38,7 +38,20 @@ final class SigninViewController: UIViewController {
     private let eamilTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
     private let passwordTextField: UITextField = .password(placeholder: Text.passwordTextFieldPlaceholder)
     private let signinButton: UIButton = .common(title: Text.signin)
-    private let kakaoSigninButton: UIButton = .common(title: "카카오톡 로그인")
+    
+    private let kakaoSignInButton: UIButton = {
+        let b = UIButton()
+        b.setImage(.kakaoLoginLargeWide, for: .normal)
+        b.contentVerticalAlignment = .fill
+        b.contentHorizontalAlignment = .fill
+        return b
+    }()
+    
+    private let appleSignInButton: UIButton = {
+        let b = UIButton()
+        return b
+    }()
+    
     private let findCredentials: UIButton = .callout(title: Text.passwordReset)
     private let signupButton: UIButton = .callout(title: Text.signup)
 
@@ -60,7 +73,7 @@ final class SigninViewController: UIViewController {
                 email: eamilTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signinButton.rx.tap.asSignal(),
-                kakaoSignin: kakaoSigninButton.rx.tap.asSignal(),
+                kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
                 validateSMS: .empty()// .just(.idRecovery)
             )
         )
@@ -85,14 +98,14 @@ final class SigninViewController: UIViewController {
         signinHStack.spacing = 16
         
         let signinVStack = UIStackView(arrangedSubviews: [
-            appIconImageView, eamilTextField, passwordTextField, signinButton, kakaoSigninButton, signinHStack
+            appIconImageView, eamilTextField, passwordTextField, signinButton, kakaoSignInButton, signinHStack
         ])
         signinVStack.axis = .vertical
         signinVStack.alignment = .center
         signinVStack.spacing = 8
         signinVStack.setCustomSpacing(48, after: appIconImageView)
         signinVStack.setCustomSpacing(16, after: passwordTextField)
-        signinVStack.setCustomSpacing(4, after: kakaoSigninButton)
+        signinVStack.setCustomSpacing(4, after: kakaoSignInButton)
         
         view.addSubview(signinVStack)
         
@@ -117,7 +130,7 @@ final class SigninViewController: UIViewController {
             make.height.equalTo(56)
         }
         
-        kakaoSigninButton.snp.makeConstraints { make in
+        kakaoSignInButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.height.equalTo(56)
         }
