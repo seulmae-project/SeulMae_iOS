@@ -96,7 +96,6 @@
 		868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354712C2454A300F055D2 /* BaseResponseDTO.swift */; };
 		868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */; };
 		868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */; };
-		8683547B2C245C8A00F055D2 /* Token.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547A2C245C8A00F055D2 /* Token.swift */; };
 		8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */; };
 		868354812C245F7800F055D2 /* Workplace.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868354802C245F7800F055D2 /* Workplace.swift */; };
 		8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */; };
@@ -126,6 +125,7 @@
 		8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */; };
 		8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */; };
 		8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */; };
+		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
 		86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D842C3295320088E1B1 /* CalendarView.swift */; };
@@ -304,7 +304,6 @@
 		868354712C2454A300F055D2 /* BaseResponseDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseResponseDTO.swift; sourceTree = "<group>"; };
 		868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "EmailDTO+Mapping.swift"; sourceTree = "<group>"; };
 		868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AuthDataDTO+Mapping.swift"; sourceTree = "<group>"; };
-		8683547A2C245C8A00F055D2 /* Token.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Token.swift; sourceTree = "<group>"; };
 		8683547E2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceDTO+Mapping.swift"; sourceTree = "<group>"; };
 		868354802C245F7800F055D2 /* Workplace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workplace.swift; sourceTree = "<group>"; };
 		8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceUseCase.swift; sourceTree = "<group>"; };
@@ -334,6 +333,7 @@
 		8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableConvertibleType+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
 		86B07D842C3295320088E1B1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -594,7 +594,7 @@
 		861BF68D2C270C7C00702E24 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				8683547A2C245C8A00F055D2 /* Token.swift */,
+				86A03A892C623E5B00EA99DD /* AuthData.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1665,6 +1665,7 @@
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				86112E552C2EA1DB005DEBD1 /* SMSValidationViewController.swift in Sources */,
+				86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
@@ -1672,7 +1673,6 @@
 				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */,
 				861B96A22C2061D70032C94A /* SheetContainerView.swift in Sources */,
-				8683547B2C245C8A00F055D2 /* Token.swift in Sources */,
 				8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */,
 				860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */,
 				861BF6822C27044600702E24 /* MainFlowCoordinator.swift in Sources */,

@@ -15,7 +15,7 @@ enum AuthAPI: SugarTargetType {
     case requestVerification(phoneNumber: String, email: String? = nil)
     case verifyAuthNumber(authNumber: String)
     case emailVerification(email: String)
-    case signin(email: String, password: String)
+    case signin(accountId: String, password: String, fcmToken: String)
     case socialLogin
     case logout
     case updatePassword(password: String)

@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthUseCase {
     /// - Tag: Signin
-    func signin(_ email: String, _ password: String) -> Single<Token>
+    func signin(email: String, password: String, fcmToken: String) -> Single<AuthData>
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
@@ -34,8 +34,8 @@ class DefaultAuthUseCase: AuthUseCase {
         self.authRepository = authRepository
     }
         
-    func signin(_ email: String, _ password: String) -> RxSwift.Single<Token> {
-        authRepository.signin(email, password)
+    func signin(email: String, password: String, fcmToken: String) -> RxSwift.Single<AuthData> {
+        authRepository.signin(email: email, password: password, fcmToken: fcmToken)
     }
     
     func kakaoSignin() -> RxSwift.Single<Bool> {

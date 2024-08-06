@@ -20,14 +20,6 @@ final class SigninViewController: UIViewController {
         return view
     }
     
-    enum Text {
-        static let emailTextFieldPlaceholder = "이메일을 입력해주세요"
-        static let passwordTextFieldPlaceholder = "비밀번호를 입력해주세요"
-        static let signin = "로그인"
-        static let passwordReset = "이메일 또는 비밀번호 찾기"
-        static let signup = "회원가입"
-    }
-    
     // MARK: - Dependency
     
     private var viewModel: SigninViewModel!
@@ -35,9 +27,18 @@ final class SigninViewController: UIViewController {
     // MARK: - UI
     
     private let appIconImageView: UIImageView = .common(image: .appLogo)
-    private let eamilTextField: UITextField = .common(placeholder: Text.emailTextFieldPlaceholder)
-    private let passwordTextField: UITextField = .password(placeholder: Text.passwordTextFieldPlaceholder)
-    private let signinButton: UIButton = .common(title: Text.signin)
+    private let eamilTextField: UITextField = .common(placeholder: "이메일을 입력해주세요")
+    private let passwordTextField: UITextField = .password(placeholder: "비밀번호를 입력해주세요")
+    
+    private let signInButton: UIButton = {
+        let b = UIButton()
+        b.setTitle("로그인", for: .normal)
+        b.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        b.backgroundColor = .primary
+        b.layer.cornerRadius = 8.0
+        b.layer.cornerCurve = .continuous
+        return b
+    }()
     
     private let kakaoSignInButton: UIButton = {
         let b = UIButton()
@@ -52,8 +53,8 @@ final class SigninViewController: UIViewController {
         return b
     }()
     
-    private let findCredentials: UIButton = .callout(title: Text.passwordReset)
-    private let signupButton: UIButton = .callout(title: Text.signup)
+    private let findCredentials: UIButton = .callout(title: "이메일 또는 비밀번호 찾기")
+    private let signupButton: UIButton = .callout(title: "회원가입")
 
     // MARK: - Life Cycle
 
@@ -72,9 +73,10 @@ final class SigninViewController: UIViewController {
             .init(
                 email: eamilTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
-                signin: signinButton.rx.tap.asSignal(),
+                signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
-                validateSMS: .empty()// .just(.idRecovery)
+                validateSMS: .empty(), // .just(.idRecovery)
+                signup: signupButton.rx.tap.asSignal()
             )
         )
         
@@ -98,7 +100,7 @@ final class SigninViewController: UIViewController {
         signinHStack.spacing = 16
         
         let signinVStack = UIStackView(arrangedSubviews: [
-            appIconImageView, eamilTextField, passwordTextField, signinButton, kakaoSignInButton, signinHStack
+            appIconImageView, eamilTextField, passwordTextField, signInButton, kakaoSignInButton, signinHStack
         ])
         signinVStack.axis = .vertical
         signinVStack.alignment = .center
@@ -125,7 +127,7 @@ final class SigninViewController: UIViewController {
             make.height.equalTo(48)
         }
         
-        signinButton.snp.makeConstraints { make in
+        signInButton.snp.makeConstraints { make in
             make.leading.equalToSuperview()
             make.height.equalTo(56)
         }

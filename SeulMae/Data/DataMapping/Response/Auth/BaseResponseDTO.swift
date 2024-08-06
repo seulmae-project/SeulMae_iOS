@@ -7,6 +7,14 @@
 
 import Foundation
 
+//{
+//  "status": 200,
+//  "message": "LOGIN SUCCESS",
+//  "data":
+//  "timestamp": "2024-07-23T15:30:29.0993451"
+//}
+
+
 struct BaseResponseDTO<Data: Codable>: ModelType {
     let data: Data?
     let status: Int?

@@ -20,6 +20,7 @@ final class SigninViewModel: ViewModel {
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
         let validateSMS: Signal<SMSValidationItem>
+        let signup: Signal<()>
     }
     
     struct Output {
@@ -80,14 +81,12 @@ final class SigninViewModel: ViewModel {
             .flatMapLatest { [weak self] pair -> Driver<Bool> in
                 guard let weakSelf = self else { return .empty() }
                 return weakSelf.authUseCase
-                    .signin(pair.email, pair.password)
-                    .map { token in
-                        Swift.print(token.accessToken)
-                        Swift.print(token.refreshToken)
-                        Swift.print(token.tokenType)
+                    .signin(email: pair.email, password: pair.password, fcmToken: "")
+                // .trackActivity(signingIn)
+                    .map { authData in
+                       
                         return true
                     }
-                // .trackActivity(signingIn)
                     .asDriver { error in
                         let message: String
                         if case .faildedToSignin(let reason) = error as? APIError {

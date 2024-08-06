@@ -23,20 +23,16 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signin
     
-    func signin(_ email: String, _ password: String) -> Single<Token> {
-        return Single<BaseResponseDTO<AuthDataDTO>>.create { observer in
-            if email == "yonggipo@icloud.com" && password == "a*123456" {
-                observer(.success(signinResponse_success))
-            } else {
-                observer(.success(signinResponse_failed))
-            }
-            
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func signin(email: String, password: String, fcmToken: String) -> Single<AuthData> {
+        return network.rx
+            .request(.signin(accountId: email, password: password, fcmToken: fcmToken))
+            .map(BaseResponseDTO<AuthDataDTO>.self)
+            .map { try $0.toDomain() }
+            .do(onSuccess: { response in
+                Swift.print("response: \(response)")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
     }
     
     func kakaoSignin() -> Single<Bool> {

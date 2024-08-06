@@ -17,7 +17,7 @@ struct WorkplaceDTO: ModelType {
     let subAddress: String?
     let mainAddress: String?
     
-    
+    let userWorkplaceId: Int? // ?
 }
 
 // MARK: - Mappings To Domain
