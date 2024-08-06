@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthRepository {
     /// - Tag: Signin
-    func signin(email: String, password: String, fcmToken: String) -> Single<AuthData>
+    func signin(account: String, password: String, fcmToken: String) -> Single<AuthData>
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
@@ -22,6 +22,6 @@ protocol AuthRepository {
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
     
     /// - Tag: Common
-    func phoneVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool>
-    func authCodeVerification(_ authCode: String) -> Single<Bool>
+    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String>
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
 }

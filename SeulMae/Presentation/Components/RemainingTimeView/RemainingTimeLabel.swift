@@ -10,7 +10,7 @@ import UIKit
 class RemainingTimeLabel: UILabel {
     
     var timer: Timer?
-    var _remainingTime: TimeInterval = 180
+    private var _remainingTime: TimeInterval = 180
     var remainingTime: TimeInterval = 180
     
     override init(frame: CGRect) {

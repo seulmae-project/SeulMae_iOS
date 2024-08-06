@@ -22,8 +22,8 @@ protocol AuthUseCase {
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
     
     /// - Tag: Common
-    func smsVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool>
-    func codeVerification(_ authCode: String) -> Single<Bool>
+    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String>
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
 }
 
 class DefaultAuthUseCase: AuthUseCase {
@@ -35,7 +35,7 @@ class DefaultAuthUseCase: AuthUseCase {
     }
         
     func signin(email: String, password: String, fcmToken: String) -> RxSwift.Single<AuthData> {
-        authRepository.signin(email: email, password: password, fcmToken: fcmToken)
+        authRepository.signin(account: email, password: password, fcmToken: fcmToken)
     }
     
     func kakaoSignin() -> RxSwift.Single<Bool> {
@@ -58,11 +58,11 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.recoveryPassword(phoneNumber, newPassword)
     }
     
-    func smsVerification(_ phoneNumber: String, _ email: String?) -> RxSwift.Single<Bool> {
-        authRepository.phoneVerification(phoneNumber, email)
+    func sendSMSCode(phoneNumber: String, email: String?) -> RxSwift.Single<String> {
+        authRepository.sendSMSCode(phoneNumber: phoneNumber, email: email)
     }
     
-    func codeVerification(_ authCode: String) -> RxSwift.Single<Bool> {
-        authRepository.authCodeVerification(authCode)
+    func verifySMSCode(phoneNumber: String, code: String) -> RxSwift.Single<Bool> {
+        authRepository.verifySMSCode(phoneNumber: phoneNumber, code: code)
     }
 }

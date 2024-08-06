@@ -9,12 +9,18 @@ import Foundation
 import RxSwift
 import RxCocoa
 
+enum SMSRequestStatus {
+    case none
+    case request
+    case reRequest
+}
+
 final class SMSValidationViewModel: ViewModel {
     
     struct Input {
         let phoneNumber: Driver<String>
         let code: Driver<String>
-        let validateSMS: Signal<()>
+        let sendSMSCode: Signal<()>
         let verifyCode: Signal<()>
         let nextStep: Signal<()>
     }
@@ -22,9 +28,9 @@ final class SMSValidationViewModel: ViewModel {
     struct Output {
         let item: Driver<SMSValidationItem>
         let validatedPhoneNumber: Driver<ValidationResult>
-        let smsValidationEnabled: Driver<Bool>
-        let validatedSMS: Driver<Bool>
-        let codeVerificationEnabled: Driver<Bool>
+        let sendSMSCodeEnabled: Driver<Bool>
+        let isSended: Driver<SMSRequestStatus>
+        let verifySMSCodeEnabled: Driver<Bool>
         let verifiedCode: Driver<Bool>
         let nextStepEnabled: Driver<Bool>
     }
@@ -40,6 +46,10 @@ final class SMSValidationViewModel: ViewModel {
     private let wireframe: Wireframe
     
     private let item: SMSValidationItem
+    
+    private var phoneNumber: String = ""
+    
+    private var sendCount: Int = 0
     
     // MARK: - Life Cycle
     
@@ -64,7 +74,7 @@ final class SMSValidationViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        // MARK: SMS Validation
+        // MARK: Send SMS Code
         
         let validatedPhoneNumber = input.phoneNumber
             .flatMapLatest { [weak self] phoneNumber -> Driver<ValidationResult> in
@@ -73,31 +83,38 @@ final class SMSValidationViewModel: ViewModel {
                     .asDriver()
             }
         
-        let smsValidationEnabled = Driver.combineLatest(
+        let sendSMSCodeEnabled = Driver.combineLatest(
             validatedPhoneNumber, loading) { phoneNumber, loading in
-                phoneNumber.isValid &&
-                !loading
+                phoneNumber.isValid && !loading
             }
             .distinctUntilChanged()
         
-        let validatedSMS = input.validateSMS.withLatestFrom(input.phoneNumber)
-            .flatMapLatest { [weak self] phoneNumber -> Driver<Bool> in
+        let isSended = input.sendSMSCode.withLatestFrom(input.phoneNumber)
+            .flatMapLatest { [weak self] phoneNumber -> Driver<SMSRequestStatus> in
                 guard let strongSelf = self else { return .empty() }
-                return strongSelf.authUseCase.smsVerification(phoneNumber, nil)
-                    .trackActivity(indicator)
-                    .asDriver(onErrorJustReturn: false)
-                // TODO: 틀린 경우 얼럿
+                strongSelf.phoneNumber = phoneNumber
+                if strongSelf.sendCount != 3 {
+                    strongSelf.sendCount += 1
+                    return strongSelf.authUseCase
+                        .sendSMSCode(phoneNumber: phoneNumber, email: nil)
+                        .trackActivity(indicator)
+                        .map { _ in (strongSelf.sendCount == 1) ? .request : .reRequest }
+                        .asDriver(onErrorDriveWith: .empty())
+                    // TODO: API Error 핸들링 필요
+                } else {
+                    return .empty()
+                    // TODO: 요청 초과 Alert
+                }
             }
-            .startWith(false)
+            .startWith(.none)
         
-        // MARK: Code Verification
+        // MARK: Verify SMS Code
         
         let validatedCode = input.code
             .map { $0.count == 6 }
-        let codeVerificationEnabled = Driver.combineLatest(
+        let verifySMSCodeEnabled = Driver.combineLatest(
             validatedCode, loading) { code, loading in
-                code &&
-                !loading
+                code && !loading
             }
             .distinctUntilChanged()
         
@@ -105,7 +122,7 @@ final class SMSValidationViewModel: ViewModel {
             .flatMapLatest { [weak self] code -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
-                    .codeVerification(code)
+                    .verifySMSCode(phoneNumber: strongSelf.phoneNumber, code: code)
                     .trackActivity(indicator)
                     .asDriver(onErrorJustReturn: false)
             }
@@ -114,8 +131,7 @@ final class SMSValidationViewModel: ViewModel {
         // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
-            validatedSMS, verifiedCode, loading) { validated, verified, loading in
-                validated &&
+            verifiedCode, loading) { verified, loading in
                 verified &&
                 !loading
             }
@@ -130,9 +146,9 @@ final class SMSValidationViewModel: ViewModel {
         return Output(
             item: .just(item),
             validatedPhoneNumber: validatedPhoneNumber,
-            smsValidationEnabled: smsValidationEnabled,
-            validatedSMS: validatedSMS,
-            codeVerificationEnabled: codeVerificationEnabled,
+            sendSMSCodeEnabled: sendSMSCodeEnabled,
+            isSended: isSended,
+            verifySMSCodeEnabled: verifySMSCodeEnabled,
             verifiedCode: verifiedCode,
             nextStepEnabled: nextStepEnabled
         )

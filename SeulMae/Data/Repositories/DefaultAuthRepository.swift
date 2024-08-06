@@ -23,9 +23,9 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signin
     
-    func signin(email: String, password: String, fcmToken: String) -> Single<AuthData> {
+    func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
         return network.rx
-            .request(.signin(accountId: email, password: password, fcmToken: fcmToken))
+            .request(.signin(account: account, password: password, fcmToken: fcmToken))
             .map(BaseResponseDTO<AuthDataDTO>.self)
             .map { try $0.toDomain() }
             .do(onSuccess: { response in
@@ -97,31 +97,29 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Common
     
-    func phoneVerification(_ phoneNumber: String, _ email: String?) -> Single<Bool> {
-        Swift.print(#fileID, #function, "\n-phoneNumber: \(phoneNumber),\n-email: \(email ?? "")\n")
-        return Single<BaseResponseDTO<EmailDTO>>.create { observer in
-            observer(.success(requestSmsCertificationResponse_success))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String> {
+        Swift.print(#function, "Send SMS Code: \(phoneNumber), \(email ?? "nil")")
+        return network.rx
+            .request(.sendSMSCode(phoneNumber: phoneNumber, email: email))
+            .map(BaseResponseDTO<EmailDTO>.self)
+            .map { $0.toDomain() }
+            .do(onSuccess: { response in
+                Swift.print("response: \(response)")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
     }
     
-    func authCodeVerification(_ authCode: String) -> Single<Bool> {
-        Swift.print(#fileID, #function, "\n-authCode: \(authCode)\n -testCode: 123456\n")
-        return Single<BaseResponseDTO<String>>.create { observer in
-            if authCode == "123456" {
-                observer(.success(authCodeCertificationResponse_success))
-            } else {
-                observer(.failure(APIError.failedToSMSVerification))
-            }
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {
+        Swift.print(#function, "SMS Verification Code: \(code)")
+        return network.rx
+            .request(.verifySMSCode(phoneNumber: phoneNumber, code: code))
+            .map(BaseResponseDTO<String?>.self)
+            .map { $0.isSuccess }
+            .do(onSuccess: { response in
+                Swift.print("response: \(response)")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
     }
 }

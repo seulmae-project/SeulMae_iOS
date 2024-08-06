@@ -12,10 +12,10 @@ typealias AuthNetworking = MoyaProvider<AuthAPI>
 
 enum AuthAPI: SugarTargetType {
     case signup(SignupRequest)
-    case requestVerification(phoneNumber: String, email: String? = nil)
-    case verifyAuthNumber(authNumber: String)
+    case sendSMSCode(phoneNumber: String, email: String? = nil)
+    case verifySMSCode(phoneNumber: String, code: String)
     case emailVerification(email: String)
-    case signin(accountId: String, password: String, fcmToken: String)
+    case signin(account: String, password: String, fcmToken: String)
     case socialLogin
     case logout
     case updatePassword(password: String)
@@ -31,10 +31,10 @@ extension AuthAPI {
         switch self {
         case .signup:
             return .post("api/users/pw")
-        case .requestVerification:
-            return .post("api/users/phone/sms")
-        case .verifyAuthNumber:
-            return .post("api/users/phone")
+        case .sendSMSCode:
+            return .post("api/users/sms-certification/send")
+        case .verifySMSCode:
+            return .post("api/users/sms-certification/confirm")
         case .emailVerification:
             return .post("api/users/email")
         case .signin:
@@ -64,14 +64,14 @@ extension AuthAPI {
     
     var body: Encodable? {
         switch self {
-        case let .requestVerification(phoneNumber, email):
+        case let .sendSMSCode(phoneNumber, email):
             return ["phoneNumber": phoneNumber, "email": email]
-        case let .verifyAuthNumber(authNumber):
-            return ["authNumber": authNumber]
+        case let .verifySMSCode(phoneNumber, code):
+            return ["phoneNumber": phoneNumber, "authCode": code]
         case let .emailVerification(email):
             return ["email": email]
-        case let .signin(email, password):
-            return ["email": email, "password": password]
+        case let .signin(account: account, password: password, fcmToken: fcmToken):
+            return ["accountId": account, "password": password, "fcmToken": fcmToken]
         case let .updatePassword(password):
             return ["password": password]
         case let .updateProfile(name, imageURL):

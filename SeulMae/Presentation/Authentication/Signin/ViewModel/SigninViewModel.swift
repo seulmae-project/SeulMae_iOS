@@ -163,6 +163,12 @@ final class SigninViewModel: ViewModel {
             }
         }
         
+        Task {
+            for await _ in input.signup.values {
+                coordinator.showSMSValidation(item: .signup)
+            }
+        }
+        
         return Output(signedIn: signedIn)
     }
 }
