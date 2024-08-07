@@ -89,14 +89,12 @@ class DefaultValidationService: ValidationService {
         if numberOfCharacters < minPasswordCount {
             return .just(.failed(message: "영문, 숫자 포함 \(minUserIDCount)자 이상 입력해주세요"))
         }
-        
         let pattern = "^[a-z]+[a-z0-9]{5,19}$"
         let regex = try? NSRegularExpression(pattern: pattern)
         let range = NSRange(location: 0, length: userID.utf16.count)
-        if let match = regex?.firstMatch(in: userID, options: [], range: range) {
+        if let _ = regex?.firstMatch(in: userID, options: [], range: range) {
             return .just(.failed(message: "유효하지 않은 문자열입니다."))
         }
-                
         return .just(.ok(message: ""))
     }
     

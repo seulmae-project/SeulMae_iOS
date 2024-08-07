@@ -14,8 +14,8 @@ enum AuthAPI: SugarTargetType {
     case signup(SignupRequest)
     case sendSMSCode(phoneNumber: String, email: String? = nil)
     case verifySMSCode(phoneNumber: String, code: String)
-    case emailVerification(email: String)
-    case signin(account: String, password: String, fcmToken: String)
+    case verifyAccountID(_ accountID: String)
+    case signin(accountID: String, password: String, fcmToken: String)
     case socialLogin
     case logout
     case updatePassword(password: String)
@@ -35,8 +35,8 @@ extension AuthAPI {
             return .post("api/users/sms-certification/send")
         case .verifySMSCode:
             return .post("api/users/sms-certification/confirm")
-        case .emailVerification:
-            return .post("api/users/email")
+        case .verifyAccountID:
+            return .post("api/users/id/duplication")
         case .signin:
             return .post("api/users/login")
         case .socialLogin:
@@ -68,10 +68,10 @@ extension AuthAPI {
             return ["phoneNumber": phoneNumber, "email": email]
         case let .verifySMSCode(phoneNumber, code):
             return ["phoneNumber": phoneNumber, "authCode": code]
-        case let .emailVerification(email):
-            return ["email": email]
-        case let .signin(account: account, password: password, fcmToken: fcmToken):
-            return ["accountId": account, "password": password, "fcmToken": fcmToken]
+        case let .verifyAccountID(accountID):
+            return ["accountId": accountID]
+        case let .signin(accountID: accountID, password: password, fcmToken: fcmToken):
+            return ["accountId": accountID, "password": password, "fcmToken": fcmToken]
         case let .updatePassword(password):
             return ["password": password]
         case let .updateProfile(name, imageURL):

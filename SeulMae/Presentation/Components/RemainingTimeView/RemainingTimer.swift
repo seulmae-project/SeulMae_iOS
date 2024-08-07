@@ -68,5 +68,6 @@ class RemainingTimer: UILabel {
     func stopTimer() {
         self._timer?.invalidate()
         _timer = nil
+        textColor = .secondaryLabel
     }
 }

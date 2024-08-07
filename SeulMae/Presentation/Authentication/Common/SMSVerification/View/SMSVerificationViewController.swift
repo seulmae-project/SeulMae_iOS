@@ -30,26 +30,18 @@ final class SMSVerificationViewController: UIViewController {
         activity.stopAnimating()
         return activity
     }()
-    
-    private let stepGuideLabel: UILabel = .title()
-    
+    private let titleLabel: UILabel = .title()
     private let accountIDLabel: UILabel = .callout(title: "아이디")
-    
     private let accountIDTextField: UITextField = .common(placeholder: "아이디 입력")
-    
     private let phoneNumberLabel: UILabel = .callout(title: "휴대폰 번호")
-    
     private let phoneNumberTextField: UITextField = {
         let tf = UITextField.common(placeholder: "휴대폰 번호 입력", padding: 16)
         tf.textContentType = .telephoneNumber
         tf.keyboardType = .phonePad
         return tf
     }()
-    
     private let smsCodeLabel: UILabel = .callout(title: "인증번호")
-    
     private let smsCodeTextField: UITextField = .common(placeholder: "인증번호 6자리 입력")
-    
     private lazy var remainingTimer: RemainingTimer = {
         let timer = RemainingTimer()
         timer.setRemainingTime(minutes: 3)
@@ -58,12 +50,9 @@ final class SMSVerificationViewController: UIViewController {
         }
         return timer
     }()
-    
     private let secondSMSCodeLabel: UILabel = .footnote(title:  "인증번호 재전송은 3회까지만 가능합니다")
     private let sendSMSCodeButton: UIButton = .common(title: "인증번호 전송", cornerRadius: 16)
-
     private let verifySMSCodeButton: UIButton = .common(title: "인증번호 확인", cornerRadius: 16)
-
     private let nextStepButton: UIButton = .common(title: "다음으로", isEnabled: false)
     
     // MARK: - Life Cycle
@@ -81,7 +70,7 @@ final class SMSVerificationViewController: UIViewController {
         // Handle Background Tap
         let tapBackground = UITapGestureRecognizer()
         Task {
-            for await tap in tapBackground.rx.event.asSignal().values {
+            for await _ in tapBackground.rx.event.asSignal().values {
                 view.endEditing(true)
             }
         }
@@ -163,10 +152,10 @@ final class SMSVerificationViewController: UIViewController {
             )
         )
         
-        // Handle View Controller Type
+        // Handle View Item
         Task {
             for await item in output.item.values {
-                stepGuideLabel.text = item.stepGuide
+                titleLabel.text = item.title
                 navigationItem.title = item.navItemTitle
                 accountIDTextField.isHidden = item.isHiddenAccountIDField
                 accountIDLabel.isHidden = item.isHiddenAccountIDField
@@ -188,29 +177,33 @@ final class SMSVerificationViewController: UIViewController {
         }
         
         Task {
-            for await _ in output.verifiedCode.values {
-                // Swift.print("SMS Code: \(code)")
+            for await isMatched in output.isCodeMatched.values {
+                if isMatched {
+                    remainingTimer.stopTimer()
+                    // 완료시 전송 버튼 && 코드 확인 버튼 비활성화
+                    phoneNumberTextField.isEnabled = false
+                    sendSMSCodeButton.ext.setEnabled(false)
+                    smsCodeTextField.isEnabled = false
+                    verifySMSCodeButton.ext.setEnabled(false)
+                }
             }
         }
         
         // Handle Button Enabled
         Task {
             for await enabled in output.sendSMSCodeEnabled.values {
-                // Swift.print("Send SMS Code Button Enabled: \(enabled)")
                 sendSMSCodeButton.ext.setEnabled(enabled)
             }
         }
         
         Task {
             for await enabled in output.verifySMSCodeEnabled.values {
-                // Swift.print("Verify SMS Code Button Enabled: \(enabled)")
                 verifySMSCodeButton.ext.setEnabled(enabled)
             }
         }
         
         Task {
             for await enabled in output.nextStepEnabled.values {
-                // Swift.print("Next Step Button Enabled: \(enabled)")
                 nextStepButton.ext.setEnabled(enabled)
             }
         }
@@ -223,7 +216,6 @@ final class SMSVerificationViewController: UIViewController {
                     sendSMSCodeButton.setTitle("인증번호 재전송", for: .normal)
                 } else if state == .reRequest {
                     remainingTimer.resetTimer()
-                    sendSMSCodeButton.backgroundColor = UIColor(hexCode: "F0F0F0")
                 }
             }
         }
@@ -277,14 +269,14 @@ final class SMSVerificationViewController: UIViewController {
 
         /// - Tag: Hierarchy
         let subViews: [UIView] = [
-            stepGuideLabel,
+            titleLabel,
             inputVStack,
             remainingTimer,
             nextStepButton
         ]
         subViews.forEach(view.addSubview)
         
-        stepGuideLabel.snp.makeConstraints { make in
+        titleLabel.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
             make.top.equalTo(view.snp_topMargin).inset(24)
             make.centerX.equalToSuperview()
@@ -292,7 +284,7 @@ final class SMSVerificationViewController: UIViewController {
         
         inputVStack.snp.makeConstraints { make in
             make.leading.equalToSuperview().inset(20)
-            make.top.equalTo(stepGuideLabel.snp.bottom).offset(52)
+            make.top.equalTo(titleLabel.snp.bottom).offset(52)
             make.centerX.equalToSuperview()
         }
         

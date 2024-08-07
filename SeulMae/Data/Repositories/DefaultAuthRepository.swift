@@ -25,7 +25,7 @@ class DefaultAuthRepository: AuthRepository {
     
     func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
         return network.rx
-            .request(.signin(account: account, password: password, fcmToken: fcmToken))
+            .request(.signin(accountID: account, password: password, fcmToken: fcmToken))
             .map(BaseResponseDTO<AuthDataDTO>.self)
             .map { try $0.toDomain() }
             .do(onSuccess: { response in
@@ -47,20 +47,14 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signup
     
-    func userIDAvailable(_ userID: String) -> Single<Bool> {
-        Swift.print(#fileID, #function, "\n-userID: \(userID)\n -testUserID: yonggipo\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            if userID == "yonggipo" {
-                observer(.success(emailValidationResponse_true))
-            } else {
-                observer(.success(emailValidationResponse_false))
-            }
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func verifyAccountID(_ accountID: String) -> Single<Bool> {
+        return network.rx.request(.verifyAccountID(accountID))
+            .map(Bool.self, atKeyPath: "data.duplicated")
+            .do(onSuccess: { response in
+                Swift.print("response: \(response)")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
     }
     
     func signup(_ request: SignupRequest) -> Single<Bool> {
@@ -101,8 +95,8 @@ class DefaultAuthRepository: AuthRepository {
         Swift.print(#function, "Send SMS Code: \(phoneNumber), \(email ?? "nil")")
         return network.rx
             .request(.sendSMSCode(phoneNumber: phoneNumber, email: email))
-            .map(BaseResponseDTO<EmailDTO>.self)
-            .map { $0.toDomain() }
+            .map(String?.self, atKeyPath: "data.accountId")
+            .map { $0 ?? "nil" }
             .do(onSuccess: { response in
                 Swift.print("response: \(response)")
             }, onError: { error in

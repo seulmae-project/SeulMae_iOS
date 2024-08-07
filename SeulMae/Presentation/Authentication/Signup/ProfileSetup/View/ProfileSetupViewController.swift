@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 
-let signup = "회원가입"
-
 final class ProfileSetupViewController: UIViewController {
     
     // MARK: - Flow
@@ -62,7 +60,6 @@ final class ProfileSetupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureNavItem()
         configureHierarchy()
         bindInternalSubviews()
     }
@@ -73,7 +70,7 @@ final class ProfileSetupViewController: UIViewController {
         
         let tapBackground = UITapGestureRecognizer()
         Task {
-            for try await available in tapBackground.rx.event.values {
+            for try await _ in tapBackground.rx.event.values {
                 view.endEditing(true)
             }
         }
@@ -107,12 +104,6 @@ final class ProfileSetupViewController: UIViewController {
                 nextStepButton.isEnabled = !available
             }
         }
-    }
-
-    // MARK: - Nav Item
-    
-    private func configureNavItem() {
-        navigationItem.title = signup
     }
     
     // MARK: - Hierarchy

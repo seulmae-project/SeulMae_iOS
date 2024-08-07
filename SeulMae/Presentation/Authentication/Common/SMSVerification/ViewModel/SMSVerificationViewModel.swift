@@ -26,7 +26,7 @@ final class SMSVerificationViewModel: ViewModel {
         let sendSMSCodeEnabled: Driver<Bool>
         let isSent: Driver<SMSRequestStatus>
         let verifySMSCodeEnabled: Driver<Bool>
-        let verifiedCode: Driver<Bool>
+        let isCodeMatched: Driver<Bool>
         let nextStepEnabled: Driver<Bool>
     }
     
@@ -112,15 +112,25 @@ final class SMSVerificationViewModel: ViewModel {
         let verifySMSCodeEnabled = Driver.combineLatest(
             isSent, validatedCode, isLoading) { isSent, code, loading in
                 isSent.isSending && code && !loading
+                // MARK: 로딩인 경우는 api 만 전달할 수 없게 끔 변경 (현재 버튼 비활성화까지 됌)
             }
             .distinctUntilChanged()
         
-        let verifiedCode = input.verifyCode.withLatestFrom(input.code)
+        let isCodeMatched = input.verifyCode.withLatestFrom(input.code)
             .flatMapLatest { [weak self] code -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
                     .verifySMSCode(phoneNumber: strongSelf.phoneNumber, code: code)
                     .trackActivity(indicator)
+                    .flatMapLatest { isMatched in
+                        let message = isMatched ? "휴대폰 번호 인증이 완료 되었습니다" : "인증번호가 일치하지 않습니다"
+                        return strongSelf.wireframe.promptFor(
+                            message,
+                            cancelAction: "확인",
+                            actions: []
+                        )
+                        .map { _ in return isMatched }
+                    }
                     .asDriver(onErrorJustReturn: false)
             }
             .startWith(false)
@@ -128,7 +138,7 @@ final class SMSVerificationViewModel: ViewModel {
         // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
-            verifiedCode, isLoading) { verified, loading in
+            isCodeMatched, isLoading) { verified, loading in
                 verified &&
                 !loading
             }
@@ -136,7 +146,18 @@ final class SMSVerificationViewModel: ViewModel {
         
         Task {
             for await _ in input.nextStep.values {
-                coordinator.showAccountSetup(request: SignupRequest())
+                switch item {
+                case .signup:
+                    var request = SignupRequest()
+                    request.phoneNumber = phoneNumber
+                    coordinator.showAccountSetup(item: .signup, request: request)
+                case .idRecovery:
+                    break
+                    // coordinator.showAccountSetup(request: SignupRequest())
+                case .passwordRecovery:
+                    break
+                    // coordinator.showAccountSetup(request: SignupRequest())
+                }
             }
         }
         
@@ -147,7 +168,7 @@ final class SMSVerificationViewModel: ViewModel {
             sendSMSCodeEnabled: sendSMSCodeEnabled,
             isSent: isSent,
             verifySMSCodeEnabled: verifySMSCodeEnabled,
-            verifiedCode: verifiedCode,
+            isCodeMatched: isCodeMatched,
             nextStepEnabled: nextStepEnabled
         )
     }

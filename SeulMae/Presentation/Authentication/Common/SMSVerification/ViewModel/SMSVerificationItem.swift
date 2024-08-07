@@ -27,7 +27,7 @@ extension SMSVerificationItem {
         }
     }
     
-    var stepGuide: String {
+    var title: String {
         switch self {
         case .signup:
             return  "정보 확인을 위해\n휴대폰번호를 입력해주세요"

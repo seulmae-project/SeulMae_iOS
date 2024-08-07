@@ -14,7 +14,7 @@ protocol AuthUseCase {
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
-    func userIDAvailable(_ userID: String) -> Single<Bool>
+    func verifyAccountID(_ accountID: String) -> Single<Bool>
     func signup(_ request: SignupRequest) -> Single<Bool>
     
     /// - Tag: Account Recovery
@@ -42,8 +42,8 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.kakaoSignin()
     }
     
-    func userIDAvailable(_ userID: String) -> RxSwift.Single<Bool> {
-        authRepository.userIDAvailable(userID)
+    func verifyAccountID(_ accountID: String) -> RxSwift.Single<Bool> {
+        authRepository.verifyAccountID(accountID)
     }
     
     func signup(_ request: SignupRequest) -> RxSwift.Single<Bool> {

@@ -20,75 +20,76 @@ final class AccountSetupViewModel: ViewModel {
     }
     
     struct Output {
-        let validatedUserID: Driver<ValidationResult>
-        let userIDVerificationEnabled: Driver<Bool>
-        let verifiedUserID: Driver<Bool>
+        let item: Driver<AccountSetupItem>
+        let validatedAccountID: Driver<ValidationResult>
+        let validateAccountIDEnabled: Driver<Bool>
+        let isAvailable: Driver<Bool>
         let validatedPassword: Driver<ValidationResult>
         let validatedRepeatedPassword: Driver<ValidationResult>
         let nextStepEnabled: Driver<Bool>
     }
     
-    // MARK: - Dependency
+    // MARK: - Dependencies
     
     private let coordinator: AuthFlowCoordinator
-    
     private let authUseCase: AuthUseCase
-    
     private let validationService: ValidationService
-    
     private let wireframe: Wireframe
-    
+    private let item: AccountSetupItem
     private let request: SignupRequest
     
     // MARK: - Life Cycle
     
     init(
-        dependency: (
+        dependencies: (
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
             validationService: ValidationService,
             wireframe: Wireframe,
+            item: AccountSetupItem,
             request: SignupRequest
         )
     ) {
-        self.coordinator = dependency.coordinator
-        self.authUseCase = dependency.authUseCase
-        self.validationService = dependency.validationService
-        self.wireframe = dependency.wireframe
-        self.request = dependency.request
+        self.coordinator = dependencies.coordinator
+        self.authUseCase = dependencies.authUseCase
+        self.validationService = dependencies.validationService
+        self.wireframe = dependencies.wireframe
+        self.item = dependencies.item
+        self.request = dependencies.request
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        // MARK: UserID Verification
+        // MARK: Account ID Validation
         
-        let validatedUserID = input.userID
-            .flatMapLatest { [weak self] userID -> Driver<ValidationResult> in
+        let validatedAccountID = input.userID
+            .flatMapLatest { [weak self] accountID -> Driver<ValidationResult> in
                 guard let strongSelf = self else { return .empty() }
-                return strongSelf.validationService.validateUserID(userID)
+                return strongSelf.validationService
+                    .validateUserID(accountID)
                     .asDriver()
             }
         
-        let userIDVerificationEnabled = Driver.combineLatest(
-            validatedUserID, loading) { userID, loading in
-                userID.isValid &&
+        let validateAccountIDEnabled = Driver.combineLatest(
+            validatedAccountID, loading) { accountID, loading in
+                accountID.isValid &&
                 !loading
             }
             .distinctUntilChanged()
         
-        let verifiedUserID = input.verifyUserID.withLatestFrom(input.userID)
+        let isAvailable = input.verifyUserID.withLatestFrom(input.userID)
             .flatMapLatest { [weak self] userID -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
-                    .userIDAvailable(userID)
+                    .verifyAccountID(userID)
                     .trackActivity(indicator)
-//                    .map { available -> ValidationResult in
-//                        return available ? .ok(message: "사용가능한 아이디입니다") :
-//                            .failed(message: "사용중인 아이디입니다")
-//                    }
+                    .flatMap { available in
+                        let message = available ? "사용가능한 아이디입니다" : "사용중인 아이디입니다"
+                        return strongSelf.wireframe.promptFor(message, cancelAction: "확인", actions: [])
+                            .map { _ in return available }
+                    }
                     .asDriver(onErrorJustReturn: false)
             }
             .startWith(false)
@@ -105,7 +106,7 @@ final class AccountSetupViewModel: ViewModel {
         // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
-            verifiedUserID, loading) { verified, loading in
+            isAvailable, loading) { verified, loading in
                 verified &&
                 !loading
             }
@@ -118,9 +119,10 @@ final class AccountSetupViewModel: ViewModel {
         }
         
         return Output(
-            validatedUserID: validatedUserID,
-            userIDVerificationEnabled: userIDVerificationEnabled,
-            verifiedUserID: verifiedUserID,
+            item: .just(item),
+            validatedAccountID: validatedAccountID,
+            validateAccountIDEnabled: validateAccountIDEnabled,
+            isAvailable: isAvailable,
             validatedPassword: validatedPassword,
             validatedRepeatedPassword: validatedPasswordRepeated,
             nextStepEnabled: nextStepEnabled

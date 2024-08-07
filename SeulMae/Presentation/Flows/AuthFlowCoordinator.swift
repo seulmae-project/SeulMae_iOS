@@ -10,9 +10,16 @@ import UIKit
 protocol AuthFlowCoordinatorDependencies {
     func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
     func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSVerificationItem) -> SMSVerificationViewController
-    func makeAccountSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> AccountSetupViewController
+    func makeAccountSetupViewController(
+        coordinator: AuthFlowCoordinator,
+        item: AccountSetupItem,
+        request: SignupRequest
+    ) -> AccountSetupViewController
     func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
-    func makeCompletionViewController(coordinator: AuthFlowCoordinator, item: CompletionItem) -> CompletionViewController
+    func makeCompletionViewController(
+        coordinator: AuthFlowCoordinator,
+        item: CompletionItem
+    ) -> CompletionViewController
     func makeIDRecoveryViewController(coordinator: AuthFlowCoordinator) -> IDRecoveryViewController
 }
 
@@ -29,7 +36,7 @@ protocol AuthFlowCoordinator {
     func showSingin()
     
     /// - Tag: Signup
-    func showAccountSetup(request: SignupRequest)
+    func showAccountSetup(item: AccountSetupItem, request: SignupRequest)
     func showProfileSetup(request: SignupRequest)
     
     /// - Tag: Account Service
@@ -87,8 +94,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Signup
     
-    func showAccountSetup(request: SignupRequest) {
-        let vc = dependencies.makeAccountSetupViewController(coordinator: self, request: request)
+    func showAccountSetup(item: AccountSetupItem, request: SignupRequest) {
+        let vc = dependencies.makeAccountSetupViewController(coordinator: self, item: item, request: request)
         navigationController.pushViewController(vc, animated: true)
     }
     
