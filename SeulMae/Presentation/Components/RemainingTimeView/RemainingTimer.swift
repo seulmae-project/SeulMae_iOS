@@ -1,5 +1,5 @@
 //
-//  RemainingTimeLabel.swift
+//  RemainingTimer.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/23/24.
@@ -7,25 +7,26 @@
 
 import UIKit
 
-class RemainingTimeLabel: UILabel {
+class RemainingTimer: UILabel {
     
-    var timer: Timer?
+    private var _timer: Timer?
     private var _remainingTime: TimeInterval = 180
     var remainingTime: TimeInterval = 180
+    var onFire: ((RemainingTimer) -> Void)?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        commonInit()
+        onLoad()
     }
   
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private func commonInit() {
+    private func onLoad() {
         self.textAlignment = .center
         self.font = .systemFont(ofSize: 14)
-        self.textColor = .red
+        self.textColor = .secondaryLabel
     }
     
     deinit {
@@ -41,7 +42,8 @@ class RemainingTimeLabel: UILabel {
     }
     
     func startTimer() {
-        self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
+        textColor = .red
+        _timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] timer in
             guard let strongSelf = self else { return }
             strongSelf._remainingTime -= 1
             if strongSelf._remainingTime >= 0 {
@@ -51,6 +53,8 @@ class RemainingTimeLabel: UILabel {
             } else {
                 strongSelf.stopTimer()
                 strongSelf.text = "00:00"
+                strongSelf.textColor = .secondaryLabel
+                strongSelf.onFire?(strongSelf)
             }
         }
     }
@@ -62,7 +66,7 @@ class RemainingTimeLabel: UILabel {
     }
     
     func stopTimer() {
-        self.timer?.invalidate()
-        timer = nil
+        self._timer?.invalidate()
+        _timer = nil
     }
 }

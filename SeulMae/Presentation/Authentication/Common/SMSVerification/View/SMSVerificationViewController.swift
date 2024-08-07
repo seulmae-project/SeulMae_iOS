@@ -24,30 +24,44 @@ final class SMSVerificationViewController: UIViewController {
     
     // MARK: - UI
     
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.hidesWhenStopped = true
+        activity.stopAnimating()
+        return activity
+    }()
+    
     private let stepGuideLabel: UILabel = .title()
     
     private let accountIDLabel: UILabel = .callout(title: "아이디")
+    
     private let accountIDTextField: UITextField = .common(placeholder: "아이디 입력")
     
     private let phoneNumberLabel: UILabel = .callout(title: "휴대폰 번호")
+    
     private let phoneNumberTextField: UITextField = {
         let tf = UITextField.common(placeholder: "휴대폰 번호 입력", padding: 16)
         tf.textContentType = .telephoneNumber
         tf.keyboardType = .phonePad
         return tf
     }()
+    
     private let smsCodeLabel: UILabel = .callout(title: "인증번호")
+    
     private let smsCodeTextField: UITextField = .common(placeholder: "인증번호 6자리 입력")
     
-    private let remainingTimeLabel: RemainingTimeLabel = {
-        let label = RemainingTimeLabel()
-        label.setRemainingTime(minutes: 3)
-        return label
+    private lazy var remainingTimer: RemainingTimer = {
+        let timer = RemainingTimer()
+        timer.setRemainingTime(minutes: 3)
+        timer.onFire = { [weak sendSMSCodeButton] timer in
+            sendSMSCodeButton?.setTitle("인증번호 재전송", for: .normal)
+        }
+        return timer
     }()
     
     private let secondSMSCodeLabel: UILabel = .footnote(title:  "인증번호 재전송은 3회까지만 가능합니다")
-    private let sendSMSCodeButton: UIButton = .common(title: "인증번호 받기", cornerRadius: 16)
-    
+    private let sendSMSCodeButton: UIButton = .common(title: "인증번호 전송", cornerRadius: 16)
+
     private let verifySMSCodeButton: UIButton = .common(title: "인증번호 확인", cornerRadius: 16)
 
     private let nextStepButton: UIButton = .common(title: "다음으로", isEnabled: false)
@@ -64,6 +78,16 @@ final class SMSVerificationViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindInternalSubviews() {
+        // Handle Background Tap
+        let tapBackground = UITapGestureRecognizer()
+        Task {
+            for await tap in tapBackground.rx.event.asSignal().values {
+                view.endEditing(true)
+            }
+        }
+        view.addGestureRecognizer(tapBackground)
+        
+        // Handle TextField Editing State
         let phoneNumberEditing = phoneNumberTextField.rx
             .editing
             .asDriver()
@@ -86,15 +110,15 @@ final class SMSVerificationViewController: UIViewController {
             }
         }
         
-        let maxLength = 11
+        //  Handle TextField Max Length
+        let phoneNumMaxLength = 11
         let phoneNumber = phoneNumberTextField.rx
             .text
             .orEmpty
             .map { $0.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression) }
-            .map { String($0.prefix(maxLength)) }
+            .map { String($0.prefix(phoneNumMaxLength)) }
             .asDriver()
         
-        // phone number text field 의 max length 제한
         Task {
             for await phoneNumber in phoneNumber.values {
                 phoneNumberTextField.text = applyPhoneNumberFormat(text: phoneNumber)
@@ -114,16 +138,32 @@ final class SMSVerificationViewController: UIViewController {
             return formatted
         }
         
+        let codeMaxLength = 6
+        let code = smsCodeTextField.rx
+            .text
+            .orEmpty
+            .map { $0.replacingOccurrences(of: "[^0-9]", with: "", options: .regularExpression) }
+            .map { String($0.prefix(codeMaxLength)) }
+            .asDriver()
+        
+        Task {
+            for await code in code.values {
+                smsCodeTextField.text = code
+            }
+        }
+        
+        // Handle View Model Output
         let output = viewModel.transform(
             .init(
                 phoneNumber: phoneNumber,
-                code: smsCodeTextField.rx.text.orEmpty.asDriver(),
+                code: code,
                 sendSMSCode: sendSMSCodeButton.rx.tap.asSignal(),
                 verifyCode: verifySMSCodeButton.rx.tap.asSignal(),
                 nextStep: nextStepButton.rx.tap.asSignal()
             )
         )
         
+        // Handle View Controller Type
         Task {
             for await item in output.item.values {
                 stepGuideLabel.text = item.stepGuide
@@ -133,38 +173,31 @@ final class SMSVerificationViewController: UIViewController {
             }
         }
         
+        // Handle Loading
         Task {
-            for await phoneNum in output.validatedPhoneNumber.values {
+            for await isLoading in output.isLoading.values {
+                loadingIndicator.ext.isAnimating(isLoading)
+            }
+        }
+        
+        // Handle Validated Input
+        Task {
+            for await _ in output.validatedPhoneNumber.values {
                 // Swift.print("Phone Number: \(phoneNum)")
             }
         }
         
         Task {
+            for await _ in output.verifiedCode.values {
+                // Swift.print("SMS Code: \(code)")
+            }
+        }
+        
+        // Handle Button Enabled
+        Task {
             for await enabled in output.sendSMSCodeEnabled.values {
                 // Swift.print("Send SMS Code Button Enabled: \(enabled)")
                 sendSMSCodeButton.ext.setEnabled(enabled)
-            }
-        }
-        
-        Task {
-            for await state in output.isSended.values {
-                // TODO: 00:00이 되면 인증번호 받기로 바뀌고 03:00 으로 변경해야 함
-                // timer.rx.count
-                // if count == 0 {
-                // custom view
-                if state == .request {
-                    remainingTimeLabel.startTimer()
-                    sendSMSCodeButton.setTitle("인증번호 재전송", for: .normal)
-                } else if state == .reRequest {
-                    remainingTimeLabel.resetTimer()
-                    sendSMSCodeButton.backgroundColor = UIColor(hexCode: "F0F0F0")
-                }
-            }
-        }
-        
-        Task {
-            for await code in output.verifiedCode.values {
-                // Swift.print("SMS Code: \(code)")
             }
         }
         
@@ -181,12 +214,27 @@ final class SMSVerificationViewController: UIViewController {
                 nextStepButton.ext.setEnabled(enabled)
             }
         }
+        
+        // Handle Remaining Timer
+        Task {
+            for await state in output.isSent.values {
+                if state == .request {
+                    remainingTimer.startTimer()
+                    sendSMSCodeButton.setTitle("인증번호 재전송", for: .normal)
+                } else if state == .reRequest {
+                    remainingTimer.resetTimer()
+                    sendSMSCodeButton.backgroundColor = UIColor(hexCode: "F0F0F0")
+                }
+            }
+        }
     }
     
     // MARK: - Hierarchy
 
     private func configureHierarchy() {
         view.backgroundColor = .systemBackground
+        
+        navigationController?.navigationBar.tintColor = .black
         
         /// - Tag: Account ID
         let accountIDVStack = UIStackView(arrangedSubviews: [
@@ -231,7 +279,7 @@ final class SMSVerificationViewController: UIViewController {
         let subViews: [UIView] = [
             stepGuideLabel,
             inputVStack,
-            remainingTimeLabel,
+            remainingTimer,
             nextStepButton
         ]
         subViews.forEach(view.addSubview)
@@ -248,17 +296,14 @@ final class SMSVerificationViewController: UIViewController {
             make.centerX.equalToSuperview()
         }
         
-        sendSMSCodeButton.snp.makeConstraints { make in
-            make.width.equalTo(127)
-            make.height.equalTo(48)
+        [sendSMSCodeButton, verifySMSCodeButton].forEach {
+            $0.snp.makeConstraints { make in
+                make.width.equalTo(127)
+                make.height.equalTo(48)
+            }
         }
         
-        verifySMSCodeButton.snp.makeConstraints { make in
-            make.width.equalTo(127)
-            make.height.equalTo(48)
-        }
-        
-        remainingTimeLabel.snp.makeConstraints { make in
+        remainingTimer.snp.makeConstraints { make in
             make.trailing.equalTo(smsCodeTextField.snp.trailing).inset(16)
             make.centerY.equalTo(smsCodeTextField.snp.centerY)
         }

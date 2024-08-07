@@ -12,7 +12,6 @@ enum SMSVerificationItem {
 }
 
 extension SMSVerificationItem {
-    
     var isHiddenAccountIDField: Bool {
         [.passwordRecovery, .signup].contains(self)
     }
