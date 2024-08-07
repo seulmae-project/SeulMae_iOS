@@ -18,9 +18,9 @@
 		86102E532C621F05009FF522 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 86102E522C621F05009FF522 /* Secrets.xcconfig */; };
 		86102E552C621F3F009FF522 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 86102E542C621F3F009FF522 /* .gitignore */; };
 		86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86102E562C6220DE009FF522 /* Bundle+Secrets.swift */; };
-		86112E502C2E8D77005DEBD1 /* SMSValidationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E4F2C2E8D77005DEBD1 /* SMSValidationItem.swift */; };
+		86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */; };
 		86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E512C2E8F40005DEBD1 /* CompletionItem.swift */; };
-		86112E552C2EA1DB005DEBD1 /* SMSValidationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E542C2EA1DB005DEBD1 /* SMSValidationViewController.swift */; };
+		86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */; };
 		861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96852C20076E0032C94A /* AuthUseCase.swift */; };
 		861B96892C2008290032C94A /* AuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96882C2008290032C94A /* AuthRepository.swift */; };
 		861B968C2C2022690032C94A /* ModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B968B2C2022690032C94A /* ModalViewController.swift */; };
@@ -83,7 +83,7 @@
 		866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866EA3422C4A7D31003159F9 /* MemberInfoViewModel.swift */; };
 		866EA3452C4A7E1F003159F9 /* AppText.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866EA3442C4A7E1F003159F9 /* AppText.swift */; };
 		86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D072C1833F500095010 /* UIColor+Hex.swift */; };
-		86766D0A2C1837CA00095010 /* SMSValidationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* SMSValidationViewModel.swift */; };
+		86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D092C1837CA00095010 /* SMSVerificationViewModel.swift */; };
 		86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */; };
 		86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D152C183E5600095010 /* AuthFlowCoordinator.swift */; };
 		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
@@ -173,6 +173,7 @@
 		86D309F32C33F16600C08DA8 /* v1_accept_application_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F22C33F16600C08DA8 /* v1_accept_application_success.json */; };
 		86D309F52C33F18900C08DA8 /* v1_submit_application_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F42C33F18900C08DA8 /* v1_submit_application_success.json */; };
 		86D309F72C33F1E100C08DA8 /* v1_update_workplace_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */; };
+		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
@@ -231,9 +232,9 @@
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		86102E542C621F3F009FF522 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		86102E562C6220DE009FF522 /* Bundle+Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Secrets.swift"; sourceTree = "<group>"; };
-		86112E4F2C2E8D77005DEBD1 /* SMSValidationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSValidationItem.swift; sourceTree = "<group>"; };
+		86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationItem.swift; sourceTree = "<group>"; };
 		86112E512C2E8F40005DEBD1 /* CompletionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionItem.swift; sourceTree = "<group>"; };
-		86112E542C2EA1DB005DEBD1 /* SMSValidationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSValidationViewController.swift; sourceTree = "<group>"; };
+		86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerificationViewController.swift; sourceTree = "<group>"; };
 		861B96852C20076E0032C94A /* AuthUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUseCase.swift; sourceTree = "<group>"; };
 		861B96882C2008290032C94A /* AuthRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthRepository.swift; sourceTree = "<group>"; };
 		861B968B2C2022690032C94A /* ModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModalViewController.swift; sourceTree = "<group>"; };
@@ -291,7 +292,7 @@
 		866EA3422C4A7D31003159F9 /* MemberInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoViewModel.swift; sourceTree = "<group>"; };
 		866EA3442C4A7E1F003159F9 /* AppText.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppText.swift; sourceTree = "<group>"; };
 		86766D072C1833F500095010 /* UIColor+Hex.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIColor+Hex.swift"; sourceTree = "<group>"; };
-		86766D092C1837CA00095010 /* SMSValidationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSValidationViewModel.swift; sourceTree = "<group>"; };
+		86766D092C1837CA00095010 /* SMSVerificationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationViewModel.swift; sourceTree = "<group>"; };
 		86766D0F2C1838AF00095010 /* AccountSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D152C183E5600095010 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
@@ -381,6 +382,7 @@
 		86D309F22C33F16600C08DA8 /* v1_accept_application_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_accept_application_success.json; sourceTree = "<group>"; };
 		86D309F42C33F18900C08DA8 /* v1_submit_application_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_submit_application_success.json; sourceTree = "<group>"; };
 		86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_workplace_success.json; sourceTree = "<group>"; };
+		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
@@ -472,7 +474,7 @@
 		86112E532C2E9128005DEBD1 /* Common */ = {
 			isa = PBXGroup;
 			children = (
-				86766D022C1830DD00095010 /* SMSValidation */,
+				86766D022C1830DD00095010 /* SMSVerification */,
 				86766D1A2C1842A200095010 /* Completion */,
 			);
 			path = Common;
@@ -779,19 +781,19 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86766D022C1830DD00095010 /* SMSValidation */ = {
+		86766D022C1830DD00095010 /* SMSVerification */ = {
 			isa = PBXGroup;
 			children = (
 				86766D032C1830E200095010 /* View */,
 				86766D042C1830E500095010 /* ViewModel */,
 			);
-			path = SMSValidation;
+			path = SMSVerification;
 			sourceTree = "<group>";
 		};
 		86766D032C1830E200095010 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				86112E542C2EA1DB005DEBD1 /* SMSValidationViewController.swift */,
+				86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -799,8 +801,8 @@
 		86766D042C1830E500095010 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				86766D092C1837CA00095010 /* SMSValidationViewModel.swift */,
-				86112E4F2C2E8D77005DEBD1 /* SMSValidationItem.swift */,
+				86766D092C1837CA00095010 /* SMSVerificationViewModel.swift */,
+				86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1065,6 +1067,7 @@
 			isa = PBXGroup;
 			children = (
 				8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */,
+				86DC37732C63355F0012FC02 /* UITextField+Rx.swift */,
 				8697FBEF2C2D1D280027A035 /* RxCocoa+ */,
 			);
 			path = "Rxswift+";
@@ -1567,7 +1570,8 @@
 				86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
-				86766D0A2C1837CA00095010 /* SMSValidationViewModel.swift in Sources */,
+				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
+				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimeLabel.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddWorkplaceRequest.swift in Sources */,
@@ -1640,7 +1644,7 @@
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
-				86112E502C2E8D77005DEBD1 /* SMSValidationItem.swift in Sources */,
+				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
@@ -1664,7 +1668,7 @@
 				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
-				86112E552C2EA1DB005DEBD1 /* SMSValidationViewController.swift in Sources */,
+				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,
 				86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,

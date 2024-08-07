@@ -1,5 +1,5 @@
 //
-//  SMSValidationItem.swift
+//  SMSVerificationItem.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/28/24.
@@ -7,11 +7,11 @@
 
 import Foundation
 
-enum SMSValidationItem {
+enum SMSVerificationItem {
     case signup, idRecovery, passwordRecovery
 }
 
-extension SMSValidationItem {
+extension SMSVerificationItem {
     
     var isHiddenAccountIDField: Bool {
         [.passwordRecovery, .signup].contains(self)

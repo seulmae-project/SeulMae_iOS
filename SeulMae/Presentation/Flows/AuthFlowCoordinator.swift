@@ -9,7 +9,7 @@ import UIKit
 
 protocol AuthFlowCoordinatorDependencies {
     func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
-    func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSValidationItem) -> SMSValidationViewController
+    func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSVerificationItem) -> SMSVerificationViewController
     func makeAccountSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> AccountSetupViewController
     func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
     func makeCompletionViewController(coordinator: AuthFlowCoordinator, item: CompletionItem) -> CompletionViewController
@@ -22,7 +22,7 @@ protocol AuthFlowCoordinator {
     func startMain()
     
     /// - Tag: Common
-    func showSMSValidation(item: SMSValidationItem)
+    func showSMSValidation(item: SMSVerificationItem)
     func showCompletion(item: CompletionItem)
 
     /// - Tag: Signin
@@ -68,7 +68,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Common
     
-    func showSMSValidation(item: SMSValidationItem) {
+    func showSMSValidation(item: SMSVerificationItem) {
         let vc = dependencies.makeSMSValidationViewController(coordinator: self, item: item)
         navigationController.pushViewController(vc, animated: false)
     }

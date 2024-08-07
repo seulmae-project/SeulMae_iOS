@@ -19,7 +19,7 @@ final class SigninViewModel: ViewModel {
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
-        let validateSMS: Signal<SMSValidationItem>
+        let validateSMS: Signal<SMSVerificationItem>
         let signup: Signal<()>
     }
     

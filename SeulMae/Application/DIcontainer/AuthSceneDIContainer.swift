@@ -47,16 +47,16 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     
     func makeSMSValidationViewController(
         coordinator: any AuthFlowCoordinator,
-        item: SMSValidationItem
-    ) -> SMSValidationViewController {
+        item: SMSVerificationItem
+    ) -> SMSVerificationViewController {
         return .create(viewModel: makeSMSValidationViewModel(coordinator: coordinator, item: item))
     }
     
     private func makeSMSValidationViewModel(
         coordinator: AuthFlowCoordinator,
-        item: SMSValidationItem
-    ) -> SMSValidationViewModel {
-        return SMSValidationViewModel(
+        item: SMSVerificationItem
+    ) -> SMSVerificationViewModel {
+        return SMSVerificationViewModel(
             dependency: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),

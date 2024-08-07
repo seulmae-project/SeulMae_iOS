@@ -65,6 +65,8 @@ extension UIButton: Extended {}
 extension Extension where ExtendedType == UIButton {
     func setEnabled(_ isEnabled: Bool) {
         type.isEnabled = isEnabled
-        type.alpha = isEnabled ? 1.0 : 0.5
+        // type.alpha = isEnabled ? 1.0 : 0.5
+        type.backgroundColor = isEnabled ? .primary : .cloudy
+        type.setTitleColor(isEnabled ? .cloudy : .graphite, for: .normal)
     }
 }

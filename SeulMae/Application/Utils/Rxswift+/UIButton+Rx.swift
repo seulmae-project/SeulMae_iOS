@@ -10,7 +10,6 @@ import RxSwift
 import RxCocoa
 
 extension Reactive where Base: UIButton {
-    
     var tag: ControlProperty<Int> {
         return value
     }

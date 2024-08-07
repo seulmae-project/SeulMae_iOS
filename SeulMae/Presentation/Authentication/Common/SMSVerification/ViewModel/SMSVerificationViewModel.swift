@@ -1,5 +1,5 @@
 //
-//  SMSValidationViewModel.swift
+//  SMSVerificationViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/11/24.
@@ -15,7 +15,7 @@ enum SMSRequestStatus {
     case reRequest
 }
 
-final class SMSValidationViewModel: ViewModel {
+final class SMSVerificationViewModel: ViewModel {
     
     struct Input {
         let phoneNumber: Driver<String>
@@ -26,7 +26,7 @@ final class SMSValidationViewModel: ViewModel {
     }
     
     struct Output {
-        let item: Driver<SMSValidationItem>
+        let item: Driver<SMSVerificationItem>
         let validatedPhoneNumber: Driver<ValidationResult>
         let sendSMSCodeEnabled: Driver<Bool>
         let isSended: Driver<SMSRequestStatus>
@@ -45,7 +45,7 @@ final class SMSValidationViewModel: ViewModel {
 
     private let wireframe: Wireframe
     
-    private let item: SMSValidationItem
+    private let item: SMSVerificationItem
     
     private var phoneNumber: String = ""
     
@@ -59,7 +59,7 @@ final class SMSValidationViewModel: ViewModel {
             authUseCase: AuthUseCase,
             validationService: ValidationService,
             wireframe: Wireframe,
-            item: SMSValidationItem
+            item: SMSVerificationItem
         )
     ) {
         self.coordinator = dependency.coordinator
