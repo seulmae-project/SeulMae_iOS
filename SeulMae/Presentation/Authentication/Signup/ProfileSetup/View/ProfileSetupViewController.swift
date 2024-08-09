@@ -20,38 +20,31 @@ final class ProfileSetupViewController: UIViewController {
         return view
     }
     
-    enum Text {
-        static let stepGuide = "프로필을\n완성해주세요"
-        static let nameFieldGuide = "이름"
-        static let nameTextFieldPlaceholder = "이름 입력"
-        static let genderFieldGuide = "성별"
-        static let male = "남성"
-        static let female = "여성"
-        static let birthdayFieldGuide = "생년월일"
-        static let birthdayTextFieldPlaceholder = "생년월일"
-        static let nextStep = "다음으로"
-    }
-    
     // MARK: - Dependency
     
     private var viewModel: ProfileSetupViewModel!
     
-    private var phpPicker: PHPickerViewController?
+    private let phpPicker: PHPickerViewController = {
+        let cf = PHPickerConfiguration()
+        let p = PHPickerViewController(configuration: cf)
+        
+        return p
+    }()
     
     // MARK: - UI
     
-    private let stepGuideLabel: UILabel = .title(title: Text.stepGuide)
+    private let stepGuideLabel: UILabel = .title(title: "프로필을\n완성해주세요")
     private let profileImageView = UIImageView()
-    private let nameFieldGuideLabel: UILabel = .callout(title: Text.nameFieldGuide)
-    private let nameTextField: UITextField = .common(placeholder: Text.nameTextFieldPlaceholder)
+    private let nameFieldGuideLabel: UILabel = .callout(title: "이름")
+    private let nameTextField: UITextField = .common(placeholder: "이름 입력")
     private let usernameValidationResultLabel: UILabel = .footnote()
     
-    private let genderFieldGuideLabel: UILabel = .callout(title: Text.genderFieldGuide)
-    private let maleRadioButton: RadioButton = .common(title: Text.male)
-    private let femaleRadioButton: RadioButton = .common(title: Text.female)
-    private let birthdayFieldGuideLable: UILabel = .callout(title: Text.birthdayFieldGuide)
-    private let birthdayTextField: UITextField = .common(placeholder: Text.birthdayFieldGuide)
-    private let nextStepButton: UIButton = .common(title: Text.nextStep)
+    private let genderFieldGuideLabel: UILabel = .callout(title: "성별")
+    private let maleRadioButton: RadioButton = .common(title: "남성")
+    private let femaleRadioButton: RadioButton = .common(title: "여성")
+    private let birthdayFieldGuideLable: UILabel = .callout(title: "생년월일")
+    private let birthdayTextField: UITextField = .common(placeholder: "생년월일")
+    private let nextStepButton: UIButton = .common(title: "가입완료")
     
     private var picker: UIPickerView!
     
@@ -83,12 +76,12 @@ final class ProfileSetupViewController: UIViewController {
 
         let output = viewModel.transform(
             .init(
-                image: phpPicker!.rx.data.asSignal(),
-                gender: gender,
+                image: phpPicker.rx.data.asSignal(),
+                gender: .empty(),
                 username: nameTextField.rx.text.orEmpty.asDriver(),
-                year: picker.rx.itemSelected.map { $1 }.asSignal(),
-                month: picker.rx.itemSelected.map { $1 }.asSignal(),
-                day: picker.rx.itemSelected.map { $1 }.asSignal(),
+                year: .empty(), // picker.rx.itemSelected.map { $1 }.asSignal(),
+                month: .empty(), // picker.rx.itemSelected.map { $1 }.asSignal(),
+                day: .empty(), // picker.rx.itemSelected.map { $1 }.asSignal(),
                 nextStep: nextStepButton.rx.tap.asSignal()
             )
         )
@@ -109,6 +102,9 @@ final class ProfileSetupViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
+        view.backgroundColor = .systemBackground
+        navigationItem.title = "회원가입"
+        
         let genderFieldHStack = UIStackView(arrangedSubviews: [
             maleRadioButton, femaleRadioButton
         ])

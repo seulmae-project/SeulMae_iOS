@@ -9,8 +9,9 @@ import RxSwift
 import Foundation
 
 enum ValidationResult {
+    case `default`(message: String)
     case ok(message: String)
-    case empty
+    case empty(message: String)
     case validating
     case failed(message: String)
 }
@@ -66,7 +67,7 @@ class DefaultValidationService: ValidationService {
     
     func validatePhoneNumber(_ phoneNumber: String) -> RxSwift.Observable<ValidationResult> {
         if phoneNumber.isEmpty {
-            return .just(.empty)
+            return .just(.empty(message: ""))
         }
         
         let cleanedPhoneNumber = phoneNumber.replacingOccurrences(of: "-", with: "")
@@ -83,26 +84,26 @@ class DefaultValidationService: ValidationService {
     
     // MARK: UserID
     
-    func validateUserID(_ userID: String) -> RxSwift.Observable<ValidationResult> {
-        let numberOfCharacters = userID.count
-        if numberOfCharacters == 0 { return .just(.empty) }
+    func validateUserID(_ accountID: String) -> RxSwift.Observable<ValidationResult> {
+        let numberOfCharacters = accountID.count
+        if numberOfCharacters == 0 { return .just(.empty(message: "")) }
         if numberOfCharacters < minPasswordCount {
             return .just(.failed(message: "영문, 숫자 포함 \(minUserIDCount)자 이상 입력해주세요"))
         }
         let pattern = "^[a-z]+[a-z0-9]{5,19}$"
         let regex = try? NSRegularExpression(pattern: pattern)
-        let range = NSRange(location: 0, length: userID.utf16.count)
-        if let _ = regex?.firstMatch(in: userID, options: [], range: range) {
+        let range = NSRange(location: 0, length: accountID.utf16.count)
+        if regex?.firstMatch(in: accountID, options: [], range: range) == nil {
             return .just(.failed(message: "유효하지 않은 문자열입니다."))
         }
-        return .just(.ok(message: ""))
+        return .just(.ok(message: "사용가능한 아이디입니다"))
     }
     
     // MARK: Email
     
     func validateEmail(_ email: String) -> RxSwift.Observable<ValidationResult> {
         if email.isEmpty {
-            return .just(.empty)
+            return .just(.empty(message: ""))
         }
         
         if let invertedSet = email.rangeOfCharacter(from: .ext.emailAllowed.inverted) {
@@ -126,30 +127,35 @@ class DefaultValidationService: ValidationService {
     
     func validatePassword(_ password: String) -> ValidationResult {
         let numberOfCharacters = password.count
-        if numberOfCharacters == 0 { return .empty }
+        let message = "영문, 숫자, 특수문자 포함 8자 이상"
+        if numberOfCharacters == 0 { return .empty(message: message) }
         if numberOfCharacters < minPasswordCount {
-            return .failed(message: "password must be at least \(minPasswordCount) characters")
+            return .failed(message: message)
+            // password must be at least \(minPasswordCount) characters
         }
     
         let containsLetters = password.rangeOfCharacter(from: .ext.letters) != nil
         let containsDigits = password.rangeOfCharacter(from: .decimalDigits) != nil
         let containsSpecialCharacters = password.rangeOfCharacter(from: .ext.specialCharacters) != nil
         if !(containsLetters && containsDigits && containsSpecialCharacters) {
-            return .failed(message: "password must contain alphabets, numbers, and special characters")
+            return .failed(message: message)
+            // password must contain alphabets, numbers, and special characters
         }
         
-        return .ok(message: "password acceptable")
+        return .ok(message: message) // password acceptable
     }
     
     func validateRepeatedPassword(_ password: String, repeatedPassword: String) -> ValidationResult {
-        return repeatedPassword == password ? .ok(message: "Password repeated") : .failed(message: "Password different")
+        return repeatedPassword == password ? .ok(message: "비밀번호가 일치합니다") : .failed(message: "비밀번호가 일치하지 않습니다")
+        // Password repeated
+        // Password different
     }
     
     // MARK: Username
     
     func validateUsername(_ username: String) -> Observable<ValidationResult> {
         if username.isEmpty {
-            return .just(.empty)
+            return .just(.empty(message: ""))
         }
         
         if username.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) != nil {

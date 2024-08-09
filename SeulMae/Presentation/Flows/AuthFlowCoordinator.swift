@@ -66,7 +66,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-        showSingin()
+        showProfileSetup(request: SignupRequest())
+        // showSingin()
     }
     
     func startMain() {
@@ -101,7 +102,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     func showProfileSetup(request: SignupRequest) {
         let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request)
-        navigationController.pushViewController(vc, animated: true)
+        navigationController.setViewControllers([vc], animated: true)
+        // pushViewController
     }
     
     // MARK: - Account Sevice

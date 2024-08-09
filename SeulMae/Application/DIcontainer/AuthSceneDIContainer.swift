@@ -144,7 +144,12 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         coordinator: any AuthFlowCoordinator,
         request: SignupRequest
     ) -> ProfileSetupViewController {
-        return .create(viewModel: makeProfileSetupViewModel(coordinator: coordinator, request: request))
+        return .create(
+            viewModel: makeProfileSetupViewModel(
+                coordinator: coordinator,
+                request: request
+            )
+        )
     }
     
     private func makeProfileSetupViewModel(

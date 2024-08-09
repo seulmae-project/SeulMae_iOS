@@ -107,7 +107,7 @@ final class NoticeDetailViewModel: ViewModel {
     func validateText(_ text: String) -> ValidationResult {
         if text.isEmpty {
             // TODO: - 공백 제거 후 확인하도록 변경
-            return .empty
+            return .empty(message: "")
         }
         // title 글자수 제한 없으면
         return .ok(message: "ok")

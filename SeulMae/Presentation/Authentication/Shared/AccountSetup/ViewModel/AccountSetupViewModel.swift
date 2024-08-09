@@ -12,10 +12,10 @@ import RxCocoa
 final class AccountSetupViewModel: ViewModel {
     
     struct Input {
-        let userID: Driver<String>
+        let accountID: Driver<String>
+        let verifyAccountID: Signal<()>
         let password: Driver<String>
         let repeatedPassword: Driver<String>
-        let verifyUserID: Signal<()>
         let nextStep: Signal<()>
     }
     
@@ -64,7 +64,7 @@ final class AccountSetupViewModel: ViewModel {
         
         // MARK: Account ID Validation
         
-        let validatedAccountID = input.userID
+        let validatedAccountID = input.accountID
             .flatMapLatest { [weak self] accountID -> Driver<ValidationResult> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.validationService
@@ -79,15 +79,17 @@ final class AccountSetupViewModel: ViewModel {
             }
             .distinctUntilChanged()
         
-        let isAvailable = input.verifyUserID.withLatestFrom(input.userID)
+        let isAvailable = input.verifyAccountID.withLatestFrom(input.accountID)
             .flatMapLatest { [weak self] userID -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
                     .verifyAccountID(userID)
                     .trackActivity(indicator)
-                    .flatMap { available in
+                    .flatMap { isDuplicated in
+                        let available = !isDuplicated
                         let message = available ? "사용가능한 아이디입니다" : "사용중인 아이디입니다"
-                        return strongSelf.wireframe.promptFor(message, cancelAction: "확인", actions: [])
+                        return strongSelf.wireframe
+                            .promptFor(message, cancelAction: "확인", actions: [])
                             .map { _ in return available }
                     }
                     .asDriver(onErrorJustReturn: false)
@@ -97,16 +99,23 @@ final class AccountSetupViewModel: ViewModel {
         // MARK: Password Validation
         
         let validatedPassword = input.password
-            .map { password in
-                return self.validationService.validatePassword(password)
+            .map { [weak self] password -> ValidationResult in
+                guard let strongSelf = self else { return .failed(message: "") }
+                return strongSelf.validationService
+                    .validatePassword(password)
             }
+            .startWith(.default(message: ""))
 
         let validatedPasswordRepeated = Driver.combineLatest(input.password, input.repeatedPassword, resultSelector: validationService.validateRepeatedPassword)
+            .startWith(.default(message: ""))
         
         // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
-            isAvailable, loading) { verified, loading in
+            validatedAccountID,
+            isAvailable,
+            loading) { result, verified, loading in
+                result.isValid &&
                 verified &&
                 !loading
             }

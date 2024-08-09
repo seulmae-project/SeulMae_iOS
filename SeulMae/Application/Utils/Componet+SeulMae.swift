@@ -91,21 +91,23 @@ extension UIButton {
 
 extension UITextField {
     static func common(placeholder: String, padding: CGFloat = 16) -> UITextField {
-        let textField = UITextField()
+        let tf = UITextField()
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 0))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
         let attrString = NSAttributedString(
             string: placeholder,
             attributes: [.font: UIFont.systemFont(ofSize: 14)])
-        textField.attributedPlaceholder = attrString
-        textField.layer.cornerRadius = 16
-        textField.layer.cornerCurve = .continuous
-        textField.layer.borderWidth = 1.0
-        textField.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
-        textField.autocapitalizationType = .none
+        tf.attributedPlaceholder = attrString
+        tf.layer.cornerRadius = 16
+        tf.layer.cornerCurve = .continuous
+        tf.layer.borderWidth = 1.0
+        tf.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        tf.autocapitalizationType = .none // 대문자
+        tf.spellCheckingType = .no // 맞춤법
+        tf.autocorrectionType = .no // 자동 수정
         // yourSingleFactorCodeTextField.textContentType = .oneTimeCode
-        return textField
+        return tf
     }
     
     static func tel(placeholder: String, padding: CGFloat = 16) -> UITextField {

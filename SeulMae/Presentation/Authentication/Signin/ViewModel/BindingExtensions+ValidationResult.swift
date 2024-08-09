@@ -12,34 +12,32 @@ import RxCocoa
 extension ValidationResult: CustomStringConvertible {
     var description: String {
         switch self {
-        case let .ok(message):
+        case .default(let message),
+                .ok(let message),
+                .failed(let message),
+                .empty(let message):
             return message
-        case .empty:
-            return ""
         case .validating:
-            return "validating ..."
-        case let .failed(message):
-            return message
+            return "validating..."
         }
     }
 }
 
 struct ValidationColors {
-    static let okColor = UIColor(hexCode: "0086FF")
-    static let errorColor = UIColor(hexCode: "FF453A")
+    static let ok: UIColor = UIColor.primary
+    static let error = UIColor(hexCode: "FF453A")
+    static let `default`: UIColor = .graphite
 }
 
 extension ValidationResult {
     var textColor: UIColor {
         switch self {
+        case .default, .empty, .validating:
+            return ValidationColors.default
         case .ok:
-            return ValidationColors.okColor
-        case .empty:
-            return .label
-        case .validating:
-            return .label
+            return ValidationColors.ok
         case .failed:
-            return ValidationColors.errorColor
+            return ValidationColors.error
         }
     }
 }
@@ -65,7 +63,6 @@ extension UIButton: Extended {}
 extension Extension where ExtendedType == UIButton {
     func setEnabled(_ isEnabled: Bool) {
         type.isEnabled = isEnabled
-        // type.alpha = isEnabled ? 1.0 : 0.5
         type.backgroundColor = isEnabled ? .primary : .cloudy
         type.setTitleColor(isEnabled ? .cloudy : .graphite, for: .normal)
     }

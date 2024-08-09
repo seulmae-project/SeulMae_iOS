@@ -26,13 +26,13 @@ class DefaultAuthRepository: AuthRepository {
     func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
         return network.rx
             .request(.signin(accountID: account, password: password, fcmToken: fcmToken))
-            .map(BaseResponseDTO<AuthDataDTO>.self)
-            .map { try $0.toDomain() }
             .do(onSuccess: { response in
-                Swift.print("response: \(response)")
+                Swift.print("response: \(try response.mapString())")
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
+            .map(BaseResponseDTO<AuthDataDTO>.self)
+            .map { try $0.toDomain() }
     }
     
     func kakaoSignin() -> Single<Bool> {
@@ -49,12 +49,12 @@ class DefaultAuthRepository: AuthRepository {
     
     func verifyAccountID(_ accountID: String) -> Single<Bool> {
         return network.rx.request(.verifyAccountID(accountID))
-            .map(Bool.self, atKeyPath: "data.duplicated")
             .do(onSuccess: { response in
-                Swift.print("response: \(response)")
+                Swift.print("response: \(try response.mapString())")
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
+            .map(Bool.self, atKeyPath: "data.duplicated")
     }
     
     func signup(_ request: SignupRequest) -> Single<Bool> {
@@ -95,25 +95,25 @@ class DefaultAuthRepository: AuthRepository {
         Swift.print(#function, "Send SMS Code: \(phoneNumber), \(email ?? "nil")")
         return network.rx
             .request(.sendSMSCode(phoneNumber: phoneNumber, email: email))
-            .map(String?.self, atKeyPath: "data.accountId")
-            .map { $0 ?? "nil" }
             .do(onSuccess: { response in
-                Swift.print("response: \(response)")
+                Swift.print("response: \(try response.mapString())")
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
+            .map(String?.self, atKeyPath: "data.accountId")
+            .map { $0 ?? "nil" }
     }
     
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {
         Swift.print(#function, "SMS Verification Code: \(code)")
         return network.rx
             .request(.verifySMSCode(phoneNumber: phoneNumber, code: code))
-            .map(BaseResponseDTO<String?>.self)
-            .map { $0.isSuccess }
             .do(onSuccess: { response in
-                Swift.print("response: \(response)")
+                Swift.print("response: \(try response.mapString())")
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
+            .map(BaseResponseDTO<String?>.self)
+            .map { $0.isSuccess }
     }
 }

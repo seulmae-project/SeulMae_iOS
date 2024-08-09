@@ -56,6 +56,7 @@ final class CompletionViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
+        
         let completionVStack = UIStackView(arrangedSubviews: [
             completionGuideLabel, stepGuideLabel, completionImageView
         ])

@@ -477,13 +477,14 @@
 			path = Extenstion;
 			sourceTree = "<group>";
 		};
-		86112E532C2E9128005DEBD1 /* Common */ = {
+		86112E532C2E9128005DEBD1 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
 				86766D022C1830DD00095010 /* SMSVerification */,
+				86766D0E2C1838A600095010 /* AccountSetup */,
 				86766D1A2C1842A200095010 /* Completion */,
 			);
-			path = Common;
+			path = Shared;
 			sourceTree = "<group>";
 		};
 		861B96832C2007570032C94A /* Domain */ = {
@@ -1322,7 +1323,6 @@
 		86E299D92C17227600805AD0 /* Signup */ = {
 			isa = PBXGroup;
 			children = (
-				86766D0E2C1838A600095010 /* AccountSetup */,
 				86766D172C18427C00095010 /* ProfileSetup */,
 			);
 			path = Signup;
@@ -1331,7 +1331,7 @@
 		86E299DB2C1722A600805AD0 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
-				86112E532C2E9128005DEBD1 /* Common */,
+				86112E532C2E9128005DEBD1 /* Shared */,
 				86E299D82C17221800805AD0 /* Signin */,
 				86E299D92C17227600805AD0 /* Signup */,
 				86DE556A2C19E77D009CC520 /* IDRecovery */,
