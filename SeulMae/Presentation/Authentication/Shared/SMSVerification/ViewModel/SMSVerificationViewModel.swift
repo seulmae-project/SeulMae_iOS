@@ -12,6 +12,7 @@ import RxCocoa
 final class SMSVerificationViewModel: ViewModel {
     
     struct Input {
+        let account: Driver<String>
         let phoneNumber: Driver<String>
         let code: Driver<String>
         let sendSMSCode: Signal<()>
@@ -34,6 +35,7 @@ final class SMSVerificationViewModel: ViewModel {
     
     private var phoneNumber: String = ""
     private var sendCount: Int = 0
+    private var account: String = ""
     
     // MARK: - Dependency
     
@@ -85,13 +87,24 @@ final class SMSVerificationViewModel: ViewModel {
             .flatMapLatest { [weak self] phoneNumber -> Driver<SMSRequestStatus> in
                 guard let strongSelf = self else { return .empty() }
                 // TODO: - 인증이 성공했을 때 저장으로 변경
+                let account = "yonggipo"
                 strongSelf.phoneNumber = phoneNumber
                 if strongSelf.sendCount != 3 {
                     strongSelf.sendCount += 1
                     return strongSelf.authUseCase
                         .sendSMSCode(phoneNumber: phoneNumber, email: nil)
                         .trackActivity(indicator)
-                        .map { _ in (strongSelf.sendCount == 1) ? .request : .reRequest }
+                        .map { foundAccount in
+                            // 비밀번호 찾기 일 경우
+                            if case .passwordRecovery(_) = strongSelf.item {
+                                // 입력된 account 와 전달받은 account 가 일치하지 않음 => 문자 발송 안됨
+                                if (foundAccount != account) {
+                                    return .invalid
+                                }
+                            }
+                            strongSelf.account = account
+                            return (strongSelf.sendCount == 1) ? .request : .reRequest
+                        }
                         .asDriver(onErrorDriveWith: .empty())
                     // TODO: API Error 핸들링 필요
                 } else {
@@ -145,19 +158,23 @@ final class SMSVerificationViewModel: ViewModel {
             }
             .distinctUntilChanged()
         
+        // TODO: account 가 휴대폰 인증 요청시에 리스폰으로 떨어짐 -> 인증 성공할 시
+        let account = Driver.just("yonggipo")
+        let showNextStepWithAccount = input.nextStep.withLatestFrom(account)
+        
         Task {
-            for await _ in input.nextStep.values {
+            for await account in showNextStepWithAccount.values {
                 switch item {
                 case .signup:
                     var request = SignupRequest()
                     request.updatePhoneNumber(phoneNumber)
                     coordinator.showAccountSetup(item: .signup, request: request)
-                case .idRecovery:
+                case .accountRecovery:
                     break
-                    // coordinator.showAccountSetup(request: SignupRequest())
+                    coordinator.showAccountRecovery(item: .init(foundAccount: account))
                 case .passwordRecovery:
-                    break
-                    // coordinator.showAccountSetup(request: SignupRequest())
+                    break // MARK: - 백) 유저 계정을 전송시 번호와 일치하는 계정이 있을 경우만 코드 전송
+                    coordinator.showAccountSetup(item: .passwordRecovery, request: SignupRequest())
                 }
             }
         }

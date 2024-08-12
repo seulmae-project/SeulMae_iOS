@@ -11,6 +11,7 @@ enum SMSRequestStatus {
     case pending
     case request
     case reRequest
+    case invalid
     
     var isSending: Bool {
         [.request, .reRequest].contains(self)

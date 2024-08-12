@@ -12,6 +12,7 @@
 		8606F6862C332DBB00FFC68E /* AddWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */; };
 		8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */; };
 		860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */; };
+		860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */; };
 		860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8D2C1FEF52001F94D4 /* RxCocoa */; };
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
@@ -235,6 +236,7 @@
 		8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkplaceRequest.swift; sourceTree = "<group>"; };
 		8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWorkplaceRequest.swift; sourceTree = "<group>"; };
 		860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryItem.swift; sourceTree = "<group>"; };
+		860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialRecoveryOptionsViewController.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
@@ -1212,6 +1214,7 @@
 			isa = PBXGroup;
 			children = (
 				86E299DD2C1722D700805AD0 /* SigninViewController.swift */,
+				860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1599,6 +1602,7 @@
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */,
+				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,

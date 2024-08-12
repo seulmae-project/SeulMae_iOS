@@ -8,19 +8,26 @@
 import Foundation
 
 enum SMSVerificationItem {
-    case signup, idRecovery, passwordRecovery
+    case signup
+    case accountRecovery
+    case passwordRecovery(account: String)
 }
 
 extension SMSVerificationItem {
-    var isHiddenAccountIDField: Bool {
-        [.passwordRecovery, .signup].contains(self)
+    var isNeedAccout: Bool {
+        switch self {
+        case .passwordRecovery(account: _):
+            return true
+        default:
+            return false
+        }
     }
     
     var navItemTitle: String {
         switch self {
         case .signup:
             return  "회원가입"
-        case .idRecovery:
+        case .accountRecovery:
             return "아이디 찾기"
         case .passwordRecovery:
             return "비밀번호 재설정"
@@ -31,10 +38,10 @@ extension SMSVerificationItem {
         switch self {
         case .signup:
             return  "정보 확인을 위해\n휴대폰번호를 입력해주세요"
-        case .idRecovery:
+        case .accountRecovery:
             return "가입시 입력하신\n휴대폰 번호를 입력해주세요"
         case .passwordRecovery:
-            return "가입시 입력하신 이메일 주소와\n휴대폰 번호를 입력해주세요"
+            return "가입시 입력하신 계정 아이디와\n휴대폰 번호를 입력해주세요"
         }
     }
 }

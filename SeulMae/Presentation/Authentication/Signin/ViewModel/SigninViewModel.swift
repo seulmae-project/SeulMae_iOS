@@ -21,6 +21,7 @@ final class SigninViewModel: ViewModel {
         let kakaoSignin: Signal<()>
         let validateSMS: Signal<SMSVerificationItem>
         let signup: Signal<()>
+        let credentialOption: Signal<CredentialRecoveryOption>
     }
     
     struct Output {
@@ -135,19 +136,6 @@ final class SigninViewModel: ViewModel {
                 
             }
         }
-        
-
-//        let accountRecovery = input.accountRecovery
-//            .flatMapLatest { _ -> Driver<Bool> in
-//                let email = "Mock: Signed in to GitHub."
-//                let password = "Mock: Sign in to GitHub failed"
-//                return wireframe.promptFor(message, cancelAction: "OK", actions: [])
-//                    .map { _ in
-//                        loggedIn
-//                    }
-//                    .asDriver(onErrorJustReturn: false)
-//            })
-        
   
         // MARK: - Flow Logic
         
@@ -166,6 +154,16 @@ final class SigninViewModel: ViewModel {
         Task {
             for await _ in input.signup.values {
                 coordinator.showSMSValidation(item: .signup)
+            }
+        }
+        
+        Task {
+            for await credentialOption in input.credentialOption.values {
+                if (credentialOption == .account) {
+                    coordinator.showSMSValidation(item: .accountRecovery)
+                } else {
+                    coordinator.showSMSValidation(item: .passwordRecovery(account: ""))
+                }
             }
         }
         

@@ -31,8 +31,8 @@ final class SMSVerificationViewController: UIViewController {
         return activity
     }()
     private let titleLabel: UILabel = .title()
-    private let accountIDLabel: UILabel = .callout(title: "아이디")
-    private let accountIDTextField: UITextField = .common(placeholder: "아이디 입력")
+    private let accountLabel: UILabel = .callout(title: "아이디")
+    private let accountTextField: UITextField = .common(placeholder: "아이디 입력")
     private let phoneNumberLabel: UILabel = .callout(title: "휴대폰 번호")
     private let phoneNumberTextField: UITextField = {
         let tf = UITextField.common(placeholder: "휴대폰 번호 입력", padding: 16)
@@ -60,13 +60,15 @@ final class SMSVerificationViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHierarchy()
-        bindInternalSubviews()
+        setupView()
+        setupNavItem()
+        setupConstraints()
+        bindSubviews()
     }
     
     // MARK: - Data Binding
     
-    private func bindInternalSubviews() {
+    private func bindSubviews() {
         // Handle Background Tap
         let tapBackground = UITapGestureRecognizer()
         Task {
@@ -144,6 +146,7 @@ final class SMSVerificationViewController: UIViewController {
         // Handle View Model Output
         let output = viewModel.transform(
             .init(
+                account: accountTextField.rx.text.orEmpty.asDriver(),
                 phoneNumber: phoneNumber,
                 code: code,
                 sendSMSCode: sendSMSCodeButton.rx.tap.asSignal(),
@@ -157,8 +160,8 @@ final class SMSVerificationViewController: UIViewController {
             for await item in output.item.values {
                 titleLabel.text = item.title
                 navigationItem.title = item.navItemTitle
-                accountIDTextField.isHidden = item.isHiddenAccountIDField
-                accountIDLabel.isHidden = item.isHiddenAccountIDField
+                accountLabel.isHidden = !item.isNeedAccout
+                accountTextField.isHidden = !item.isNeedAccout
             }
         }
         
@@ -222,15 +225,19 @@ final class SMSVerificationViewController: UIViewController {
     }
     
     // MARK: - Hierarchy
-
-    private func configureHierarchy() {
+    
+    private func setupView() {
         view.backgroundColor = .systemBackground
-        
+    }
+    
+    private func setupNavItem() {
         navigationController?.navigationBar.tintColor = .black
-        
+    }
+
+    private func setupConstraints() {
         /// - Tag: Account ID
         let accountIDVStack = UIStackView(arrangedSubviews: [
-            accountIDLabel, accountIDTextField
+            accountLabel, accountTextField
         ])
         accountIDVStack.axis = .vertical
         accountIDVStack.spacing = 8.0
@@ -306,6 +313,12 @@ final class SMSVerificationViewController: UIViewController {
             make.height.equalTo(56)
             make.centerX.equalToSuperview()
         }
+        
+        NSLayoutConstraint.activate([
+            
+            // Constraint textField height
+            accountTextField.heightAnchor.constraint(equalToConstant: 48),
+        ])
     }
 }
 

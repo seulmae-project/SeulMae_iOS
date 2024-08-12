@@ -9,6 +9,9 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+enum CredentialRecoveryOption {
+    case account, password
+}
 
 final class SigninViewController: UIViewController {
     
@@ -68,6 +71,17 @@ final class SigninViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindInternalSubviews() {
+       
+        // 이로 인해 UI가 겹쳐지거나, 올바르지 않은 상태에서 바텀 시트가 나타날 수 있습니다. 이러한 문제를 방지하려면, 새로운 시트를 표시하기 전에 기존 시트가 닫혔는지 확인하는 것이 좋습니다.
+        let credentialOption = findCredentials.rx.tap.asSignal()
+            .flatMapLatest { [weak self] _ -> Signal<CredentialRecoveryOption> in
+                guard let strongSelf = self else { return .empty() }
+                let viewController = CredentialRecoveryOptionsViewController()
+                let credentialRecoveryOptionsBottomSheet = BottomSheetController(contentViewController: viewController)
+                strongSelf.present(credentialRecoveryOptionsBottomSheet, animated: true)
+                return viewController.recoveryOptionRelay
+                    .asSignal()
+            }
 
         let output = viewModel.transform(
             .init(
@@ -76,7 +90,8 @@ final class SigninViewController: UIViewController {
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
                 validateSMS: .empty(), // .just(.idRecovery)
-                signup: signupButton.rx.tap.asSignal()
+                signup: signupButton.rx.tap.asSignal(),
+                credentialOption: credentialOption
             )
         )
         
