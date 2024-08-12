@@ -8,19 +8,24 @@
 import UIKit
 
 protocol AuthFlowCoordinatorDependencies {
-    func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
+    // (Shared) SMS validation
     func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSVerificationItem) -> SMSVerificationViewController
-    func makeAccountSetupViewController(
-        coordinator: AuthFlowCoordinator,
-        item: AccountSetupItem,
-        request: SignupRequest
-    ) -> AccountSetupViewController
+    
+    // (Shared) Account setup
+    func makeAccountSetupViewController(coordinator: AuthFlowCoordinator,
+        item: AccountSetupItem, request: SignupRequest) -> AccountSetupViewController
+    
+    // (Shared) Completion
+    func makeCompletionViewController(coordinator: AuthFlowCoordinator, item: CompletionItem) -> CompletionViewController
+    
+    // Sign in
+    func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
+    
+    // Account recovery
+    func makeAccountRecoveryViewController(coordinator: AuthFlowCoordinator, item: AccountRecoveryItem) -> AccountRecoveryViewController
+    
+    // Profile setup
     func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
-    func makeCompletionViewController(
-        coordinator: AuthFlowCoordinator,
-        item: CompletionItem
-    ) -> CompletionViewController
-    func makeIDRecoveryViewController(coordinator: AuthFlowCoordinator) -> IDRecoveryViewController
 }
 
 protocol AuthFlowCoordinator {
@@ -28,19 +33,19 @@ protocol AuthFlowCoordinator {
     func start()
     func startMain()
     
-    /// - Tag: Common
+    // Shared
     func showSMSValidation(item: SMSVerificationItem)
+    func showAccountSetup(item: AccountSetupItem, request: SignupRequest)
     func showCompletion(item: CompletionItem)
 
-    /// - Tag: Signin
+    // Signin
     func showSingin()
     
-    /// - Tag: Signup
-    func showAccountSetup(item: AccountSetupItem, request: SignupRequest)
+    // Sign up
     func showProfileSetup(request: SignupRequest)
     
-    /// - Tag: Account Service
-    func showAccountIDRecovery()
+    // Account recovery
+    func showAccountRecovery(item: AccountRecoveryItem)
 }
 
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
@@ -66,8 +71,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-//        showProfileSetup(request: SignupRequest())
-        showCompletion(item: .signup(username: "조기열"))
+        showAccountRecovery(item: .init(foundAccount: "dddd"))
         // showSingin()
     }
     
@@ -109,8 +113,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Account Sevice
     
-    func showAccountIDRecovery() {
-        let vc = dependencies.makeIDRecoveryViewController(coordinator: self)
+    func showAccountRecovery(item: AccountRecoveryItem) {
+        let vc = dependencies.makeAccountRecoveryViewController(coordinator: self, item: item)
         navigationController.pushViewController(vc, animated: true)
     }
 }

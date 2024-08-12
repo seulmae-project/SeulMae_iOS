@@ -11,6 +11,7 @@
 		8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6832C33282100FFC68E /* MemberContentView.swift */; };
 		8606F6862C332DBB00FFC68E /* AddWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */; };
 		8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */; };
+		860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */; };
 		860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8D2C1FEF52001F94D4 /* RxCocoa */; };
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
@@ -183,8 +184,8 @@
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
-		86DE556C2C19E9C7009CC520 /* IDRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* IDRecoveryViewController.swift */; };
-		86DE55702C19EA25009CC520 /* DRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* DRecoveryViewModel.swift */; };
+		86DE556C2C19E9C7009CC520 /* AccountRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* AccountRecoveryViewController.swift */; };
+		86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */; };
 		86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */; };
 		86E296F52C4E4D9D0080A3A2 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F42C4E4D9D0080A3A2 /* TextCell.swift */; };
 		86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */; };
@@ -233,6 +234,7 @@
 		8606F6832C33282100FFC68E /* MemberContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberContentView.swift; sourceTree = "<group>"; };
 		8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkplaceRequest.swift; sourceTree = "<group>"; };
 		8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWorkplaceRequest.swift; sourceTree = "<group>"; };
+		860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryItem.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
@@ -398,8 +400,8 @@
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
-		86DE556B2C19E9C7009CC520 /* IDRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDRecoveryViewController.swift; sourceTree = "<group>"; };
-		86DE556F2C19EA25009CC520 /* DRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRecoveryViewModel.swift; sourceTree = "<group>"; };
+		86DE556B2C19E9C7009CC520 /* AccountRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryViewController.swift; sourceTree = "<group>"; };
+		86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryViewModel.swift; sourceTree = "<group>"; };
 		86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkControlModalViewController.swift; sourceTree = "<group>"; };
 		86E296F42C4E4D9D0080A3A2 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiListViewController.swift; sourceTree = "<group>"; };
@@ -1224,19 +1226,19 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86DE556A2C19E77D009CC520 /* IDRecovery */ = {
+		86DE556A2C19E77D009CC520 /* AccountRecovery */ = {
 			isa = PBXGroup;
 			children = (
 				86DE556D2C19EA05009CC520 /* View */,
 				86DE556E2C19EA09009CC520 /* ViewModel */,
 			);
-			path = IDRecovery;
+			path = AccountRecovery;
 			sourceTree = "<group>";
 		};
 		86DE556D2C19EA05009CC520 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				86DE556B2C19E9C7009CC520 /* IDRecoveryViewController.swift */,
+				86DE556B2C19E9C7009CC520 /* AccountRecoveryViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1244,7 +1246,8 @@
 		86DE556E2C19EA09009CC520 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				86DE556F2C19EA25009CC520 /* DRecoveryViewModel.swift */,
+				86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */,
+				860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1351,7 +1354,7 @@
 				86112E532C2E9128005DEBD1 /* Shared */,
 				86E299D82C17221800805AD0 /* Signin */,
 				86E299D92C17227600805AD0 /* Signup */,
-				86DE556A2C19E77D009CC520 /* IDRecovery */,
+				86DE556A2C19E77D009CC520 /* AccountRecovery */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -1572,7 +1575,7 @@
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
-				86DE556C2C19E9C7009CC520 /* IDRecoveryViewController.swift in Sources */,
+				86DE556C2C19E9C7009CC520 /* AccountRecoveryViewController.swift in Sources */,
 				8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */,
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
@@ -1686,7 +1689,7 @@
 				861C31B62C1BF580007DD6B9 /* APIError.swift in Sources */,
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
-				86DE55702C19EA25009CC520 /* DRecoveryViewModel.swift in Sources */,
+				86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */,
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
 				868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */,
@@ -1695,6 +1698,7 @@
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
+				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
