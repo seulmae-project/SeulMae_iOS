@@ -1,5 +1,5 @@
 //
-//  SignupCompletionViewModel.swift
+//  CompletionViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/11/24.
@@ -18,13 +18,8 @@ final class CompletionViewModel: ViewModel {
         let item: Driver<CompletionItem>
     }
     
-    // MARK: - Dependency
-    
     private let coordinator: AuthFlowCoordinator
-    
     private let item: CompletionItem
-    
-    // MARK: - Life Cycle
     
     init(
         dependency: (
@@ -37,12 +32,9 @@ final class CompletionViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        
-        // MARK: Flow Logic
-        
         Task {
             for await _ in input.nextStep.values {
-                coordinator
+                coordinator.showSingin()
             }
         }
         

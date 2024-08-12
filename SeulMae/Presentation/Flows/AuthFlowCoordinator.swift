@@ -67,7 +67,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     func start() {
 //        showProfileSetup(request: SignupRequest())
-        showCompletion(item: .signup(signedUp: true, username: "조기열"))
+        showCompletion(item: .signup(username: "조기열"))
         // showSingin()
     }
     

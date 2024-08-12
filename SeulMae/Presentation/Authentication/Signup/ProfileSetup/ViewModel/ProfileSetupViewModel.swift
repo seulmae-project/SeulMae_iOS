@@ -108,7 +108,7 @@ final class ProfileSetupViewModel: ViewModel {
         
         Task {
             for await (signedUp, username) in signedUpAndUsername.values {
-                coordinator.showCompletion(item: .signup(signedUp: signedUp, username: username))
+                coordinator.showCompletion(item: .signup(username: username))
             }
         }
         
