@@ -7,18 +7,25 @@
 
 import Foundation
 
-struct SignupRequest {
-    var email: String = ""
+struct SignupRequest: ModelType {
+    var accountId: String = ""
     var password: String = ""
     var phoneNumber: String = ""
     var name: String = ""
-    var imageData: Data = Data()
     var isMale: Bool = false
     var birthday: String = "" // "19930815"
     
-    mutating func setProfile(name: String, imageData: Data, isMale: Bool, birthday: String) {
+    mutating func updatePhoneNumber(_ phoneNumber: String) {
+        self.phoneNumber = phoneNumber
+    }
+    
+    mutating func updateCredentials(account: String, password: String) {
+        self.accountId = account
+        self.password = password
+    }
+    
+    mutating func updateProfile(name: String, isMale: Bool, birthday: String) {
         self.name = name
-        self.imageData = imageData
         self.isMale = isMale
         self.birthday = birthday
     }

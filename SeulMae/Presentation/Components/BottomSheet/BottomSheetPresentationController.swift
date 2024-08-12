@@ -129,9 +129,7 @@ class BottomSheetPresentationController: UIPresentationController {
             strongDelegate.prepareForBottomSheetPresentation(self)
         }
         
-        guard let containerView else {
-            return
-        }
+        guard let containerView else { return }
         
         dimmingView = UIView(frame: containerView.bounds)
         dimmingView?.backgroundColor = scrimColor ?? UIColor(white: 0, alpha: 0.4)
@@ -143,10 +141,13 @@ class BottomSheetPresentationController: UIPresentationController {
         dimmingView?.accessibilityLabel = scrimAccessibilityLabel
         dimmingView?.accessibilityHint = scrimAccessibilityHint
         
-        guard let scrollView = trackingScrollView ?? bottomSheetGetPrimaryScrollView(viewController: presentedViewController) else {
-            return
-        }
+        // _dismissOnDraggingDownSheet = YES;
         
+        var scrollView = trackingScrollView
+        if (scrollView == nil) {
+            scrollView = bottomSheetGetPrimaryScrollView(viewController: presentedViewController)
+        }
+
         let sheetFrame = frameOfPresentedViewInContainerView
         if shouldPropagateSafeAreaInsetsToPresentedViewController {
             presentedViewController.additionalSafeAreaInsets = presentingViewController.view.safeAreaInsets
@@ -243,6 +244,7 @@ class BottomSheetPresentationController: UIPresentationController {
         if preferredSheetHeight == 0 {
             preferredSheetHeight = round((self.sheetView?.frame.height ?? 0) / 2)
         }
+        
         self.sheetView?.preferredSheetHeight = preferredSheetHeight
     }
     
@@ -272,9 +274,7 @@ extension BottomSheetPresentationController: SheetContainerViewDelegate {
     
     // MARK: - SheetContainerViewDelegate
 
-    func sheetContainerViewDidHide(
-        _ containerView: SheetContainerView
-    ) {
+    func sheetContainerViewDidHide(_ containerView: SheetContainerView) {
         if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
             presentingViewController.dismiss(animated: true) {
                 strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(self)
@@ -284,10 +284,7 @@ extension BottomSheetPresentationController: SheetContainerViewDelegate {
         }
     }
 
-    func sheetContainerViewWillChangeState(
-        _ containerView: SheetContainerView,
-        sheetState: SheetState
-    ) {
+    func sheetContainerViewWillChangeState(_ containerView: SheetContainerView, sheetState: SheetState) {
         if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
             strongDelegate.bottomSheetWillChangeState(self, sheetState: sheetState)
         }

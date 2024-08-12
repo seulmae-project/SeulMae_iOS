@@ -7,10 +7,11 @@
 
 import UIKit
 
-enum CompletionItem {
-    case signup(username: String), passwordRecovery
+enum CompletionItem: CustomStringConvertible {
+    case signup(username: String)
+    case passwordRecovery
     
-    var completion: String {
+    var description: String {
         switch self {
         case .signup:
             return "회원 가입 완료"
@@ -19,10 +20,10 @@ enum CompletionItem {
         }
     }
     
-    var stepGuide: String {
+    var title: String {
         switch self {
         case .signup(let username):
-            return  "\(username)님,\n만나서 반가워요!"
+            return "\(username)님,\n만나서 반가워요!"
         case .passwordRecovery:
             return "비밀번호 변경을\n완료했습니다."
         }
@@ -31,11 +32,11 @@ enum CompletionItem {
     var nextStep: String {
         switch self {
         default:
-            return  "로그인가기"
+            return "로그인가기"
         }
     }
     
     var image: UIImage {
-        return UIImage()
+        return .checkCircle
     }
 }

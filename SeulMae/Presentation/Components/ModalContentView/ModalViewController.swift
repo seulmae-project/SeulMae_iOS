@@ -8,8 +8,6 @@
 import UIKit
 import RxSwift
 
-
-
 class CustomModalViewController: UIViewController {
     
     lazy var titleLabel: UILabel = {
@@ -39,6 +37,7 @@ class CustomModalViewController: UIViewController {
         let view = UIView()
         view.backgroundColor = .white
         view.layer.cornerRadius = 16
+        view.layer.cornerCurve = .continuous
         view.clipsToBounds = true
         return view
     }()

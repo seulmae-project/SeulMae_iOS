@@ -15,7 +15,7 @@ protocol AuthUseCase {
     
     /// - Tag: Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>
-    func signup(_ request: SignupRequest) -> Single<Bool>
+    func signup(request: SignupRequest, file: Data) -> Single<Bool>
     
     /// - Tag: Account Recovery
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
@@ -46,8 +46,8 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.verifyAccountID(accountID)
     }
     
-    func signup(_ request: SignupRequest) -> RxSwift.Single<Bool> {
-        authRepository.signup(request)
+    func signup(request: SignupRequest, file: Data) -> RxSwift.Single<Bool> {
+        authRepository.signup(request: request, file: file)
     }
     
     func recoveryEmail(_ phoneNumber: String) -> RxSwift.Single<Bool> {

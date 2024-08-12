@@ -1,4 +1,8 @@
 import struct Foundation.URL
+import Foundation
+import struct Foundation.Data
+import Darwin.C.stdlib
+
 
 import Moya
 
@@ -17,6 +21,7 @@ public protocol SugarTargetType: TargetType {
     var route: Route { get }
     var parameters: Parameters? { get }
     var body: Encodable? { get }
+    var data: Data? { get }
 }
 
 public extension SugarTargetType {
@@ -37,7 +42,25 @@ public extension SugarTargetType {
     }
     
     var task: Task {
-        if let body { return .requestJSONEncodable(body)
+        if let data {
+            var formData = [MultipartFormData]()
+            let file = MultipartFormData(provider: .data(data), name: "file", fileName: "\(arc4random()).jpeg", mimeType: "image/jpeg")
+            formData.append(file)
+            guard let bodyDic = body as? [String: Encodable] else {
+                return .uploadMultipart(formData)
+            }
+            let encoder = JSONEncoder()
+            for (key, value) in bodyDic {
+                Swift.print("key: \(key), value: \(value)")
+                if let json = try? encoder.encode(value) {
+                    formData.append(MultipartFormData(provider: .data(json), name: key, mimeType: "application/json"))
+                }
+            }
+            return .uploadMultipart(formData)
+        }
+        
+        if let body {
+            return .requestJSONEncodable(body)
         } else if let parameters {
             return .requestParameters(parameters: parameters.values, encoding: parameters.encoding)
         } else {

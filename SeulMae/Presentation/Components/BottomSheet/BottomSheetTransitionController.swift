@@ -82,6 +82,9 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
     }
     
     func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        Swift.print(#line, "presented: \(presented)")
+        Swift.print(#line, "presenting: \(presenting)")
+        Swift.print(#line, "source: \(source)")
         return self
     }
     
@@ -97,34 +100,28 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
     
     func animateTransition(using transitionContext: UIViewControllerContextTransitioning) {
         guard let fromViewController = transitionContext.viewController(forKey: .from),
-              let toViewController = transitionContext.viewController(forKey: .to) else {
-            transitionContext.completeTransition(false)
-            return
-        }
-        
-        guard let fromView = transitionContext.view(forKey: .from),
-              let toView = transitionContext.view(forKey: .to) else {
+              let fromView = transitionContext.view(forKey: .from) ?? fromViewController.view,
+              let toViewController = transitionContext.viewController(forKey: .to),
+              let toView = transitionContext.view(forKey: .to) ?? toViewController.view else {
             transitionContext.completeTransition(false)
             return
         }
         
         let toPresentingViewController = toViewController.presentingViewController
-        let presenting = (toPresentingViewController == fromViewController)
-        
-        let animatingViewController = presenting ? toViewController : fromViewController
-        let animatingView = presenting ? toView : fromView
-        
+        let isPresenting = (toPresentingViewController == fromViewController)
+
+        let animatingViewController = isPresenting ? toViewController : fromViewController
+        let animatingView = isPresenting ? toView : fromView
         let containerView = transitionContext.containerView
         
-        if presenting {
+        if isPresenting {
             containerView.addSubview(toView)
         }
-        
+
         let onscreenFrame = frameOfPresentedViewController(animatingViewController, in: containerView)
         let offscreenFrame = onscreenFrame.offsetBy(dx: 0, dy: containerView.frame.size.height)
-        
-        let initialFrame = presenting ? offscreenFrame : onscreenFrame
-        let finalFrame = presenting ? onscreenFrame : offscreenFrame
+        let initialFrame = isPresenting ? offscreenFrame : onscreenFrame
+        let finalFrame = isPresenting ? onscreenFrame : offscreenFrame
         
         animatingView.frame = initialFrame
         
@@ -135,7 +132,7 @@ extension BottomSheetTransitionController: UIViewControllerAnimatedTransitioning
             animations: {
             animatingView.frame = finalFrame
         }) { (finished) in
-            if !presenting {
+            if !isPresenting {
                 fromView.removeFromSuperview()
                 self.delegate?.didDismissBottomSheetTransitionController(self)
             }

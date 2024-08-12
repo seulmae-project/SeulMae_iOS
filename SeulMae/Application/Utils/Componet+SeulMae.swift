@@ -7,18 +7,6 @@
 
 import UIKit
 
-// MARK: - RadioButton
-
-extension RadioButton {
-    static func common(title: String) -> RadioButton {
-        let button = RadioButton()
-        button.setTitle(title, for: .normal)
-        button.iconConfiguration.iconColor = .init(hexCode: "0086FF")
-        button.iconConfiguration.indicatorColor = .init(hexCode: "0086FF")
-        return button
-    }
-}
-
 // MARK: - UIImageView
 
 extension UIImageView {

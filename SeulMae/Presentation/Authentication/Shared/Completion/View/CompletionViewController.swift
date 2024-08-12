@@ -18,45 +18,46 @@ final class CompletionViewController: UIViewController {
         view.viewModel = viewModel
         return view
     }
-    
-    // MARK: - Dependency
-    
-    private var viewModel: CompletionViewModel!
-    
+
     private let completionGuideLabel: UILabel = .callout()
     private let stepGuideLabel: UILabel = .title()
     private let completionImageView: UIImageView = UIImageView()
     private let nextStepButton: UIButton = .common()
+    
+    // MARK: - Dependencies
+    
+    private var viewModel: CompletionViewModel!
    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHierarchy()
-        bindInternalSubviews()
+        view.backgroundColor = .systemBackground
+        
+        setupConstraints()
+        bindSubviews()
     }
     
     // MARK: - Data Binding
     
-    private func bindInternalSubviews() {
+    private func bindSubviews() {
 
         let output = viewModel.transform(
             .init(nextStep: nextStepButton.rx.tap.asSignal())
         )
         
         Task {
-            for await type in output.item.values {
-                completionGuideLabel.text = type.completion
-                stepGuideLabel.text = type.stepGuide
-                completionImageView.image = type.image
-                nextStepButton.setTitle(type.stepGuide, for: .normal)
+            for await item in output.item.values {
+                completionGuideLabel.text = item.description
+                stepGuideLabel.text = item.title
+                completionImageView.image = item.image
+                nextStepButton.setTitle(item.nextStep, for: .normal)
             }
         }
     }
     
     // MARK: - Hierarchy
     
-    private func configureHierarchy() {
-        
+    private func setupConstraints() {
         let completionVStack = UIStackView(arrangedSubviews: [
             completionGuideLabel, stepGuideLabel, completionImageView
         ])

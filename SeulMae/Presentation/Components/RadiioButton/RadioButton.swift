@@ -72,17 +72,23 @@ class RadioButton: UIButton {
         associatedButtons.filter(\.isSelected)
     }
     
-    @WeakReferenceContent
+    @WeakArray
     public var associatedButtons: [RadioButton] = [] {
         didSet {
             _lock.lock(); defer { _lock.unlock() }
-            for radioButton in associatedButtons {
-                var buttons = associatedButtons
-                buttons.append(self)
-                if let index = buttons.firstIndex(of: radioButton) {
+            for other in associatedButtons {
+                var buttons = associatedButtons // [m]
+                buttons.append(self) // [m, f]
+                if let index = buttons.firstIndex(of: other) {
                     buttons.remove(at: index)
+                    // [f] m을 지움
                 }
-                radioButton.associatedButtons = buttons
+                
+                // for block stack overflow
+                if !(other.associatedButtons == buttons) {
+                    other.associatedButtons = buttons
+                    // m.associatedButtons = [f]
+                }
             }
         }
     }
@@ -148,33 +154,26 @@ class RadioButton: UIButton {
     // MARK: - Configure
     
     private func configureRadioButton() {
-        if self.icon == nil || self.icon?.accessibilityIdentifier == RadioButton.accessibilityIdentifier {
+        if icon == nil || icon?.accessibilityIdentifier == RadioButton.accessibilityIdentifier {
             icon = createIconImage(isSelected: false)
         }
         
-        if self.selectedIcon == nil || self.selectedIcon?.accessibilityIdentifier == RadioButton.accessibilityIdentifier {
+        if selectedIcon == nil || selectedIcon?.accessibilityIdentifier == RadioButton.accessibilityIdentifier {
             selectedIcon = createIconImage(isSelected: true)
         }
         
-        let isRightToLeftLayout: Bool = UIView.userInterfaceLayoutDirection(for: self.semanticContentAttribute) == .rightToLeft
-        if isRightToLeftLayout {
-            self.contentHorizontalAlignment = .right
-        }
-        let margin = iconConfiguration.marginWidth
+        let spacing = iconConfiguration.marginWidth
         if iconConfiguration.iconPosition == .trailing {
             let iconWidth = (icon?.size.width ?? 0)
-            let textWidth  = self.frame.size.width - iconWidth
-            self.imageEdgeInsets = isRightToLeftLayout ?
-            UIEdgeInsets(top: 0, left: 0, bottom: 0, right: textWidth) :
-            UIEdgeInsets(top: 0, left: textWidth, bottom: 0, right: 0)
-            self.titleEdgeInsets = isRightToLeftLayout ?
-            UIEdgeInsets(top: 0, left: margin + iconWidth, bottom: 0, right: -iconWidth) :
-            UIEdgeInsets(top: 0, left: -iconWidth, bottom: 0, right: margin + iconWidth)
-        } else {
-            self.titleEdgeInsets = isRightToLeftLayout ?
-            UIEdgeInsets(top: 0, left: 0, bottom: 0, right: margin) :
-            UIEdgeInsets(top: 0, left: margin, bottom: 0, right: 0)
+            let textWidth  = frame.size.width - iconWidth
+            self.imageEdgeInsets = .init(top: 0, left: textWidth, bottom: 0, right: 0)
+            self.titleEdgeInsets = .init(top: 0, left: -iconWidth, bottom: 0, right: iconWidth)
         }
+        
+        let half = spacing / 2
+        contentEdgeInsets = .init(top: 0, left: half, bottom: 0, right: half)
+        imageEdgeInsets = .init(top: 0, left: -half, bottom: 0, right: half)
+        titleEdgeInsets = .init(top: 0, left: half, bottom: 0, right: -half)
     }
        
     private func createIconImage(isSelected: Bool) -> UIImage? {
@@ -191,13 +190,13 @@ class RadioButton: UIButton {
         let isRound = iconConfiguration.iconStyle == .round
         let iconPath: UIBezierPath = isRound ? UIBezierPath(ovalIn: iconRect) : UIBezierPath(rect: iconRect)
         iconPath.lineWidth = iconConfiguration.iconStrokeWidth
-        iconColor.setStroke(); iconPath.stroke()
-        context.addPath(iconPath.cgPath)
+        iconColor.setStroke()
+        iconPath.stroke()
         
         if isSelected {
             let indicatorPath = isRound ? UIBezierPath(ovalIn: indicatorRect) : UIBezierPath(rect: indicatorRect)
-            indicatorColor.setFill(); indicatorPath.fill()
-            context.addPath(indicatorPath.cgPath)
+            indicatorColor.setFill()
+            indicatorPath.fill()
         }
         
         let image = UIGraphicsGetImageFromCurrentImageContext()

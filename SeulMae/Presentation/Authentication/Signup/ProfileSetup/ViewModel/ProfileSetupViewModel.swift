@@ -12,17 +12,16 @@ import RxCocoa
 final class ProfileSetupViewModel: ViewModel {
     struct Input {
         let image: Signal<Data>
-        let gender: Signal<Int>
+        let isMale: Signal<Bool>
         let username: Driver<String>
-        let year: Signal<Int>
-        let month: Signal<Int>
-        let day: Signal<Int>
+        let birthday: Driver<String>
         let nextStep: Signal<()>
     }
     
     struct Output {
+        let loading: Driver<Bool>
         let validatedUsername: Driver<ValidationResult>
-        let signingUp: Driver<Bool>
+        let validatedBirthday: Driver<ValidationResult>
         let nextStepEnabled: Driver<Bool>
     }
     
@@ -57,15 +56,10 @@ final class ProfileSetupViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        
-        // TODO: image valdiation - size
+        let indicator = ActivityIndicator()
+        let loading = indicator.asDriver()
         
         let validatedImage = input.image.asDriver()
-        
-        let gender = input.gender
-            .map { $0 == 0 }
-            .distinctUntilChanged()
-            .asDriver()
         
         let validatedName = input.username
             .flatMapLatest { [weak self] username -> Driver<ValidationResult> in
@@ -74,46 +68,56 @@ final class ProfileSetupViewModel: ViewModel {
                     .validateUsername(username)
                     .asDriver()
             }
-        
-        let birthday = Signal.combineLatest(input.year, input.month, input.day) { year, month, day in
-            return "\(year)\(month)\(day)"
-        }
-            .asDriver()
-        
-        let request = Driver.combineLatest(validatedImage, gender, input.username, birthday)
-        
-        let indicator = ActivityIndicator()
-        let signingUp = indicator.asDriver()
-        
-        let signedUp = input.nextStep.asObservable()
-            .withLatestFrom(request)
-            .flatMapLatest { [weak self] data, gender, name, birthday -> Driver<Bool> in
+    
+        let validatedBirthday = input.birthday
+            .flatMapLatest { [weak self] birthday -> Driver<ValidationResult> in
                 guard let strongSelf = self else { return .empty() }
-                strongSelf.request.setProfile(name: name, imageData: data, isMale: gender, birthday: birthday)
-                return strongSelf.authUseCase.signup(strongSelf.request)
-                    .trackActivity(indicator)
-                    .asDriver(onErrorJustReturn: false)
+                return strongSelf.validationService
+                    .validateBirthday(birthday)
+                    .asDriver()
             }
-            .startWith(false)
         
-        // MARK: Flow Logic
+        let request = Driver.combineLatest(validatedImage, input.isMale.asDriver(), input.username, input.birthday) {
+            Swift.print("data: \($0), isMale: \($1), name: \($2), birthday: \($3)")
+            return (data: $0, isMale: $1, name: $2, birthday: $3)
+        }
         
         let nextStepEnabled = Driver.combineLatest(
-            validatedName, signingUp) { name, signingUp in
+            validatedName, validatedBirthday, loading) { name, birthday, signingUp in
                 name.isValid &&
+                birthday.isValid &&
                 !signingUp
             }
             .distinctUntilChanged()
+      
+        let signedUp = input.nextStep.withLatestFrom(request)
+            .flatMapLatest { [weak self] data, gender, name, birthday -> Driver<Bool> in
+                guard let strongSelf = self else { return .empty() }
+                strongSelf.request
+                    .updateProfile(name: name, isMale: gender, birthday: birthday)
+                Swift.print("request: \(strongSelf.request)")
+                return strongSelf.authUseCase
+                    .signup(request: strongSelf.request, file: data)
+                    .trackActivity(indicator)
+                    .asDriver(onErrorJustReturn: false)
+            }
+        
+        let signedUpAndUsername = Driver.combineLatest(signedUp, input.username) { (signedup: $0, username: $1) }
+
+        // MARK: Flow Logic
         
         Task {
-            for await _ in input.nextStep.values {
-                // coordinator.showSignupCompletion()
+            for await (signedUp, username) in signedUpAndUsername.values {
+                coordinator.showCompletion(item: .signup(signedUp: signedUp, username: username))
             }
         }
         
+        // MARK: Output
+        
         return Output(
+            loading: loading,
             validatedUsername: validatedName,
-            signingUp: signingUp,
+            validatedBirthday: validatedBirthday,
             nextStepEnabled: nextStepEnabled
         )
     }

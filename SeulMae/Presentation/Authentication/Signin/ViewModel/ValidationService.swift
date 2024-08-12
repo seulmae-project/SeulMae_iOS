@@ -38,6 +38,7 @@ protocol ValidationService {
     func validatePassword(_ password: String) -> ValidationResult
     func validateRepeatedPassword(_ password: String, repeatedPassword: String) -> ValidationResult
     func validateUsername(_ username: String) -> Observable<ValidationResult>
+    func validateBirthday(_ birthday: String) -> Observable<ValidationResult>
 }
 
 extension CharacterSet: Extended {}
@@ -155,14 +156,51 @@ class DefaultValidationService: ValidationService {
     
     func validateUsername(_ username: String) -> Observable<ValidationResult> {
         if username.isEmpty {
-            return .just(.empty(message: ""))
+            return .just(.empty(message: "이름을 입력해 주세요"))
         }
         
-        if username.rangeOfCharacter(from: CharacterSet.alphanumerics.inverted) != nil {
-            return .just(.failed(message: "Username can only contain numbers or digits"))
+        guard username.count >= 2 && username.count <= 5 else {
+            return  .just(.failed(message: "이름은 2글자 이상 5글자이하로 입력해 주세요"))
         }
         
-        return .just(.ok(message: "Username available"))
-            .startWith(.validating)
+        let specialCharRegex = ".*[^가-힣a-zA-Z0-9].*"
+        let predicate = NSPredicate(format: "SELF MATCHES %@", specialCharRegex)
+        guard !predicate.evaluate(with: username) else {
+            return .just(.failed(message: "올바른 이름을 입력해 주세요"))
+        }
+        
+        return .just(.ok(message: ""))
+    }
+    
+    func validateBirthday(_ birthday: String) -> Observable<ValidationResult> {
+        if birthday.isEmpty {
+            return .just(.empty(message: "(YYYY/MM/DD)형태로 올바르게 입력해 주세요"))
+        }
+
+        guard birthday.count == 8 else {
+            return .just(.failed(message: "생년월일을 모두 입력해주세요"))
+        }
+        
+        let range = NSRange(location: 0, length: birthday.utf16.count)
+        let regex = try? NSRegularExpression(pattern: "^[0-9]+$")
+        if regex?.firstMatch(in: birthday, options: [], range: range) == nil {
+            return .just(.failed(message: "올바른 생년월일을 입력해주세요"))
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyyMMdd"
+        dateFormatter.locale = Locale(identifier: "ko-KR")
+        dateFormatter.timeZone = .autoupdatingCurrent
+        
+        guard let date = dateFormatter.date(from: birthday) else {
+            return .just(.failed(message: "올바른 생년월일을 입력해주세요"))
+        }
+        
+        let now = Date()
+        if date > now {
+            return .just(.failed(message: "올바른 생년월일을 입력해주세요"))
+        }
+            
+        return .just(.ok(message: ""))
     }
 }

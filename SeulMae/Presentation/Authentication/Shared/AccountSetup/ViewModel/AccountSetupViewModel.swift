@@ -36,7 +36,7 @@ final class AccountSetupViewModel: ViewModel {
     private let validationService: ValidationService
     private let wireframe: Wireframe
     private let item: AccountSetupItem
-    private let request: SignupRequest
+    private var request: SignupRequest
     
     // MARK: - Life Cycle
     
@@ -112,17 +112,23 @@ final class AccountSetupViewModel: ViewModel {
         // MARK: Flow Logic
         
         let nextStepEnabled = Driver.combineLatest(
-            validatedAccountID,
-            isAvailable,
-            loading) { result, verified, loading in
-                result.isValid &&
+            loading, validatedAccountID, isAvailable, validatedPassword, validatedPasswordRepeated) { loading, accountID, verified, password, repeatedPassword in
+                !loading &&
+                accountID.isValid &&
                 verified &&
-                !loading
+                password.isValid &&
+                repeatedPassword.isValid
             }
             .distinctUntilChanged()
         
+        let credentials = Driver.combineLatest(input.accountID, input.password) { (account: $0, password: $1) }
+
+        let nextStep = input.nextStep.withLatestFrom(credentials)
+    
         Task {
-            for await _ in input.nextStep.values {
+            for await nextStep in nextStep.values {
+                request.accountId = nextStep.account
+                request.password = nextStep.password
                 coordinator.showProfileSetup(request: request)
             }
         }

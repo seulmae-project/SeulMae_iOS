@@ -11,7 +11,7 @@ import Moya
 typealias AuthNetworking = MoyaProvider<AuthAPI>
 
 enum AuthAPI: SugarTargetType {
-    case signup(SignupRequest)
+    case signup(request: SignupRequest, file: Data)
     case sendSMSCode(phoneNumber: String, email: String? = nil)
     case verifySMSCode(phoneNumber: String, code: String)
     case verifyAccountID(_ accountID: String)
@@ -30,7 +30,7 @@ extension AuthAPI {
     var route: Route {
         switch self {
         case .signup:
-            return .post("api/users/pw")
+            return .post("api/users")
         case .sendSMSCode:
             return .post("api/users/sms-certification/send")
         case .verifySMSCode:
@@ -52,11 +52,6 @@ extension AuthAPI {
     
     var parameters: Parameters? {
         switch self {
-        case .signup(let request as ModelType):
-            return .init(
-                encoding: URLEncoding.queryString,
-                values: try! request.asDictionary()
-            )
         default:
             return nil
         }
@@ -64,6 +59,8 @@ extension AuthAPI {
     
     var body: Encodable? {
         switch self {
+        case .signup(let request, _):
+            return ["userSignUpDto": request]
         case let .sendSMSCode(phoneNumber, email):
             return ["phoneNumber": phoneNumber, "email": email]
         case let .verifySMSCode(phoneNumber, code):
@@ -76,6 +73,15 @@ extension AuthAPI {
             return ["password": password]
         case let .updateProfile(name, imageURL):
             return ["name": name, "imageURL": imageURL]
+        default:
+            return nil
+        }
+    }
+    
+    var data: Data? {
+        switch self {
+        case .signup(_, let data):
+            return data
         default:
             return nil
         }

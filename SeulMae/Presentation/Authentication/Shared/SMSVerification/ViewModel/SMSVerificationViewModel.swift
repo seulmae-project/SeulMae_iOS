@@ -84,6 +84,7 @@ final class SMSVerificationViewModel: ViewModel {
         let isSent = input.sendSMSCode.withLatestFrom(input.phoneNumber)
             .flatMapLatest { [weak self] phoneNumber -> Driver<SMSRequestStatus> in
                 guard let strongSelf = self else { return .empty() }
+                // TODO: - 인증이 성공했을 때 저장으로 변경
                 strongSelf.phoneNumber = phoneNumber
                 if strongSelf.sendCount != 3 {
                     strongSelf.sendCount += 1
@@ -149,7 +150,7 @@ final class SMSVerificationViewModel: ViewModel {
                 switch item {
                 case .signup:
                     var request = SignupRequest()
-                    request.phoneNumber = phoneNumber
+                    request.updatePhoneNumber(phoneNumber)
                     coordinator.showAccountSetup(item: .signup, request: request)
                 case .idRecovery:
                     break

@@ -1,5 +1,5 @@
 //
-//  WeakReferenceContent.swift
+//  WeakArray.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/12/24.
@@ -15,7 +15,7 @@ final class Weak<T: AnyObject> {
 }
 
 @propertyWrapper
-struct WeakReferenceContent<T: AnyObject> {
+struct WeakArray<T: AnyObject> {
     private var value: [Weak<T>]
     
     var wrappedValue: [T] {
@@ -23,7 +23,11 @@ struct WeakReferenceContent<T: AnyObject> {
             value.compactMap(\.value)
         }
         set {
-            value = newValue.map(Weak.init)
+            if let weakArray = newValue as? [Weak<T>] {
+                value = weakArray
+            } else {
+                value = newValue.map(Weak.init)
+            }
         }
     }
     

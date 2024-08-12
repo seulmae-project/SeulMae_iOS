@@ -55,4 +55,8 @@ public enum MultiSugarTarget: SugarTargetType {
     public var sampleData: Data {
         return self.target.sampleData
     }
+    
+    public var data: Data? {
+        return self.target.data
+    }
 }

@@ -75,6 +75,9 @@
 		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
 		8653918C2C62243300567EE0 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918B2C62243300567EE0 /* RxKakaoSDK */; };
 		8653918F2C62244400567EE0 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918E2C62244400567EE0 /* KakaoSDK */; };
+		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
+		8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */; };
+		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
 		866577B52C340D840048A111 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchPlaceViewController.swift */; };
 		866577B72C340E300048A111 /* SearchPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B62C340E300048A111 /* SearchPlaceViewModel.swift */; };
 		866577B92C3410250048A111 /* WorkplaceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B82C3410250048A111 /* WorkplaceContentView.swift */; };
@@ -178,7 +181,7 @@
 		86D309F72C33F1E100C08DA8 /* v1_update_workplace_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
-		86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */; };
+		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
 		86DE556C2C19E9C7009CC520 /* IDRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* IDRecoveryViewController.swift */; };
 		86DE55702C19EA25009CC520 /* DRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* DRecoveryViewModel.swift */; };
@@ -288,6 +291,9 @@
 		8624AC702C2EA895001FF383 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
 		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
+		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
+		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
+		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
 		866577B62C340E300048A111 /* SearchPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewModel.swift; sourceTree = "<group>"; };
 		866577B82C3410250048A111 /* WorkplaceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceContentView.swift; sourceTree = "<group>"; };
@@ -390,7 +396,7 @@
 		86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_workplace_success.json; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
-		86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakReferenceContent.swift; sourceTree = "<group>"; };
+		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
 		86DE556B2C19E9C7009CC520 /* IDRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IDRecoveryViewController.swift; sourceTree = "<group>"; };
 		86DE556F2C19EA25009CC520 /* DRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DRecoveryViewModel.swift; sourceTree = "<group>"; };
@@ -718,6 +724,16 @@
 				86B0AF902C2EAD8F0006AF00 /* MainViewItem.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8658A2982C68B47100F15C0B /* DateSelectView */ = {
+			isa = PBXGroup;
+			children = (
+				8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */,
+				8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */,
+				8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */,
+			);
+			path = DateSelectView;
 			sourceTree = "<group>";
 		};
 		866577B02C3406F00048A111 /* Error */ = {
@@ -1164,6 +1180,7 @@
 		86DE55592C18B6F7009CC520 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				8658A2982C68B47100F15C0B /* DateSelectView */,
 				8684C5B32C4A06B000EB3D28 /* SilderView */,
 				861BF6932C273FB100702E24 /* ToastView */,
 				861BF6902C27237700702E24 /* RemainingTimeView */,
@@ -1184,7 +1201,7 @@
 			isa = PBXGroup;
 			children = (
 				86DE555D2C18B765009CC520 /* RadioButton.swift */,
-				86DE555F2C18B79C009CC520 /* WeakReferenceContent.swift */,
+				86DE555F2C18B79C009CC520 /* WeakArray.swift */,
 			);
 			path = RadiioButton;
 			sourceTree = "<group>";
@@ -1553,6 +1570,7 @@
 			files = (
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
+				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
 				86DE556C2C19E9C7009CC520 /* IDRecoveryViewController.swift in Sources */,
 				8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */,
@@ -1568,7 +1586,7 @@
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
-				86DE55602C18B79C009CC520 /* WeakReferenceContent.swift in Sources */,
+				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */,
@@ -1662,6 +1680,7 @@
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
 				86D309C92C3397C800C08DA8 /* UpdateNoticeRequest.swift in Sources */,
 				8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */,
+				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				861B96A62C2068110032C94A /* SheetContainerViewDelegate.swift in Sources */,
 				86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */,
 				861C31B62C1BF580007DD6B9 /* APIError.swift in Sources */,
@@ -1676,6 +1695,7 @@
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
+				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,

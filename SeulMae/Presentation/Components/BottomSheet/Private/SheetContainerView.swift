@@ -22,7 +22,16 @@ class SheetContainerView: UIView, DraggableViewDelegate {
             }
         }
     }
-    var preferredSheetHeight: CGFloat = 0
+    
+    private var originalPreferredSheetHeight: CGFloat = 0
+    
+    private(set) var _preferredSheetHeight: CGFloat = 0
+    var preferredSheetHeight: CGFloat = 0 {
+        didSet {
+            originalPreferredSheetHeight = preferredSheetHeight
+            updateSheetHeight()
+        }
+    }
     
     var adjustHeightForSafeAreaInsets: Bool = false
     
@@ -38,21 +47,12 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     private var animator: UIDynamicAnimator?
     private var sheetBehavior: SheetBehavior?
     private var isDragging: Bool = false
-    private var originalPreferredSheetHeight: CGFloat = 0 {
-        didSet {
-            updateSheetHeight()
-        }
-    }
-    private var previousAnimatedBounds: CGRect = .zero {
-        didSet {
-            updateSheetHeight()
-        }
-    }
+    private var previousAnimatedBounds: CGRect = .zero
 
     init(
         frame: CGRect,
         contentView: UIView,
-        scrollView: UIScrollView,
+        scrollView: UIScrollView?,
         simulateScrollViewBounce: Bool
     ) {
         self.simulateScrollViewBounce = simulateScrollViewBounce
@@ -84,14 +84,14 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         animator = UIDynamicAnimator(referenceView: self)
 
         // Add observers for scrollView
-        scrollView.addObserver(
+        scrollView?.addObserver(
             self,
             forKeyPath: SheetContainerView.kContentSizeKeyPath,
             options: [.new, .old],
             context: &SheetContainerView.kObservingContext
         )
         
-        scrollView.addObserver(
+        scrollView?.addObserver(
             self,
             forKeyPath: SheetContainerView.kContentInsetKeyPath,
             options: [.new, .old],
@@ -125,8 +125,8 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         }
         
         // Disable contentInsetAdjustmentBehavior
-        scrollView.contentInsetAdjustmentBehavior = .never
-        scrollView.preservesSuperviewLayoutMargins = true
+        scrollView?.contentInsetAdjustmentBehavior = .never
+        scrollView?.preservesSuperviewLayoutMargins = true
     }
     
     @available(*, unavailable)
@@ -191,7 +191,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
             return
         }
 
-        preferredSheetHeight = originalPreferredSheetHeight + safeAreaInsets.bottom
+        _preferredSheetHeight = originalPreferredSheetHeight + safeAreaInsets.bottom
 
         var contentInset = sheet.scrollView?.contentInset ?? .zero
         contentInset.bottom = max(contentInset.bottom, safeAreaInsets.bottom)
@@ -243,7 +243,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         guard preferredSheetHeight != adjustedPreferredSheetHeight else {
             return
         }
-        preferredSheetHeight = adjustedPreferredSheetHeight
+        _preferredSheetHeight = adjustedPreferredSheetHeight
         updateSheetFrame()
     }
 
@@ -252,9 +252,8 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         animator?.removeAllBehaviors()
 
         var sheetRect = bounds
-        sheetRect.origin.y = Double(bounds.maxY - effectiveSheetHeight())
+        sheetRect.origin.y = bounds.maxY - effectiveSheetHeight()
         sheetRect.size.height += SheetContainerView.kSheetBounceBuffer
-
         sheet.frame = sheetRect
 
         var contentFrame = sheet.bounds
@@ -282,23 +281,24 @@ class SheetContainerView: UIView, DraggableViewDelegate {
     // Returns |preferredSheetHeight|, modified as necessary. It will return the full screen height if
     // the content height is taller than the sheet height and the vertical size class is `.compact`.
     // Otherwise, it will return `preferredSheetHeight`, assuming it's shorter than the sheet height.
-    func effectiveSheetHeight() -> CGFloat {
-        let maxSheetHeight = maximumSheetHeight
-        let contentIsTallerThanMaxSheetHeight = scrollViewContentHeight() > maxSheetHeight()
+    private func effectiveSheetHeight() -> CGFloat {
+        let maxSheetHeight = maximumSheetHeight()
+        let contentIsTallerThanMaxSheetHeight = scrollViewContentHeight() > maxSheetHeight
         let isVerticallyCompact = traitCollection.verticalSizeClass == .compact
         if contentIsTallerThanMaxSheetHeight && isVerticallyCompact {
-            return maxSheetHeight()
+            return maxSheetHeight
         } else {
-            return min(preferredSheetHeight, maxSheetHeight())
+            return min(preferredSheetHeight, maxSheetHeight)
         }
     }
 
-    func scrollViewContentHeight() -> CGFloat {
-        return sheet.scrollView!.contentInset.top + sheet.scrollView!.contentSize.height + sheet.scrollView!.contentInset.bottom
+    private func scrollViewContentHeight() -> CGFloat {
+        guard let scrollView = sheet.scrollView else { return 0 }
+        return scrollView.contentInset.top + scrollView.contentSize.height + scrollView.contentInset.bottom
     }
 
     // Returns the maximum allowable height that the sheet can be dragged to.
-    func maximumSheetHeight() -> CGFloat {
+    private func maximumSheetHeight() -> CGFloat {
         var boundsHeight = bounds.height
         boundsHeight -= safeAreaInsets.top
         let contentHeight = scrollViewContentHeight()
@@ -370,7 +370,7 @@ class SheetContainerView: UIView, DraggableViewDelegate {
         }
     }
 
-    // MARK: - MDCDraggableViewDelegate
+    // MARK: - DraggableViewDelegate
 
     func maximumHeight(for view: DraggableView) -> CGFloat {
         return maximumSheetHeight()

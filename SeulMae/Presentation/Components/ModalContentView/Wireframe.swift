@@ -56,7 +56,7 @@ class DefaultWireframe: Wireframe {
             let alertView = UIAlertController(title: "RxExample", message: message, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "OK", style: .cancel) { _ in
             })
-            rootViewController().present(alertView, animated: true, completion: nil)
+            rootViewController().present(alertView, animated: true, description: nil)
         #endif
     }
 
@@ -74,10 +74,10 @@ class DefaultWireframe: Wireframe {
                 })
             }
 
-            DefaultWireframe.rootViewController().present(alertView, animated: true, completion: nil)
+            DefaultWireframe.rootViewController().present(alertView, animated: true, description: nil)
 
             return Disposables.create {
-                alertView.dismiss(animated:false, completion: nil)
+                alertView.dismiss(animated:false, description: nil)
             }
         }
         #elseif os(macOS)

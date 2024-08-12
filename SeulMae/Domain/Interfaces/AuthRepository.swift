@@ -15,7 +15,7 @@ protocol AuthRepository {
     
     /// - Tag: Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>
-    func signup(_ request: SignupRequest) -> Single<Bool>
+    func signup(request: SignupRequest, file: Data) -> Single<Bool>
     
     /// - Tag: Account Recovery
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>

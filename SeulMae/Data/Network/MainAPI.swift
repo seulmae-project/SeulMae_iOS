@@ -11,6 +11,7 @@ import Moya
 typealias MainNetworking = MoyaProvider<MainAPI>
 
 enum MainAPI: SugarTargetType {
+    
     /// - Tag: Main
     case fetchMemberList(_ workplaceID: String)
     
@@ -139,5 +140,9 @@ extension MainAPI {
         default:
             return ["Content-Type": "application/json"]
         }
+    }
+    
+    var data: Data? {
+        return nil
     }
 }
