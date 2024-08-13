@@ -11,7 +11,7 @@ import RxSwift
 protocol WorkplaceUseCase {
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]>
     func addWorkplace(_ request: AddWorkplaceRequest) -> Single<Bool>
-    func fetchWorkplaceList(_ keyword: String) -> Single<[Workplace]>
+    func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
@@ -46,8 +46,8 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.addWorkplace(request)
     }
     
-    func fetchWorkplaceList(_ keyword: String) -> RxSwift.Single<[Workplace]> {
-        workplaceRepository.fetchWorkplaceList(keyword)
+    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
+        workplaceRepository.fetchWorkplaces(keyword: keyword)
     }
     
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {

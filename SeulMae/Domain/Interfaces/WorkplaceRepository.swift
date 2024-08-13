@@ -10,7 +10,7 @@ import RxSwift
 
 protocol WorkplaceRepository {
     func addWorkplace(_ request: AddWorkplaceRequest) -> Single<Bool>
-    func fetchWorkplaceList(_ keyword: String) -> Single<[Workplace]>
+    func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>

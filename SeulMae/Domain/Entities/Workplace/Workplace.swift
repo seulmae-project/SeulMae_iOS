@@ -9,11 +9,12 @@ import Foundation
 
 struct Workplace: Identifiable {
     let id: Int
-    let workplaceCode: String
-    let workplaceName: String
-    let workplaceTel: String
-    let workplaceImageUrl: [String]
-    let workplaceManagerName: String
-    let subAddress: String
+    let invitationCode: String
+    let name: String
+    let contact: String
+    let imageURL: String
+    let thumbnailURL: String
+    let manager: String
     let mainAddress: String
+    let subAddress: String
 }

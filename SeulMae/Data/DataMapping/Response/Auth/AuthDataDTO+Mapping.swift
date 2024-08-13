@@ -15,7 +15,7 @@ struct AuthDataDTO: ModelType {
     }
     
     let token: TokenDTO
-    let role: String
+    let role: String?
     let workplace: [WorkplaceDTO]
     
     enum CodingKeys: String, CodingKey {
@@ -42,7 +42,7 @@ extension AuthDataDTO {
         
         return AuthData(
             token: token.toDomain(),
-            role: role,
+            role: role ?? "",
             workplace: workplace.map { try! $0.toDomain() }
         )
     }

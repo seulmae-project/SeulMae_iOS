@@ -85,7 +85,7 @@ final class SigninViewController: UIViewController {
 
         let output = viewModel.transform(
             .init(
-                email: eamilTextField.rx.text.orEmpty.asDriver(),
+                account: eamilTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
@@ -95,13 +95,13 @@ final class SigninViewController: UIViewController {
             )
         )
         
-        Task {
-            for await signedIn in output.signedIn.values {
-                if !signedIn {
-                    passwordTextField.text = ""
-                }
-            }
-        }
+//        Task {
+//            for await signedIn in output.signedIn.values {
+//                if !signedIn {
+//                    passwordTextField.text = ""
+//                }
+//            }
+//        }
     }
     
     // MARK: - Hierarchy

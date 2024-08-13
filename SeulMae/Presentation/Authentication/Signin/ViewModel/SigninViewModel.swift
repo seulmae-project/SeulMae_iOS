@@ -15,7 +15,7 @@ import RxKakaoSDKUser
 final class SigninViewModel: ViewModel {
     
     struct Input {
-        let email: Driver<String>
+        let account: Driver<String>
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
@@ -25,7 +25,7 @@ final class SigninViewModel: ViewModel {
     }
     
     struct Output {
-        let signedIn: Driver<Bool>
+        // let signedIn: Driver<Bool>
     }
     
     // MARK: - Dependency
@@ -58,35 +58,18 @@ final class SigninViewModel: ViewModel {
         
         // MARK: - Signin
         
-        let emailAndPassword = Driver.combineLatest(input.email, input.password) { (email: $0, password: $1) }
+        let accountAndPassword = Driver.combineLatest(input.account, input.password) { (account: $0, password: $1) }
+
         
-        Task {
-            for await eamil in input.email.values {
-                Swift.print("-- email: \(eamil)")
-            }
-        }
-        
-        Task {
-            for await password in input.password.values {
-                Swift.print("-- password: \(password)")
-            }
-        }
-        
-        Task {
-            for await password in input.signin.values {
-                Swift.print("-- signin: signin button tapped")
-            }
-        }
-        
-        let signedIn = input.signin.withLatestFrom(emailAndPassword)
-            .flatMapLatest { [weak self] pair -> Driver<Bool> in
+        let signedIn = input.signin.withLatestFrom(accountAndPassword)
+            .flatMapLatest { [weak self] pair -> Driver<(AuthData?, Bool)> in
                 guard let weakSelf = self else { return .empty() }
                 return weakSelf.authUseCase
-                    .signin(email: pair.email, password: pair.password, fcmToken: "")
+                    .signin(email: pair.account, password: pair.password, fcmToken: "")
                 // .trackActivity(signingIn)
                     .map { authData in
-                       
-                        return true
+                        Swift.print("authData: \(authData)")
+                        return (authData, true)
                     }
                     .asDriver { error in
                         let message: String
@@ -98,11 +81,13 @@ final class SigninViewModel: ViewModel {
                         
                         return (self?.wireframe.promptFor(message, cancelAction: "OK", actions: [])
                             .map { _ in
-                                return false
+                                return (nil, false)
                             }
-                            .asDriver(onErrorJustReturn: false))!
+                            .asDriver(onErrorJustReturn: (nil, false)))!
                     }
             }
+        
+        
         
         
         
@@ -140,8 +125,18 @@ final class SigninViewModel: ViewModel {
         // MARK: - Flow Logic
         
         Task {
-            for await _ in signedIn.values {
-                self.coordinator.startMain()
+            for await (auth, signedIn) in signedIn.values {
+                if signedIn {
+                    Swift.print("로그인 성공")
+                    // TODO: - authentication null 일 경우 핸들링 필요
+                    if auth?.workplace.isEmpty ?? true {
+                        coordinator.showSearchWorkplace()
+                    } else {
+                        coordinator.startMain()
+                    }
+                } else {
+                    Swift.print("🥶🥶🥶 로그인 실패 🥶🥶🥶")
+                }
             }
         }
             
@@ -167,6 +162,6 @@ final class SigninViewModel: ViewModel {
             }
         }
         
-        return Output(signedIn: signedIn)
+        return Output()
     }
 }

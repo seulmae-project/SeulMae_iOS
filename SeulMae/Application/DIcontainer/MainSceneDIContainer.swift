@@ -32,7 +32,7 @@ final class MainSceneDIContainer {
     }
     
     private func makeWorkplaceRepository() -> WorkplaceRepository {
-        return DefaultWorkplaceRepository()
+        return DefaultWorkplaceRepository(network: WorkplaceNetworking())
     }
     
     // MARK: - Flow Coordinators
@@ -70,11 +70,43 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         )
     }
     
-    // MARK: - Search Place
+    // MARK: - Search Workplace
     
-    func makeSearchPlaceViewController(coordinator: any MainFlowCoordinator) -> SearchPlaceViewController {
-        return SearchPlaceViewController()
+    func makeSearchWorkplaceViewController(
+        coordinator: any MainFlowCoordinator) -> SearchWorkplaceViewController {
+        return SearchWorkplaceViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
     }
+    
+    private func makeSearchWorkplaceViewModel(
+        coordinator: any MainFlowCoordinator) -> SearchWorkplaceViewModel {
+        return SearchWorkplaceViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase()
+//                validationService: any ValidationService,
+//                wireframe: any Wireframe
+            )
+        )
+    }
+    
+    // MARK: - Add New Workplace
+    
+    func makeAddNewWorkplaceViewController(
+        coordinator: any MainFlowCoordinator) -> AddNewWorkplaceViewController {
+            return AddNewWorkplaceViewController(viewModel: makeAddNewWorkplaceViewModel(coordinator: coordinator))
+    }
+    
+    private func makeAddNewWorkplaceViewModel(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewModel {
+        return AddNewWorkplaceViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe.shared
+            )
+        )
+    }
+    
     
     // MARK: - Member Info
     

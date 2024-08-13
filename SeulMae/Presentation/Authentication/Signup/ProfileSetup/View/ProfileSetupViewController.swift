@@ -257,9 +257,6 @@ final class ProfileSetupViewController: UIViewController {
         let contentStackView = UIStackView()
         contentStackView.axis = .vertical
         contentStackView.spacing = 40
-        contentStackView.addArrangedSubview(genderVStack)
-        contentStackView.addArrangedSubview(nameVStackView)
-        contentStackView.addArrangedSubview(birthdayVStack)
 
         view.addSubview(stepLabel)
         view.addSubview(profileImageView)
@@ -274,6 +271,10 @@ final class ProfileSetupViewController: UIViewController {
         nameValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
         birthdayValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
         nextStepButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        contentStackView.addArrangedSubview(genderVStack)
+        contentStackView.addArrangedSubview(nameVStackView)
+        contentStackView.addArrangedSubview(birthdayVStack)
         
         genderVStack.addArrangedSubview(genderLabel)
         genderVStack.addArrangedSubview(genderHStackView)

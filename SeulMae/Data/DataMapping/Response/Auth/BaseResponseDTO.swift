@@ -23,6 +23,11 @@ struct BaseResponseDTO<Data: Codable>: ModelType {
     let errors: [String]?
     let reason: String?
     
+    //status 200
+    // message LOGIN
+    // data
+    // timestamp
+    
     var isSuccess: Bool {
         guard let status else {
             return false

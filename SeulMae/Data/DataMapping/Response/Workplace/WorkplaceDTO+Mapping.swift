@@ -8,16 +8,27 @@
 import Foundation
 
 struct WorkplaceDTO: ModelType {
-    let id: Int?
-    let workplaceCode: String?
-    let workplaceName: String?
-    let workplaceTel: String?
-    let workplaceImageUrl: [String]?
-    let workplaceManagerName: String?
-    let subAddress: String?
+    let id: Int
+    let invitationCode: String
+    let name: String
+    let contact: String?
+    let imageURL: String?
+    let thumbnailURL: String?
+    let manager: String?
     let mainAddress: String?
+    let subAddress: String?
     
-    let userWorkplaceId: Int? // ?
+    enum CodingKeys: String, CodingKey {
+        case id = "workplaceId"
+        case invitationCode = "workplaceCode"
+        case name = "workplaceName"
+        case contact = "workplaceTel"
+        case imageURL = "workplaceImageUrl"
+        case thumbnailURL = "workplaceThumbnailUrl"
+        case manager = "workplaceManagerName"
+        case mainAddress
+        case subAddress
+    }
 }
 
 // MARK: - Mappings To Domain
@@ -44,19 +55,16 @@ extension BaseResponseDTO<WorkplaceDTO> {
 
 extension WorkplaceDTO {
     func toDomain() throws -> Workplace {
-        guard let id else {
-            throw MappingError.invalidData(Self.self)
-        }
-        
         return .init(
             id: id,
-            workplaceCode: workplaceCode ?? "",
-            workplaceName: workplaceName ?? "",
-            workplaceTel: workplaceTel ?? "",
-            workplaceImageUrl: workplaceImageUrl ?? [],
-            workplaceManagerName: workplaceManagerName ?? "",
-            subAddress: subAddress ?? "",
-            mainAddress: mainAddress ?? ""
+            invitationCode: invitationCode,
+            name: name,
+            contact: contact ?? "",
+            imageURL: imageURL ?? "",
+            thumbnailURL: thumbnailURL ?? "",
+            manager: manager ?? "",
+            mainAddress: mainAddress ?? "",
+            subAddress: subAddress ?? ""
         )
     }
 }

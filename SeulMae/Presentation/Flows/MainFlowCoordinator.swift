@@ -9,10 +9,17 @@ import UIKit
 
 protocol MainFlowCoordinatorDependencies {
     func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
-    func makeSearchPlaceViewController(coordinator: MainFlowCoordinator) -> SearchPlaceViewController
     func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
+    
+    
+    // MARK: - Notice Flow Dependencies
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
     func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> NoticeDetailViewController
+    
+    
+    // MARK: Workplace Flow Dependencies
+    func makeSearchWorkplaceViewController(coordinator: MainFlowCoordinator) -> SearchWorkplaceViewController
+    func makeAddNewWorkplaceViewController(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewController
 }
 
 protocol MainFlowCoordinator {
@@ -23,6 +30,12 @@ protocol MainFlowCoordinator {
     func showMemberInfo(member: Member)
     func showNotiList(workplaceIdentifier: Workplace.ID)
     func showNotiDetail(noticeIdentifier: Notice.ID)
+    
+    // Workplace Flow
+    // func showTutorial()
+    func showSearchWorkPlace()
+    func showAddNewWorkplace()
+    
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -57,10 +70,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.setViewControllers([vc], animated: false)
     }
     
-    func showSearchPlace() {
-        let vc = dependencies.makeSearchPlaceViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
-    }
+ 
 
     func showMemberInfo(member: Member) {
         let vc = dependencies.makeMemberInfoViewController(
@@ -80,6 +90,18 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         let vc = dependencies.makeNoticeDetailViewController(
             noticeIdentifier: noticeIdentifier,
             coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - Workplace Flow
+    
+    func showSearchWorkPlace() {
+        let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: true)
+    }
+    
+    func showAddNewWorkplace() {
+        let vc = dependencies.makeAddNewWorkplaceViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
 }

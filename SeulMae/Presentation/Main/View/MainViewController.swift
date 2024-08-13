@@ -99,7 +99,7 @@ class MainViewController: UIViewController {
         ]
         navigationController?.navigationBar.standardAppearance = appearance
         let workplace = WorkplaceTable.get().first
-        navigationItem.title = workplace?.workplaceName ?? "근무지 이름"
+        navigationItem.title = workplace?.name ?? "근무지 이름"
         navigationItem.rightBarButtonItem = reminderBarButton
     }
     

@@ -13,6 +13,9 @@
 		8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */; };
 		860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */; };
 		860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */; };
+		860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */; };
+		860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */; };
+		860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */; };
 		860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8D2C1FEF52001F94D4 /* RxCocoa */; };
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
@@ -80,8 +83,8 @@
 		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
 		8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */; };
 		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
-		866577B52C340D840048A111 /* SearchPlaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchPlaceViewController.swift */; };
-		866577B72C340E300048A111 /* SearchPlaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B62C340E300048A111 /* SearchPlaceViewModel.swift */; };
+		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
+		866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B62C340E300048A111 /* SearchWorkplaceViewModel.swift */; };
 		866577B92C3410250048A111 /* WorkplaceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B82C3410250048A111 /* WorkplaceContentView.swift */; };
 		866EA33C2C4A579A003159F9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 866EA33B2C4A579A003159F9 /* Kingfisher */; };
 		866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866EA33F2C4A7D0D003159F9 /* MemberInfoViewController.swift */; };
@@ -237,6 +240,9 @@
 		8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWorkplaceRequest.swift; sourceTree = "<group>"; };
 		860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryItem.swift; sourceTree = "<group>"; };
 		860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialRecoveryOptionsViewController.swift; sourceTree = "<group>"; };
+		860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceAPI.swift; sourceTree = "<group>"; };
+		860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewController.swift; sourceTree = "<group>"; };
+		860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewModel.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
@@ -298,8 +304,8 @@
 		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
-		866577B42C340D840048A111 /* SearchPlaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewController.swift; sourceTree = "<group>"; };
-		866577B62C340E300048A111 /* SearchPlaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchPlaceViewModel.swift; sourceTree = "<group>"; };
+		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
+		866577B62C340E300048A111 /* SearchWorkplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewModel.swift; sourceTree = "<group>"; };
 		866577B82C3410250048A111 /* WorkplaceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceContentView.swift; sourceTree = "<group>"; };
 		866EA33F2C4A7D0D003159F9 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoViewController.swift; sourceTree = "<group>"; };
 		866EA3422C4A7D31003159F9 /* MemberInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoViewModel.swift; sourceTree = "<group>"; };
@@ -487,6 +493,57 @@
 			path = Extenstion;
 			sourceTree = "<group>";
 		};
+		860BCE622C6B33BE00DCC532 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */,
+				866577B82C3410250048A111 /* WorkplaceContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		860BCE632C6B33C500DCC532 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				866577B62C340E300048A111 /* SearchWorkplaceViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		860BCE662C6B539C00DCC532 /* AddNew */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE6A2C6B55CF00DCC532 /* View */,
+				860BCE6B2C6B55D400DCC532 /* ViewModel */,
+			);
+			path = AddNew;
+			sourceTree = "<group>";
+		};
+		860BCE692C6B543900DCC532 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE622C6B33BE00DCC532 /* View */,
+				860BCE632C6B33C500DCC532 /* ViewModel */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
+		860BCE6A2C6B55CF00DCC532 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		860BCE6B2C6B55D400DCC532 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		86112E532C2E9128005DEBD1 /* Shared */ = {
 			isa = PBXGroup;
 			children = (
@@ -671,6 +728,7 @@
 			children = (
 				861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */,
 				861BF6852C27070C00702E24 /* MainAPI.swift */,
+				860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */,
 				866577B02C3406F00048A111 /* Error */,
 			);
 			path = Network;
@@ -770,9 +828,8 @@
 		866577B32C340D610048A111 /* Workplace */ = {
 			isa = PBXGroup;
 			children = (
-				866577B42C340D840048A111 /* SearchPlaceViewController.swift */,
-				866577B62C340E300048A111 /* SearchPlaceViewModel.swift */,
-				866577B82C3410250048A111 /* WorkplaceContentView.swift */,
+				860BCE692C6B543900DCC532 /* Search */,
+				860BCE662C6B539C00DCC532 /* AddNew */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1605,6 +1662,8 @@
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
+				860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */,
+				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
@@ -1648,6 +1707,7 @@
 				86D309EF2C33ED6900C08DA8 /* MappingError.swift in Sources */,
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
 				869054AD2C60C1C40037B61A /* Table.swift in Sources */,
+				860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */,
 				86B4B45B2C4B4AA200D83488 /* WorkScheduleView.swift in Sources */,
@@ -1657,7 +1717,7 @@
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */,
 				86D309C72C33975100C08DA8 /* AddNoticeRequset.swift in Sources */,
-				866577B72C340E300048A111 /* SearchPlaceViewModel.swift in Sources */,
+				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
 				861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */,
 				868354812C245F7800F055D2 /* Workplace.swift in Sources */,
 				861B969F2C2061650032C94A /* SheetState.swift in Sources */,
@@ -1725,7 +1785,7 @@
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86C40B042C4F386E0051EF2B /* NoticeDetailViewController.swift in Sources */,
 				869054AB2C60C1270037B61A /* DB.swift in Sources */,
-				866577B52C340D840048A111 /* SearchPlaceViewController.swift in Sources */,
+				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86C40B082C4F3C320051EF2B /* NoticeDetailItem.swift in Sources */,
