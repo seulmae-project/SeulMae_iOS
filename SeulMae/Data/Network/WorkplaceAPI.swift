@@ -15,11 +15,12 @@ typealias WorkplaceNetworking = MoyaProvider<WorkplaceAPI>
 
 enum WorkplaceAPI: SugarTargetType {
     case fetchWorkplaces(keyword: String)
-    case addNewWorkplace(request: AddNewWorkplaceRequest)
-    case fetchWorkplaceDetail(workplaceID: Int)
-    case submitApplication(workplaceID: Int)
-
     
+    case fetchWorkplaceDetail(workplaceID: Workplace.ID)
+    case submitApplication(workplaceID: Workplace.ID)
+    
+    case addNewWorkplace(request: AddNewWorkplaceRequest)
+   
     case updateWorkplace(request: UpdateWorkplaceRequest)
     case deleteWorkplace(workplaceID: String)
     case acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
@@ -35,16 +36,20 @@ extension WorkplaceAPI {
         switch self {
         case .fetchWorkplaces:
             return .get("api/workplace/v1/info/all")
-        case .addNewWorkplace:
-            return .post("api/workplace/v1/add")
+            
         case .fetchWorkplaceDetail:
             return .get("api/workplace/v1/info")
+        case .submitApplication:
+            return .post("api/workplace/join/v1/request")
+            
+        case .addNewWorkplace:
+            return .post("api/workplace/v1/add")
+            
         case .updateWorkplace:
             return .patch("api/workplace/v1/modify")
         case .deleteWorkplace:
             return .post("api/workplace/v1/delete")
-        case .submitApplication:
-            return .post("api/workplace/join/v1/request")
+      
         case .acceptApplication:
             return .get("api/workplace/join/v1/approval")
         case .denyApplication:
@@ -54,8 +59,10 @@ extension WorkplaceAPI {
     
     var parameters: Parameters? {
         switch self {
-        case .fetchWorkplaceDetail(let workplaceId):
-            return JSONEncoding() => ["workplaceId": workplaceId]
+        case .fetchWorkplaceDetail(let workplaceID):
+            return ["workplaceId": workplaceID]
+        case .submitApplication(let workplaceID):
+            return Parameters(encoding: URLEncoding.queryString, values: ["workplaceId": workplaceID])
         case .deleteWorkplace(let workplaceId):
             return JSONEncoding() => ["workplaceId": workplaceId]
         case .acceptApplication(let workplaceApproveId, let workplaceJoinHistoryId):
@@ -89,7 +96,7 @@ extension WorkplaceAPI {
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNjI1NjQ3fQ.w5iTs_FFI2v4FP9OOFpacRoffHiB6JD4BNTpYwXQZblS1DWfOJ3wu1IT3a9IuIxqwBi33sZGnlA2kkeCRXTCpg"
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNjM3MTQ0fQ.6OYICTfHVTDi0COO_7UyYEIYyjUo-jgqp5-0EFun8cOn4mjdqNbpWRLtB4sEzWUjuuiXAUtYDOwggHXBWUDeTw"
             ]
         }
     }

@@ -61,7 +61,12 @@ final class WorkplaceDetailsViewController: UIViewController {
         // Handle workplace details information
         Task {
             for await details in output.details.values {
-                Swift.print(details)
+                // workplaceMainImageView
+                workplaceNameLabel.text = details.name
+                workplaceContactLabel.text = details.contact
+                workplaceAddressLabel.text = details.mainAddress
+                workplaceManagerLabel.text = details.manager
+                // workplaceMembersLabel
             }
         }
     }
@@ -77,7 +82,7 @@ final class WorkplaceDetailsViewController: UIViewController {
     private func setupConstraints() {
         let contentStack = UIStackView()
         contentStack.axis = .vertical
-        contentStack.spacing = 40
+        contentStack.spacing = 8.0
         
         view.addSubview(contentStack)
         
@@ -97,10 +102,15 @@ final class WorkplaceDetailsViewController: UIViewController {
         contentStack.addArrangedSubview(membersLabel)
         contentStack.addArrangedSubview(workplaceMembersLabel)
         
+        contentStack.addArrangedSubview(joinWorkplaceButton)
+        
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentStack.topAnchor.constraint(equalTo: view.bottomAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            // Constraint button heigth
+            joinWorkplaceButton.heightAnchor.constraint(equalToConstant: 56),
         ])
     }
 }

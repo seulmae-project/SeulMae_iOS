@@ -19,6 +19,7 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: Workplace Flow Dependencies
     func makeSearchWorkplaceViewController(coordinator: MainFlowCoordinator) -> SearchWorkplaceViewController
+    func makeWorkplaceDetailsViewController(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
     func makeAddNewWorkplaceViewController(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewController
 }
 
@@ -34,6 +35,7 @@ protocol MainFlowCoordinator {
     // Workplace Flow
     // func showTutorial()
     func showSearchWorkPlace()
+    func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
     
 }
@@ -98,6 +100,11 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     func showSearchWorkPlace() {
         let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: true)
+    }
+    
+    func showWorkplaceDetails(workplaceID: Workplace.ID) {
+        let vc = dependencies.makeWorkplaceDetailsViewController(coordinator: self, workplaceID: workplaceID)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showAddNewWorkplace() {

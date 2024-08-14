@@ -123,6 +123,7 @@ final class SearchWorkplaceViewController: UIViewController {
                 Swift.print(#line, "\(workplaces.count) items have been applied")
                 let items = workplaces.map {
                     return Item(
+                        id: $0.id,
                         placeName: $0.name,
                         placeAddress: ($0.mainAddress + $0.subAddress),
                         placeTel: $0.contact,
@@ -135,6 +136,7 @@ final class SearchWorkplaceViewController: UIViewController {
     }
     
     struct Item: Hashable {
+        let id: Workplace.ID
         let placeName: String
         let placeAddress: String
         let placeTel: String

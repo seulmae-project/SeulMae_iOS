@@ -74,6 +74,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
             }, onError: { error in
+                print(#function)
                 Swift.print("error: \(error)")
             })
             .map(BaseResponseDTO<WorkplaceDTO>.self)

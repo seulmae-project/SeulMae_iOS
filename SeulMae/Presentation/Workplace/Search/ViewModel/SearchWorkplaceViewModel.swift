@@ -58,6 +58,17 @@ final class SearchWorkplaceViewModel: ViewModel {
                     .asDriver()
             }
         
+        
+        
+        
+        // MARK: - Coordinator Logic
+        
+        Task {
+            for await selected in input.selected.values {
+                coordinator.showWorkplaceDetails(workplaceID: selected.id)
+            }
+        }
+        
         Task {
             for await _ in input.addNewPlace.values {
                 coordinator.showAddNewWorkplace()

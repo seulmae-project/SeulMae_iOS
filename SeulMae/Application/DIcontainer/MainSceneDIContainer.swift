@@ -107,6 +107,24 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         )
     }
     
+    // MARK: Workplace Details
+    
+    func makeWorkplaceDetailsViewController(
+        coordinator: any MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController {
+            return WorkplaceDetailsViewController(viewModel: makeWorkplaceDetailsViewModel(coordinator: coordinator, workplaceID: workplaceID))
+    }
+    
+    private func makeWorkplaceDetailsViewModel(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewModel {
+        return WorkplaceDetailsViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe.shared,
+                workplaceID: workplaceID
+            )
+        )
+    }
     
     // MARK: - Member Info
     

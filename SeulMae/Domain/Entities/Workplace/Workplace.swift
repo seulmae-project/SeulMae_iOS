@@ -12,8 +12,8 @@ struct Workplace: Identifiable {
     let invitationCode: String
     let name: String
     let contact: String
-    let imageURL: String
-    let thumbnailURL: String
+    let imageURL: [String]
+    let thumbnailURL: [String]
     let manager: String
     let mainAddress: String
     let subAddress: String
