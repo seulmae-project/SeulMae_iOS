@@ -87,7 +87,7 @@ extension WorkplaceAPI {
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNTQwNjg2fQ.oyI1slmnZr8WsFOr9ZK5-Fez0TAEwW-RDC8SLNgY3ZSmD20hr-dKEd8dC13q2WZr6guzFCZqw-zNPITONj1cDQ"
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNjI1NjQ3fQ.w5iTs_FFI2v4FP9OOFpacRoffHiB6JD4BNTpYwXQZblS1DWfOJ3wu1IT3a9IuIxqwBi33sZGnlA2kkeCRXTCpg"
             ]
         }
     }

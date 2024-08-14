@@ -11,18 +11,17 @@ import RxCocoa
 
 final class AddNewWorkplaceViewModel: ViewModel {
     struct Input {
-        let mainImage: Driver<Data>
+        let mainImage: Signal<Data>
         let name: Driver<String>
         let contact: Driver<String>
         let address: Driver<String>
+        let searchAddress: Signal<()>
         let addNew: Signal<()>
     }
     
     struct Output {
         let loading: Driver<Bool>
-        let validatedName: Driver<ValidationResult>
-        let validatedContact: Driver<ValidationResult>
-        let validatedAdress: Driver<ValidationResult>
+        let validationResult: Driver<AddNewWorkplaceValidationResult>
         let AddNewEnabled: Driver<Bool>
     }
     
@@ -53,16 +52,54 @@ final class AddNewWorkplaceViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-
+        let validatedName = input.name.flatMapLatest { name -> Driver<AddNewWorkplaceValidationResult> in
+            let trimmed = name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if trimmed.isEmpty {
+                return .just(.name(result: .empty(message: "empty")))
+            }
+            
+            return .just(.name(result: .ok(message: "ok")))
+        }
         
+        let validatedContact = input.name.flatMapLatest { name -> Driver<AddNewWorkplaceValidationResult> in
+            let trimmed = name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+            if trimmed.isEmpty {
+                return .just(.contact(result: .empty(message: "empty")))
+            }
+            
+            return .just(.contact(result: .ok(message: "ok")))
+        }
+        
+        let validationResult = Driver.merge(validatedName, validatedContact)
+        
+        let AddNewEnabled = Driver.combineLatest(
+            validatedName, validatedContact, loading) { name, contact, loading in
+                name.result.isValid &&
+                contact.result.isValid &&
+                !loading
+            }
+            .distinctUntilChanged()
+        
+        let image = input.mainImage.asDriver()
+        
+        let combined = Driver.combineLatest(
+            image, input.name, input.contact, input.address) { (image: $0, name: $1, contact: $2, address: $3) }
+        
+        _ = input.addNew.withLatestFrom(combined)
+            .flatMapLatest { [weak self] combined -> Driver<Bool> in
+                guard let strongSelf = self else { return .empty() }
+                let request = AddWorkplaceRequest(workplaceName: combined.name, mainAddress: combined.address, subAddress: "", tel: combined.contact)
+                return strongSelf.workplaceUseCase
+                    .addNewWorkplace(request: request)
+                    .asDriver()
+            }
+    
         // MARK: Output
         
         return Output(
-            loading: .empty(),
-            validatedName: .empty(),
-            validatedContact: .empty(),
-            validatedAdress: .empty(),
-            AddNewEnabled: .empty()
+            loading: loading,
+            validationResult: validationResult,
+            AddNewEnabled: AddNewEnabled
         )
     }
 }

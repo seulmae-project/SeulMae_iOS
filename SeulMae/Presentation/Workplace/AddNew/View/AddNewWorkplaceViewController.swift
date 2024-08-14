@@ -6,26 +6,60 @@
 //
 
 import UIKit
+import PhotosUI
+import MapKit
 
 final class AddNewWorkplaceViewController: UIViewController {
     
+    private let phPickerViewController: PHPickerViewController = {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        let pickerViewController = PHPickerViewController(configuration: configuration)
+        return pickerViewController
+    }()
+    
+    // .frame(height: 300)
+    private let mapView: MKMapView = {
+        let mapView = MKMapView()
+//        let centerLocation = CLLocationCoordinate2D(latitude: locationStruct.latitude, longitude: locationStruct.longtitude)
+//        let region = MKCoordinateRegion(center: centerLocation, latitudinalMeters: 100, longitudinalMeters: 100)
+//        let annotation = MKPointAnnotation()
+//        annotation.title = locationStruct.name
+//        annotation.coordinate = centerLocation
+//        mapView.addAnnotation(annotation)
+//        mapView.setRegion(region, animated: true)
+        return mapView
+    }()
+
+//        .padding(.bottom, -130)
     private let workplaceMainImageView: UIImageView = {
         let imageView = UIImageView()
-        
+//        let circularPath = UIBezierPath(roundedRect: bounds.insetBy(dx: 5, dy: 5), cornerRadius: bounds.height / 2)
+//        let layer = CAShapeLayer()
+//        layer.path = circularPath.cgPath
+//        layer.fillColor = UIColor.clear.cgColor
+//        layer.strokeColor = UIColor.white.cgColor
+//        layer.lineWidth = 4
+        // myView.layer.mask = borderLayer
         return imageView
     }()
     
-    private let nameLabel: UILabel = .callout(title: "근무지 이름")
+    private let nameLabel: UILabel = .callout(title: "이름")
     private let nameTextField: UITextField = .common(placeholder: "근무지 이름 입력")
     private let nameValidationResultLabel: UILabel = .footnote()
     
-    private let contactLabel: UILabel = .callout(title: "근무지 연락처")
+    private let contactLabel: UILabel = .callout(title: "연락처")
     private let contactTextField: UITextField = .common(placeholder: "근무지 이름 입력")
     private let contactValidationResultLabel: UILabel = .footnote()
+    
+    private let addressLabel: UILabel = .callout(title: "주소 등록을 위해, 아래에서 주소를 검색해 주세요")
+    private let searchAdressButton: UIButton = .common(title: "주소 검색")
 
-    private let addressLabel: UILabel = .callout(title: "근무지 주소")
     private let addresssTextField: UITextField =  .common(placeholder: "근무지 주소 입력")
     private let addressValidationResultLabel: UILabel = .footnote()
+    
+    private let addNewButton = UIButton()
  
     private var viewModel: AddNewWorkplaceViewModel
     
@@ -34,6 +68,9 @@ final class AddNewWorkplaceViewController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         
         setupView()
+        setupNavItem()
+        setupConstraints()
+        bindSubviews()
     }
     
     required init?(coder: NSCoder) {
@@ -41,25 +78,41 @@ final class AddNewWorkplaceViewController: UIViewController {
     }
     
     private func bindSubviews() {
+        let pickedImage = phPickerViewController.rx.picked.asSignal()
+        // Handle picked image
+        Task {
+            for await image in pickedImage.values {
+                workplaceMainImageView.image = image
+            }
+        }
+        
         let output = viewModel.transform(
             .init(
-                mainImage: .empty(),
-                name: .empty(),
-                contact: .empty(),
-                address: .empty(),
-                addNew: .empty()
+                mainImage: pickedImage.map { $0.jpegData(compressionQuality: 0.75) ?? Data() },
+                name: nameTextField.rx.text.orEmpty.asDriver(),
+                contact: contactTextField.rx.text.orEmpty.asDriver(),
+                address: addresssTextField.rx.text.orEmpty.asDriver(),
+                searchAddress: searchAdressButton.rx.tap.asSignal(),
+                addNew: addNewButton.rx.tap.asSignal()
             )
         )
         // Handle Button enabled
         Task {
-            for await _ in output.AddNewEnabled.values {
-                
+            for await isEnabled in output.AddNewEnabled.values {
+                addNewButton.ext.setEnabled(isEnabled)
             }
         }
-        //
+        // Handle validation results
         Task {
-            for await _ in output.AddNewEnabled.values {
-                
+            for await result in output.validationResult.values {
+                switch result {
+                case let .name(result):
+                    nameValidationResultLabel.ext.setResult(result)
+                case let .contact(result):
+                    contactValidationResultLabel.ext.setResult(result)
+                case let .address(result):
+                    addressValidationResultLabel.ext.setResult(result)
+                }
             }
         }
     }
@@ -69,34 +122,34 @@ final class AddNewWorkplaceViewController: UIViewController {
     }
     
     private func setupNavItem() {
-        navigationItem.title = "근무지 생성"
+        navigationItem.title = "새 근무지 등록"
     }
     
     private func setupConstraints() {
         let contentStack = UIStackView()
         contentStack.axis = .vertical
-        contentStack.spacing = 40
+        contentStack.spacing = 8.0
         
         view.addSubview(contentStack)
-        view.addSubview(nameValidationResultLabel)
-        view.addSubview(contactValidationResultLabel)
-        view.addSubview(addressValidationResultLabel)
         
         contentStack.translatesAutoresizingMaskIntoConstraints = false
-        nameValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        contentStack.addSubview(nameLabel)
-        contentStack.addSubview(nameTextField)
-        contentStack.addSubview(contactLabel)
-        contentStack.addSubview(contactTextField)
-        contentStack.addSubview(addressLabel)
-        contentStack.addSubview(addresssTextField)
-        
+        contentStack.addArrangedSubview(nameLabel)
+        contentStack.addArrangedSubview(nameTextField)
+        contentStack.addArrangedSubview(nameValidationResultLabel)
+
+        contentStack.addArrangedSubview(contactLabel)
+        contentStack.addArrangedSubview(contactTextField)
+        contentStack.addArrangedSubview(contactValidationResultLabel)
+
+        contentStack.addArrangedSubview(addressLabel)
+        contentStack.addArrangedSubview(searchAdressButton)
+        contentStack.addArrangedSubview(addresssTextField)
+        contentStack.addArrangedSubview(addressValidationResultLabel)
+
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            contentStack.topAnchor.constraint(equalTo: view.bottomAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             
             // Constarint validation result message
@@ -107,8 +160,11 @@ final class AddNewWorkplaceViewController: UIViewController {
             addressValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
             addressValidationResultLabel.topAnchor.constraint(equalTo: addresssTextField.bottomAnchor, constant: 8.0),
             
+            // Constraint buttons height
+            searchAdressButton.heightAnchor.constraint(equalToConstant: 56),
+            
             // Constraint textFields height
-            addresssTextField.heightAnchor.constraint(equalToConstant: 48),
+            nameTextField.heightAnchor.constraint(equalToConstant: 48),
             contactTextField.heightAnchor.constraint(equalToConstant: 48),
             addresssTextField.heightAnchor.constraint(equalToConstant: 48),
         ])

@@ -16,6 +16,9 @@
 		860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */; };
 		860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */; };
 		860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */; };
+		860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */; };
+		860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */; };
+		860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */; };
 		860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8D2C1FEF52001F94D4 /* RxCocoa */; };
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
@@ -243,6 +246,9 @@
 		860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceAPI.swift; sourceTree = "<group>"; };
 		860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewController.swift; sourceTree = "<group>"; };
 		860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewModel.swift; sourceTree = "<group>"; };
+		860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceValidationResult.swift; sourceTree = "<group>"; };
+		860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsViewController.swift; sourceTree = "<group>"; };
+		860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
@@ -540,6 +546,32 @@
 			isa = PBXGroup;
 			children = (
 				860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */,
+				860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		860BCE702C6C9A4800DCC532 /* Details */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE712C6C9A8800DCC532 /* View */,
+				860BCE722C6C9A8B00DCC532 /* ViewModel */,
+			);
+			path = Details;
+			sourceTree = "<group>";
+		};
+		860BCE712C6C9A8800DCC532 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		860BCE722C6C9A8B00DCC532 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -829,6 +861,7 @@
 			isa = PBXGroup;
 			children = (
 				860BCE692C6B543900DCC532 /* Search */,
+				860BCE702C6C9A4800DCC532 /* Details */,
 				860BCE662C6B539C00DCC532 /* AddNew */,
 			);
 			path = Workplace;
@@ -1641,15 +1674,18 @@
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
+				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* NotiContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
 				86E296FA2C4E82850080A3A2 /* NotiListViewModel.swift in Sources */,
 				8684C5B92C4A0CB700EB3D28 /* NoticeView.swift in Sources */,
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
+				860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
+				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */,

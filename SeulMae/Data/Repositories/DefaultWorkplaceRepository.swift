@@ -40,6 +40,37 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     init(network: WorkplaceNetworking) {
         self.network = network
     }
+    
+    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
+        return network.rx
+            .request(.fetchWorkplaces(keyword: ""))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<[WorkplaceDTO]>.self)
+            .map { try $0.toDomain() }
+    }
+    
+    func addNewWorkplace(request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
+        return network.rx
+            .request(.addNewWorkplace(request: request))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<String?>.self)
+            .map { $0.isSuccess }
+    }
+    
+    
+    
+    
+    
         
     func fetchMemberInfo(
         memberIdentifier id: Member.ID
@@ -65,31 +96,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
 
-    func addWorkplace(_ request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- request: \(request)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.addSuccess))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
-    
-    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
-        return network.rx
-            .request(.fetchWorkplaces(keyword: ""))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
-            .map(BaseResponseDTO<[WorkplaceDTO]>.self)
-            .map { try $0.toDomain() }
-    }
-    
+ 
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {
         Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
         return Single<BaseResponseDTO<WorkplaceDTO>>.create { observer in

@@ -9,9 +9,14 @@ import Foundation
 import RxSwift
 
 protocol WorkplaceUseCase {
-    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]>
-    func addWorkplace(_ request: AddWorkplaceRequest) -> Single<Bool>
+   
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
+    func addNewWorkplace(request: AddWorkplaceRequest) -> Single<Bool>
+
+    
+    
+    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]>
+    
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
@@ -29,6 +34,24 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         self.workplaceRepository = workplaceRepository
     }
     
+    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
+        workplaceRepository.fetchWorkplaces(keyword: keyword)
+    }
+    
+    func addNewWorkplace(request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
+        workplaceRepository.addNewWorkplace(request: request)
+    }
+
+    
+    
+    
+    
+    
+    
+    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
+        workplaceRepository.fetchMemberList(workplaceIdentifier: id)
+    }
+    
     func fetchMemberInfo(
         memberIdentifier id: Member.ID
     ) -> RxSwift.Single<MemberInfo> {
@@ -38,17 +61,7 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
             })
     }
     
-    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
-        workplaceRepository.fetchMemberList(workplaceIdentifier: id)
-    }
-    
-    func addWorkplace(_ request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
-        workplaceRepository.addWorkplace(request)
-    }
-    
-    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
-        workplaceRepository.fetchWorkplaces(keyword: keyword)
-    }
+   
     
     func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {
         workplaceRepository.fetchWorkplaceDetail(workplaceIdentifier: id)
