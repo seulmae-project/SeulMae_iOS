@@ -16,7 +16,7 @@ enum MainAPI: SugarTargetType {
     case fetchMemberList(_ workplaceID: String)
     
     /// - Tag: Workplace
-    case addWorkplace(_ request: AddWorkplaceRequest)
+    case addWorkplace(_ request: AddNewWorkplaceRequest)
     case fetchWorkplaceList(keyword: String)
     case fetchWorkplaceDetail(workplaceID: String)
     case updateWorkplace(_ request: UpdateWorkplaceRequest)

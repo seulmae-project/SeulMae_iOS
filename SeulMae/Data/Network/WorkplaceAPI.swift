@@ -15,11 +15,13 @@ typealias WorkplaceNetworking = MoyaProvider<WorkplaceAPI>
 
 enum WorkplaceAPI: SugarTargetType {
     case fetchWorkplaces(keyword: String)
-    case addNewWorkplace(request: AddWorkplaceRequest)
-    case fetchWorkplaceDetail(workplaceID: String)
+    case addNewWorkplace(request: AddNewWorkplaceRequest)
+    case fetchWorkplaceDetail(workplaceID: Int)
+    case submitApplication(workplaceID: Int)
+
+    
     case updateWorkplace(request: UpdateWorkplaceRequest)
     case deleteWorkplace(workplaceID: String)
-    case submitApplication(workplaceID: String)
     case acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
     case denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
 }

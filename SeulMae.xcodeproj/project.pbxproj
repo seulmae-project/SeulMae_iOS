@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		8606F6802C33244400FFC68E /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F67F2C33244400FFC68E /* Member.swift */; };
 		8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6832C33282100FFC68E /* MemberContentView.swift */; };
-		8606F6862C332DBB00FFC68E /* AddWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */; };
+		8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */; };
 		8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */; };
 		860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */; };
 		860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */; };
@@ -239,7 +239,7 @@
 /* Begin PBXFileReference section */
 		8606F67F2C33244400FFC68E /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		8606F6832C33282100FFC68E /* MemberContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberContentView.swift; sourceTree = "<group>"; };
-		8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkplaceRequest.swift; sourceTree = "<group>"; };
+		8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceRequest.swift; sourceTree = "<group>"; };
 		8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateWorkplaceRequest.swift; sourceTree = "<group>"; };
 		860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryItem.swift; sourceTree = "<group>"; };
 		860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialRecoveryOptionsViewController.swift; sourceTree = "<group>"; };
@@ -842,7 +842,7 @@
 		866577B12C3407290048A111 /* Workplace */ = {
 			isa = PBXGroup;
 			children = (
-				8606F6852C332DBB00FFC68E /* AddWorkplaceRequest.swift */,
+				8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */,
 				8606F6872C332EC800FFC68E /* UpdateWorkplaceRequest.swift */,
 			);
 			path = Workplace;
@@ -1704,7 +1704,7 @@
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
-				8606F6862C332DBB00FFC68E /* AddWorkplaceRequest.swift in Sources */,
+				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
 				861B96D12C21BBDC0032C94A /* AppDIContainer.swift in Sources */,
 				86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */,
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,

@@ -54,9 +54,35 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { try $0.toDomain() }
     }
     
-    func addNewWorkplace(request: AddWorkplaceRequest) -> RxSwift.Single<Bool> {
+    func addNewWorkplace(request: AddNewWorkplaceRequest) -> RxSwift.Single<Bool> {
         return network.rx
             .request(.addNewWorkplace(request: request))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<String?>.self)
+            .map { $0.isSuccess }
+    }
+    
+    func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> RxSwift.Single<Workplace> {
+        return network.rx
+            .request(.fetchWorkplaceDetail(workplaceID: id))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<WorkplaceDTO>.self)
+            .map { try $0.toDomain() }
+    }
+    
+    func submitApplication(workplaceID id: Workplace.ID) -> RxSwift.Single<Bool> {
+        return network.rx
+            .request(.submitApplication(workplaceID: id))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
@@ -97,17 +123,6 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     }
 
  
-    func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Workplace> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
-        return Single<BaseResponseDTO<WorkplaceDTO>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.detailSuccess))
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
     
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- request: \(request)\n")
@@ -133,17 +148,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func submitApplication(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.submitApplicationSuccess))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
+   
     
     func acceptApplication(
         workplaceApproveId: String,

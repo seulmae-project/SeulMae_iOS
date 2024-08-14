@@ -85,15 +85,26 @@ final class AddNewWorkplaceViewModel: ViewModel {
         let combined = Driver.combineLatest(
             image, input.name, input.contact, input.address) { (image: $0, name: $1, contact: $2, address: $3) }
         
-        _ = input.addNew.withLatestFrom(combined)
+        let isAdded = input.addNew.withLatestFrom(combined)
             .flatMapLatest { [weak self] combined -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
-                let request = AddWorkplaceRequest(workplaceName: combined.name, mainAddress: combined.address, subAddress: "", tel: combined.contact)
+                let request = AddNewWorkplaceRequest(
+                    workplaceName: combined.name,
+                    mainAddress: combined.address,
+                    subAddress: "",
+                    workplaceTel: combined.contact)
                 return strongSelf.workplaceUseCase
                     .addNewWorkplace(request: request)
                     .asDriver()
+                // TODO: - API Error 핸들링 필요
             }
-    
+        
+        Task {
+            for await isAdded in isAdded.values {
+                Swift.print(#line, "isAdded: \(isAdded)")
+            }
+        }
+        
         // MARK: Output
         
         return Output(

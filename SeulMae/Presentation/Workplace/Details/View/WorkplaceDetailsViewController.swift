@@ -16,20 +16,21 @@ final class WorkplaceDetailsViewController: UIViewController {
         return imageView
     }()
     
-    private let nameLabel: UILabel = .callout(title: "근무지 이름")
-    private let nameTextField: UITextField = .common(placeholder: "근무지 이름 입력")
-    private let nameValidationResultLabel: UILabel = .footnote()
+    private let nameLabel: UILabel = .callout(title: "근무지")
+    private let workplaceNameLabel: UILabel = .callout(title: "")
     
-    private let contactLabel: UILabel = .callout(title: "근무지 연락처")
-    private let contactTextField: UITextField = .common(placeholder: "근무지 이름 입력")
-    private let contactValidationResultLabel: UILabel = .footnote()
+    private let workplaceManagerLabel: UILabel = .callout(title: "매니저")
+    
+    private let contactLabel: UILabel = .callout(title: "연락처")
+    private let workplaceContactLabel: UILabel = .callout(title: "연락처")
 
-    private let addressLabel: UILabel = .callout(title: "근무지 주소")
-    private let addresssTextField: UITextField =  .common(placeholder: "근무지 주소 입력")
-    private let addressValidationResultLabel: UILabel = .footnote()
+    private let addressLabel: UILabel = .callout(title: "주소")
+    private let workplaceAddressLabel: UILabel = .footnote(title: "주소")
     
-    private let searchAdressButton = UIButton()
-    private let addNewButton = UIButton()
+    private let membersLabel: UILabel = .callout(title: "참여인원")
+    private let workplaceMembersLabel: UILabel = .footnote(title: "-명")
+    
+    private let joinWorkplaceButton: UIButton = .common(title: "입장하기")
  
     private var viewModel: WorkplaceDetailsViewModel
     
@@ -48,36 +49,21 @@ final class WorkplaceDetailsViewController: UIViewController {
     }
     
     private func bindSubviews() {
-        
-//        let output = viewModel.transform(
-//            .init(
-//
-//                name: nameTextField.rx.text.orEmpty.asDriver(),
-//                contact: contactTextField.rx.text.orEmpty.asDriver(),
-//                address: addresssTextField.rx.text.orEmpty.asDriver(),
-//                searchAddress: searchAdressButton.rx.tap.asSignal(),
-//                addNew: addNewButton.rx.tap.asSignal()
-//            )
-//        )
-        // Handle Button enabled
-//        Task {
-//            for await isEnabled in output.AddNewEnabled.values {
-//                addNewButton.ext.setEnabled(isEnabled)
-//            }
-//        }
-//        // Handle validation results
-//        Task {
-//            for await result in output.validationResult.values {
-//                switch result {
-//                case let .name(result):
-//                    nameValidationResultLabel.ext.setResult(result)
-//                case let .contact(result):
-//                    contactValidationResultLabel.ext.setResult(result)
-//                case let .address(result):
-//                    addressValidationResultLabel.ext.setResult(result)
-//                }
-//            }
-//        }
+        let output = viewModel.transform(
+            .init(joinWorkplace: joinWorkplaceButton.rx.tap.asSignal())
+        )
+        // Handle api loading
+        Task {
+            for await isLoading in output.isLoading.values {
+                Swift.print(isLoading)
+            }
+        }
+        // Handle workplace details information
+        Task {
+            for await details in output.details.values {
+                Swift.print(details)
+            }
+        }
     }
     
     private func setupView() {
@@ -85,7 +71,7 @@ final class WorkplaceDetailsViewController: UIViewController {
     }
     
     private func setupNavItem() {
-        navigationItem.title = "근무지 생성"
+        // navigationItem.title = "근무지 이름"
     }
     
     private func setupConstraints() {
@@ -94,39 +80,27 @@ final class WorkplaceDetailsViewController: UIViewController {
         contentStack.spacing = 40
         
         view.addSubview(contentStack)
-        view.addSubview(nameValidationResultLabel)
-        view.addSubview(contactValidationResultLabel)
-        view.addSubview(addressValidationResultLabel)
         
         contentStack.translatesAutoresizingMaskIntoConstraints = false
-        nameValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        contactValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
-        addressValidationResultLabel.translatesAutoresizingMaskIntoConstraints = false
         
-        contentStack.addSubview(nameLabel)
-        contentStack.addSubview(nameTextField)
-        contentStack.addSubview(contactLabel)
-        contentStack.addSubview(contactTextField)
-        contentStack.addSubview(addressLabel)
-        contentStack.addSubview(addresssTextField)
+        contentStack.addArrangedSubview(nameLabel)
+        contentStack.addArrangedSubview(workplaceNameLabel)
+        
+        contentStack.addArrangedSubview(workplaceManagerLabel)
+        
+        contentStack.addArrangedSubview(contactLabel)
+        contentStack.addArrangedSubview(workplaceContactLabel)
+        
+        contentStack.addArrangedSubview(addressLabel)
+        contentStack.addArrangedSubview(workplaceAddressLabel)
+        
+        contentStack.addArrangedSubview(membersLabel)
+        contentStack.addArrangedSubview(workplaceMembersLabel)
         
         NSLayoutConstraint.activate([
             contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             contentStack.topAnchor.constraint(equalTo: view.bottomAnchor),
             contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            // Constarint validation result message
-            nameValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            nameValidationResultLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8.0),
-            contactValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            contactValidationResultLabel.topAnchor.constraint(equalTo: contactTextField.bottomAnchor, constant: 8.0),
-            addressValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            addressValidationResultLabel.topAnchor.constraint(equalTo: addresssTextField.bottomAnchor, constant: 8.0),
-            
-            // Constraint textFields height
-            addresssTextField.heightAnchor.constraint(equalToConstant: 48),
-            contactTextField.heightAnchor.constraint(equalToConstant: 48),
-            addresssTextField.heightAnchor.constraint(equalToConstant: 48),
         ])
     }
 }

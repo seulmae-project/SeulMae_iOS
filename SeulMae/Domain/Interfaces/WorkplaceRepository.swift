@@ -10,14 +10,14 @@ import RxSwift
 
 protocol WorkplaceRepository {
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
-    func addNewWorkplace(request: AddWorkplaceRequest) -> Single<Bool>
+    func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>
     
     
     
-    func fetchWorkplaceDetail(workplaceIdentifier id: Workplace.ID) -> Single<Workplace>
+    func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
-    func submitApplication(workplaceIdentifier id: Workplace.ID) -> Single<Bool>    // body
+    func submitApplication(workplaceID id: Workplace.ID) -> Single<Bool>    // body
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> Single<[Member]>
