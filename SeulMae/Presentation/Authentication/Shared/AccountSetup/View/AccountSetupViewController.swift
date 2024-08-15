@@ -26,7 +26,7 @@ final class AccountSetupViewController: UIViewController {
     private let titleLabel: UILabel = .title()
     private let accountIDLabel: UILabel = .callout(title: "아이디")
     private let accountIDTextField: UITextField = .common(placeholder: "아이디 입력")
-    private let validateAccountIDButton: UIButton = .common(title: "중복확인", cornerRadius: 16)
+    private let validateAccountIDButton: UIButton = .half(title: "중복확인")
     private let accountIDValidationResultLabel: UILabel = .footnote(title: "")
     private lazy var accountIDStack: UIStackView = {
         let hStack = UIStackView(arrangedSubviews: [

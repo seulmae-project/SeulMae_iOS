@@ -51,9 +51,9 @@ final class SMSVerificationViewController: UIViewController {
         return timer
     }()
     private let secondSMSCodeLabel: UILabel = .footnote(title:  "인증번호 재전송은 3회까지만 가능합니다")
-    private let sendSMSCodeButton: UIButton = .common(title: "인증번호 전송", cornerRadius: 16)
-    private let verifySMSCodeButton: UIButton = .common(title: "인증번호 확인", cornerRadius: 16)
-    private let nextStepButton: UIButton = .common(title: "다음으로", isEnabled: false)
+    private let sendSMSCodeButton: UIButton = .half(title: "인증번호 전송")
+    private let verifySMSCodeButton: UIButton = .half(title: "인증번호 확인")
+    private let nextStepButton: UIButton = .common(title: "다음으로")
     
     // MARK: - Life Cycle
 

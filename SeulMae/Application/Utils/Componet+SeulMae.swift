@@ -70,24 +70,39 @@ extension UILabel {
 // MARK: - UIButton
 
 extension UIButton {
-    static func common(title: String = "", cornerRadius: CGFloat = 8.0, isEnabled: Bool = true) -> UIButton {
+    static func half(title: String = "") -> UIButton {
         let button = UIButton()
-        button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
+        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
         button.backgroundColor = .primary
-        button.layer.cornerRadius = cornerRadius
+        button.layer.cornerRadius = 16
         button.layer.cornerCurve = .continuous
         return button
     }
     
-    static func callout(title: String, isEnabled: Bool = true, isHidden: Bool = false) -> UIButton {
+    static func common(title: String = "") -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
+        button.backgroundColor = .primary
+        button.layer.cornerRadius = 8.0
+        button.layer.cornerCurve = .continuous
+        return button
+    }
+    
+    static func image(_ image: UIImage) -> UIButton {
+        let button = UIButton()
+        button.setImage(.kakaoLoginLargeWide, for: .normal)
+        button.contentVerticalAlignment = .fill
+        button.contentHorizontalAlignment = .fill
+        return button
+    }
+    
+    static func callout(title: String) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
-        button.isEnabled = isEnabled
-        button.isHidden = isHidden
+        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
         return button
     }
 }

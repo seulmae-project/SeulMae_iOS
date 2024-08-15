@@ -8,6 +8,7 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import AuthenticationServices
 
 enum CredentialRecoveryOption {
     case account, password
@@ -15,62 +16,64 @@ enum CredentialRecoveryOption {
 
 final class SigninViewController: UIViewController {
     
-    // MARK: - Flow
-    
-    static func create(viewModel: SigninViewModel) -> SigninViewController {
-        let view = SigninViewController()
-        view.viewModel = viewModel
-        return view
-    }
-    
-    // MARK: - Dependency
-    
-    private var viewModel: SigninViewModel!
-    
-    // MARK: - UI
+    // MARK: - UI Properties
     
     private let appIconImageView: UIImageView = .common(image: .appLogo)
     private let eamilTextField: UITextField = .common(placeholder: "이메일을 입력해주세요")
     private let passwordTextField: UITextField = .password(placeholder: "비밀번호를 입력해주세요")
-    
-    private let signInButton: UIButton = {
-        let b = UIButton()
-        b.setTitle("로그인", for: .normal)
-        b.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        b.backgroundColor = .primary
-        b.layer.cornerRadius = 8.0
-        b.layer.cornerCurve = .continuous
-        return b
-    }()
-    
-    private let kakaoSignInButton: UIButton = {
-        let b = UIButton()
-        b.setImage(.kakaoLoginLargeWide, for: .normal)
-        b.contentVerticalAlignment = .fill
-        b.contentHorizontalAlignment = .fill
-        return b
-    }()
-    
-    private let appleSignInButton: UIButton = {
-        let b = UIButton()
-        return b
-    }()
-    
+    private let signInButton: UIButton = .common(title: "로그인")
+    private let kakaoSignInButton: UIButton = .image(.kakaoLoginLargeWide)
+    private let appleSignInButton = ASAuthorizationAppleIDButton()
     private let findCredentials: UIButton = .callout(title: "이메일 또는 비밀번호 찾기")
     private let signupButton: UIButton = .callout(title: "회원가입")
-
+    
+    // MARK: - Properties
+    
+    private var authorizationController: ASAuthorizationController!
+    
+    // MARK: - Dependencies
+    
+    private var viewModel: SigninViewModel!
+    
     // MARK: - Life Cycle
-
+    
+    init(viewModel: SigninViewModel!) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureHierarchy()
-        bindInternalSubviews()
+        setupView()
+        setupAuthController()
+        setupConstraints()
+        bindSubviews()
     }
     
     // MARK: - Data Binding
     
-    private func bindInternalSubviews() {
+    private func bindSubviews() {
+        let appleSignin = appleSignInButton.rx
+            .controlEvent(.touchUpInside)
+            .asSignal()
+        
+        Task {
+            for await _ in  appleSignin.values {
+                 authorizationController.performRequests()
+            }
+        }
+        
+        let credential = authorizationController.rx.credential
+        Task {
+            for await _ in  credential.asSignal().values {
+                
+            }
+        }
        
         // 이로 인해 UI가 겹쳐지거나, 올바르지 않은 상태에서 바텀 시트가 나타날 수 있습니다. 이러한 문제를 방지하려면, 새로운 시트를 표시하기 전에 기존 시트가 닫혔는지 확인하는 것이 좋습니다.
         let credentialOption = findCredentials.rx.tap.asSignal()
@@ -89,11 +92,14 @@ final class SigninViewController: UIViewController {
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
+                appleSignin: appleSignInButton.rx.controlEvent(.touchUpInside).asSignal(),
                 validateSMS: .empty(), // .just(.idRecovery)
                 signup: signupButton.rx.tap.asSignal(),
                 credentialOption: credentialOption
             )
         )
+        
+        output
         
 //        Task {
 //            for await signedIn in output.signedIn.values {
@@ -104,53 +110,72 @@ final class SigninViewController: UIViewController {
 //        }
     }
     
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+    }
+    
+    private func setupAuthController() {
+        let appleIDProvider = ASAuthorizationAppleIDProvider()
+        let request = appleIDProvider.createRequest()
+        request.requestedScopes = [.fullName, .email]
+        authorizationController = ASAuthorizationController(authorizationRequests: [request])
+        authorizationController.presentationContextProvider = self
+    }
+    
     // MARK: - Hierarchy
 
-    private func configureHierarchy() {
-        view.backgroundColor = .systemBackground
+    private func setupConstraints() {
+        let optionStack = UIStackView()
+        optionStack.spacing = 16
+        optionStack.addArrangedSubview(findCredentials)
+        optionStack.addArrangedSubview(signupButton)
         
-        let signinHStack = UIStackView(arrangedSubviews: [
-            findCredentials, signupButton
+        let contentStack = UIStackView()
+        contentStack.axis = .vertical
+        contentStack.spacing = 8.0
+        contentStack.addArrangedSubview(eamilTextField)
+        contentStack.addArrangedSubview(passwordTextField)
+        contentStack.addArrangedSubview(signInButton)
+        contentStack.addArrangedSubview(kakaoSignInButton)
+        contentStack.addArrangedSubview(appleSignInButton)
+        contentStack.setCustomSpacing(16, after: passwordTextField)
+
+        view.addSubview(appIconImageView)
+        view.addSubview(contentStack)
+        view.addSubview(optionStack)
+        
+        appIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        optionStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            appIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            appIconImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            
+            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            contentStack.topAnchor.constraint(equalTo: appIconImageView.bottomAnchor, constant: 40),
+            
+            optionStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            optionStack.topAnchor.constraint(equalTo: contentStack.bottomAnchor, constant: 4),
+            
+            // Constraint textfields height
+            eamilTextField.heightAnchor.constraint(equalToConstant: 48),
+            passwordTextField.heightAnchor.constraint(equalToConstant: 48),
+            
+            // Constraint buttons height
+            signInButton.heightAnchor.constraint(equalToConstant: 56),
+            kakaoSignInButton.heightAnchor.constraint(equalToConstant: 56),
+            appleSignInButton.heightAnchor.constraint(equalToConstant: 56),
         ])
-        signinHStack.spacing = 16
-        
-        let signinVStack = UIStackView(arrangedSubviews: [
-            appIconImageView, eamilTextField, passwordTextField, signInButton, kakaoSignInButton, signinHStack
-        ])
-        signinVStack.axis = .vertical
-        signinVStack.alignment = .center
-        signinVStack.spacing = 8
-        signinVStack.setCustomSpacing(48, after: appIconImageView)
-        signinVStack.setCustomSpacing(16, after: passwordTextField)
-        signinVStack.setCustomSpacing(4, after: kakaoSignInButton)
-        
-        view.addSubview(signinVStack)
-        
-        signinVStack.snp.makeConstraints { make in
-            make.leading.equalToSuperview().inset(12)
-            make.top.equalTo(view.snp_topMargin).inset(40)
-            make.centerX.equalToSuperview()
-        }
-        
-        eamilTextField.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.height.equalTo(48)
-        }
-        
-        passwordTextField.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.height.equalTo(48)
-        }
-        
-        signInButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.height.equalTo(56)
-        }
-        
-        kakaoSignInButton.snp.makeConstraints { make in
-            make.leading.equalToSuperview()
-            make.height.equalTo(56)
-        }
+    }
+}
+
+// MAKR: - ASAuthorizationControllerPresentationContextProviding
+
+extension SigninViewController: ASAuthorizationControllerPresentationContextProviding {
+    func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {
+        self.view.window!
     }
 }
 

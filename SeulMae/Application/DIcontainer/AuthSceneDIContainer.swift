@@ -91,7 +91,7 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     func makeSigninViewController(
         coordinator: any AuthFlowCoordinator
     ) -> SigninViewController {
-        return .create(viewModel: makeSigninViewModel(coordinator: coordinator))
+        return .init(viewModel: makeSigninViewModel(coordinator: coordinator))
     }
     
     private func makeSigninViewModel(

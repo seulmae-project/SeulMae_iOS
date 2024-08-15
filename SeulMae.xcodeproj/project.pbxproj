@@ -145,6 +145,8 @@
 		8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */; };
 		8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */; };
 		8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */; };
+		869C7A6C2C6E942E008EB7ED /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6B2C6E942E008EB7ED /* File.swift */; };
+		869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6D2C6E96D8008EB7ED /* File2.swift */; };
 		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
@@ -374,6 +376,9 @@
 		8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableConvertibleType+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
+		869C7A6A2C6E8A22008EB7ED /* SeulMae.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SeulMae.entitlements; sourceTree = "<group>"; };
+		869C7A6B2C6E942E008EB7ED /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
+		869C7A6D2C6E96D8008EB7ED /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
 		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
@@ -1229,6 +1234,7 @@
 			isa = PBXGroup;
 			children = (
 				8697FBEB2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift */,
+				869C7A6B2C6E942E008EB7ED /* File.swift */,
 			);
 			path = Proxies;
 			sourceTree = "<group>";
@@ -1248,6 +1254,7 @@
 			children = (
 				8697FBE92C2D19060027A035 /* Proxies */,
 				8697FBE72C2D18FD0027A035 /* PHPickerViewController+Rx.swift */,
+				869C7A6D2C6E96D8008EB7ED /* File2.swift */,
 				8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */,
 			);
 			path = "RxCocoa+";
@@ -1448,6 +1455,7 @@
 		86E299A72C1721FF00805AD0 /* SeulMae */ = {
 			isa = PBXGroup;
 			children = (
+				869C7A6A2C6E8A22008EB7ED /* SeulMae.entitlements */,
 				86766D052C1833CC00095010 /* Application */,
 				86E299E12C1722EB00805AD0 /* Presentation */,
 				861B96832C2007570032C94A /* Domain */,
@@ -1494,6 +1502,7 @@
 		86E299DB2C1722A600805AD0 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
+				86DE55592C18B6F7009CC520 /* Components */,
 				86112E532C2E9128005DEBD1 /* Shared */,
 				86E299D82C17221800805AD0 /* Signin */,
 				86E299D92C17227600805AD0 /* Signup */,
@@ -1505,7 +1514,6 @@
 		86E299E12C1722EB00805AD0 /* Presentation */ = {
 			isa = PBXGroup;
 			children = (
-				86DE55592C18B6F7009CC520 /* Components */,
 				86766D142C183E3900095010 /* Flows */,
 				86E299DB2C1722A600805AD0 /* Authentication */,
 				86E299E22C17230E00805AD0 /* Main */,
@@ -1789,6 +1797,7 @@
 				861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */,
+				869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */,
 				861BF6882C27082600702E24 /* DefaultNoticeRepository.swift in Sources */,
 				86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */,
 				86D309CB2C339D8A00C08DA8 /* NoticeDetail.swift in Sources */,
@@ -1855,6 +1864,7 @@
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
+				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
@@ -2066,6 +2076,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SeulMae/SeulMae.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;
@@ -2097,6 +2108,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SeulMae/SeulMae.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 82R248LTUV;

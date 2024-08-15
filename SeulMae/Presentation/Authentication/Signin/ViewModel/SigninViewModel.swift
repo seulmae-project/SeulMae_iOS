@@ -19,6 +19,7 @@ final class SigninViewModel: ViewModel {
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
+        let appleSignin: Signal<()>
         let validateSMS: Signal<SMSVerificationItem>
         let signup: Signal<()>
         let credentialOption: Signal<CredentialRecoveryOption>
@@ -122,6 +123,10 @@ final class SigninViewModel: ViewModel {
 //            
 //        }
         
+        
+//        input.appleSignin.flatMapLatest { _ in
+//
+//        }
         
         Task {
             for await token in oAuthToken.values {
