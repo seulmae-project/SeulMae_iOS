@@ -17,7 +17,9 @@ open class Table {
     deinit {}
     
     @discardableResult open func onCreate(sql: String?) -> Bool {
-        return DB.shared.execute(sql: sql!)
+        let isCreated = DB.shared.execute(sql: sql!)
+        Swift.print("isCreated: \(isCreated)")
+        return isCreated
     }
     
     public func get(sql:String) -> String? { return DB.shared.select(sql: sql) }

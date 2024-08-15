@@ -29,7 +29,8 @@ final class MainViewModel: ViewModel {
     private let coordinator: MainFlowCoordinator
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
-    private let workplaceIdentifier: Int = 0
+    
+    private var workplaceIdentifier: Int = 0
     
     private let workplaceUseCase: WorkplaceUseCase
     
@@ -54,6 +55,13 @@ final class MainViewModel: ViewModel {
         self.coordinator = dependency.coordinator
         self.workplaceUseCase = dependency.workplaceUseCase
         self.noticeUseCase = dependency.noticeUseCase
+        let a = WorkplaceTable.get2()
+        print("🥹 a: \(a)")
+        let dic = a.first
+        let id = Int(dic!["id"] as! String)!
+        self.workplaceIdentifier = id
+        print("🥹 workplaceIdentifier: \(workplaceIdentifier)")
+
 //        self.validationService = dependency.validationService
 //        self.wireframe = dependency.wireframe
     }

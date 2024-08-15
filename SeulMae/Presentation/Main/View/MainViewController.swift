@@ -98,8 +98,8 @@ class MainViewController: UIViewController {
             .foregroundColor: UIColor.red
         ]
         navigationController?.navigationBar.standardAppearance = appearance
-        let workplace = WorkplaceTable.get().first
-        navigationItem.title = workplace?.name ?? "근무지 이름"
+//        let workplace = WorkplaceTable.get2().first
+//        navigationItem.title = workplace?.name ?? "근무지 이름"
         navigationItem.rightBarButtonItem = reminderBarButton
     }
     

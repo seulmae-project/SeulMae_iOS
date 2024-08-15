@@ -40,15 +40,42 @@ open class DB {
     
     public func close() { sqlite3_close(db) }
         
+//    public func execute(sql: String) -> Bool {
+//        var retval: Bool = false
+//        var statement: OpaquePointer? = nil
+//        if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+//            if sqlite3_step(statement) == SQLITE_DONE {
+//                retval = true
+//            }
+//        }
+//        sqlite3_finalize(statement)
+//        return retval
+//    }
     public func execute(sql: String) -> Bool {
         var retval: Bool = false
         var statement: OpaquePointer? = nil
+
+        // Prepare the SQL statement
         if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
+            // Execute the SQL statement
             if sqlite3_step(statement) == SQLITE_DONE {
                 retval = true
+            } else {
+                // Log error if step fails
+                let errorMessage = String(cString: sqlite3_errmsg(db))
+                print("SQLite error: \(errorMessage)")
             }
+        } else {
+            // Log error if prepare fails
+            let errorMessage = String(cString: sqlite3_errmsg(db))
+            print("SQLite prepare error: \(errorMessage)")
         }
-        sqlite3_finalize(statement)
+
+        // Finalize the statement
+        if statement != nil {
+            sqlite3_finalize(statement)
+        }
+
         return retval
     }
     
@@ -73,6 +100,7 @@ open class DB {
             while sqlite3_step(statement) == SQLITE_ROW {
                 var dic: [String : String] = [:]
                 for i in 0...(column - 1) {
+                    // TODO: - 여기서 타입별로 가저오도록 ..
                     let key = String(cString: sqlite3_column_name(statement, i)!)
                     let value = String(cString: sqlite3_column_text(statement, i)!)
                     dic[key]=value
@@ -105,9 +133,10 @@ open class DB {
     }
     
     public func count(table: Table) -> Int32 {
-        let sql = String(format:"SELECT COUNT(*) FROM %@", DB.key(table: table))
+        Swift.print("table: \(DB.key(table: table))")
+        let sql = String(format:"SELECT COUNT(*) FROM %@", "workplace")
         let result: String? = select(sql:sql)
-        return Int32(result!)!
+        return Int32((result ?? "0"))!
     }
     
     public func clear(table: Table) -> Bool {

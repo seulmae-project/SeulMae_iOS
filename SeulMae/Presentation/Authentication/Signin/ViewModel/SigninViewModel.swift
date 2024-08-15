@@ -70,7 +70,11 @@ final class SigninViewModel: ViewModel {
                     .map { authData in
                         Swift.print("authData: \(authData)")
                         // 여기서 만들어서 함수로 만들어서 위에서 저장
-                        
+                        DB.shared.initialize(databaseName: "seulmae")
+                        let a = WorkplaceTable()
+                        print("😇😇 \(a.count())")
+                        let b = WorkplaceTable.set(key: authData.workplace.first!.id, placeName: authData.workplace.first?.name ?? "", userWorkplaceID: 0)
+                        print(#line, "😇isTableOn: \(b)")
                         return (authData, true)
                     }
                     .asDriver { error in
