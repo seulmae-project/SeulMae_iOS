@@ -9,7 +9,7 @@ import Foundation
 
 struct WorkplaceDTO: ModelType {
     let id: Int
-    let invitationCode: String
+    let invitationCode: String?
     let name: String
     let contact: String?
     let imageURL: [String]?
@@ -57,7 +57,7 @@ extension WorkplaceDTO {
     func toDomain() throws -> Workplace {
         return .init(
             id: id,
-            invitationCode: invitationCode,
+            invitationCode: invitationCode ?? "",
             name: name,
             contact: contact ?? "",
             imageURL: imageURL ?? [],

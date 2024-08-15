@@ -81,6 +81,12 @@
 		8624AC712C2EA895001FF383 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624AC702C2EA895001FF383 /* MainViewModel.swift */; };
 		863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */; };
 		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
+		864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */; };
+		8644155B2C6D030A00295838 /* WorkplaceFinderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8644155A2C6D030A00295838 /* WorkplaceFinderViewModel.swift */; };
+		8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8644155C2C6D0FAC00295838 /* SearchBarView.swift */; };
+		864415602C6DF15600295838 /* PretendardVariable.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 8644155F2C6DF15600295838 /* PretendardVariable.ttf */; };
+		864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415612C6DF2E800295838 /* UIFont+Pretendard.swift */; };
+		864415642C6E217F00295838 /* KPostalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415632C6E217F00295838 /* KPostalViewController.swift */; };
 		8653918C2C62243300567EE0 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918B2C62243300567EE0 /* RxKakaoSDK */; };
 		8653918F2C62244400567EE0 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918E2C62244400567EE0 /* KakaoSDK */; };
 		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
@@ -307,6 +313,12 @@
 		8624AC702C2EA895001FF383 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
 		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
+		864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderViewController.swift; sourceTree = "<group>"; };
+		8644155A2C6D030A00295838 /* WorkplaceFinderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderViewModel.swift; sourceTree = "<group>"; };
+		8644155C2C6D0FAC00295838 /* SearchBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBarView.swift; sourceTree = "<group>"; };
+		8644155F2C6DF15600295838 /* PretendardVariable.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = PretendardVariable.ttf; sourceTree = "<group>"; };
+		864415612C6DF2E800295838 /* UIFont+Pretendard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont+Pretendard.swift"; sourceTree = "<group>"; };
+		864415632C6E217F00295838 /* KPostalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KPostalViewController.swift; sourceTree = "<group>"; };
 		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
@@ -504,6 +516,7 @@
 			children = (
 				866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */,
 				866577B82C3410250048A111 /* WorkplaceContentView.swift */,
+				8644155C2C6D0FAC00295838 /* SearchBarView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -538,6 +551,7 @@
 			isa = PBXGroup;
 			children = (
 				860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */,
+				864415632C6E217F00295838 /* KPostalViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -820,6 +834,39 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		864415552C6D019100295838 /* Finder */ = {
+			isa = PBXGroup;
+			children = (
+				864415582C6D02F900295838 /* View */,
+				864415592C6D02FD00295838 /* ViewModel */,
+			);
+			path = Finder;
+			sourceTree = "<group>";
+		};
+		864415582C6D02F900295838 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		864415592C6D02FD00295838 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				8644155A2C6D030A00295838 /* WorkplaceFinderViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8644155E2C6DF12D00295838 /* Font */ = {
+			isa = PBXGroup;
+			children = (
+				8644155F2C6DF15600295838 /* PretendardVariable.ttf */,
+			);
+			path = Font;
+			sourceTree = "<group>";
+		};
 		8658A2982C68B47100F15C0B /* DateSelectView */ = {
 			isa = PBXGroup;
 			children = (
@@ -860,6 +907,7 @@
 		866577B32C340D610048A111 /* Workplace */ = {
 			isa = PBXGroup;
 			children = (
+				864415552C6D019100295838 /* Finder */,
 				860BCE692C6B543900DCC532 /* Search */,
 				860BCE702C6C9A4800DCC532 /* Details */,
 				860BCE662C6B539C00DCC532 /* AddNew */,
@@ -947,6 +995,7 @@
 				8697FBEA2C2D19140027A035 /* Rxswift+ */,
 				86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */,
 				868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */,
+				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1068,6 +1117,7 @@
 		8683546E2C244A7D00F055D2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				8644155E2C6DF12D00295838 /* Font */,
 				86E299AE2C1721FF00805AD0 /* Main.storyboard */,
 				86E299B12C17220000805AD0 /* Assets.xcassets */,
 				86E299B32C17220000805AD0 /* LaunchScreen.storyboard */,
@@ -1622,6 +1672,7 @@
 				86D309DA2C33A8E600C08DA8 /* v1_notices_failed.json in Resources */,
 				86102E552C621F3F009FF522 /* .gitignore in Resources */,
 				861B96C42C21B81D0032C94A /* signin-success.json in Resources */,
+				864415602C6DF15600295838 /* PretendardVariable.ttf in Resources */,
 				86D309F52C33F18900C08DA8 /* v1_submit_application_success.json in Resources */,
 				86D309E02C33A98000C08DA8 /* v1_delete_notice_success.json in Resources */,
 				86D309DC2C33A93B00C08DA8 /* v1_must_read_notices_success.json in Resources */,
@@ -1683,6 +1734,7 @@
 				860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
+				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
@@ -1702,6 +1754,7 @@
 				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
+				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
@@ -1721,6 +1774,7 @@
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				869054AF2C60C9140037B61A /* Properties.swift in Sources */,
 				86D309E72C33AEC700C08DA8 /* Notice.swift in Sources */,
+				864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
 				8606F6802C33244400FFC68E /* Member.swift in Sources */,
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
@@ -1747,6 +1801,7 @@
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */,
 				86B4B45B2C4B4AA200D83488 /* WorkScheduleView.swift in Sources */,
+				8644155B2C6D030A00295838 /* WorkplaceFinderViewModel.swift in Sources */,
 				8684C5B02C49F9AB00EB3D28 /* WorkplaceRepository.swift in Sources */,
 				863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */,
 				861BF6862C27070C00702E24 /* MainAPI.swift in Sources */,
@@ -1775,6 +1830,7 @@
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
+				864415642C6E217F00295838 /* KPostalViewController.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,

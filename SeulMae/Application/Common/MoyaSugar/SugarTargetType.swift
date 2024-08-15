@@ -43,8 +43,8 @@ public extension SugarTargetType {
     
     var task: Task {
         if let data {
-            var formData = [MultipartFormData]()
-            let file = MultipartFormData(provider: .data(data), name: "file", fileName: "\(arc4random()).jpeg", mimeType: "image/jpeg")
+            var formData = [MultipartFormData]() // file
+            let file = MultipartFormData(provider: .data(data), name: "multipartFileList", fileName: "\(arc4random()).jpeg", mimeType: "image/jpeg")
             formData.append(file)
             guard let bodyDic = body as? [String: Encodable] else {
                 return .uploadMultipart(formData)

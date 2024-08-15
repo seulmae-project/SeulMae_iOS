@@ -14,7 +14,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
         let mainImage: Signal<Data>
         let name: Driver<String>
         let contact: Driver<String>
-        let address: Driver<String>
+        let detailAddress: Driver<String>
         let searchAddress: Signal<()>
         let addNew: Signal<()>
     }
@@ -22,6 +22,8 @@ final class AddNewWorkplaceViewModel: ViewModel {
     struct Output {
         let loading: Driver<Bool>
         let validationResult: Driver<AddNewWorkplaceValidationResult>
+        let viewState: Driver<AddNewWorkplaceViewController.ViewState>
+        let data: Driver<[String: Any]>
         let AddNewEnabled: Driver<Bool>
     }
     
@@ -72,6 +74,18 @@ final class AddNewWorkplaceViewModel: ViewModel {
         
         let validationResult = Driver.merge(validatedName, validatedContact)
         
+        let data = input.searchAddress.flatMapLatest { _ -> Driver<[String: Any]> in
+            self.wireframe.searchAddress()
+                .asDriver()
+        }
+        
+        let viewState = Driver.combineLatest(
+            input.detailAddress, data) { address, data -> AddNewWorkplaceViewController.ViewState in
+                return (address.isEmpty &&
+                        data.isEmpty) ? .initial : .detailAdress
+        }
+            .startWith(.initial) // 있는 것과 없는 것의 차이 확인
+        
         let AddNewEnabled = Driver.combineLatest(
             validatedName, validatedContact, loading) { name, contact, loading in
                 name.result.isValid &&
@@ -81,17 +95,19 @@ final class AddNewWorkplaceViewModel: ViewModel {
             .distinctUntilChanged()
         
         let image = input.mainImage.asDriver()
+            .startWith(Data())
         
         let combined = Driver.combineLatest(
-            image, input.name, input.contact, input.address) { (image: $0, name: $1, contact: $2, address: $3) }
+            image, input.name, input.contact, input.detailAddress, data) { (image: $0, name: $1, contact: $2, detailAddress: $3, address: $4["address"]) }
         
         let isAdded = input.addNew.withLatestFrom(combined)
             .flatMapLatest { [weak self] combined -> Driver<Bool> in
+                Swift.print("😡😡😡😡😡add😡😡😡😡😡")
                 guard let strongSelf = self else { return .empty() }
                 let request = AddNewWorkplaceRequest(
                     workplaceName: combined.name,
-                    mainAddress: combined.address,
-                    subAddress: "",
+                    mainAddress: (combined.address as! String),
+                    subAddress: combined.detailAddress,
                     workplaceTel: combined.contact)
                 return strongSelf.workplaceUseCase
                     .addNewWorkplace(request: request)
@@ -104,12 +120,21 @@ final class AddNewWorkplaceViewModel: ViewModel {
                 Swift.print(#line, "isAdded: \(isAdded)")
             }
         }
+    
+        
+        // MARK: Coordinator
+        
+        
+      
+        
         
         // MARK: Output
         
         return Output(
             loading: loading,
             validationResult: validationResult,
+            viewState: viewState,
+            data: data,
             AddNewEnabled: AddNewEnabled
         )
     }

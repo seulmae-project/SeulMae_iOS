@@ -70,6 +70,21 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         )
     }
     
+    // MARK: - Workplace Finder
+    
+    func makeWorkplaceFinderViewController(coordinator: any MainFlowCoordinator) -> WorkplaceFinderViewController {
+        return WorkplaceFinderViewController(viewModel: makeWorkplaceFinderViewModel(coordinator: coordinator))
+    }
+    
+    private func makeWorkplaceFinderViewModel(coordinator:  any MainFlowCoordinator) -> WorkplaceFinderViewModel {
+        return WorkplaceFinderViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase()
+            )
+        )
+    }
+    
     // MARK: - Search Workplace
     
     func makeSearchWorkplaceViewController(

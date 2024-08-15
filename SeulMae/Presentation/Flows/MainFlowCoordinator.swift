@@ -16,8 +16,8 @@ protocol MainFlowCoordinatorDependencies {
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
     func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> NoticeDetailViewController
     
-    
     // MARK: Workplace Flow Dependencies
+    func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController
     func makeSearchWorkplaceViewController(coordinator: MainFlowCoordinator) -> SearchWorkplaceViewController
     func makeWorkplaceDetailsViewController(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
     func makeAddNewWorkplaceViewController(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewController
@@ -34,6 +34,7 @@ protocol MainFlowCoordinator {
     
     // Workplace Flow
     // func showTutorial()
+    func showWorkplaceFinder()
     func showSearchWorkPlace()
     func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
@@ -71,8 +72,6 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         let vc = dependencies.makeMainViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
-    
- 
 
     func showMemberInfo(member: Member) {
         let vc = dependencies.makeMemberInfoViewController(
@@ -97,9 +96,14 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     // MARK: - Workplace Flow
     
+    func showWorkplaceFinder() {
+        let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: true)
+    }
+    
     func showSearchWorkPlace() {
         let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: true)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     func showWorkplaceDetails(workplaceID: Workplace.ID) {

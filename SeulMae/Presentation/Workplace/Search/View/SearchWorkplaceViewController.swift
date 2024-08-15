@@ -20,27 +20,12 @@ final class SearchWorkplaceViewController: UIViewController {
         case list
     }
     
-    
-    
     // MARK: - UI Properties
     
-    private lazy var searchController: UISearchController = {
-        let controller = UISearchController(searchResultsController: nil)
-        let attr = NSAttributedString(string: "검색")
-        //[NSAttributedString.Key.foregroundColor: UIColor.accentColor]
-        controller.searchBar.searchTextField.attributedPlaceholder = attr
-        controller.searchBar.searchTextField.leftView?.tintColor = .black
-        controller.hidesNavigationBarDuringPresentation = true
-        controller.showsSearchResultsController = true
-        controller.searchResultsUpdater = self
-        return controller
-    }()
+    private let searchBar = SearchBarView()
     
     private lazy var collectionView: UICollectionView = {
-        Swift.print(#line, view.bounds)
-        Swift.print(#line, view.safeAreaLayoutGuide.layoutFrame)
-        Swift.print(#line, view.layoutMarginsGuide.layoutFrame)
-        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
@@ -152,18 +137,30 @@ final class SearchWorkplaceViewController: UIViewController {
     
     private func setupNavItem() {
         navigationItem.title = "근무지 검색" // controller에 설정하면 안됌
-        navigationItem.searchController = searchController
     }
     
     // MARK: - Hierarchy
     
     private func setupConstraints() {
+        view.addSubview(searchBar)
         view.addSubview(collectionView)
         view.addSubview(addNewWorkplaceButton)
 
+        searchBar.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         addNewWorkplaceButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchBar.heightAnchor.constraint(equalToConstant: 56),
+            
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
             addNewWorkplaceButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             addNewWorkplaceButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
             addNewWorkplaceButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),

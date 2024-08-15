@@ -49,6 +49,22 @@ extension UILabel {
         label.font = .systemFont(ofSize: 14)
         return label
     }
+    
+    static func headline(title: String = "") -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.numberOfLines = 0
+        label.font = .pretendard(size: 16, weight: .regular)
+        return label
+    }
+    
+    static func body(title: String = "") -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.numberOfLines = 0
+        label.font = .pretendard(size: 14, weight: .regular)
+        return label
+    }
 }
 
 // MARK: - UIButton
@@ -65,12 +81,13 @@ extension UIButton {
         return button
     }
     
-    static func callout(title: String, isEnabled: Bool = true) -> UIButton {
+    static func callout(title: String, isEnabled: Bool = true, isHidden: Bool = false) -> UIButton {
         let button = UIButton()
-        button.isEnabled = isEnabled
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
         button.titleLabel?.font = .systemFont(ofSize: 16, weight: .semibold)
+        button.isEnabled = isEnabled
+        button.isHidden = isHidden
         return button
     }
 }
@@ -78,9 +95,9 @@ extension UIButton {
 // MARK: - UITextField
 
 extension UITextField {
-    static func common(placeholder: String, padding: CGFloat = 16) -> UITextField {
+    static func common(placeholder: String) -> UITextField {
         let tf = UITextField()
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: padding, height: 0))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
         tf.leftView = paddingView
         tf.leftViewMode = .always
         let attrString = NSAttributedString(
@@ -90,23 +107,24 @@ extension UITextField {
         tf.layer.cornerRadius = 16
         tf.layer.cornerCurve = .continuous
         tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor(hexCode: "D0D0D0").cgColor
+        tf.layer.borderColor = UIColor(hexCode: "EEEEEE").cgColor
         tf.autocapitalizationType = .none // 대문자
         tf.spellCheckingType = .no // 맞춤법
         tf.autocorrectionType = .no // 자동 수정
+        tf.backgroundColor = UIColor(hexCode: "F4F4F4")
         // yourSingleFactorCodeTextField.textContentType = .oneTimeCode
         return tf
     }
     
-    static func tel(placeholder: String, padding: CGFloat = 16) -> UITextField {
-        let textField: UITextField = .common(placeholder: placeholder, padding: padding)
+    static func tel(placeholder: String) -> UITextField {
+        let textField: UITextField = .common(placeholder: placeholder)
         textField.textContentType = .telephoneNumber
         textField.keyboardType = .phonePad
         return textField
     }
     
-    static func password(placeholder: String, padding: CGFloat = 16) -> UITextField {
-        let textField: UITextField = .common(placeholder: placeholder, padding: padding)
+    static func password(placeholder: String) -> UITextField {
+        let textField: UITextField = .common(placeholder: placeholder)
         textField.isSecureTextEntry = true
         return textField
     }

@@ -69,13 +69,17 @@ final class SigninViewModel: ViewModel {
                 // .trackActivity(signingIn)
                     .map { authData in
                         Swift.print("authData: \(authData)")
+                        // 여기서 만들어서 함수로 만들어서 위에서 저장
+                        
                         return (authData, true)
                     }
                     .asDriver { error in
+                        Swift.print(#line, "error: \(error)")
                         let message: String
                         if case .faildedToSignin(let reason) = error as? APIError {
                             message = reason
                         } else {
+                            
                             message = "??"
                         }
                         

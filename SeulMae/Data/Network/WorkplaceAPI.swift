@@ -82,9 +82,10 @@ extension WorkplaceAPI {
     
     var body: Encodable? {
         switch self {
-        case .addNewWorkplace(request: let request as ModelType),
-                .updateWorkplace(request: let request as ModelType):
-            return request
+        case .addNewWorkplace(request: let request):
+            return ["workplaceAddDto": request]
+        case .updateWorkplace(request: let request):
+            return ["workplaceUpdateDto": request]
         default:
             return nil
         }
@@ -96,12 +97,17 @@ extension WorkplaceAPI {
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNjM3MTQ0fQ.6OYICTfHVTDi0COO_7UyYEIYyjUo-jgqp5-0EFun8cOn4mjdqNbpWRLtB4sEzWUjuuiXAUtYDOwggHXBWUDeTw"
+                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNzQzNTQxfQ.uGGy00NFwPirgMKrALOuclfefmQRP-Kd9iR_9VNgjtkZFt0WjzEdN04jmD0nhlExwpeLOiVZxCEtln0WBjIZkA"
             ]
         }
     }
     
     var data: Data? {
-        return nil
+        switch self {
+        case .addNewWorkplace(_):
+            return Data()
+        default:
+            return nil
+        }
     }
 }

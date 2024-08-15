@@ -11,6 +11,7 @@ import RxSwift
 protocol Wireframe {
     func open(url: URL)
     func promptFor<Action: CustomStringConvertible>(_ message: String, cancelAction: Action, actions: [Action]) -> Observable<Action>
+    func searchAddress() -> Single<[String: Any]>
 }
 
 class DefaultWireframe: Wireframe {
@@ -50,6 +51,17 @@ class DefaultWireframe: Wireframe {
 //            toastLabel.removeFromSuperview()
 //        })
 //    }
+    
+    func searchAddress() -> Single<[String: Any]> {
+        return Single.create { single in
+            let kPostal = KPostalViewController()
+            kPostal.completeHandler = { data in
+                single(.success(data))
+            }
+            DefaultWireframe.rootViewController().present(kPostal, animated: true)
+            return Disposables.create()
+        }
+    }
 
     static func presentAlert(_ message: String) {
         #if os(iOS)

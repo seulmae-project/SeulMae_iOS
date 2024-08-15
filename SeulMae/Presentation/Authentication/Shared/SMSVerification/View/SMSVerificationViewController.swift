@@ -35,7 +35,7 @@ final class SMSVerificationViewController: UIViewController {
     private let accountTextField: UITextField = .common(placeholder: "아이디 입력")
     private let phoneNumberLabel: UILabel = .callout(title: "휴대폰 번호")
     private let phoneNumberTextField: UITextField = {
-        let tf = UITextField.common(placeholder: "휴대폰 번호 입력", padding: 16)
+        let tf = UITextField.common(placeholder: "휴대폰 번호 입력")
         tf.textContentType = .telephoneNumber
         tf.keyboardType = .phonePad
         return tf

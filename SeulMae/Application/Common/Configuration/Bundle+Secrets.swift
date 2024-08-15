@@ -26,4 +26,8 @@ extension Bundle {
     var nativeAPPKey: String {
         load(key: "NativeAPPKey")
     }
+    
+    var javaScriptKey: String {
+        load(key: "JavaScriptKey")
+    }
 }

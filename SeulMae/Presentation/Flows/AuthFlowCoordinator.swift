@@ -74,8 +74,9 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func start() {
-        showSearchWorkplace()
-        // showSingin()
+        
+        // showSearchWorkplace()
+        showSingin()
     }
     
     func startMain() {
@@ -83,7 +84,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func showSearchWorkplace() {
-        mainFlowCoordinator.showSearchWorkPlace()
+        mainFlowCoordinator.showWorkplaceFinder()
     }
     
     // MARK: - Common

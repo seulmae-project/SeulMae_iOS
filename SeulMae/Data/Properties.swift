@@ -18,7 +18,7 @@ public class WorkplaceTable: Table {
         """)
     }
     
-    @discardableResult static func set(key:String, value:String)->Bool{
+    @discardableResult static func set(key:String, value:String) -> Bool{
         let sql = String(format: "INSERT INTO TBL_DEFAULT_PROPERTIES (key, value) VALUES (\"%@\", \"%@\")", key, value)
         return WorkplaceTable().set(sql: sql)
     }
