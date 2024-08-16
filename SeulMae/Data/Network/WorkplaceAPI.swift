@@ -9,6 +9,7 @@ import struct Foundation.URL
 import class Foundation.Bundle
 import struct Foundation.Data
 import Moya
+import Foundation
 
 
 typealias WorkplaceNetworking = MoyaProvider<WorkplaceAPI>
@@ -97,7 +98,7 @@ extension WorkplaceAPI {
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJBY2Nlc3NUb2tlbiIsImFjY291bnRJZCI6InlvbmdnaXBvIiwiZXhwIjoxNzIzNzQzNTQxfQ.uGGy00NFwPirgMKrALOuclfefmQRP-Kd9iR_9VNgjtkZFt0WjzEdN04jmD0nhlExwpeLOiVZxCEtln0WBjIZkA"
+                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
             ]
         }
     }

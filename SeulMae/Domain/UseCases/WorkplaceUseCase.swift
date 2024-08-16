@@ -80,10 +80,6 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
             })
     }
     
-   
-    
-    
-    
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         workplaceRepository.updateWorkplace(request)
     }
