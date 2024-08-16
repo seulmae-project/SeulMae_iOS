@@ -16,38 +16,25 @@ enum UserKind {
 
 class MainViewController: UIViewController {
     
-    // MARK: - Flow
-    
-    static func create(viewModel: MainViewModel) -> MainViewController {
-        let view = MainViewController()
-        view.viewModel = viewModel
-        return view
-    }
-    
     // MARK: - Internal Types
     
     typealias MemberListSnapshot = NSDiffableDataSourceSnapshot<MemberListSection, MemberListItem>
-    typealias MemberListDataSource = UICollectionViewDiffableDataSource<MemberListSection, MemberListItem>
-    
-    enum MemberListSection: Hashable {
-        case row
-    }
-    
-    struct MemberListItem: Hashable {
-        var member: Member
-        var isManager: Bool
-        var imageURL: String
-        
-        init(member: Member) {
-            self.member = member
-            self.isManager = member.isManager
-            self.imageURL = member.imageURL
-        }
-    }
+    typealias MemberDataSource = UICollectionViewDiffableDataSource<MemberListSection, MemberListItem>
+    typealias AttendanceListShanpshot = NSDiffableDataSourceSnapshot<AttendanceListSection, AttendanceListItem>
+    typealias AttendanceDataSource = UICollectionViewDiffableDataSource<AttendanceListSection, AttendanceListItem>
     
     // MARK: - UI
     
     private let reminderBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
+    
+    private lazy var attendanceCollectionView: UICollectionView = {
+        let cv = UICollectionView(frame: .zero, collectionViewLayout: createMemberListLayout())
+        cv.showsHorizontalScrollIndicator = false
+        cv.showsVerticalScrollIndicator = false
+        cv.isScrollEnabled = false
+        cv.clipsToBounds = false
+        return cv
+    }()
     
     private lazy var memberCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createMemberListLayout())
@@ -59,16 +46,14 @@ class MainViewController: UIViewController {
     }()
     
     private let noticeSliderView = SliderView<NoticeView>()
-    
     private let _mainTitleLabel = UILabel.title(title: AppText.mainTitle)
-    
     private let currentStatusView = CurrentStatusView()
-    
     private let calendarView = CalendarView()
     
     // MARK: - Properties
     
-    private var memberListDataSource: MemberListDataSource!
+    private var attendanceDataSource: AttendanceDataSource!
+    private var memberDataSource: MemberDataSource!
     
     // MARK: - Dependencies
     
@@ -76,12 +61,21 @@ class MainViewController: UIViewController {
     
     // MARK: - Life Cycle
     
+    init(viewModel: MainViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        onLoad()
-        setDataSource()
-        setHierarchy()
+        setupView()
+        setupDataSource()
+        setupConstraints()
         bindSubviews()
     }
     
@@ -90,18 +84,7 @@ class MainViewController: UIViewController {
         Swift.print(#fileID, "🐶🐶🐶 - view will appear")
     }
     
-    func onLoad() {
-        let appearance = UINavigationBarAppearance()
-        appearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
-        appearance.titleTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 24, weight: .bold),
-            .foregroundColor: UIColor.red
-        ]
-        navigationController?.navigationBar.standardAppearance = appearance
-//        let workplace = WorkplaceTable.get2().first
-//        navigationItem.title = workplace?.name ?? "근무지 이름"
-        navigationItem.rightBarButtonItem = reminderBarButton
-    }
+   
     
     // MARK: - Data Binding
     
@@ -109,7 +92,7 @@ class MainViewController: UIViewController {
         let onMemberTap = memberCollectionView.rx
             .itemSelected
             .compactMap { [unowned self] index in
-                return memberListDataSource.itemIdentifier(for: index)?
+                return memberDataSource.itemIdentifier(for: index)?
                     .member
             }
             .asSignal()
@@ -119,6 +102,7 @@ class MainViewController: UIViewController {
                 showWorkplace: .empty(),
                 changeWorkplace: .empty(),
                 showRemainders: .empty(),
+                attedanceDate: .empty(),
                 onMemberTap: onMemberTap,
                 onBarButtonTap: reminderBarButton.rx.tap.asSignal()
             )
@@ -148,19 +132,43 @@ class MainViewController: UIViewController {
                 }
             }
         }
+        
+        Task {
+            for await items in output.attendanceListItems.values {
+                Swift.print(#line, "attendances: \(items)")
+                applyAttendanceSnapshot(items: items)
+            }
+        }
     }
     
     // MARK: - Data Source
     
-    private func setDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, MemberListItem> { (cell, indexPath, item) in
+    private func setupDataSource() {
+        let memberCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, MemberListItem> { (cell, indexPath, item) in
             var content = MemberContentView.Configuration()
             content.member = item.member
             cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
         }
         
-        memberListDataSource = MemberListDataSource(collectionView: memberCollectionView) { (view, index, item) -> UICollectionViewCell? in
-            return view.dequeueConfiguredReusableCell(using: cellRegistration, for: index, item: item)
+        memberDataSource = MemberDataSource(collectionView: memberCollectionView) { (view, index, item) -> UICollectionViewCell? in
+            return view.dequeueConfiguredReusableCell(using: memberCellRegistration, for: index, item: item)
+        }
+        
+        let attendanceCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, AttendanceListItem> { (cell, indexPath, item) in
+            var content = AttendanceContentView.Configuration()
+//            content.imageURL = item.imageURL
+//            content.name = item.name
+//            content.isApprove item.
+//            content.totalWorkTime
+//            content.workStartDate
+//            content.workEndDate
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        }
+        
+        attendanceDataSource = AttendanceDataSource(collectionView: attendanceCollectionView) { (view, index, item) -> UICollectionViewCell? in
+                return view.dequeueConfiguredReusableCell(using: attendanceCellRegistration, for: index, item: item)
         }
     }
     
@@ -169,17 +177,33 @@ class MainViewController: UIViewController {
         var snapshot = MemberListSnapshot()
         snapshot.appendSections([.row])
         snapshot.appendItems(items, toSection: .row)
-        memberListDataSource.apply(snapshot)
+        memberDataSource.apply(snapshot)
+    }
+    
+    private func applyAttendanceSnapshot(items: [AttendanceListItem]) {
+        var snapshot = AttendanceListShanpshot()
+        snapshot.appendSections([.list])
+        snapshot.appendItems(items, toSection: .list)
+        attendanceDataSource.apply(snapshot)
     }
     
     // MARK: - Hierarchy
     
-    func layoutSubviews() {
-        
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+        let appearance = UINavigationBarAppearance()
+        appearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
+        appearance.titleTextAttributes = [
+            .font: UIFont.systemFont(ofSize: 24, weight: .bold),
+            .foregroundColor: UIColor.red
+        ]
+        navigationController?.navigationBar.standardAppearance = appearance
+//        let workplace = WorkplaceTable.get2().first
+//        navigationItem.title = workplace?.name ?? "근무지 이름"
+        navigationItem.rightBarButtonItem = reminderBarButton
     }
     
-    private func setHierarchy() {
-        view.backgroundColor = .systemBackground
+    private func setupConstraints() {
         
         let stack = UIStackView(arrangedSubviews: [
             memberCollectionView,
@@ -220,6 +244,22 @@ class MainViewController: UIViewController {
     // MARK: - CollectionView Layout
     
     private func createMemberListLayout() -> UICollectionViewLayout {
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0 / 7.0),
+                heightDimension: .estimated(44)))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44)),
+            subitems: [item])
+        group.interItemSpacing = .fixed(12)
+        let section = NSCollectionLayoutSection(group: group)
+        section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+        return UICollectionViewCompositionalLayout(section: section)
+    }
+    
+    private func createAttendanceListLayout() -> UICollectionViewLayout {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0 / 7.0),

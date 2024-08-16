@@ -15,26 +15,31 @@ final class MainViewModel: ViewModel {
         let showWorkplace: Signal<()>
         let changeWorkplace: Signal<()>
         let showRemainders: Signal<()>
+        
+        let attedanceDate: Driver<Date>
+        
         let onMemberTap: Signal<Member>
         let onBarButtonTap: Signal<()>
     }
     
     struct Output {
         let members: Driver<[Member]>
+        let attendanceListItems: Driver<[AttendanceListItem]>
         let notices: Driver<[Notice]>
     }
     
-    // MARK: - Dependency
+    // MARK: - Dependencies
     
     private let coordinator: MainFlowCoordinator
+    private let attendanceUseCase: AttendanceUseCase
+    private let workplaceUseCase: WorkplaceUseCase
+    private let noticeUseCase: NoticeUseCase
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
+    private var workplaceID: Workplace.ID
+    private var isManager: Bool
     
-    private var workplaceIdentifier: Int = 0
     
-    private let workplaceUseCase: WorkplaceUseCase
-    
-    private let noticeUseCase: NoticeUseCase
 //
 //    private let validationService: ValidationService
 //
@@ -45,36 +50,47 @@ final class MainViewModel: ViewModel {
     init(
         dependency: (
             coordinator: MainFlowCoordinator,
+            attendanceUseCase: AttendanceUseCase,
             workplaceUseCase: WorkplaceUseCase,
             noticeUseCase: NoticeUseCase
-            
 //            validationService: ValidationService,
 //            wireframe: Wireframe
         )
     ) {
         self.coordinator = dependency.coordinator
+        self.attendanceUseCase = dependency.attendanceUseCase
         self.workplaceUseCase = dependency.workplaceUseCase
         self.noticeUseCase = dependency.noticeUseCase
         let a = WorkplaceTable.get2()
-        print("🥹 a: \(a)")
+        Swift.print("🥹 table colums: \(a)")
         let dic = a.first
         let id = Int(dic!["id"] as! String)!
-        self.workplaceIdentifier = id
-        print("🥹 workplaceIdentifier: \(workplaceIdentifier)")
-
-//        self.validationService = dependency.validationService
-//        self.wireframe = dependency.wireframe
+        self.workplaceID = id
+        self.isManager = true
+        Swift.print("🥹 workplaceID: \(workplaceID)")
+        Swift.print("🥹 isManager: \(isManager)")
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        let members = workplaceUseCase.fetchMemberList(workplaceIdentifier: workplaceIdentifier)
+        let attendanceDate = input.attedanceDate
+            .startWith(Date.ext.now)
+            .filter { _ in self.isManager }
+        
+        let attendances = attendanceDate.flatMapLatest { [weak self] date -> Driver<[AttendanceListItem]> in
+            guard let strongSelf = self else { return .empty() }
+            return strongSelf.attendanceUseCase
+                .fetchAttendanceRequestList(workplaceID: strongSelf.workplaceID, date: date)
+                .map { $0.map(AttendanceListItem.init) }
+                .asDriver()
+        }
+        
+        let members = workplaceUseCase.fetchMemberList(workplaceIdentifier: workplaceID)
             .asDriver()
         
-        let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceIdentifier)
+        let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceID)
             .asDriver()
        
         // MARK: Code Verification
@@ -123,6 +139,7 @@ final class MainViewModel: ViewModel {
 //        
         return Output(
             members: members,
+            attendanceListItems: attendances,
             notices: notices
         )
     }

@@ -32,11 +32,8 @@ final class SigninViewModel: ViewModel {
     // MARK: - Dependency
     
     private let coordinator: AuthFlowCoordinator
-    
     private let authUseCase: AuthUseCase
-    
     private let validationService: ValidationService
-    
     private let wireframe: Wireframe
     
     // MARK: - Life Cycle
@@ -71,10 +68,13 @@ final class SigninViewModel: ViewModel {
                     .map { authData in
                         Swift.print("authData: \(authData)")
                         // 여기서 만들어서 함수로 만들어서 위에서 저장
+                        // MAnager인지 저장해야함
                         DB.shared.initialize(databaseName: "seulmae")
                         let a = WorkplaceTable()
                         print("😇😇 \(a.count())")
                         let b = WorkplaceTable.set(key: authData.workplace.first!.id, placeName: authData.workplace.first?.name ?? "", userWorkplaceID: 0)
+                        UserDefaults.standard.setValue(authData.token.accessToken, forKey: "accessToken")
+                        UserDefaults.standard.setValue(authData.token.refreshToken, forKey: "refreshToken")
                         print(#line, "😇isTableOn: \(b)")
                         return (authData, true)
                     }

@@ -147,6 +147,11 @@
 		8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */; };
 		869C7A6C2C6E942E008EB7ED /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6B2C6E942E008EB7ED /* File.swift */; };
 		869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6D2C6E96D8008EB7ED /* File2.swift */; };
+		869C7A702C6EEF5B008EB7ED /* MemberListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */; };
+		869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */; };
+		869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */; };
+		869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */; };
+		869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A772C6F08E6008EB7ED /* Data+String.swift */; };
 		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
@@ -379,6 +384,11 @@
 		869C7A6A2C6E8A22008EB7ED /* SeulMae.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SeulMae.entitlements; sourceTree = "<group>"; };
 		869C7A6B2C6E942E008EB7ED /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		869C7A6D2C6E96D8008EB7ED /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
+		869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListItem.swift; sourceTree = "<group>"; };
+		869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceListItem.swift; sourceTree = "<group>"; };
+		869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceContentView.swift; sourceTree = "<group>"; };
+		869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUseCase.swift; sourceTree = "<group>"; };
+		869C7A772C6F08E6008EB7ED /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
 		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
@@ -619,6 +629,7 @@
 			isa = PBXGroup;
 			children = (
 				861B96852C20076E0032C94A /* AuthUseCase.swift */,
+				869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */,
 				8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */,
 				861BF68B2C2708D300702E24 /* NoticeUseCase.swift */,
 			);
@@ -826,6 +837,7 @@
 				8684C5B82C4A0CB700EB3D28 /* NoticeView.swift */,
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
 				86E296F42C4E4D9D0080A3A2 /* TextCell.swift */,
+				869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -835,6 +847,8 @@
 			children = (
 				8624AC702C2EA895001FF383 /* MainViewModel.swift */,
 				86B0AF902C2EAD8F0006AF00 /* MainViewItem.swift */,
+				869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */,
+				869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1001,6 +1015,7 @@
 				86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */,
 				868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */,
 				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
+				869C7A772C6F08E6008EB7ED /* Data+String.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1731,6 +1746,7 @@
 				8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */,
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
+				869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
@@ -1744,6 +1760,7 @@
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
+				869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
@@ -1770,6 +1787,7 @@
 				86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */,
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
+				869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */,
 				861BF68A2C27084000702E24 /* NoticeRepository.swift in Sources */,
 				861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */,
 				8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */,
@@ -1836,6 +1854,7 @@
 				86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */,
 				86E296F52C4E4D9D0080A3A2 /* TextCell.swift in Sources */,
 				868354702C24543000F055D2 /* MockData.swift in Sources */,
+				869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
@@ -1875,6 +1894,7 @@
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
+				869C7A702C6EEF5B008EB7ED /* MemberListItem.swift in Sources */,
 				86C40B062C4F38E30051EF2B /* NoticeDetailViewModel.swift in Sources */,
 				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */,

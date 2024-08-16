@@ -19,6 +19,8 @@ final class MainSceneDIContainer {
         self.dependencies = dependencies
     }
     
+    // Notice
+    
     func makeNoticeUseCase() -> NoticeUseCase {
         return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
     }
@@ -26,6 +28,18 @@ final class MainSceneDIContainer {
     private func makeNoticeRepository() -> NoticeRepository {
         return DefaultNoticeRepository(network: dependencies.mainNetworking)
     }
+    
+    // Attedance
+    
+    func makeAttendanceUseCase() -> AttendanceUseCase {
+        return DefaultAttendanceUseCase(repository: makeAttendanceRepository())
+    }
+    
+    private func makeAttendanceRepository() -> AttendanceRepository {
+        return DefaultAttendanceRepository(network: AttendanceNetworking())
+    }
+    
+    // Workplace
     
     func makeWorkplaceUseCase() -> WorkplaceUseCase {
         return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
@@ -53,7 +67,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     // MARK: - Main
     
     func makeMainViewController(coordinator: any MainFlowCoordinator) -> MainViewController {
-        return MainViewController.create(
+        return MainViewController(
             viewModel: makeMainViewModel(coordinator: coordinator)
         )
     }
@@ -64,6 +78,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         return MainViewModel(
             dependency: (
                 coordinator: coordinator,
+                attendanceUseCase: makeAttendanceUseCase(),
                 workplaceUseCase: makeWorkplaceUseCase(),
                 noticeUseCase: makeNoticeUseCase()
             )

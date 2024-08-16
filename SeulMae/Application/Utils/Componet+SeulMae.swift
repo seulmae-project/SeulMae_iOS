@@ -15,6 +15,15 @@ extension UIImageView {
         imageView.image = image
         return imageView
     }
+    
+    static func user() -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = .userProfile
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerCurve = .continuous
+        return imageView
+    }
 }
 
 // MARK: - UILabel
@@ -54,7 +63,7 @@ extension UILabel {
         let label = UILabel()
         label.text = title
         label.numberOfLines = 0
-        label.font = .pretendard(size: 16, weight: .regular)
+        label.font = .pretendard(size: 18, weight: .regular)
         return label
     }
     
@@ -64,6 +73,58 @@ extension UILabel {
         label.numberOfLines = 0
         label.font = .pretendard(size: 14, weight: .regular)
         return label
+    }
+    
+    static func common(title: String = "", typographic: Typographic) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.numberOfLines = 0
+        label.font = typographic.pretendard
+        return label
+    }
+    
+    enum Typographic {
+        case largeTitle
+        case title
+        case headline
+        case body
+        case callout
+        case subhead
+        case footnote
+        case caption
+        
+        //    Large Title Regular 31 38
+        //    Title 1 Regular 25 31
+        //    Title 2 Regular 19 24
+        //    Title 3 Regular 17 22
+        //    Headline Semibold 14 19
+        //    Body Regular 14 19
+        //    Callout Regular 13 18
+        //    Subhead Regular 12 16
+        //    Footnote Regular 12 16
+        //    Caption 1 Regular 11 13
+        //    Caption 2 Regular 11 13
+        
+        var pretendard: UIFont {
+            switch self {
+            case .largeTitle:
+                return .pretendard(size: 31, weight: .regular)
+            case .title:
+                return .pretendard(size: 25, weight: .regular)
+            case .headline:
+                return .pretendard(size: 14, weight: .semibold)
+            case .body:
+                return .pretendard(size: 14, weight: .regular)
+            case .callout:
+                return .pretendard(size: 13, weight: .regular)
+            case .subhead:
+                return .pretendard(size: 12, weight: .regular)
+            case .footnote:
+                return .pretendard(size: 12, weight: .regular)
+            case .caption:
+                return .pretendard(size: 11, weight: .regular)
+            }
+        }
     }
 }
 
