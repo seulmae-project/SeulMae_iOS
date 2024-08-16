@@ -39,6 +39,8 @@ protocol MainFlowCoordinator {
     func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
     
+    // modal
+    func showWorkplaceList()
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -64,6 +66,12 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     func goBack() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func showWorkplaceList() {
+        let contentViewController = WorkplacePlaceListViewController()
+        let bottomSheetController = BottomSheetController(contentViewController: contentViewController)
+        navigationController.present(bottomSheetController, animated: true)
     }
     
     // MARK: - Main

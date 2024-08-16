@@ -12,8 +12,9 @@ import RxCocoa
 final class MainViewModel: ViewModel {
     
     struct Input {
-        let showWorkplace: Signal<()>
         let changeWorkplace: Signal<()>
+        
+        let showWorkplace: Signal<()>
         let showRemainders: Signal<()>
         
         let attedanceDate: Driver<Date>
@@ -115,6 +116,12 @@ final class MainViewModel: ViewModel {
 //            .startWith(false)
 //        
         // MARK: Flow Logic
+        
+        Task {
+            for await _ in input.changeWorkplace.values {
+                coordinator.showWorkplaceList()
+            }
+        }
         
         Task {
             for await member in input.onMemberTap.values {

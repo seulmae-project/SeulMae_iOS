@@ -27,6 +27,9 @@ class MainViewController: UIViewController {
     
     private let reminderBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     
+    private let changeWorkplaceButton: UIButton = .half(title: "근무지 변경")
+    
+    
     private lazy var attendanceCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createMemberListLayout())
         cv.showsHorizontalScrollIndicator = false
@@ -81,14 +84,51 @@ class MainViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        Swift.print(#line, "😁😁😁😁😁😁")
         Swift.print(#fileID, "🐶🐶🐶 - view will appear")
     }
     
-   
     
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let onAppear = rx.methodInvoked(#selector(viewWillAppear))
+            .map { a in a }
+            .asSignal()
+        
+        let onLoad = rx.methodInvoked(#selector(viewDidLoad))
+            .map { _ in }
+            .asSignal()
+        
+        onAppear.emit(onNext: { a in
+            Swift.print(#line, "😁😁😁😁😁😁\(a)")
+        }, onCompleted: {
+            Swift.print(#line, "😁😁😁😁😁😁")
+        }, onDisposed: {
+            Swift.print(#line, "😁😁😁😁😁😁")
+        }).disposed(by: DisposeBag())
+        
+        Task {
+            for await a in onAppear.values {
+                Swift.print(#line, "😁😁😁😁😁😁\(a)")
+            }
+        }
+        
+        Task {
+            for await _ in onLoad.values {
+                Swift.print(#line, "😁😁😁😁😁😁")
+            }
+        }
+        
+        
+        
+        
+        onLoad.emit(onNext: { _ in
+            Swift.print(#line, "😁😁😁😁😁😁")
+        }).dispose()
+        
+        Swift.print(#line, "😁😁😁😁😁😁")
+        
         let onMemberTap = memberCollectionView.rx
             .itemSelected
             .compactMap { [unowned self] index in
@@ -99,8 +139,8 @@ class MainViewController: UIViewController {
         
         let output = viewModel.transform(
             .init(
+                changeWorkplace: changeWorkplaceButton.rx.tap.asSignal(),
                 showWorkplace: .empty(),
-                changeWorkplace: .empty(),
                 showRemainders: .empty(),
                 attedanceDate: .empty(),
                 onMemberTap: onMemberTap,
@@ -191,6 +231,7 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
+        
         let appearance = UINavigationBarAppearance()
         appearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
         appearance.titleTextAttributes = [
@@ -206,6 +247,7 @@ class MainViewController: UIViewController {
     private func setupConstraints() {
         
         let stack = UIStackView(arrangedSubviews: [
+            changeWorkplaceButton,
             memberCollectionView,
             .separator,
             noticeSliderView,

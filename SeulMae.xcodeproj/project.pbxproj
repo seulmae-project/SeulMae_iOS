@@ -152,6 +152,8 @@
 		869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */; };
 		869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */; };
 		869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A772C6F08E6008EB7ED /* Data+String.swift */; };
+		869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */; };
+		869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */; };
 		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
@@ -389,6 +391,8 @@
 		869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceContentView.swift; sourceTree = "<group>"; };
 		869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUseCase.swift; sourceTree = "<group>"; };
 		869C7A772C6F08E6008EB7ED /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
+		869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplacePlaceListViewController.swift; sourceTree = "<group>"; };
+		869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListViewModel.swift; sourceTree = "<group>"; };
 		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
@@ -838,6 +842,8 @@
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
 				86E296F42C4E4D9D0080A3A2 /* TextCell.swift */,
 				869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */,
+				869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */,
+				869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1740,6 +1746,7 @@
 			files = (
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
+				869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
 				86DE556C2C19E9C7009CC520 /* AccountRecoveryViewController.swift in Sources */,
@@ -1891,6 +1898,7 @@
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,
 				86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */,
+				869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
