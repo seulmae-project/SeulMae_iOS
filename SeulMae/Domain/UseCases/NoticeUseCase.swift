@@ -16,9 +16,40 @@ protocol NoticeUseCase {
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
     func fetchMainNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
     func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool>
+    
+    
+    func fetchNotificationList(workplaceID id: Workplace.ID) -> Single<[AppNotification]>
+}
+
+struct AppNotification: Identifiable {
+    let id: Int
+    let title: String
+    let message: String
+    let type: String
+    let regDate: Date
+}
+
+struct AppNotificationDTO: ModelType {
+    let id: Int
+    let title: String
+    let message: String
+    let type: String
+    let regDate: Date
+    
+    enum CodingKeys: String, CodingKey {
+        case id = "notificationId"
+        case title
+        case message
+        case type = "notificationType"
+        case regDate = "regDateNotification"
+    }
 }
 
 class DefaultNoticeUseCase: NoticeUseCase {
+    func fetchNotificationList(workplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
+        .just([])
+    }
+    
     
     private let noticeRepository: NoticeRepository
     
@@ -30,14 +61,8 @@ class DefaultNoticeUseCase: NoticeUseCase {
         noticeRepository.addNotice(request)
     }
     
-    func updateNotice(
-        noticeIdentifier id: Notice.ID,
-        with request: UpdateNoticeRequest
-    ) -> Single<Bool> {
-        noticeRepository.updateNotice(
-            noticeIdentifier: id,
-            request
-        )
+    func updateNotice(noticeIdentifier id: Notice.ID, with request: UpdateNoticeRequest) -> Single<Bool> {
+        noticeRepository.updateNotice(noticeIdentifier: id, request)
     }
     
     func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> Single<NoticeDetail> {
@@ -61,7 +86,7 @@ class DefaultNoticeUseCase: NoticeUseCase {
     }
     
     func fetchMainNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]> {
-        noticeRepository.fetchMainNoticeList(workplaceIdentifier: id)
+        noticeRepository.fetchMainNoticeList(workplaceID: id)
     }
     
     func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool> {

@@ -46,7 +46,7 @@ final class MainSceneDIContainer {
     }
     
     private func makeWorkplaceRepository() -> WorkplaceRepository {
-        return DefaultWorkplaceRepository(network: WorkplaceNetworking())
+        return DefaultWorkplaceRepository(network: WorkplaceNetworking(), storage: SQLiteWorkplaceStorage())
     }
     
     // MARK: - Flow Coordinators
@@ -84,6 +84,20 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
+    
+    func makeWorkplaceListViewController(coordinator: MainFlowCoordinator) -> WorkplacePlaceListViewController {
+        return .init(viewModel: makeWorkplaceListViewModel(coordinator: coordinator))
+    }
+    
+    private func makeWorkplaceListViewModel(coordinator: MainFlowCoordinator) -> WorkplaceListViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase()
+            )
+        )
+    }
+   
     
     // MARK: - Workplace Finder
     

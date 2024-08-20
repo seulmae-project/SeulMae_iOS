@@ -21,6 +21,8 @@ protocol AuthFlowCoordinatorDependencies {
     // Sign in
     func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
     
+    func makeAccountRecoveryOptionViewController(coordinator: AuthFlowCoordinator) -> CredentialRecoveryOptionsViewController
+    
     // Account recovery
     func makeAccountRecoveryViewController(coordinator: AuthFlowCoordinator, item: AccountRecoveryItem) -> AccountRecoveryViewController
     
@@ -43,6 +45,7 @@ protocol AuthFlowCoordinator {
 
     // Signin
     func showSingin()
+    func showAccountRecoveryOption()
     
     // Sign up
     func showProfileSetup(request: SignupRequest)
@@ -119,7 +122,13 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         // pushViewController
     }
     
-    // MARK: - Account Sevice
+    // MARK: - Account Option
+    
+    func showAccountRecoveryOption() {
+        let vc = dependencies.makeAccountRecoveryOptionViewController(coordinator: self)
+        let bottomSheet = BottomSheetController(contentViewController: vc)
+        navigationController.present(bottomSheet, animated: true)
+    }
     
     func showAccountRecovery(item: AccountRecoveryItem) {
         let vc = dependencies.makeAccountRecoveryViewController(coordinator: self, item: item)

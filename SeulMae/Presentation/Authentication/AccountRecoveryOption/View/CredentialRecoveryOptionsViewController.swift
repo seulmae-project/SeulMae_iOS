@@ -38,6 +38,8 @@ final class CredentialRecoveryOptionsViewController: UIViewController {
         return button
     }()
     
+    // init
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

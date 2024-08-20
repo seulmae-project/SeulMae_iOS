@@ -125,11 +125,14 @@
 		868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
-		869054AB2C60C1270037B61A /* DB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* DB.swift */; };
-		869054AD2C60C1C40037B61A /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AC2C60C1C40037B61A /* Table.swift */; };
+		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
+		869054AD2C60C1C40037B61A /* SQLiteTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AC2C60C1C40037B61A /* SQLiteTable.swift */; };
 		869054AF2C60C9140037B61A /* WorkplaceTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AE2C60C9140037B61A /* WorkplaceTable.swift */; };
 		869238ED2C4A221300493B7B /* v1_member_list_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 869238EC2C4A221300493B7B /* v1_member_list_success.json */; };
 		869238EF2C4A238E00493B7B /* MemberDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869238EE2C4A238E00493B7B /* MemberDTO+Mapping.swift */; };
+		869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C12C7365EA00B2436E /* WorkplaceStorage.swift */; };
+		869358C52C7367F300B2436E /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C42C7367F300B2436E /* TokenStorage.swift */; };
+		869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */; };
 		8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */; };
 		8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4222C227B3300D7DCD3 /* Elevatable.swift */; };
 		8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */; };
@@ -363,11 +366,14 @@
 		868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+Ex.swift"; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
-		869054AA2C60C1270037B61A /* DB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DB.swift; sourceTree = "<group>"; };
-		869054AC2C60C1C40037B61A /* Table.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
+		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
+		869054AC2C60C1C40037B61A /* SQLiteTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteTable.swift; sourceTree = "<group>"; };
 		869054AE2C60C9140037B61A /* WorkplaceTable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceTable.swift; sourceTree = "<group>"; };
 		869238EC2C4A221300493B7B /* v1_member_list_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_member_list_success.json; sourceTree = "<group>"; };
 		869238EE2C4A238E00493B7B /* MemberDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberDTO+Mapping.swift"; sourceTree = "<group>"; };
+		869358C12C7365EA00B2436E /* WorkplaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceStorage.swift; sourceTree = "<group>"; };
+		869358C42C7367F300B2436E /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
+		869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteWorkplaceStorage.swift; sourceTree = "<group>"; };
 		8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetControllerDelegate.swift; sourceTree = "<group>"; };
 		8693C4222C227B3300D7DCD3 /* Elevatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevatable.swift; sourceTree = "<group>"; };
 		8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationOverriding.swift; sourceTree = "<group>"; };
@@ -782,9 +788,7 @@
 				86C2930B2C2471EB0006AC72 /* Repositories */,
 				861C31AF2C1BF4B4007DD6B9 /* DataMapping */,
 				861C31B12C1BF556007DD6B9 /* Network */,
-				869054AA2C60C1270037B61A /* DB.swift */,
-				869054AC2C60C1C40037B61A /* Table.swift */,
-				869054AE2C60C9140037B61A /* WorkplaceTable.swift */,
+				869358BE2C7364F000B2436E /* PersistentStorages */,
 			);
 			path = Data;
 			sourceTree = "<group>";
@@ -855,6 +859,30 @@
 				86B0AF902C2EAD8F0006AF00 /* MainViewItem.swift */,
 				869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */,
 				869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		863D60422C74BD8100F9388C /* AccountRecoveryOption */ = {
+			isa = PBXGroup;
+			children = (
+				863D60432C74BD9300F9388C /* View */,
+				863D60442C74BD9700F9388C /* ViewModel */,
+			);
+			path = AccountRecoveryOption;
+			sourceTree = "<group>";
+		};
+		863D60432C74BD9300F9388C /* View */ = {
+			isa = PBXGroup;
+			children = (
+				860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		863D60442C74BD9700F9388C /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1123,6 +1151,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		8681E54E2C74CEAE00752EE5 /* AppNotification */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = AppNotification;
+			sourceTree = "<group>";
+		};
 		868354632C24479800F055D2 /* Workplace */ = {
 			isa = PBXGroup;
 			children = (
@@ -1156,6 +1191,7 @@
 		868354732C24559500F055D2 /* Request */ = {
 			isa = PBXGroup;
 			children = (
+				8681E54E2C74CEAE00752EE5 /* AppNotification */,
 				86D309F82C33F3E200C08DA8 /* Auth */,
 				866577B12C3407290048A111 /* Workplace */,
 				866577B22C34073D0048A111 /* Notice */,
@@ -1213,6 +1249,51 @@
 				86B4B4642C4B8D3500D83488 /* Sendable+Rx.swift */,
 			);
 			path = SilderView;
+			sourceTree = "<group>";
+		};
+		869358BE2C7364F000B2436E /* PersistentStorages */ = {
+			isa = PBXGroup;
+			children = (
+				869358C32C73664C00B2436E /* TokenStorage */,
+				869358C02C73656600B2436E /* WorkplaceStorage */,
+				869358BF2C73651700B2436E /* SQLiteDB */,
+			);
+			path = PersistentStorages;
+			sourceTree = "<group>";
+		};
+		869358BF2C73651700B2436E /* SQLiteDB */ = {
+			isa = PBXGroup;
+			children = (
+				869054AC2C60C1C40037B61A /* SQLiteTable.swift */,
+				869054AA2C60C1270037B61A /* SQLiteDB.swift */,
+			);
+			path = SQLiteDB;
+			sourceTree = "<group>";
+		};
+		869358C02C73656600B2436E /* WorkplaceStorage */ = {
+			isa = PBXGroup;
+			children = (
+				869358C12C7365EA00B2436E /* WorkplaceStorage.swift */,
+				869358C62C73685A00B2436E /* SQLiteDB */,
+			);
+			path = WorkplaceStorage;
+			sourceTree = "<group>";
+		};
+		869358C32C73664C00B2436E /* TokenStorage */ = {
+			isa = PBXGroup;
+			children = (
+				869358C42C7367F300B2436E /* TokenStorage.swift */,
+			);
+			path = TokenStorage;
+			sourceTree = "<group>";
+		};
+		869358C62C73685A00B2436E /* SQLiteDB */ = {
+			isa = PBXGroup;
+			children = (
+				869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */,
+				869054AE2C60C9140037B61A /* WorkplaceTable.swift */,
+			);
+			path = SQLiteDB;
 			sourceTree = "<group>";
 		};
 		8693C41E2C227A6100D7DCD3 /* Elevation */ = {
@@ -1382,7 +1463,6 @@
 			isa = PBXGroup;
 			children = (
 				86E299DD2C1722D700805AD0 /* SigninViewController.swift */,
-				860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1526,6 +1606,7 @@
 				86DE55592C18B6F7009CC520 /* Components */,
 				86112E532C2E9128005DEBD1 /* Shared */,
 				86E299D82C17221800805AD0 /* Signin */,
+				863D60422C74BD8100F9388C /* AccountRecoveryOption */,
 				86E299D92C17227600805AD0 /* Signup */,
 				86DE556A2C19E77D009CC520 /* AccountRecovery */,
 			);
@@ -1768,7 +1849,9 @@
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */,
+				869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
+				869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
@@ -1786,6 +1869,7 @@
 				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
+				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
@@ -1830,7 +1914,7 @@
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86D309EF2C33ED6900C08DA8 /* MappingError.swift in Sources */,
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
-				869054AD2C60C1C40037B61A /* Table.swift in Sources */,
+				869054AD2C60C1C40037B61A /* SQLiteTable.swift in Sources */,
 				860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */,
@@ -1914,7 +1998,7 @@
 				866EA3452C4A7E1F003159F9 /* AppText.swift in Sources */,
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86C40B042C4F386E0051EF2B /* NoticeDetailViewController.swift in Sources */,
-				869054AB2C60C1270037B61A /* DB.swift in Sources */,
+				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,
 				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,

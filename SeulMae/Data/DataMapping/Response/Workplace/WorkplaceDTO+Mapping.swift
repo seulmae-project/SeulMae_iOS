@@ -17,6 +17,8 @@ struct WorkplaceDTO: ModelType {
     let manager: String?
     let mainAddress: String?
     let subAddress: String?
+    let userWorkplaceId: Int?
+    let isManager: Bool?
     
     enum CodingKeys: String, CodingKey {
         case id = "workplaceId"
@@ -28,6 +30,8 @@ struct WorkplaceDTO: ModelType {
         case manager = "workplaceManagerName"
         case mainAddress
         case subAddress
+        case userWorkplaceId
+        case isManager
     }
 }
 
@@ -56,15 +60,17 @@ extension BaseResponseDTO<WorkplaceDTO> {
 extension WorkplaceDTO {
     func toDomain() throws -> Workplace {
         return .init(
-            id: id,
             invitationCode: invitationCode ?? "",
-            name: name,
             contact: contact ?? "",
             imageURL: imageURL ?? [],
             thumbnailURL: thumbnailURL ?? [],
             manager: manager ?? "",
             mainAddress: mainAddress ?? "",
-            subAddress: subAddress ?? ""
+            subAddress: subAddress ?? "",
+            id: id,
+            name: name,
+            userWorkplaceId: userWorkplaceId ?? 0,
+            isManager: isManager ?? false
         )
     }
 }

@@ -11,6 +11,8 @@ import RxSwift
 protocol WorkplaceUseCase {
     // Search workplace
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
+    func fetchWorkplaces(accountID: String) -> Single<[Workplace]>
+    func fetchWorkplaces() -> Single<[Workplace]>
     
     // Workpalce details
     func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> Single<Workplace>
@@ -31,11 +33,36 @@ protocol WorkplaceUseCase {
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
+    func fetchWorkplaces() -> RxSwift.Single<[Workplace]> {
+        return .just([])
+    }
+    
     
     private let workplaceRepository: WorkplaceRepository
     
     init(workplaceRepository: WorkplaceRepository) {
         self.workplaceRepository = workplaceRepository
+    }
+    
+    func fetchWorkplaces(accountID: String) -> RxSwift.Single<[Workplace]> {
+        let dicArray = workplaceRepository.fetchWorkplaces(accountID: accountID)
+        return dicArray.map { array in
+            return array.map { dic in
+                Workplace(
+                    invitationCode: "",
+                    contact: "",
+                    imageURL: [],
+                    thumbnailURL: [],
+                    manager: "",
+                    mainAddress: "",
+                    subAddress: "",
+                    id: dic["id"] as! Int,
+                    name: dic["name"] as! String,
+                    userWorkplaceId: dic["userWorkplaceId"] as! Int,
+                    isManager: dic["isManager"] as! Bool
+                )
+            }
+        }
     }
     
     // MARK: - Search

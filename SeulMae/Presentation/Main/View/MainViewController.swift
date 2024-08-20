@@ -26,9 +26,7 @@ class MainViewController: UIViewController {
     // MARK: - UI
     
     private let reminderBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
-    
-    private let changeWorkplaceButton: UIButton = .half(title: "근무지 변경")
-    
+    private let changeWorkplaceBarButton = UIBarButtonItem(title: "근무지 변경", style: .plain, target: nil, action: nil)
     
     private lazy var attendanceCollectionView: UICollectionView = {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: createMemberListLayout())
@@ -139,7 +137,7 @@ class MainViewController: UIViewController {
         
         let output = viewModel.transform(
             .init(
-                changeWorkplace: changeWorkplaceButton.rx.tap.asSignal(),
+                changeWorkplace: changeWorkplaceBarButton.rx.tap.asSignal(),
                 showWorkplace: .empty(),
                 showRemainders: .empty(),
                 attedanceDate: .empty(),
@@ -147,6 +145,13 @@ class MainViewController: UIViewController {
                 onBarButtonTap: reminderBarButton.rx.tap.asSignal()
             )
         )
+        
+        Task {
+            for await item in output.item.values {
+                navigationItem.title = item.navItemTitle
+                Swift.print("isManager: \(item.isManager)")
+            }
+        }
         
         Task {
             for await members in output.members.values {
@@ -241,13 +246,13 @@ class MainViewController: UIViewController {
         navigationController?.navigationBar.standardAppearance = appearance
 //        let workplace = WorkplaceTable.get2().first
 //        navigationItem.title = workplace?.name ?? "근무지 이름"
-        navigationItem.rightBarButtonItem = reminderBarButton
+        // navigationItem.rightBarButtonItem =
+        navigationItem.rightBarButtonItems = [reminderBarButton, changeWorkplaceBarButton]
     }
     
     private func setupConstraints() {
         
         let stack = UIStackView(arrangedSubviews: [
-            changeWorkplaceButton,
             memberCollectionView,
             .separator,
             noticeSliderView,

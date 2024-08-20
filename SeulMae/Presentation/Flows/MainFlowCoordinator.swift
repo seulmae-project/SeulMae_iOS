@@ -10,6 +10,7 @@ import UIKit
 protocol MainFlowCoordinatorDependencies {
     func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
     func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
+    func makeWorkplaceListViewController(coordinator: MainFlowCoordinator) -> WorkplacePlaceListViewController
     
     
     // MARK: - Notice Flow Dependencies
@@ -69,7 +70,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     }
     
     func showWorkplaceList() {
-        let contentViewController = WorkplacePlaceListViewController()
+        let contentViewController = dependencies.makeWorkplaceListViewController(coordinator: self)
         let bottomSheetController = BottomSheetController(contentViewController: contentViewController)
         navigationController.present(bottomSheetController, animated: true)
     }

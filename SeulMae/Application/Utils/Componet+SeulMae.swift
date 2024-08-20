@@ -83,6 +83,14 @@ extension UILabel {
         return label
     }
     
+    static func common(title: String = "", size: CGFloat, wight: UIFont.PretendardWeight) -> UILabel {
+        let label = UILabel()
+        label.text = title
+        label.numberOfLines = 0
+        label.font = .pretendard(size: size, weight: wight)
+        return label
+    }
+    
     enum Typographic {
         case largeTitle
         case title
@@ -153,7 +161,7 @@ extension UIButton {
     
     static func image(_ image: UIImage) -> UIButton {
         let button = UIButton()
-        button.setImage(.kakaoLoginLargeWide, for: .normal)
+        button.setImage(image, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
         return button
@@ -173,22 +181,23 @@ extension UIButton {
 extension UITextField {
     static func common(placeholder: String) -> UITextField {
         let tf = UITextField()
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         tf.leftView = paddingView
         tf.leftViewMode = .always
         let attrString = NSAttributedString(
             string: placeholder,
-            attributes: [.font: UIFont.systemFont(ofSize: 14)])
+            attributes: [
+                .font: UIFont.pretendard(size: 15, weight: .regular),
+                .foregroundColor: UIColor(hexCode: "1C2439")
+                .withAlphaComponent(0.64)
+            ])
         tf.attributedPlaceholder = attrString
-        tf.layer.cornerRadius = 16
+        tf.layer.cornerRadius = 8
         tf.layer.cornerCurve = .continuous
-        tf.layer.borderWidth = 1.0
-        tf.layer.borderColor = UIColor(hexCode: "EEEEEE").cgColor
         tf.autocapitalizationType = .none // 대문자
         tf.spellCheckingType = .no // 맞춤법
         tf.autocorrectionType = .no // 자동 수정
-        tf.backgroundColor = UIColor(hexCode: "F4F4F4")
-        // yourSingleFactorCodeTextField.textContentType = .oneTimeCode
+        tf.backgroundColor = UIColor(hexCode: "F4F7FC")
         return tf
     }
     

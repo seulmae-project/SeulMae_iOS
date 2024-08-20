@@ -34,11 +34,16 @@ import Moya
 //}
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
-    
     private let network: WorkplaceNetworking
+    private let storage: WorkplaceStorage
     
-    init(network: WorkplaceNetworking) {
+    init(network: WorkplaceNetworking, storage: WorkplaceStorage) {
         self.network = network
+        self.storage = storage
+    }
+    
+    func saveWorkplaces(_ workplaces: [Workplace], withAccount account: String) -> RxSwift.Single<Bool> {
+        return .just(storage.saveWorkplaces(workplaces: workplaces, withAccount: account))
     }
     
     func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
@@ -52,6 +57,23 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             })
             .map(BaseResponseDTO<[WorkplaceDTO]>.self)
             .map { try $0.toDomain() }
+    }
+    
+    enum SomeError: Error {
+        case some
+    }
+    
+    func fetchWorkplaces(accountID: String) -> Single<Array<[String: Any]>> {
+        return Single.create { [weak self] single in
+            guard let strongSelf = self else {
+                single(.failure(SomeError.some))
+                return Disposables.create()
+            }
+            
+            let workplaces = strongSelf.storage.fetchWorkplaces(account: accountID)
+            single(.success(workplaces))
+            return Disposables.create()
+        }
     }
     
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> RxSwift.Single<Bool> {

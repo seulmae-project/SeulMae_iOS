@@ -18,14 +18,18 @@ final class SigninViewController: UIViewController {
     
     // MARK: - UI Properties
     
-    private let appIconImageView: UIImageView = .common(image: .appLogo)
-    private let eamilTextField: UITextField = .common(placeholder: "이메일을 입력해주세요")
+    private let titleLabel: UILabel = .common(title: "로그인", size: 24, wight: .semibold)
+    // private let appIconImageView: UIImageView = .common(image: .appLogo)
+    private let userIDTextField: UITextField = .common(placeholder: "아이디를 입력해주세요")
     private let passwordTextField: UITextField = .password(placeholder: "비밀번호를 입력해주세요")
     private let signInButton: UIButton = .common(title: "로그인")
-    private let kakaoSignInButton: UIButton = .image(.kakaoLoginLargeWide)
-    private let appleSignInButton = ASAuthorizationAppleIDButton()
-    private let findCredentials: UIButton = .callout(title: "이메일 또는 비밀번호 찾기")
+    private let accountRecoveryButton: UIButton = .callout(title: "아이디 또는 비밀번호 찾기")
+    private let dotLabel: UILabel = .common(title: "·", size: 14, wight: .regular)
     private let signupButton: UIButton = .callout(title: "회원가입")
+    private let orLabel: UILabel = .common(title: "OR", size: 14, wight: .regular)
+    private let kakaoSignInButton: UIButton = .image(.kakaoLogin)
+    private let appleSignInButton: UIButton = .image(.appleLogin)
+    // private let loadingIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     
@@ -58,56 +62,38 @@ final class SigninViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
-        let appleSignin = appleSignInButton.rx
-            .controlEvent(.touchUpInside)
-            .asSignal()
+        let appleSignin = appleSignInButton.rx.tap.asSignal()
         
         Task {
-            for await _ in  appleSignin.values {
+            for await _ in appleSignin.values {
                  authorizationController.performRequests()
             }
         }
         
         let credential = authorizationController.rx.credential
         Task {
-            for await _ in  credential.asSignal().values {
+            for await _ in credential.asSignal().values {
                 
             }
         }
-       
-        // 이로 인해 UI가 겹쳐지거나, 올바르지 않은 상태에서 바텀 시트가 나타날 수 있습니다. 이러한 문제를 방지하려면, 새로운 시트를 표시하기 전에 기존 시트가 닫혔는지 확인하는 것이 좋습니다.
-        let credentialOption = findCredentials.rx.tap.asSignal()
-            .flatMapLatest { [weak self] _ -> Signal<CredentialRecoveryOption> in
-                guard let strongSelf = self else { return .empty() }
-                let viewController = CredentialRecoveryOptionsViewController()
-                let credentialRecoveryOptionsBottomSheet = BottomSheetController(contentViewController: viewController)
-                strongSelf.present(credentialRecoveryOptionsBottomSheet, animated: true)
-                return viewController.recoveryOptionRelay
-                    .asSignal()
-            }
 
         let output = viewModel.transform(
             .init(
-                account: eamilTextField.rx.text.orEmpty.asDriver(),
+                userID: userIDTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
-                appleSignin: appleSignInButton.rx.controlEvent(.touchUpInside).asSignal(),
-                validateSMS: .empty(), // .just(.idRecovery)
-                signup: signupButton.rx.tap.asSignal(),
-                credentialOption: credentialOption
+                appleSignin: appleSignInButton.rx.tap.asSignal(),
+                accountRecovery: accountRecoveryButton.rx.tap.asSignal(),
+                signup: signupButton.rx.tap.asSignal()
             )
         )
         
-        output
-        
-//        Task {
-//            for await signedIn in output.signedIn.values {
-//                if !signedIn {
-//                    passwordTextField.text = ""
-//                }
-//            }
-//        }
+        Task {
+            for await loading in output.loading.values {
+                
+            }
+        }
     }
     
     private func setupView() {
@@ -125,48 +111,80 @@ final class SigninViewController: UIViewController {
     // MARK: - Hierarchy
 
     private func setupConstraints() {
+        let socialLoginStack = UIStackView()
+        socialLoginStack.spacing = 8.0
+        socialLoginStack.distribution = .fillEqually
+        socialLoginStack.addArrangedSubview(appleSignInButton)
+        socialLoginStack.addArrangedSubview(kakaoSignInButton)
+        
+        let separatorStack = UIStackView()
+        separatorStack.spacing = 16
+        separatorStack.distribution = .equalCentering
+        separatorStack.alignment = .center
+        separatorStack.addArrangedSubview(.separator)
+        separatorStack.addArrangedSubview(orLabel)
+        separatorStack.addArrangedSubview(.separator)
+       
         let optionStack = UIStackView()
         optionStack.spacing = 16
-        optionStack.addArrangedSubview(findCredentials)
+        optionStack.addArrangedSubview(accountRecoveryButton)
+        optionStack.addArrangedSubview(dotLabel)
         optionStack.addArrangedSubview(signupButton)
         
         let contentStack = UIStackView()
         contentStack.axis = .vertical
-        contentStack.spacing = 8.0
-        contentStack.addArrangedSubview(eamilTextField)
+        contentStack.spacing = 16
+        contentStack.addArrangedSubview(userIDTextField)
         contentStack.addArrangedSubview(passwordTextField)
         contentStack.addArrangedSubview(signInButton)
-        contentStack.addArrangedSubview(kakaoSignInButton)
-        contentStack.addArrangedSubview(appleSignInButton)
-        contentStack.setCustomSpacing(16, after: passwordTextField)
-
-        view.addSubview(appIconImageView)
+        
+        view.addSubview(titleLabel)
+        // view.addSubview(appIconImageView)
         view.addSubview(contentStack)
         view.addSubview(optionStack)
+        view.addSubview(separatorStack)
+        view.addSubview(socialLoginStack)
         
-        appIconImageView.translatesAutoresizingMaskIntoConstraints = false
+        titleLabel.translatesAutoresizingMaskIntoConstraints = false
+        // appIconImageView.translatesAutoresizingMaskIntoConstraints = false
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         optionStack.translatesAutoresizingMaskIntoConstraints = false
+        separatorStack.translatesAutoresizingMaskIntoConstraints = false
+        socialLoginStack.translatesAutoresizingMaskIntoConstraints = false
+        
+        let insets = CGFloat(20)
         
         NSLayoutConstraint.activate([
-            appIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            appIconImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
+            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
+            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 56),
+            // appIconImageView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            // appIconImageView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             
             contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            contentStack.topAnchor.constraint(equalTo: appIconImageView.bottomAnchor, constant: 40),
+            contentStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 40),
             
             optionStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            optionStack.topAnchor.constraint(equalTo: contentStack.bottomAnchor, constant: 4),
+            optionStack.topAnchor.constraint(equalTo: contentStack.bottomAnchor, constant: 8.0),
+            
+            separatorStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
+            separatorStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            separatorStack.topAnchor.constraint(equalTo: optionStack.bottomAnchor, constant: 36),
+            // TODO: - handle separator layout error
+            
+            socialLoginStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            socialLoginStack.topAnchor.constraint(equalTo: separatorStack.bottomAnchor, constant: 36),
             
             // Constraint textfields height
-            eamilTextField.heightAnchor.constraint(equalToConstant: 48),
+            userIDTextField.heightAnchor.constraint(equalToConstant: 48),
             passwordTextField.heightAnchor.constraint(equalToConstant: 48),
             
             // Constraint buttons height
             signInButton.heightAnchor.constraint(equalToConstant: 56),
             kakaoSignInButton.heightAnchor.constraint(equalToConstant: 56),
             appleSignInButton.heightAnchor.constraint(equalToConstant: 56),
+            kakaoSignInButton.widthAnchor.constraint(equalToConstant: 56),
+            appleSignInButton.widthAnchor.constraint(equalToConstant: 56),
         ])
     }
 }

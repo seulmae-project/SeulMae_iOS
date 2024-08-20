@@ -10,6 +10,10 @@ import RxSwift
 
 protocol WorkplaceRepository {
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
+    func fetchWorkplaces(accountID: String) -> Single<Array<[String: Any]>>
+    func saveWorkplaces(_ workplaces: [Workplace], withAccount account: String) -> Single<Bool>
+    
+    
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>
     
     

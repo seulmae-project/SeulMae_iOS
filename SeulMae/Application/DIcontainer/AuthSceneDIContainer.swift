@@ -20,7 +20,10 @@ final class AuthSceneDIContainer {
     }
     
     func makeAuthUseCase() -> AuthUseCase {
-        return DefaultAuthUseCase(authRepository: makeAuthRepository())
+        return DefaultAuthUseCase(
+            authRepository: makeAuthRepository(),
+            workplaceRepository: makeWorkplaceRepository()
+        )
     }
     
     private func makeAuthRepository() -> AuthRepository {
@@ -98,13 +101,22 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         coordinator: AuthFlowCoordinator
     ) -> SigninViewModel {
         return SigninViewModel(
-            dependency: (
+            dependencies: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
+                workplaceUseCase: makeWorkplaceUseCase(),
                 validationService: DefaultValidationService.shared,
                 wireframe: DefaultWireframe()
             )
         )
+    }
+    
+    func makeWorkplaceUseCase() -> WorkplaceUseCase {
+        return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
+    }
+    
+    private func makeWorkplaceRepository() -> WorkplaceRepository {
+        return DefaultWorkplaceRepository(network: WorkplaceNetworking(), storage: SQLiteWorkplaceStorage())
     }
     
     // MARK: - Signup Flow
@@ -165,6 +177,10 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
                 request: request
             )
         )
+    }
+    
+    func makeAccountRecoveryOptionViewController(coordinator: any AuthFlowCoordinator) -> CredentialRecoveryOptionsViewController {
+        return .init()
     }
     
     // MARK: - ID Recovery

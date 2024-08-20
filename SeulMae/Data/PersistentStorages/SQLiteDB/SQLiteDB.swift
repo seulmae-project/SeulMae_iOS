@@ -1,5 +1,5 @@
 //
-//  DB.swift
+//  SQLiteStorage.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/5/24.
@@ -8,20 +8,21 @@
 import Foundation
 import SQLite3
 
-open class DB {
-    static let shared: DB = {
-        let instance = DB()
+open class SQLiteDB {
+    static let shared: SQLiteDB = {
+        let instance = SQLiteDB()
         return instance
     }()
     
     private var db: OpaquePointer?
-    private var tables: [String: Table] = [:]
+    private var tables: [String: SQLiteTable] = [:]
     
     public init() {}
     deinit {}
     
+    @discardableResult
     public func initialize(databaseName: String) -> Bool {
-        return DB.shared.open(databaseName: databaseName)
+        return SQLiteDB.shared.open(databaseName: databaseName)
     }
     
     public func open(databaseName: String) -> Bool {
@@ -36,7 +37,7 @@ open class DB {
         }
     }
     
-    public func destroy() { DB.shared.close() }
+    public func destroy() { SQLiteDB.shared.close() }
     
     public func close() { sqlite3_close(db) }
         
@@ -51,31 +52,24 @@ open class DB {
 //        sqlite3_finalize(statement)
 //        return retval
 //    }
+    
     public func execute(sql: String) -> Bool {
         var retval: Bool = false
         var statement: OpaquePointer? = nil
-
-        // Prepare the SQL statement
         if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
-            // Execute the SQL statement
             if sqlite3_step(statement) == SQLITE_DONE {
                 retval = true
             } else {
-                // Log error if step fails
                 let errorMessage = String(cString: sqlite3_errmsg(db))
                 print("SQLite error: \(errorMessage)")
             }
         } else {
-            // Log error if prepare fails
             let errorMessage = String(cString: sqlite3_errmsg(db))
             print("SQLite prepare error: \(errorMessage)")
         }
-
-        // Finalize the statement
         if statement != nil {
             sqlite3_finalize(statement)
         }
-
         return retval
     }
     
@@ -92,18 +86,36 @@ open class DB {
         return retval
     }
     
-    public func select(sql: String) -> Array<[String: String]> {
-        var retval: Array<[String: String]> = []
+    public func select(sql: String) -> Array<[String: Any]> {
+        var retval: Array<[String: Any]> = []
         var statement: OpaquePointer? = nil
         if sqlite3_prepare_v2(db, sql, -1, &statement, nil) == SQLITE_OK {
             let column: Int32 = sqlite3_column_count(statement)
             while sqlite3_step(statement) == SQLITE_ROW {
-                var dic: [String : String] = [:]
+                var dic: [String: Any] = [:]
                 for i in 0...(column - 1) {
-                    // TODO: - 여기서 타입별로 가저오도록 ..
                     let key = String(cString: sqlite3_column_name(statement, i)!)
-                    let value = String(cString: sqlite3_column_text(statement, i)!)
-                    dic[key]=value
+                    let columnType = sqlite3_column_type(statement, i)
+                    switch columnType {
+                    case SQLITE_INTEGER:
+                        let isBooleanColumn = key.hasPrefix("is")
+                        let value = Int(sqlite3_column_int(statement, i))
+                        dic[key] = isBooleanColumn ? (value != 0) : value
+                    case SQLITE_FLOAT:
+                        dic[key] = Double(sqlite3_column_double(statement, i))
+                    case SQLITE_TEXT:
+                        dic[key] = String(cString: sqlite3_column_text(statement, i)!)
+                    case SQLITE_BLOB:
+                        let data = sqlite3_column_blob(statement, i)
+                        let dataSize = sqlite3_column_bytes(statement, i)
+                        if let data = data {
+                            dic[key] = Data(bytes: data, count: Int(dataSize))
+                        }
+                    case SQLITE_NULL:
+                        dic[key] = nil
+                    default:
+                        Swift.print("Unknown column type")
+                    }
                 }
                 retval.append(dic)
             }
@@ -112,35 +124,39 @@ open class DB {
         return retval
     }
     
-    public static func key(table: Table) -> String {
-        let thisType = type(of: table.self)
-        let key = String(describing: thisType)
-        return key
+    public static func key(table: SQLiteTable) -> String {
+        let key = String(describing: table.self)
+        let initialLowercased = key.prefix(1).lowercased() + key.dropFirst()
+        let snakeCase = initialLowercased.reduce(into: "") { result, char in
+            result += (char.isUppercase ? ("_" + char.lowercased()) : String(char))
+        }
+        Swift.print("snakeCase: \(snakeCase)")
+        return snakeCase
     }
     
-    public func register(table: Table) -> Bool {
-        let key = DB.key(table: table)
-        if DB.shared.tables[key] == nil {
+    public func register(table: SQLiteTable) -> Bool {
+        let key = SQLiteDB.key(table: table)
+        if SQLiteDB.shared.tables[key] == nil {
             tables[key] = table
             return true
         }
         return false
     }
-    
-    public func check(table: Table) -> Bool {
-        let key = DB.key(table: table)
-        return DB.shared.tables[key] != nil
+
+    public func check(table: SQLiteTable) -> Bool {
+        let key = SQLiteDB.key(table: table)
+        return SQLiteDB.shared.tables[key] != nil
     }
     
-    public func count(table: Table) -> Int32 {
-        Swift.print("table: \(DB.key(table: table))")
+    public func count(table: SQLiteTable) -> Int32 {
+        Swift.print("table: \(SQLiteDB.key(table: table))")
         let sql = String(format:"SELECT COUNT(*) FROM %@", "workplace")
-        let result: String? = select(sql:sql)
+        let result: String? = select(sql: sql)
         return Int32((result ?? "0"))!
     }
     
-    public func clear(table: Table) -> Bool {
-        let sql = String(format:"DELETE FROM %@", DB.key(table: table))
+    public func clear(table: SQLiteTable) -> Bool {
+        let sql = String(format:"DELETE FROM %@", SQLiteDB.key(table: table))
         return execute(sql: sql)
     }
 }

@@ -9,6 +9,8 @@ import UIKit
 
 final class WorkplacePlaceListViewController: UIViewController {
     
+    private var titleLabel: UILabel = .common(title: "근무지 변경", typographic: .title)
+    
     private var viewModel: WorkplaceListViewModel
     
     init(viewModel: WorkplaceListViewModel) {
@@ -24,5 +26,9 @@ final class WorkplacePlaceListViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .red
+        
+        let output = viewModel.transform(
+            .init(selected: .empty())
+        )
     }
 }

@@ -24,6 +24,7 @@ final class MainViewModel: ViewModel {
     }
     
     struct Output {
+        let item: Driver<MainViewItem>
         let members: Driver<[Member]>
         let attendanceListItems: Driver<[AttendanceListItem]>
         let notices: Driver<[Notice]>
@@ -37,11 +38,9 @@ final class MainViewModel: ViewModel {
     private let noticeUseCase: NoticeUseCase
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
-    private var workplaceID: Workplace.ID
-    private var isManager: Bool
+    // private var workplaceID: Workplace.ID
+    // private var isManager: Bool
     
-    
-//
 //    private let validationService: ValidationService
 //
 //    private let wireframe: Wireframe
@@ -62,37 +61,79 @@ final class MainViewModel: ViewModel {
         self.attendanceUseCase = dependency.attendanceUseCase
         self.workplaceUseCase = dependency.workplaceUseCase
         self.noticeUseCase = dependency.noticeUseCase
-        let a = WorkplaceTable.get2()
-        Swift.print("🥹 table colums: \(a)")
-        let dic = a.first
-        let id = Int(dic!["id"] as! String)!
-        self.workplaceID = id
-        self.isManager = true
-        Swift.print("🥹 workplaceID: \(workplaceID)")
-        Swift.print("🥹 isManager: \(isManager)")
+        let account = UserDefaults.standard.string(forKey: "account")
+        Swift.print("🥹 account: \(account!)")
+        // let colums = WorkplaceTable.fetch(account: account!)
+//        Swift.print("🥹 table colums: \(colums)")
+//        self.workplaceID = (colums.first!["id"] as? Int)!
+        // self.isManager = (account == "yonggipo") // 후 로직 처리
     }
+    
+    
+    // 메인에 들어온 거면 유저 로그인을 거침
+    // + 메인에 보여줄 근무지 정보도 있음
+    
+    // 유저의 근무지 정보를 받아옴 > 리스트까지는 필요없을 것 같음..
+    
+    // 공통 fetchCommonData
+    // 근무지 타이틀
+    // 유저 리스트
+    // 공지 리스트
+    
+    // 가장 작은
+    // workplaceUseCase
+    // 권한 별 데이타
+    // fetch    
     
     @MainActor func transform(_ input: Input) -> Output {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-        
-        let attendanceDate = input.attedanceDate
-            .startWith(Date.ext.now)
-            .filter { _ in self.isManager }
-        
-        let attendances = attendanceDate.flatMapLatest { [weak self] date -> Driver<[AttendanceListItem]> in
+        //
+        let accountID = Driver.just("yonggipo") // 로그인시 or 자동 로그인시의 경우도?
+        // current workplace
+        let recent = accountID.flatMapLatest { [weak self] accountID -> Driver<MainViewItem> in
             guard let strongSelf = self else { return .empty() }
-            return strongSelf.attendanceUseCase
-                .fetchAttendanceRequestList(workplaceID: strongSelf.workplaceID, date: date)
-                .map { $0.map(AttendanceListItem.init) }
+            return strongSelf.workplaceUseCase
+                .fetchWorkplaces(accountID: accountID)
+                .compactMap { $0.first(where: { $0.id == 8 }) }
+                .map { MainViewItem(workplaceID: $0.id, navItemTitle: $0.name, isManager: accountID == "yonggipo") }
                 .asDriver()
         }
         
-        let members = workplaceUseCase.fetchMemberList(workplaceIdentifier: workplaceID)
-            .asDriver()
+        let managerLogic = recent.filter { $0.isManager }
+        let memberLogic = recent.filter { !$0.isManager }
         
-        let notices = noticeUseCase.fetchMainNoticeList(workplaceIdentifier: workplaceID)
-            .asDriver()
+        // MARK: Manager Logic
+        // 출석일자 조회 일
+        // let date
+        let attendances = managerLogic.flatMapLatest { [weak self] item -> Driver<[AttendanceListItem]> in
+            guard let strongSelf = self else { return .empty() }
+            Swift.print("workplaceId: \(item.workplaceID)")
+            return strongSelf.attendanceUseCase
+                .fetchAttendanceRequestList(workplaceID: item.workplaceID, date: Date.ext.now)
+                .asDriver()
+        }
+        
+        
+        // MARK: - Member Logic
+        
+        // MARK: - Common Log
+        
+        let members = recent.flatMapLatest { [weak self] item -> Driver<[Member]> in
+            guard let strongSelf = self else { return .empty() }
+            return strongSelf.workplaceUseCase
+                .fetchMemberList(workplaceIdentifier: item.workplaceID)
+                .asDriver()
+        }
+        
+        let notices = recent.flatMapLatest { [weak self] item -> Driver<[Notice]> in
+            guard let strongSelf = self else { return .empty() }
+            return strongSelf.noticeUseCase
+                .fetchMainNoticeList(workplaceIdentifier: item.workplaceID)
+                .asDriver()
+        }
+        
+        
        
         // MARK: Code Verification
         
@@ -145,6 +186,7 @@ final class MainViewModel: ViewModel {
 //            .distinctUntilChanged()
 //        
         return Output(
+            item: recent,
             members: members,
             attendanceListItems: attendances,
             notices: notices

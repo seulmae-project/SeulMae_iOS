@@ -33,7 +33,7 @@ extension AttendanceAPI {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "yyyy-MM-dd"
             return [
-                "workplaceId": workplaceID,
+                "workplace": workplaceID,
                 "localDate": dateFormatter.string(from: date)
             ]
         default:
@@ -51,10 +51,12 @@ extension AttendanceAPI {
     var headers: [String : String]? {
         switch self {
         default:
+            let accessToken = UserDefaults.standard.string(forKey: "accessToken")
+            Swift.print(String("token: \(accessToken?.suffix(5))"))
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
+                "Authorization": "Bearer \(accessToken!)"
             ]
         }
     }
@@ -88,7 +90,10 @@ final class DefaultAttendanceRepository: AttendanceRepository {
         return network.rx
             .request(.fetchAttendanceRequestList(workplaceID: workplaceID, date: date))
             .do(onSuccess: { response in
+                Swift.print(#function, "workplaceID: \(workplaceID), date: \(date)")
                 Swift.print(#function, "response: \(try response.data.prettyString())")
+                Swift.print(#function, "url: \(response.request?.url)")
+                Swift.print(#function, "httpBody: \(response.request?.httpBody)")
             }, onError: { error in
                 Swift.print(#function, "error: \(error)")
             })
@@ -99,7 +104,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 
 protocol AttendanceUseCase {
     // Fetch attendance request list
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> Single<[AttendanceRequest]>
+    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> Single<[AttendanceListItem]>
 }
 
 final class DefaultAttendanceUseCase: AttendanceUseCase {
@@ -109,8 +114,9 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         self.repository = repository
     }
 
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceListItem]> {
         repository.fetchAttendanceRequestList(workplaceID: workplaceID, date: date)
+            .map { $0.map(AttendanceListItem.init) }
     }
 }
 

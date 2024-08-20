@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthUseCase {
     /// - Tag: Signin
-    func signin(email: String, password: String, fcmToken: String) -> Single<AuthData>
+    func signin(email: String, password: String, fcmToken: String) -> Single<Bool>
     func kakaoSignin() -> Single<Bool>
     
     /// - Tag: Signup
@@ -29,13 +29,32 @@ protocol AuthUseCase {
 class DefaultAuthUseCase: AuthUseCase {
     
     private let authRepository: AuthRepository
+    private let workplaceRepository: WorkplaceRepository
     
-    init(authRepository: AuthRepository) {
+    init(authRepository: AuthRepository, workplaceRepository: WorkplaceRepository) {
         self.authRepository = authRepository
+        self.workplaceRepository = workplaceRepository
     }
         
-    func signin(email: String, password: String, fcmToken: String) -> RxSwift.Single<AuthData> {
-        authRepository.signin(account: email, password: password, fcmToken: fcmToken)
+    func signin(email: String, password: String, fcmToken: String) -> RxSwift.Single<Bool> {
+        return authRepository.signin(account: email, password: password, fcmToken: fcmToken)
+            .map { [weak self] response in
+                guard let strongSelf = self else { return false }
+                let _ = strongSelf.workplaceRepository
+                    .saveWorkplaces(response.workplace, withAccount: email)
+                    .do(onSuccess: { isSaved in
+                        Swift.print("isSaved: \(isSaved)")
+                    })
+                
+                Swift.print(#line, String("token: \(response.token.accessToken.suffix(5))"))
+
+                // Save acount
+                UserDefaults.standard.setValue(email, forKey: "account")
+                // Save token
+                UserDefaults.standard.setValue(response.token.accessToken, forKey: "accessToken")
+                UserDefaults.standard.setValue(response.token.refreshToken, forKey: "refreshToken")
+                return true
+            }
     }
     
     func kakaoSignin() -> RxSwift.Single<Bool> {

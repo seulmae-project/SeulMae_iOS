@@ -8,13 +8,17 @@
 import Foundation
 
 struct Workplace: Identifiable {
-    let id: Int
     let invitationCode: String
-    let name: String
     let contact: String
     let imageURL: [String]
     let thumbnailURL: [String]
     let manager: String
     let mainAddress: String
     let subAddress: String
+    
+    // signin
+    let id: Int
+    let name: String
+    let userWorkplaceId: Int
+    let isManager: Bool
 }

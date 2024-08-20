@@ -94,16 +94,16 @@ class DefaultNoticeRepository: NoticeRepository {
         })
     }
     
-    func fetchMainNoticeList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Notice]> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
-        return Single<BaseResponseDTO<[NoticeDTO]>>.create { observer in
-            observer(.success(MockData.NoticeAPI.mainNoticesSuccess))
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func fetchMainNoticeList(workplaceID id: Workplace.ID) -> RxSwift.Single<[Notice]> {
+        return network.rx
+            .request(.fetchMainNoticeList(workplaceID: id))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<[NoticeDTO]>.self)
+            .map { try $0.toDomain() }
     }
     
     func deleteNotice(noticeIdentifier id: Int) -> RxSwift.Single<Bool> {

@@ -15,90 +15,78 @@ import RxKakaoSDKUser
 final class SigninViewModel: ViewModel {
     
     struct Input {
-        let account: Driver<String>
+        let userID: Driver<String>
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
         let appleSignin: Signal<()>
-        let validateSMS: Signal<SMSVerificationItem>
+        let accountRecovery: Signal<()>
         let signup: Signal<()>
-        let credentialOption: Signal<CredentialRecoveryOption>
     }
     
     struct Output {
-        // let signedIn: Driver<Bool>
+        let loading: Driver<Bool>
     }
     
     // MARK: - Dependency
     
     private let coordinator: AuthFlowCoordinator
     private let authUseCase: AuthUseCase
+    private let workplaceUseCase: WorkplaceUseCase
     private let validationService: ValidationService
     private let wireframe: Wireframe
     
     // MARK: - Life Cycle
     
     init(
-        dependency: (
+        dependencies: (
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
+            workplaceUseCase: WorkplaceUseCase,
             validationService: ValidationService,
             wireframe: Wireframe
         )
     ) {
-        self.coordinator = dependency.coordinator
-        self.authUseCase = dependency.authUseCase
-        self.validationService = dependency.validationService
-        self.wireframe = dependency.wireframe
+        self.coordinator = dependencies.coordinator
+        self.authUseCase = dependencies.authUseCase
+        self.workplaceUseCase = dependencies.workplaceUseCase
+        self.validationService = dependencies.validationService
+        self.wireframe = dependencies.wireframe
     }
         
     @MainActor func transform(_ input: Input) -> Output {
+        let indicator = ActivityIndicator()
+        let loading = indicator.asDriver()
         
         // MARK: - Signin
         
-        let accountAndPassword = Driver.combineLatest(input.account, input.password) { (account: $0, password: $1) }
-
+        let userIDAndPassword = Driver.combineLatest(input.userID, input.password) { (userID: $0, password: $1) }
         
-        let signedIn = input.signin.withLatestFrom(accountAndPassword)
-            .flatMapLatest { [weak self] pair -> Driver<(AuthData?, Bool)> in
-                guard let weakSelf = self else { return .empty() }
-                return weakSelf.authUseCase
-                    .signin(email: pair.account, password: pair.password, fcmToken: "")
-                // .trackActivity(signingIn)
-                    .map { authData in
-                        Swift.print("authData: \(authData)")
-                        // 여기서 만들어서 함수로 만들어서 위에서 저장
-                        // MAnager인지 저장해야함
-                        DB.shared.initialize(databaseName: "seulmae")
-                        let a = WorkplaceTable()
-                        print("😇😇 \(a.count())")
-                        let b = WorkplaceTable.set(key: authData.workplace.first!.id, placeName: authData.workplace.first?.name ?? "", userWorkplaceID: 0)
-                        UserDefaults.standard.setValue(authData.token.accessToken, forKey: "accessToken")
-                        UserDefaults.standard.setValue(authData.token.refreshToken, forKey: "refreshToken")
-                        print(#line, "😇isTableOn: \(b)")
-                        return (authData, true)
-                    }
+        let signedIn = input.signin.withLatestFrom(userIDAndPassword)
+            .flatMapLatest { [weak self] pair -> Driver<Bool> in
+                guard let strongSelf = self else { return .empty() }
+                return strongSelf.authUseCase
+                    .signin(email: pair.userID, password: pair.password, fcmToken: "")
+                    .trackActivity(indicator)
                     .asDriver { error in
-                        Swift.print(#line, "error: \(error)")
                         let message: String
-                        if case .faildedToSignin(let reason) = error as? APIError {
-                            message = reason
-                        } else {
-                            
-                            message = "??"
-                        }
-                        
-                        return (self?.wireframe.promptFor(message, cancelAction: "OK", actions: [])
-                            .map { _ in
-                                return (nil, false)
-                            }
-                            .asDriver(onErrorJustReturn: (nil, false)))!
+                        message = "error"
+                        return strongSelf.wireframe
+                            .promptFor(message, cancelAction: "OK", actions: [])
+                            .map { _ in false }
+                            .asDriver(onErrorDriveWith: .empty())
                     }
             }
         
-        
-        
-        
+        let isFirst = signedIn
+            .filter { $0 }
+            .flatMapLatest { [weak self] _ -> Driver<Bool> in
+                guard let strongSelf = self else { return .empty() }
+                return strongSelf.workplaceUseCase
+                    .fetchWorkplaces()
+                    .map { $0.isEmpty }
+                    .asDriver()
+            }
         
         // MARK: - Kakao Signin
         
@@ -135,29 +123,29 @@ final class SigninViewModel: ViewModel {
             }
         }
   
-        // MARK: - Flow Logic
+        // MARK: - Coordinator Logic
         
         Task {
-            for await (auth, signedIn) in signedIn.values {
-                if signedIn {
-                    Swift.print("로그인 성공")
-                    // TODO: - authentication null 일 경우 핸들링 필요
-                    if auth?.workplace.isEmpty ?? true {
-                        coordinator.showSearchWorkplace()
-                    } else {
-                        coordinator.startMain()
-                    }
+            for await _ in input.accountRecovery.values {
+                coordinator.showAccountRecoveryOption()
+            }
+        }
+        
+        Task {
+            for await isFirst in isFirst.values {
+                if isFirst {
+                    coordinator.startMain()
                 } else {
-                    Swift.print("🥶🥶🥶 로그인 실패 🥶🥶🥶")
+                    coordinator.showSearchWorkplace()
                 }
             }
         }
             
-        Task {
-            for await item in input.validateSMS.values {
-                coordinator.showSMSValidation(item: item)
-            }
-        }
+//        Task {
+//            for await item in input.validateSMS.values {
+//                coordinator.showSMSValidation(item: item)
+//            }
+//        }
         
         Task {
             for await _ in input.signup.values {
@@ -165,16 +153,16 @@ final class SigninViewModel: ViewModel {
             }
         }
         
-        Task {
-            for await credentialOption in input.credentialOption.values {
-                if (credentialOption == .account) {
-                    coordinator.showSMSValidation(item: .accountRecovery)
-                } else {
-                    coordinator.showSMSValidation(item: .passwordRecovery(account: ""))
-                }
-            }
-        }
+//        Task {
+//            for await credentialOption in input.credentialOption.values {
+//                if (credentialOption == .account) {
+//                    coordinator.showSMSValidation(item: .accountRecovery)
+//                } else {
+//                    coordinator.showSMSValidation(item: .passwordRecovery(account: ""))
+//                }
+//            }
+//        }
         
-        return Output()
+        return Output(loading: loading)
     }
 }

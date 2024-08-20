@@ -6,13 +6,13 @@
 //
 
 import Foundation
+struct TokenDTO: ModelType {
+    let accessToken: String
+    let refreshToken: String
+    let tokenType: String
+}
 
 struct AuthDataDTO: ModelType {
-    struct TokenDTO: ModelType {
-        let accessToken: String
-        let refreshToken: String
-        let tokenType: String
-    }
     
     let token: TokenDTO
     let role: String?
@@ -48,9 +48,9 @@ extension AuthDataDTO {
     }
 }
 
-extension AuthDataDTO.TokenDTO {
-    func toDomain() -> AuthData.Token {
-        return AuthData.Token(
+extension TokenDTO {
+    func toDomain() -> Token {
+        return Token(
             accessToken: accessToken,
             refreshToken: refreshToken,
             tokenType: tokenType
