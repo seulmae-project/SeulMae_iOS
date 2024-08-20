@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct AppNotification: Identifiable {
+    let id: Int
+    let title: String
+    let message: String
+    let type: String
+    let regDate: Date
+}

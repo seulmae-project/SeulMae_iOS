@@ -21,30 +21,6 @@ protocol NoticeUseCase {
     func fetchNotificationList(workplaceID id: Workplace.ID) -> Single<[AppNotification]>
 }
 
-struct AppNotification: Identifiable {
-    let id: Int
-    let title: String
-    let message: String
-    let type: String
-    let regDate: Date
-}
-
-struct AppNotificationDTO: ModelType {
-    let id: Int
-    let title: String
-    let message: String
-    let type: String
-    let regDate: Date
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "notificationId"
-        case title
-        case message
-        case type = "notificationType"
-        case regDate = "regDateNotification"
-    }
-}
-
 class DefaultNoticeUseCase: NoticeUseCase {
     func fetchNotificationList(workplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
         .just([])

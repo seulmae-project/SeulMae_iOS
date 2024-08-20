@@ -23,6 +23,8 @@
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
 		860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */; };
+		860EB2B32C74CFA200310985 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860EB2B22C74CFA200310985 /* AppNotification.swift */; };
+		860EB2B52C74CFF100310985 /* AppNotificationDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */; };
 		86102E532C621F05009FF522 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 86102E522C621F05009FF522 /* Secrets.xcconfig */; };
 		86102E552C621F3F009FF522 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 86102E542C621F3F009FF522 /* .gitignore */; };
 		86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86102E562C6220DE009FF522 /* Bundle+Secrets.swift */; };
@@ -269,6 +271,8 @@
 		860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
+		860EB2B22C74CFA200310985 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
+		860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppNotificationDTO+Mapping.swift"; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		86102E542C621F3F009FF522 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		86102E562C6220DE009FF522 /* Bundle+Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Secrets.swift"; sourceTree = "<group>"; };
@@ -1151,13 +1155,6 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		8681E54E2C74CEAE00752EE5 /* AppNotification */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = AppNotification;
-			sourceTree = "<group>";
-		};
 		868354632C24479800F055D2 /* Workplace */ = {
 			isa = PBXGroup;
 			children = (
@@ -1191,7 +1188,6 @@
 		868354732C24559500F055D2 /* Request */ = {
 			isa = PBXGroup;
 			children = (
-				8681E54E2C74CEAE00752EE5 /* AppNotification */,
 				86D309F82C33F3E200C08DA8 /* Auth */,
 				866577B12C3407290048A111 /* Workplace */,
 				866577B22C34073D0048A111 /* Notice */,
@@ -1236,6 +1232,7 @@
 				869238EE2C4A238E00493B7B /* MemberDTO+Mapping.swift */,
 				86B4B4532C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift */,
 				86B4B4552C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift */,
+				860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1369,6 +1366,7 @@
 				8606F67F2C33244400FFC68E /* Member.swift */,
 				86B4B4512C4B3D0F00D83488 /* MemberInfo.swift */,
 				868354802C245F7800F055D2 /* Workplace.swift */,
+				860EB2B22C74CFA200310985 /* AppNotification.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1867,6 +1865,7 @@
 				86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */,
 				860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */,
 				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
+				860EB2B52C74CFF100310985 /* AppNotificationDTO+Mapping.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
@@ -1946,6 +1945,7 @@
 				86E296F52C4E4D9D0080A3A2 /* TextCell.swift in Sources */,
 				868354702C24543000F055D2 /* MockData.swift in Sources */,
 				869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */,
+				860EB2B32C74CFA200310985 /* AppNotification.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
