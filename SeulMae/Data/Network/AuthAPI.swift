@@ -90,7 +90,11 @@ extension AuthAPI {
     var headers: [String : String]? {
         switch self {
         default:
-            return ["Content-Type": "application/json"]
+            return [
+                "Content-Type": "application/json",
+                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
+                //Authorization-refresh
+            ]
         }
     }
 }
