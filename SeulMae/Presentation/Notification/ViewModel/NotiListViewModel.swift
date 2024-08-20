@@ -21,11 +21,8 @@ final class NotiListViewModel: ViewModel {
     // MARK: - Dependency
     
     private let coordinator: MainFlowCoordinator
-    
     private let workplaceUseCase: WorkplaceUseCase
-    
     private let noticeUseCase: NoticeUseCase
-    
     private let workplaceIdentifier: Workplace.ID
         
     // MARK: - Life Cycle
@@ -54,17 +51,21 @@ final class NotiListViewModel: ViewModel {
             .map { $0.map(NotiListItem.init(notice:)) }
             .asDriver()
        
-        // MARK: Flow Logic
+        // MARK: Coordinator Logic
+        
+        let appNotis = noticeUseCase
+            .fetchAppNotificationList(userWorkplaceID: workplaceIdentifier)
+            .map { $0.map(NotiListItem.init(noti:)) }
+            .asDriver()
         
         Task {
             for await noticeIdentifier in input.onItemTap.values {
                 coordinator.showNotiDetail(noticeIdentifier: noticeIdentifier)
             }
         }
-        
 
         return Output(
-            items: notices
+            items: appNotis
         )
     }
 }

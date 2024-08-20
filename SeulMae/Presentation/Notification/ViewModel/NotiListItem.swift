@@ -9,7 +9,7 @@ import UIKit
 
 struct NotiListItem: Hashable, Identifiable {
     enum ItemType {
-        case notice, remainder
+        case notice, noti
     }
     
     var type: ItemType
@@ -26,13 +26,13 @@ struct NotiListItem: Hashable, Identifiable {
         self.icon = .actions
     }
     
-//    init(notice: Notice) {
-//        self.type = .notice
-//        self.id = notice.id
-//        self.title = notice.title
-//        self.body = notice.content ?? ""
-//        self.icon = .actions
-//    }
+    init(noti: AppNotification) {
+        self.type = .noti
+        self.id = noti.id
+        self.title = noti.title
+        self.body = noti.message
+        self.icon = .actions
+    }
     
     // var icon:
 }

@@ -2,47 +2,27 @@
 //  NotiContentView.swift
 //  SeulMae
 //
-//  Created by 조기열 on 7/22/24.
+//  Created by 조기열 on 8/20/24.
 //
 
 import UIKit
-import Kingfisher
 
 final class NotiContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
-        var icon: UIImage?
-        var title: String?
-        var body: String?
+        var title: String = ""
+        var message: String = ""
+        var date: Date = Date()
         
         func makeContentView() -> UIView & UIContentView {
             return NotiContentView(self)
         }
     }
     
-    private let iconImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 22
-        iv.layer.cornerCurve = .continuous
-        return iv
-    }()
-    
-    private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = .systemFont(ofSize: 16, weight: .semibold)
-        return l
-    }()
-    
-    private let bodyLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = .systemFont(ofSize: 16)
-        return l
-    }()
-    
+    private let dateLabel: UILabel = .common(size: 12, wight: .regular)
+    private let titleLabel: UILabel = .common(size: 16, wight: .semibold)
+    private let messageLabel: UILabel = .common(size: 16, wight: .regular)
+
     var configuration: UIContentConfiguration {
         didSet {
             apply(config: configuration)
@@ -57,24 +37,25 @@ final class NotiContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
-        addSubview(iconImageView)
-        addSubview(titleLabel)
-        addSubview(bodyLabel)
+        let contentStack = UIStackView()
+        contentStack.axis = .vertical
+        contentStack.spacing = 4.0
+        contentStack.addArrangedSubview(dateLabel)
+        contentStack.addArrangedSubview(titleLabel)
+        contentStack.addArrangedSubview(messageLabel)
         
-        let inset = 8.0
+        let insets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
+        contentStack.directionalLayoutMargins = insets
+        
+        addSubview(contentStack)
+        
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        
         NSLayoutConstraint.activate([
-            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            iconImageView.topAnchor.constraint(equalTo: topAnchor),
-            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 44),
-            
-            titleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: inset * 2.0),
-            titleLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor, constant: inset),
-            
-            bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: inset * 2.0),
-            bodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            bodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -inset * 2.0)
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: topAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
     
@@ -84,9 +65,11 @@ final class NotiContentView: UIView, UIContentView {
         
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        iconImageView.image = config.icon
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 M월 d일"
+        dateLabel.text = dateFormatter.string(from: config.date)
         titleLabel.text = config.title
-        bodyLabel.text = config.body
+        messageLabel.text = config.message
     }
 }
 

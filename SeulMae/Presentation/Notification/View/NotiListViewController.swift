@@ -115,7 +115,7 @@ final class NotiListViewController: UIViewController {
     
     private func setDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, NotiListItem> { (cell, indexPath, item) in
-            var content = NotiContentView.Configuration()
+            var content = AnnouncementContentView.Configuration()
             content.icon = item.icon
             content.title = item.title
             content.body = item.body
