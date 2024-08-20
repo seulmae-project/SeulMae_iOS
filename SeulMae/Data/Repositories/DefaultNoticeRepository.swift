@@ -10,15 +10,15 @@ import RxMoya
 import RxSwift
 
 class DefaultNoticeRepository: NoticeRepository {
-    func fetchAppNotificationList(workplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
+    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
         return network.rx
-            .request(.fetchAppNotificationList(workplaceID: id))
+            .request(.fetchAppNotificationList(userWorkplaceID: id))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
-            .map(BaseResponseDTO<[AppNotificationDTO]>.self)
+            .map(BaseResponseDTO<[AppNotificationDTO]>.self, using: AppNotificationDTO.decoder)
             .map { $0.toDomain() }
     }
     

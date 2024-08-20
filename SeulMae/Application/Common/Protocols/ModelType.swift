@@ -15,15 +15,18 @@ extension ModelType {
                 "yyyyMMdd",
                 "yyyy-MM-dd",
                 "yyyy-MM-dd'T'HH:mm:ss",
-                "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS"
+                "yyyy-MM-dd'T'HH:mm:ss.SSSS",
+                "yyyy-MM-dd'T'HH:mm:ss.SSSSSSS",
+                "yyyy-MM-dd'T'HH:mm:ss.SSSSSSSSS"
             ]
             
-            if let matched = dateFormats.first(where: { $0.count == dateString.count }),
-               let date = DateFormatter.shared.date(from: dateString, format: matched) {
-                return date
-            } else {
-                throw DecodingError.dataCorruptedError(in: container, debugDescription: "Couldn't find a format that matches \(dateString) in the given date formats.")
+            for format in dateFormats {
+                if let date = DateFormatter.shared.date(from: dateString, format: format) {
+                    return date
+                }
             }
+            
+            throw DecodingError.dataCorruptedError(in: container, debugDescription: "Could not find a format that matches \(dateString) in the given date formats.")
         }
     }
     

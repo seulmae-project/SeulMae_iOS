@@ -58,8 +58,8 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
                     subAddress: "",
                     id: dic["id"] as! Int,
                     name: dic["name"] as! String,
-                    userWorkplaceId: dic["userWorkplaceId"] as! Int,
-                    isManager: dic["isManager"] as! Bool
+                    userWorkplaceId: dic["user_workplace_id"] as! Int,
+                    isManager: dic["is_manager"] as! Bool
                 )
             }
         }

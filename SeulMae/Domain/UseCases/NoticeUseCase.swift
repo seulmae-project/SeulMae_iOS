@@ -18,12 +18,12 @@ protocol NoticeUseCase {
     func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool>
     
     
-    func fetchNotificationList(workplaceID id: Workplace.ID) -> Single<[AppNotification]>
+    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> Single<[AppNotification]>
 }
 
 class DefaultNoticeUseCase: NoticeUseCase {
-    func fetchNotificationList(workplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
-        .just([])
+    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
+        return noticeRepository.fetchAppNotificationList(userWorkplaceID: id)
     }
     
     

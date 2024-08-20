@@ -15,7 +15,7 @@ enum MainAPI: SugarTargetType {
     /// - Tag: Main
     case fetchMemberList(_ workplaceID: String)
     
-    case fetchAppNotificationList(workplaceID: Workplace.ID)
+    case fetchAppNotificationList(userWorkplaceID: Int)
     
     
     /// - Tag: Notice
@@ -63,8 +63,8 @@ extension MainAPI {
     var parameters: Parameters? {
         switch self {
 
-        case .fetchAppNotificationList(workplaceID: let workplaceID):
-            return JSONEncoding() => ["workplaceId": workplaceID]
+        case .fetchAppNotificationList(userWorkplaceID: let userWorkplaceID):
+            return ["userWorkplaceId": userWorkplaceID]
             
         case .updateNotice(let noticeID, _):
             return JSONEncoding() => ["announcementId": noticeID]
@@ -101,8 +101,11 @@ extension MainAPI {
     var headers: [String : String]? {
         switch self {
         default:
-            return ["Content-Type": "application/json"]
-            
+            return [
+                "Content-Type": "application/json",
+                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken")!)"
+                //Authorization-refresh
+            ]
         }
     }
     

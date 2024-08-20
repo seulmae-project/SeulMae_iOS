@@ -28,6 +28,7 @@ final class MainViewModel: ViewModel {
         let members: Driver<[Member]>
         let attendanceListItems: Driver<[AttendanceListItem]>
         let notices: Driver<[Notice]>
+        let appNotis: Driver<[AppNotification]>
     }
     
     // MARK: - Dependencies
@@ -96,7 +97,7 @@ final class MainViewModel: ViewModel {
             return strongSelf.workplaceUseCase
                 .fetchWorkplaces(accountID: accountID)
                 .compactMap { $0.first(where: { $0.id == 8 }) }
-                .map { MainViewItem(workplaceID: $0.id, navItemTitle: $0.name, isManager: accountID == "yonggipo") }
+                .map { MainViewItem(userWorkplaceID: $0.userWorkplaceId, workplaceID: $0.id, navItemTitle: $0.name, isManager: accountID == "yonggipo") }
                 .asDriver()
         }
         
@@ -108,9 +109,15 @@ final class MainViewModel: ViewModel {
         // let date
         let attendances = managerLogic.flatMapLatest { [weak self] item -> Driver<[AttendanceListItem]> in
             guard let strongSelf = self else { return .empty() }
-            Swift.print("workplaceId: \(item.workplaceID)")
             return strongSelf.attendanceUseCase
                 .fetchAttendanceRequestList(workplaceID: item.workplaceID, date: Date.ext.now)
+                .asDriver()
+        }
+        
+        let appNotis = managerLogic.flatMapLatest { [weak self] item -> Driver<[AppNotification]> in
+            guard let strongSelf = self else { return .empty() }
+            return strongSelf.noticeUseCase
+                .fetchAppNotificationList(userWorkplaceID: item.workplaceID)
                 .asDriver()
         }
         
@@ -189,7 +196,8 @@ final class MainViewModel: ViewModel {
             item: recent,
             members: members,
             attendanceListItems: attendances,
-            notices: notices
+            notices: notices,
+            appNotis: appNotis
         )
     }
 }

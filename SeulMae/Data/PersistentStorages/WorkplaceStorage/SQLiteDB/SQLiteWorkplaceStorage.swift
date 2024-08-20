@@ -23,7 +23,8 @@ extension SQLiteWorkplaceStorage: WorkplaceStorage {
     
     func fetchWorkplaces(account: String) -> Array<[String: Any]> {
         let workplaces = table.fetch(account: account)
-        Swift.print("account count: \(workplaces.count)")
+        Swift.print(#line, "account: \(account)")
+        Swift.print(#line, "workplace count: \(workplaces.count)")
         return workplaces
     }
 }

@@ -1504,7 +1504,6 @@
 		86E296F62C4E81B60080A3A2 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				86C40B022C4F384D0051EF2B /* NoticeDetail */,
 				86E297002C4E897B0080A3A2 /* View */,
 				86E296FF2C4E89700080A3A2 /* ViewModel */,
 			);
@@ -1516,6 +1515,7 @@
 			children = (
 				86E296F92C4E82850080A3A2 /* NotiListViewModel.swift */,
 				86E296FD2C4E890A0080A3A2 /* NotiListItem.swift */,
+				86C40B022C4F384D0051EF2B /* NoticeDetail */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";

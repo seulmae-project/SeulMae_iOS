@@ -180,8 +180,13 @@ class MainViewController: UIViewController {
         
         Task {
             for await items in output.attendanceListItems.values {
-                Swift.print(#line, "attendances: \(items)")
+                Swift.print(#line, "attendance requests count: \(items.count)")
                 applyAttendanceSnapshot(items: items)
+            }
+        }
+        Task {
+            for await appNotis in output.appNotis.values {
+                Swift.print(#line, "App notis count: \(appNotis.count)")
             }
         }
     }

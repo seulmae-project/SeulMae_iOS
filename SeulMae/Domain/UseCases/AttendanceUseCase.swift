@@ -86,14 +86,14 @@ final class DefaultAttendanceRepository: AttendanceRepository {
         self.network = network
     }
     
+//    Swift.print(#function, "url: \(response.request?.url)")
+//    Swift.print(#function, "httpBody: \(response.request?.httpBody)")
+    
     func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceRequest]> {
         return network.rx
             .request(.fetchAttendanceRequestList(workplaceID: workplaceID, date: date))
             .do(onSuccess: { response in
-                Swift.print(#function, "workplaceID: \(workplaceID), date: \(date)")
                 Swift.print(#function, "response: \(try response.data.prettyString())")
-                Swift.print(#function, "url: \(response.request?.url)")
-                Swift.print(#function, "httpBody: \(response.request?.httpBody)")
             }, onError: { error in
                 Swift.print(#function, "error: \(error)")
             })

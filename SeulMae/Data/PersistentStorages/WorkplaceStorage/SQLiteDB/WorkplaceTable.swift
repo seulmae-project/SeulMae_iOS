@@ -14,7 +14,8 @@ public class WorkplaceTable: SQLiteTable {
         id INTEGER PRIMARY KEY,
         account TEXT,
         name TEXT,
-        user_workplace_id INTEGER
+        user_workplace_id INTEGER,
+        is_manager INTEGER
         );
         """)
     }
@@ -29,8 +30,8 @@ public class WorkplaceTable: SQLiteTable {
         workplaces: [Workplace],
         withAccount account: String
     ) -> Bool {
-        var sql = "INSERT INTO workplace (id, name, account, user_workplace_id, isManager) VALUES"
-        let valueStrings = workplaces.map { "(\($0.id), '\($0.name)', '\(account)', \($0.userWorkplaceId), \($0.isManager)" }
+        var sql = "INSERT INTO workplace (id, name, account, user_workplace_id, is_manager) VALUES"
+        let valueStrings = workplaces.map { "(\($0.id), '\($0.name)', '\(account)', \($0.userWorkplaceId), \($0.isManager))" }
         sql += valueStrings.joined(separator: ", ")
         return WorkplaceTable().save(sql: sql)
     }

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol NoticeRepository {
-    func fetchAppNotificationList(workplaceID id: Workplace.ID) -> Single<[AppNotification]>
+    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> Single<[AppNotification]>
     
     func fetchMainNoticeList(workplaceID id: Workplace.ID) -> Single<[Notice]>
 
