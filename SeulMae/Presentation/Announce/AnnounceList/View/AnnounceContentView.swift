@@ -1,5 +1,5 @@
 //
-//  AnnouncementContentView.swift
+//  AnnounceContentView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/22/24.
@@ -8,7 +8,7 @@
 import UIKit
 import Kingfisher
 
-final class AnnouncementContentView: UIView, UIContentView {
+final class AnnounceContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
         var icon: UIImage?
@@ -16,7 +16,7 @@ final class AnnouncementContentView: UIView, UIContentView {
         var body: String?
         
         func makeContentView() -> UIView & UIContentView {
-            return AnnouncementContentView(self)
+            return AnnounceContentView(self)
         }
     }
     

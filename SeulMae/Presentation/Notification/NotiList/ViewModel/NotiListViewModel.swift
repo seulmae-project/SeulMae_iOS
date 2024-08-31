@@ -67,7 +67,9 @@ final class NotiListViewModel: ViewModel {
                 
                 if case .noti = item.type,
                    let notiId = item.noti?.id {
-                    coordinator.showNotiDetail(noticeIdentifier: notiId)
+                    // TODO: 화면 이동 로직 고민..?
+                    // category 리스트에 따라? 고민해보자 혹은 url 식으로 연결
+                    Swift.print("Did tap noti: \(notiId)")
                 }
             }
         }

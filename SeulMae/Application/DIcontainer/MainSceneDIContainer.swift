@@ -230,8 +230,8 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     func makeNoticeDetailViewController(
         noticeIdentifier: Notice.ID,
         coordinator: any MainFlowCoordinator
-    ) -> NoticeDetailViewController {
-        return NoticeDetailViewController.create(
+    ) -> AnnounceDetailViewController {
+        return AnnounceDetailViewController(
             viewModel: makeNoticeDtailViewModel(
                 noticeIdentifier: noticeIdentifier,
                 coordinator: coordinator,
@@ -244,8 +244,8 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         noticeIdentifier: Notice.ID,
         coordinator: MainFlowCoordinator,
         noticeUseCase: NoticeUseCase
-    ) -> NoticeDetailViewModel {
-        return NoticeDetailViewModel(
+    ) -> AnnounceDetailViewModel {
+        return AnnounceDetailViewModel(
             dependencies: (
                 noticeIdentifier: noticeIdentifier,
                 coordinator: coordinator,

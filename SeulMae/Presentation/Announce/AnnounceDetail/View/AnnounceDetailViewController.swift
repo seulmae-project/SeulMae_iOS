@@ -1,5 +1,5 @@
 //
-//  NoticeDetailViewController.swift
+//  AnnounceDetailViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/23/24.
@@ -7,15 +7,7 @@
 
 import UIKit
 
-final class NoticeDetailViewController: UIViewController {
-    
-    // MARK: - Flow
-    
-    static func create(viewModel: NoticeDetailViewModel) -> NoticeDetailViewController {
-        let vc = NoticeDetailViewController()
-        vc.viewModel = viewModel
-        return vc
-    }
+final class AnnounceDetailViewController: UIViewController {
     
     // MARK: - UI
     
@@ -74,9 +66,18 @@ final class NoticeDetailViewController: UIViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: NoticeDetailViewModel!
+    private var viewModel: AnnounceDetailViewModel!
     
     // MARK: - Life Cycle
+    
+    init(viewModel: AnnounceDetailViewModel!) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

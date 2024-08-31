@@ -15,7 +15,7 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: - Notice Flow Dependencies
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
-    func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> NoticeDetailViewController
+    func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> AnnounceDetailViewController
     
     // MARK: Workplace Flow Dependencies
     func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController

@@ -1,5 +1,5 @@
 //
-//  NoticeDetailViewModel.swift
+//  AnnounceDetailViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/23/24.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class NoticeDetailViewModel: ViewModel {
+final class AnnounceDetailViewModel: ViewModel {
     struct Input {
         let isMustRead: Driver<Bool>
         let title: Driver<String>
@@ -18,7 +18,7 @@ final class NoticeDetailViewModel: ViewModel {
     }
     
     struct Output {
-        let item: Driver<NoticeDetailItem>
+        let item: Driver<AnnounceDetailItem>
         let updateEnabled: Driver<Bool>
     }
     
@@ -48,7 +48,7 @@ final class NoticeDetailViewModel: ViewModel {
         // MARK: - Item For View
         
         let item = noticeUseCase.fetchNoticeDetail(noticeIdentifier: noticeIdentifier)
-            .map { NoticeDetailItem.init($0) }
+            .map { AnnounceDetailItem.init($0) }
             .asDriver()
         
         // MARK: - Validation For Update
