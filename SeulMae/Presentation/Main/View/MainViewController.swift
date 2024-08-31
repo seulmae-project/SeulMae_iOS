@@ -22,7 +22,7 @@ class MainViewController: UIViewController {
     typealias MemberDataSource = UICollectionViewDiffableDataSource<MemberListSection, MemberListItem>
     typealias AttendanceListShanpshot = NSDiffableDataSourceSnapshot<AttendanceListSection, AttendanceListItem>
     typealias AttendanceDataSource = UICollectionViewDiffableDataSource<AttendanceListSection, AttendanceListItem>
-    
+        
     // MARK: - UI
     
     private let reminderBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)

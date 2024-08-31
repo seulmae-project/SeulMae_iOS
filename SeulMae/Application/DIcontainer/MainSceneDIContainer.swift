@@ -203,7 +203,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         workplaceIdentifier: Workplace.ID,
         coordinator: any MainFlowCoordinator
     ) -> NotiListViewController {
-        return NotiListViewController.create(
+        return NotiListViewController(
             viewModel: makeNotiListViewModel(
                 workplaceIdentifier: workplaceIdentifier,
                 coordinator: coordinator

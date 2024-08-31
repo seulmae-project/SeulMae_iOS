@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppNotification: Identifiable {
+struct AppNotification: Hashable, Identifiable {
     let id: Int
     let title: String
     let message: String

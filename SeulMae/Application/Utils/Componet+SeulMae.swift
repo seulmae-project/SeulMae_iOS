@@ -83,11 +83,12 @@ extension UILabel {
         return label
     }
     
-    static func common(title: String = "", size: CGFloat, wight: UIFont.PretendardWeight) -> UILabel {
+    static func common(title: String = "", size: CGFloat, wight: UIFont.PretendardWeight, color: UIColor = .label, numOfLines: Int = 0) -> UILabel {
         let label = UILabel()
         label.text = title
-        label.numberOfLines = 0
+        label.numberOfLines = numOfLines
         label.font = .pretendard(size: size, weight: wight)
+        label.textColor = color
         return label
     }
     

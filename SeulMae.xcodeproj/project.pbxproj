@@ -926,6 +926,23 @@
 			path = Font;
 			sourceTree = "<group>";
 		};
+		864A5E682C83258300D7B0EF /* Announce */ = {
+			isa = PBXGroup;
+			children = (
+				86E296FB2C4E844E0080A3A2 /* AnnouncementContentView.swift */,
+			);
+			path = Announce;
+			sourceTree = "<group>";
+		};
+		864A5E692C83317000D7B0EF /* NotiList */ = {
+			isa = PBXGroup;
+			children = (
+				86E297002C4E897B0080A3A2 /* View */,
+				86E296FF2C4E89700080A3A2 /* ViewModel */,
+			);
+			path = NotiList;
+			sourceTree = "<group>";
+		};
 		8658A2982C68B47100F15C0B /* DateSelectView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1506,8 +1523,8 @@
 		86E296F62C4E81B60080A3A2 /* Notification */ = {
 			isa = PBXGroup;
 			children = (
-				86E297002C4E897B0080A3A2 /* View */,
-				86E296FF2C4E89700080A3A2 /* ViewModel */,
+				864A5E692C83317000D7B0EF /* NotiList */,
+				86C40B022C4F384D0051EF2B /* NoticeDetail */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -1517,7 +1534,6 @@
 			children = (
 				86E296F92C4E82850080A3A2 /* NotiListViewModel.swift */,
 				86E296FD2C4E890A0080A3A2 /* NotiListItem.swift */,
-				86C40B022C4F384D0051EF2B /* NoticeDetail */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1527,7 +1543,6 @@
 			children = (
 				86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */,
 				860EB2B62C74E47E00310985 /* NotiContentView.swift */,
-				86E296FB2C4E844E0080A3A2 /* AnnouncementContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1621,6 +1636,7 @@
 				86E299DB2C1722A600805AD0 /* Authentication */,
 				86E299E22C17230E00805AD0 /* Main */,
 				86E296F62C4E81B60080A3A2 /* Notification */,
+				864A5E682C83258300D7B0EF /* Announce */,
 				866EA33D2C4A7CC2003159F9 /* MemberInfo */,
 				866577B32C340D610048A111 /* Workplace */,
 			);

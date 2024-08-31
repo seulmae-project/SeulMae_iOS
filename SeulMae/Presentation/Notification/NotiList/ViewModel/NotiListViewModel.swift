@@ -11,11 +11,12 @@ import RxCocoa
 
 final class NotiListViewModel: ViewModel {
     struct Input {
-        let onItemTap: Signal<Notice.ID>
+        let onItemTap: Signal<NotiListItem>
     }
     
     struct Output {
-        let items: Driver<[NotiListItem]>
+        let categories: Driver<[NotiListItem]>
+        let notiList: Driver<[NotiListItem]>
     }
     
     // MARK: - Dependency
@@ -45,27 +46,35 @@ final class NotiListViewModel: ViewModel {
         
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-   
-        let size = 10
-        let notices = noticeUseCase.fetchAllNotice(workplaceIdentifier: workplaceIdentifier, page: 0, size: size)
-            .map { $0.map(NotiListItem.init(notice:)) }
+        
+        let categories = Driver.just(["JOIN_REQUEST", "some"])
+            .map { $0.map(NotiListItem.init(cateogry:)) }
+        
+        // TODO: workplace도 userUseCase에서 가저오기
+        let notiList = noticeUseCase
+            .fetchAppNotificationList(userWorkplaceID: workplaceIdentifier)
+            .map { $0.map(NotiListItem.init(noti:)) }
             .asDriver()
        
         // MARK: Coordinator Logic
         
-        let appNotis = noticeUseCase
-            .fetchAppNotificationList(userWorkplaceID: workplaceIdentifier)
-            .map { $0.map(NotiListItem.init(noti:)) }
-            .asDriver()
-        
         Task {
-            for await noticeIdentifier in input.onItemTap.values {
-                coordinator.showNotiDetail(noticeIdentifier: noticeIdentifier)
+            for await item in input.onItemTap.values {
+                if case .category = item.type,
+                   let category = item.category {
+                    Swift.print("Did tap noti category: \(category)")
+                }
+                
+                if case .noti = item.type,
+                   let notiId = item.noti?.id {
+                    coordinator.showNotiDetail(noticeIdentifier: notiId)
+                }
             }
         }
 
         return Output(
-            items: appNotis
+            categories: categories,
+            notiList: notiList
         )
     }
 }

@@ -10,6 +10,7 @@ import UIKit
 final class NotiContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
+        var type: String = ""
         var title: String = ""
         var message: String = ""
         var date: Date = Date()
@@ -19,9 +20,10 @@ final class NotiContentView: UIView, UIContentView {
         }
     }
     
-    private let dateLabel: UILabel = .common(size: 12, wight: .regular)
-    private let titleLabel: UILabel = .common(size: 16, wight: .semibold)
-    private let messageLabel: UILabel = .common(size: 16, wight: .regular)
+    private let typeLabel: UILabel = .common(size: 13, wight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
+    private let dateLabel: UILabel = .common(size: 11, wight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
+    private let titleLabel: UILabel = .common(size: 16, wight: .bold, numOfLines: 1)
+    private let messageLabel: UILabel = .common(size: 16, wight: .regular, numOfLines: 1)
 
     var configuration: UIContentConfiguration {
         didSet {
@@ -37,17 +39,24 @@ final class NotiContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
+        let headerStack = UIStackView()
+        headerStack.alignment = .center
+        headerStack.distribution = .equalCentering
+        headerStack.addArrangedSubview(typeLabel)
+        headerStack.addArrangedSubview(dateLabel)
+        
         let contentStack = UIStackView()
         contentStack.axis = .vertical
-        contentStack.spacing = 4.0
-        contentStack.addArrangedSubview(dateLabel)
+        contentStack.addArrangedSubview(headerStack)
         contentStack.addArrangedSubview(titleLabel)
         contentStack.addArrangedSubview(messageLabel)
+        contentStack.setCustomSpacing(8.0, after: headerStack)
         
         let insets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
         contentStack.directionalLayoutMargins = insets
+        contentStack.isLayoutMarginsRelativeArrangement = true
         
-        addSubview(contentStack)
+        self.addSubview(contentStack)
         
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         
@@ -67,6 +76,7 @@ final class NotiContentView: UIView, UIContentView {
         guard let config = config as? Configuration else { return }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 M월 d일"
+        typeLabel.text = config.type
         dateLabel.text = dateFormatter.string(from: config.date)
         titleLabel.text = config.title
         messageLabel.text = config.message
