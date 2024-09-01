@@ -93,6 +93,9 @@
 		864A5E702C83454200D7B0EF /* AnnounceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E6F2C83454200D7B0EF /* AnnounceListViewController.swift */; };
 		864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E712C83457B00D7B0EF /* AnnounceListViewModel.swift */; };
 		864A5E742C83459B00D7B0EF /* AnnounceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E732C83459B00D7B0EF /* AnnounceListItem.swift */; };
+		864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E782C83490E00D7B0EF /* AnnounceViewController.swift */; };
+		864A5E7B2C83491D00D7B0EF /* AnnounceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E7A2C83491D00D7B0EF /* AnnounceViewModel.swift */; };
+		864A5E7D2C834D5100D7B0EF /* AnnounceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E7C2C834D5100D7B0EF /* AnnounceItem.swift */; };
 		8653918C2C62243300567EE0 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918B2C62243300567EE0 /* RxKakaoSDK */; };
 		8653918F2C62244400567EE0 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918E2C62244400567EE0 /* KakaoSDK */; };
 		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
@@ -343,6 +346,9 @@
 		864A5E6F2C83454200D7B0EF /* AnnounceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceListViewController.swift; sourceTree = "<group>"; };
 		864A5E712C83457B00D7B0EF /* AnnounceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceListViewModel.swift; sourceTree = "<group>"; };
 		864A5E732C83459B00D7B0EF /* AnnounceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceListItem.swift; sourceTree = "<group>"; };
+		864A5E782C83490E00D7B0EF /* AnnounceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceViewController.swift; sourceTree = "<group>"; };
+		864A5E7A2C83491D00D7B0EF /* AnnounceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceViewModel.swift; sourceTree = "<group>"; };
+		864A5E7C2C834D5100D7B0EF /* AnnounceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceItem.swift; sourceTree = "<group>"; };
 		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
@@ -935,6 +941,7 @@
 		864A5E682C83258300D7B0EF /* Announce */ = {
 			isa = PBXGroup;
 			children = (
+				864A5E752C8348EB00D7B0EF /* Announce */,
 				864A5E6C2C83426C00D7B0EF /* AnnounceList */,
 				86C40B022C4F384D0051EF2B /* AnnounceDetail */,
 			);
@@ -993,6 +1000,32 @@
 				864A5E732C83459B00D7B0EF /* AnnounceListItem.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		864A5E752C8348EB00D7B0EF /* Announce */ = {
+			isa = PBXGroup;
+			children = (
+				864A5E762C8348F900D7B0EF /* View */,
+				864A5E772C8348FD00D7B0EF /* VewModel */,
+			);
+			path = Announce;
+			sourceTree = "<group>";
+		};
+		864A5E762C8348F900D7B0EF /* View */ = {
+			isa = PBXGroup;
+			children = (
+				864A5E782C83490E00D7B0EF /* AnnounceViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		864A5E772C8348FD00D7B0EF /* VewModel */ = {
+			isa = PBXGroup;
+			children = (
+				864A5E7A2C83491D00D7B0EF /* AnnounceViewModel.swift */,
+				864A5E7C2C834D5100D7B0EF /* AnnounceItem.swift */,
+			);
+			path = VewModel;
 			sourceTree = "<group>";
 		};
 		8658A2982C68B47100F15C0B /* DateSelectView */ = {
@@ -1924,6 +1957,7 @@
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */,
 				86B07D872C32A05D0088E1B1 /* CalendarControl.swift in Sources */,
+				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
 				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
 				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
@@ -1935,6 +1969,7 @@
 				860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */,
 				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
 				860EB2B52C74CFF100310985 /* AppNotificationDTO+Mapping.swift in Sources */,
+				864A5E7D2C834D5100D7B0EF /* AnnounceItem.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
@@ -2055,6 +2090,7 @@
 				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,
 				86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */,
 				869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */,
+				864A5E7B2C83491D00D7B0EF /* AnnounceViewModel.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
