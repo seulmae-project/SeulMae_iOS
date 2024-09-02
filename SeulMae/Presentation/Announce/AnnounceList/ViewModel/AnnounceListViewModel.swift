@@ -15,23 +15,17 @@ final class AnnounceListViewModel: ViewModel {
     }
     
     struct Output {
-        let items: Driver<AnnounceListItem>
+        let isLoading: Driver<Bool>
+        let items: Driver<[AnnounceListItem]>
+        
     }
     
-    private let coordinator: MainFlowCoordinator
     private let noticeUseCase: NoticeUseCase
-    private let workplaceId: Workplace.ID
     
     init(
-        dependencies: (
-            coordinator: MainFlowCoordinator,
-            noticeUseCase: NoticeUseCase,
-            workplaceId: Workplace.ID
-        )
+        noticeUseCase: NoticeUseCase
     ) {
-        self.coordinator = dependencies.coordinator
-        self.noticeUseCase = dependencies.noticeUseCase
-        self.workplaceId = dependencies.workplaceId
+        self.noticeUseCase = noticeUseCase
     }
     
     @MainActor
@@ -39,12 +33,13 @@ final class AnnounceListViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let isLoading = indicator.asDriver()
         
-        
-        
-        // MARK: -
+        let items = noticeUseCase.fetchAnnounceList(page: 0, size: 30)
+            .map { $0.map(AnnounceListItem.init(announce:)) }
+            .asDriver()
         
         return Output(
-            items: .empty()
+            isLoading: isLoading,
+            items: items
         )
     }
 }

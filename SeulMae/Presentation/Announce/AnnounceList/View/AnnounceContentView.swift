@@ -11,36 +11,39 @@ import Kingfisher
 final class AnnounceContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
-        var icon: UIImage?
-        var title: String?
-        var body: String?
+        var announceType: String? = ""
+        var title: String? = ""
+        var createdDate: Date? = Date()
         
         func makeContentView() -> UIView & UIContentView {
             return AnnounceContentView(self)
         }
     }
     
-    private let iconImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 22
-        iv.layer.cornerCurve = .continuous
-        return iv
+    private let announceTypeLabel: UILabel = {
+        let label = UILabel()
+        label.font = .pretendard(size: 15, weight: .bold)
+        label.textColor = .blue
+        return label
     }()
     
     private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = .systemFont(ofSize: 16, weight: .semibold)
-        return l
+        let label = UILabel()
+        label.font = .pretendard(size: 15, weight: .bold)
+        return label
     }()
     
-    private let bodyLabel: UILabel = {
-        let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
-        l.font = .systemFont(ofSize: 16)
-        return l
+    private let createdDateLabel: UILabel = {
+        let label = UILabel()
+        label.font = .pretendard(size: 11, weight: .regular)
+        return label
+    }()
+    
+    private let moreButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("버튼", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        return button
     }()
     
     var configuration: UIContentConfiguration {
@@ -52,41 +55,60 @@ final class AnnounceContentView: UIView, UIContentView {
     override var intrinsicContentSize: CGSize {
         CGSize(width: 0, height: 44)
     }
-        
+    
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
         
-        addSubview(iconImageView)
-        addSubview(titleLabel)
-        addSubview(bodyLabel)
+        let titleStack = UIStackView()
+        titleStack.alignment = .center
+        titleStack.spacing = 4.0
         
-        let inset = 8.0
+        titleStack.addArrangedSubview(announceTypeLabel)
+        titleStack.addArrangedSubview(titleLabel)
+        titleStack.addArrangedSubview(moreButton)
+        
+        titleStack.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        
+        let body = UIView()
+        body.backgroundColor = .blue
+        body.heightAnchor.constraint(equalToConstant: 16).isActive = true
+
+        let contentStack = UIStackView()
+        contentStack.axis = .vertical
+        contentStack.spacing = 4.0
+        contentStack.directionalLayoutMargins = .init(top: 16, leading: 16, bottom: 16, trailing: 16)
+        contentStack.isLayoutMarginsRelativeArrangement = true
+        
+        contentStack.addArrangedSubview(titleStack)
+        contentStack.addArrangedSubview(body)
+        contentStack.addArrangedSubview(createdDateLabel)
+        
+        addSubview(contentStack)
+        
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+   
         NSLayoutConstraint.activate([
-            iconImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
-            iconImageView.topAnchor.constraint(equalTo: topAnchor),
-            iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
-            iconImageView.widthAnchor.constraint(equalToConstant: 44),
-            
-            titleLabel.leadingAnchor.constraint(equalTo: iconImageView.trailingAnchor, constant: inset * 2.0),
-            titleLabel.topAnchor.constraint(equalTo: iconImageView.topAnchor, constant: inset),
-            
-            bodyLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            bodyLabel.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: inset * 2.0),
-            bodyLabel.bottomAnchor.constraint(equalTo: bottomAnchor),
-            bodyLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -inset * 2.0)
+            contentStack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: topAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        iconImageView.image = config.icon
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy년 M월 d일"
+        announceTypeLabel.text = config.announceType
         titleLabel.text = config.title
-        bodyLabel.text = config.body
+        if let date = config.createdDate {
+            createdDateLabel.text = dateFormatter.string(from: date)
+        }
     }
 }
 

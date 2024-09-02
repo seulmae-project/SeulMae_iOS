@@ -17,6 +17,8 @@ enum MainAPI: SugarTargetType {
     
     case fetchAppNotificationList(userWorkplaceID: Int)
     
+    // Announce
+    case fetchAnnounceList(workplaceId: Workplace.ID, page: Int, size: Int)
     
     /// - Tag: Notice
     case addNotice(_ request: AddNoticeRequset)
@@ -24,7 +26,7 @@ enum MainAPI: SugarTargetType {
     case fetchNoticeDetail(noticeID: String)
     case fetchAllNotice(workplaceID: String, page: Int, size: Int)
     case fetchMustReadNoticeList(workplaceID: Int)
-    case fetchMainNoticeList(workplaceID: Int)
+    case fetchMainAnnounceList(workplaceId: Int)
     case deleteNotice(noticeID: Int)
 }
 
@@ -38,6 +40,10 @@ extension MainAPI {
         case .fetchAppNotificationList:
             return .get("api/notification/v1/list")
             
+        case .fetchMainAnnounceList:
+            return .get("api/announcement/v1/main")
+        case .fetchAnnounceList:
+            return .get("api/announcement/v1/list")
             
         case .fetchMemberList:
             return .get("api/")
@@ -53,8 +59,7 @@ extension MainAPI {
             return .get("api/announcement/v1/list")
         case .fetchMustReadNoticeList:
             return .get("api/announcement/v1/list/important")
-        case .fetchMainNoticeList:
-            return .get("api/announcement/v1/main")
+    
         case .deleteNotice:
             return .delete("api/announcement/v1")
         }
@@ -65,6 +70,16 @@ extension MainAPI {
 
         case .fetchAppNotificationList(userWorkplaceID: let userWorkplaceID):
             return ["userWorkplaceId": userWorkplaceID]
+
+        case .fetchMainAnnounceList(let workplaceId):
+            return ["workplaceId": workplaceId]
+        case .fetchAnnounceList(let workplaceId, let page, let size):
+            return [
+                "workplaceId": workplaceId,
+                "page": page,
+                "size": size
+            ]
+            
             
         case .updateNotice(let noticeID, _):
             return JSONEncoding() => ["announcementId": noticeID]
@@ -78,8 +93,7 @@ extension MainAPI {
             ]
         case .fetchMustReadNoticeList(let workplaceID):
             return JSONEncoding() => ["workplaceId": workplaceID]
-        case .fetchMainNoticeList(let workplaceID):
-            return JSONEncoding() => ["workplaceId": workplaceID]
+        
         case .deleteNotice(let noticeID):
             return JSONEncoding() => ["announcementId": noticeID]
         default:

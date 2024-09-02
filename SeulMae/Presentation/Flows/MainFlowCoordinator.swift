@@ -15,13 +15,16 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: - Notice Flow Dependencies
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
-    func makeNoticeDetailViewController(noticeIdentifier: Notice.ID, coordinator: MainFlowCoordinator) -> AnnounceDetailViewController
+    func makeNoticeDetailViewController(noticeIdentifier: Announce.ID, coordinator: MainFlowCoordinator) -> AnnounceDetailViewController
     
     // MARK: Workplace Flow Dependencies
     func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController
     func makeSearchWorkplaceViewController(coordinator: MainFlowCoordinator) -> SearchWorkplaceViewController
     func makeWorkplaceDetailsViewController(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
     func makeAddNewWorkplaceViewController(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewController
+    
+    // MARK: - Announce Flow Dependencies
+    func makeAnnounceViewController(coordinator: MainFlowCoordinator) -> AnnounceViewController
 }
 
 protocol MainFlowCoordinator {
@@ -31,7 +34,9 @@ protocol MainFlowCoordinator {
     func showMain()
     func showMemberInfo(member: Member)
     func showNotiList(workplaceIdentifier: Workplace.ID)
-    func showNotiDetail(noticeIdentifier: Notice.ID)
+    func showNotiDetail(noticeIdentifier: Announce.ID)
+    
+    func showAnnounceList()
     
     // Workplace Flow
     // func showTutorial()
@@ -96,7 +101,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showNotiDetail(noticeIdentifier: Notice.ID) {
+    func showNotiDetail(noticeIdentifier: Announce.ID) {
         let vc = dependencies.makeNoticeDetailViewController(
             noticeIdentifier: noticeIdentifier,
             coordinator: self)
@@ -122,6 +127,15 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     func showAddNewWorkplace() {
         let vc = dependencies.makeAddNewWorkplaceViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    
+    
+    // MARK: - Announce
+    
+    func showAnnounceList() {
+        let vc = dependencies.makeAnnounceViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
 }

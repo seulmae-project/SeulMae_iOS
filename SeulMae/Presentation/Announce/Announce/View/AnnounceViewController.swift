@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class AnnounceViewController: UIViewController {
     
@@ -31,13 +33,15 @@ final class AnnounceViewController: UIViewController {
     }()
     
     private lazy var pageViewController: UIPageViewController = {
-         let pageViewController = UIPageViewController(
+        let pageViewController = UIPageViewController(
             transitionStyle: .scroll,
             navigationOrientation: .horizontal,
             options: nil)
-        pageViewController.setViewControllers(self.viewControllers, direction: .forward, animated: true)
-         return pageViewController
-     }()
+        
+        pageViewController.delegate = self
+        pageViewController.dataSource = self
+        return pageViewController
+    }()
     
     private let viewControllers: [UIViewController]
     
@@ -64,7 +68,24 @@ final class AnnounceViewController: UIViewController {
         
         setupNavItem()
         setupView()
+        addChild(pageViewController)
+        pageViewController.setViewControllers([viewControllers.first!], direction: .forward, animated: true)
         setupConstraints()
+        setupDataSource()
+        bindSubviews()
+    }
+    
+    private func bindSubviews() {
+        let categories = Driver.just(["전체", "필독"])
+        Task {
+            for await categories in categories.values {
+                let items = categories.map(AnnounceItem.init(title:))
+                var snapshot = Snapshot()
+                snapshot.appendSections(Section.allCases)
+                snapshot.appendItems(items, toSection: .category)
+                dataSource.apply(snapshot)
+            }
+        }
     }
     
     private func setupNavItem() {
@@ -78,34 +99,36 @@ final class AnnounceViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func setupConstraints() {
-        let containerView: UIView! = pageViewController.view
+        view.frame = view.frame
         view.addSubview(collectionView)
-        view.addSubview(containerView)
-        
-        addChild(pageViewController)
-        pageViewController.dataSource = self
+        view.addSubview(pageViewController.view)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        containerView.translatesAutoresizingMaskIntoConstraints = false
+        pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
+        
+        collectionView.backgroundColor = .red.withAlphaComponent(0.3)
+        pageViewController.view.backgroundColor = .blue.withAlphaComponent(0.3)
         
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: view.topAnchor),
+            collectionView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            collectionView.heightAnchor.constraint(equalToConstant: 36),
             
-            containerView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            containerView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            containerView.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
-            containerView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            pageViewController.view.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            pageViewController.view.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            pageViewController.view.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
+            pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
+        
+        pageViewController.didMove(toParent: self)
     }
     
     // MARK: - DataSource
     
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<TextCell, AnnounceItem> { (cell, indexPath, item) in
-            // guard let category = item.category else { return }
-            // cell.label.text = category
+            cell.label.text = item.title
             cell.label.font = .pretendard(size: 15, weight: .regular)
             cell.label.textAlignment = .center
             cell.layer.cornerRadius = 8.0
@@ -135,7 +158,7 @@ final class AnnounceViewController: UIViewController {
                 widthDimension: .estimated(58),
                 heightDimension: .estimated(36)),
             subitems: [item])
-        var section = NSCollectionLayoutSection(group: group)
+        let section = NSCollectionLayoutSection(group: group)
         section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
         section.contentInsets = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
         section.interGroupSpacing = 8.0
@@ -145,7 +168,12 @@ final class AnnounceViewController: UIViewController {
 
 // MARK: - UIPageViewControllerDataSource
 
-extension AnnounceViewController: UIPageViewControllerDataSource {
+extension AnnounceViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
+    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
+        
+    }
+
+    
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController

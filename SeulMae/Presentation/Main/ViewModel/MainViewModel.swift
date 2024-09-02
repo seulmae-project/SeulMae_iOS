@@ -13,21 +13,24 @@ final class MainViewModel: ViewModel {
     
     struct Input {
         let changeWorkplace: Signal<()>
-        
         let showWorkplace: Signal<()>
-        let showRemainders: Signal<()>
+        
+        let showNotiList: Signal<()>
+        let showAnnouceList: Signal<()>
+        let showAnnouceDetails: Signal<Announce.ID>
         
         let attedanceDate: Driver<Date>
-        
         let onMemberTap: Signal<Member>
         let onBarButtonTap: Signal<()>
+        
+        
     }
     
     struct Output {
         let item: Driver<MainViewItem>
         let members: Driver<[Member]>
         let attendanceListItems: Driver<[AttendanceListItem]>
-        let notices: Driver<[Notice]>
+        let announceList: Driver<[Announce]>
         let appNotis: Driver<[AppNotification]>
     }
     
@@ -133,12 +136,10 @@ final class MainViewModel: ViewModel {
                 .asDriver()
         }
         
-        let notices = recent.flatMapLatest { [weak self] item -> Driver<[Notice]> in
-            guard let strongSelf = self else { return .empty() }
-            return strongSelf.noticeUseCase
-                .fetchMainNoticeList(workplaceIdentifier: item.workplaceID)
-                .asDriver()
-        }
+        let announceList = noticeUseCase
+            .fetchMainAnnounceList()
+            .asDriver()
+        
         
         
        
@@ -163,7 +164,7 @@ final class MainViewModel: ViewModel {
 //            }
 //            .startWith(false)
 //        
-        // MARK: Flow Logic
+        // MARK: Coordinator Logic
         
         Task {
             for await _ in input.changeWorkplace.values {
@@ -183,6 +184,12 @@ final class MainViewModel: ViewModel {
             }
         }
         
+        Task {
+            for await _ in input.showAnnouceList.values {
+                coordinator.showAnnounceList()
+            }
+        }
+        
         
 //        let nextStepEnabled = Driver.combineLatest(
 //            validatedSMS, verifiedCode, loading) { validated, verified, loading in
@@ -196,7 +203,7 @@ final class MainViewModel: ViewModel {
             item: recent,
             members: members,
             attendanceListItems: attendances,
-            notices: notices,
+            announceList: announceList,
             appNotis: appNotis
         )
     }

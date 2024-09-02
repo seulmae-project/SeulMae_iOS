@@ -228,7 +228,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     // MARK: - Notice Detail
     
     func makeNoticeDetailViewController(
-        noticeIdentifier: Notice.ID,
+        noticeIdentifier: Announce.ID,
         coordinator: any MainFlowCoordinator
     ) -> AnnounceDetailViewController {
         return AnnounceDetailViewController(
@@ -241,7 +241,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     }
     
     private func makeNoticeDtailViewModel(
-        noticeIdentifier: Notice.ID,
+        noticeIdentifier: Announce.ID,
         coordinator: MainFlowCoordinator,
         noticeUseCase: NoticeUseCase
     ) -> AnnounceDetailViewModel {
@@ -253,4 +253,15 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
+    
+    func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
+        return AnnounceViewController(
+            viewModel: AnnounceViewModel(),
+            viewControllers: [
+                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
+                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
+                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
+            ])
+    }
+    
 }

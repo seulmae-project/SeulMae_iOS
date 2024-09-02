@@ -10,6 +10,17 @@ import RxMoya
 import RxSwift
 
 class DefaultNoticeRepository: NoticeRepository {
+   
+    // MARK: - Dependancies
+    
+    private let network: MainNetworking
+    
+    // MARK: - Life Cycle Methods
+    
+    init(network: MainNetworking) {
+        self.network = network
+    }
+    
     func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
         return network.rx
             .request(.fetchAppNotificationList(userWorkplaceID: id))
@@ -22,16 +33,35 @@ class DefaultNoticeRepository: NoticeRepository {
             .map { $0.toDomain() }
     }
     
-    
-    // MARK: - Dependancies
-    
-    private let network: MainNetworking
-    
-    // MARK: - Life Cycle Methods
-    
-    init(network: MainNetworking) {
-        self.network = network
+    func fetchAnnounceList(workplaceId id: Workplace.ID, page: Int, size: Int) -> RxSwift.Single<[Announce]> {
+        return network.rx
+            .request(.fetchAnnounceList(workplaceId: id, page: page, size: size))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map([NoticeDTO].self, atKeyPath: "data.data")
+            .map { try $0.map { try $0.toDomain() } }
     }
+    
+    func fetchMainAnnounceList(workplaceId id: Workplace.ID) -> RxSwift.Single<[Announce]> {
+        return network.rx
+            .request(.fetchMainAnnounceList(workplaceId: id))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<[NoticeDTO]>.self)
+            .map { try $0.toDomain() }
+    }
+    
+    
+    
+    
+    
+    
     
     func addNotice(_ request: AddNoticeRequset) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- request: \(request)\n")
@@ -47,7 +77,7 @@ class DefaultNoticeRepository: NoticeRepository {
     }
     
     func updateNotice(
-        noticeIdentifier id: Notice.ID,
+        noticeIdentifier id: Announce.ID,
         _ request: UpdateNoticeRequest
     ) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- noticeID: \(id)\n - request: \(request)\n")
@@ -62,7 +92,7 @@ class DefaultNoticeRepository: NoticeRepository {
         })
     }
     
-    func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> RxSwift.Single<NoticeDetail> {
+    func fetchNoticeDetail(noticeIdentifier id: Announce.ID) -> RxSwift.Single<NoticeDetail> {
         Swift.print(#fileID, #function, "\n- noticeID: \(id)\n")
         return Single<BaseResponseDTO<NoticeDetailDTO>>.create { observer in
             observer(.success(MockData.NoticeAPI.detailSuccess))
@@ -75,26 +105,9 @@ class DefaultNoticeRepository: NoticeRepository {
         })
     }
     
-    func fetchAllNotice(
-        workplaceIdentifier id: Workplace.ID,
-        page: Int,
-        size: Int
-    ) -> RxSwift.Single<[Notice]> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n - page: \(page)\n - size: \(size)\n")
-        return Single<[Notice]>.create { observer in
-            let notices = MockData.NoticeAPI
-                .noticesSuccess
-                .compactMap { try? $0.toDomain() }
-            observer(.success(notices))
-            // observer(.success(MockData.NoticeAPI.noticesFailed))
-            return Disposables.create()
-        }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
     
-    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Notice]> {
+    
+    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Announce]> {
         Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
         return Single<BaseResponseDTO<[NoticeDTO]>>.create { observer in
             observer(.success(MockData.NoticeAPI.mustReadNoticesSuccess))
@@ -106,17 +119,7 @@ class DefaultNoticeRepository: NoticeRepository {
         })
     }
     
-    func fetchMainNoticeList(workplaceID id: Workplace.ID) -> RxSwift.Single<[Notice]> {
-        return network.rx
-            .request(.fetchMainNoticeList(workplaceID: id))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
-            .map(BaseResponseDTO<[NoticeDTO]>.self)
-            .map { try $0.toDomain() }
-    }
+    
     
     func deleteNotice(noticeIdentifier id: Int) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- noticeID: \(id)\n")

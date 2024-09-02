@@ -22,7 +22,7 @@ final class AnnounceDetailViewModel: ViewModel {
         let updateEnabled: Driver<Bool>
     }
     
-    private let noticeIdentifier: Notice.ID
+    private let noticeIdentifier: Announce.ID
     
     private let coordinator: MainFlowCoordinator
     
@@ -30,7 +30,7 @@ final class AnnounceDetailViewModel: ViewModel {
     
     init(
         dependencies: (
-            noticeIdentifier: Notice.ID,
+            noticeIdentifier: Announce.ID,
             coordinator: MainFlowCoordinator,
             noticeUseCase: NoticeUseCase
         )

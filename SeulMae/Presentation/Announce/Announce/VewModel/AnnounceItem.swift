@@ -8,5 +8,5 @@
 import Foundation
 
 struct AnnounceItem: Hashable {
-    
+    let title: String 
 }

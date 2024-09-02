@@ -7,6 +7,16 @@
 
 import Foundation
 
-struct AnnounceListItem {
+struct AnnounceListItem: Hashable {
+    var announceType: String
+    var title: String
+    var createdDate: Date
+    var announce: Announce
     
+    init(announce: Announce) {
+        self.announceType = ""
+        self.title = ""
+        self.createdDate = Date()
+        self.announce = announce
+    }
 }

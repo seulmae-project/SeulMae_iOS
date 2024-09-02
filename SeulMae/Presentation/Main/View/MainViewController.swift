@@ -46,7 +46,14 @@ class MainViewController: UIViewController {
         return cv
     }()
     
-    private let noticeSliderView = SliderView<NoticeView>()
+    private let showAnnounceListButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("공지 리스트", for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        return button
+    }()
+    
+    private let announceSliderView = SliderView<AnnounceView>()
     private let _mainTitleLabel = UILabel.title(title: AppText.mainTitle)
     private let currentStatusView = CurrentStatusView()
     private let calendarView = CalendarView()
@@ -55,6 +62,7 @@ class MainViewController: UIViewController {
     
     private var attendanceDataSource: AttendanceDataSource!
     private var memberDataSource: MemberDataSource!
+    private var announceRelay = PublishRelay<Announce.ID>()
     
     // MARK: - Dependencies
     
@@ -90,42 +98,8 @@ class MainViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
-        let onAppear = rx.methodInvoked(#selector(viewWillAppear))
-            .map { a in a }
-            .asSignal()
-        
-        let onLoad = rx.methodInvoked(#selector(viewDidLoad))
-            .map { _ in }
-            .asSignal()
-        
-        onAppear.emit(onNext: { a in
-            Swift.print(#line, "😁😁😁😁😁😁\(a)")
-        }, onCompleted: {
-            Swift.print(#line, "😁😁😁😁😁😁")
-        }, onDisposed: {
-            Swift.print(#line, "😁😁😁😁😁😁")
-        }).disposed(by: DisposeBag())
-        
-        Task {
-            for await a in onAppear.values {
-                Swift.print(#line, "😁😁😁😁😁😁\(a)")
-            }
-        }
-        
-        Task {
-            for await _ in onLoad.values {
-                Swift.print(#line, "😁😁😁😁😁😁")
-            }
-        }
         
         
-        
-        
-        onLoad.emit(onNext: { _ in
-            Swift.print(#line, "😁😁😁😁😁😁")
-        }).dispose()
-        
-        Swift.print(#line, "😁😁😁😁😁😁")
         
         let onMemberTap = memberCollectionView.rx
             .itemSelected
@@ -139,7 +113,11 @@ class MainViewController: UIViewController {
             .init(
                 changeWorkplace: changeWorkplaceBarButton.rx.tap.asSignal(),
                 showWorkplace: .empty(),
-                showRemainders: .empty(),
+                
+                showNotiList: .empty(),
+                showAnnouceList: showAnnounceListButton.rx.tap.asSignal(),
+                showAnnouceDetails: announceRelay.asSignal(),
+                
                 attedanceDate: .empty(),
                 onMemberTap: onMemberTap,
                 onBarButtonTap: reminderBarButton.rx.tap.asSignal()
@@ -161,19 +139,16 @@ class MainViewController: UIViewController {
         }
         
         Task {
-            for await remainders in output.notices.values {
-                // 알림 겟수 필요함
-                Swift.print(#fileID, "(MainVC) Did received remainders: \(remainders)")
-            }
-        }
-        
-        Task {
-            for await notices in output.notices.values {
-                Swift.print(#fileID, "(MainVC) Did received notices: \(notices)")
-                noticeSliderView.items = notices.map { notice in
-                    let view = NoticeView()
-                    view.title = notice.title
+            for await annouceList in output.announceList.values {
+                announceSliderView.items = annouceList.map { annouce in
+                    let view = AnnounceView()
+                    view.title = annouce.title
+                    view.announceId = annouce.id
                     return view
+                }
+                
+                announceSliderView.onItemTap = { view in
+                    view.announceId
                 }
             }
         }
@@ -260,7 +235,8 @@ class MainViewController: UIViewController {
         let stack = UIStackView(arrangedSubviews: [
             memberCollectionView,
             .separator,
-            noticeSliderView,
+            showAnnounceListButton,
+            announceSliderView,
             .separator,
             _mainTitleLabel,
             currentStatusView,
@@ -281,7 +257,7 @@ class MainViewController: UIViewController {
             make.height.equalTo(40)
         }
         
-        noticeSliderView.snp.makeConstraints { make in
+        announceSliderView.snp.makeConstraints { make in
             make.height.equalTo(64)
         }
         

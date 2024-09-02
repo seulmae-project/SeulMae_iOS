@@ -129,7 +129,7 @@
 		8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B12C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift */; };
 		8684C5B52C4A06C800EB3D28 /* SliderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B42C4A06C800EB3D28 /* SliderView.swift */; };
 		8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B62C4A079800EB3D28 /* PageControl.swift */; };
-		8684C5B92C4A0CB700EB3D28 /* NoticeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B82C4A0CB700EB3D28 /* NoticeView.swift */; };
+		8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */; };
 		8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */; };
 		868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
@@ -205,7 +205,7 @@
 		86D309E02C33A98000C08DA8 /* v1_delete_notice_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309DF2C33A98000C08DA8 /* v1_delete_notice_success.json */; };
 		86D309E22C33A9B100C08DA8 /* v1_delete_notice_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309E12C33A9B100C08DA8 /* v1_delete_notice_failed.json */; };
 		86D309E52C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309E42C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift */; };
-		86D309E72C33AEC700C08DA8 /* Notice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309E62C33AEC700C08DA8 /* Notice.swift */; };
+		86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309E62C33AEC700C08DA8 /* Announce.swift */; };
 		86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309E82C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift */; };
 		86D309EB2C33D36200C08DA8 /* v1_update_notice_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309EA2C33D36200C08DA8 /* v1_update_notice_success.json */; };
 		86D309ED2C33D38700C08DA8 /* v1_update_notice_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309EC2C33D38700C08DA8 /* v1_update_notice_failed.json */; };
@@ -379,7 +379,7 @@
 		8684C5B12C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWorkplaceRepository.swift; sourceTree = "<group>"; };
 		8684C5B42C4A06C800EB3D28 /* SliderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SliderView.swift; sourceTree = "<group>"; };
 		8684C5B62C4A079800EB3D28 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
-		8684C5B82C4A0CB700EB3D28 /* NoticeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeView.swift; sourceTree = "<group>"; };
+		8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceView.swift; sourceTree = "<group>"; };
 		8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameCalculator.swift; sourceTree = "<group>"; };
 		868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+Ex.swift"; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
@@ -456,7 +456,7 @@
 		86D309DF2C33A98000C08DA8 /* v1_delete_notice_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_delete_notice_success.json; sourceTree = "<group>"; };
 		86D309E12C33A9B100C08DA8 /* v1_delete_notice_failed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_delete_notice_failed.json; sourceTree = "<group>"; };
 		86D309E42C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoticeDTO+Mapping.swift"; sourceTree = "<group>"; };
-		86D309E62C33AEC700C08DA8 /* Notice.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notice.swift; sourceTree = "<group>"; };
+		86D309E62C33AEC700C08DA8 /* Announce.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Announce.swift; sourceTree = "<group>"; };
 		86D309E82C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NoticeDetailDTO+Mapping.swift"; sourceTree = "<group>"; };
 		86D309EA2C33D36200C08DA8 /* v1_update_notice_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_notice_success.json; sourceTree = "<group>"; };
 		86D309EC2C33D38700C08DA8 /* v1_update_notice_failed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_notice_failed.json; sourceTree = "<group>"; };
@@ -769,7 +769,7 @@
 			isa = PBXGroup;
 			children = (
 				86D309CA2C339D8A00C08DA8 /* NoticeDetail.swift */,
-				86D309E62C33AEC700C08DA8 /* Notice.swift */,
+				86D309E62C33AEC700C08DA8 /* Announce.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -860,7 +860,7 @@
 				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
 				8606F6832C33282100FFC68E /* MemberContentView.swift */,
 				86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */,
-				8684C5B82C4A0CB700EB3D28 /* NoticeView.swift */,
+				8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */,
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
 				86E296F42C4E4D9D0080A3A2 /* TextCell.swift */,
 				869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */,
@@ -1940,7 +1940,7 @@
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
 				86E296FA2C4E82850080A3A2 /* NotiListViewModel.swift in Sources */,
-				8684C5B92C4A0CB700EB3D28 /* NoticeView.swift in Sources */,
+				8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */,
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
 				860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
@@ -1994,7 +1994,7 @@
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				869054AF2C60C9140037B61A /* WorkplaceTable.swift in Sources */,
-				86D309E72C33AEC700C08DA8 /* Notice.swift in Sources */,
+				86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */,
 				864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */,
 				864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,

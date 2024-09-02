@@ -11,13 +11,15 @@ import RxSwift
 protocol NoticeRepository {
     func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> Single<[AppNotification]>
     
-    func fetchMainNoticeList(workplaceID id: Workplace.ID) -> Single<[Notice]>
+    
+    // Announce
+    func fetchMainAnnounceList(workplaceId id: Workplace.ID) -> Single<[Announce]>
+    func fetchAnnounceList(workplaceId id: Workplace.ID, page: Int, size: Int) -> Single<[Announce]>
 
     
     func addNotice(_ request: AddNoticeRequset) -> Single<Bool>
-    func updateNotice(noticeIdentifier id: Notice.ID, _ request: UpdateNoticeRequest) -> Single<Bool>
-    func fetchNoticeDetail(noticeIdentifier id: Notice.ID) -> Single<NoticeDetail>
-    func fetchAllNotice(workplaceIdentifier id: Workplace.ID, page: Int, size: Int) -> Single<[Notice]>
-    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Notice]>
-    func deleteNotice(noticeIdentifier id: Notice.ID) -> Single<Bool>
+    func updateNotice(noticeIdentifier id: Announce.ID, _ request: UpdateNoticeRequest) -> Single<Bool>
+    func fetchNoticeDetail(noticeIdentifier id: Announce.ID) -> Single<NoticeDetail>
+    func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Announce]>
+    func deleteNotice(noticeIdentifier id: Announce.ID) -> Single<Bool>
 }

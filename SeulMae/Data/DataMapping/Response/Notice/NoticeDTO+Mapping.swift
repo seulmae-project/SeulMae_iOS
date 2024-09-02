@@ -26,7 +26,7 @@ struct NoticeDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<[NoticeDTO]> {
-    func toDomain() throws -> [Notice] {
+    func toDomain() throws -> [Announce] {
         if let reason {
             throw APIError.unauthorized(reason)
         }
@@ -40,7 +40,7 @@ extension BaseResponseDTO<[NoticeDTO]> {
 }
 
 extension NoticeDTO {
-    func toDomain() throws -> Notice {
+    func toDomain() throws -> Announce {
         guard let id else { 
             throw MappingError.invalidData(Self.self)
         }
