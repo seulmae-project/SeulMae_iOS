@@ -7,21 +7,19 @@
 
 import Foundation
 
-struct AnnounceDetailItem {
-    enum ItemKind {
-        case normal
-        case mustRead
-    }
-    
-    let kind: ItemKind
+struct AnnounceDetailItem: Identifiable {
+    let id: Announce.ID
     let title: String
     let content: String
+    let isImportant: Bool
+    let announceDetail: AnnounceDetail
     
-    init(_ noticeDetail: AnnounceDetail) {
-        self.kind = .normal
-        // TODO: dto 수정되면 kind에 대한 로직 추가
-        self.title = noticeDetail.title
-        self.content = noticeDetail.content
+    init(_ announceDetail: AnnounceDetail) {
+        self.id = announceDetail.id
+        self.title = announceDetail.title
+        self.content = announceDetail.content
+        self.isImportant = announceDetail.isImportant
+        self.announceDetail = announceDetail
     }
 }
 

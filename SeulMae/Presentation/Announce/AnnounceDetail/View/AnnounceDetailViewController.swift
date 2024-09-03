@@ -100,7 +100,9 @@ final class AnnounceDetailViewController: UIViewController {
         
         Task {
             for await item in output.item.values {
-                
+                announceTitleTextView.text = item.announceDetail.title
+                announceContentTextView.text = item.announceDetail.content
+                announceKindSegment.selectedSegmentIndex = item.announceDetail.isImportant ? 1 : 0
             }
         }
     }
