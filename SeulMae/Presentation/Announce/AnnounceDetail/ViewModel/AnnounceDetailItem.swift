@@ -17,7 +17,7 @@ struct AnnounceDetailItem {
     let title: String
     let content: String
     
-    init(_ noticeDetail: NoticeDetail) {
+    init(_ noticeDetail: AnnounceDetail) {
         self.kind = .normal
         // TODO: dto 수정되면 kind에 대한 로직 추가
         self.title = noticeDetail.title

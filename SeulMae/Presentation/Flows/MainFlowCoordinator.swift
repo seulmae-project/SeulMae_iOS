@@ -15,7 +15,7 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: - Notice Flow Dependencies
     func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
-    func makeNoticeDetailViewController(noticeIdentifier: Announce.ID, coordinator: MainFlowCoordinator) -> AnnounceDetailViewController
+   
     
     // MARK: Workplace Flow Dependencies
     func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController
@@ -25,6 +25,7 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: - Announce Flow Dependencies
     func makeAnnounceViewController(coordinator: MainFlowCoordinator) -> AnnounceViewController
+    func makeNoticeDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID) -> AnnounceDetailViewController
 }
 
 protocol MainFlowCoordinator {
@@ -34,9 +35,12 @@ protocol MainFlowCoordinator {
     func showMain()
     func showMemberInfo(member: Member)
     func showNotiList(workplaceIdentifier: Workplace.ID)
-    func showNotiDetail(noticeIdentifier: Announce.ID)
+    
+    //
+    
     
     func showAnnounceList()
+    func showAnnounceDetail(announceId: Announce.ID)
     
     // Workplace Flow
     // func showTutorial()
@@ -101,12 +105,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showNotiDetail(noticeIdentifier: Announce.ID) {
-        let vc = dependencies.makeNoticeDetailViewController(
-            noticeIdentifier: noticeIdentifier,
-            coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
+    
     
     // MARK: - Workplace Flow
     
@@ -136,6 +135,13 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     func showAnnounceList() {
         let vc = dependencies.makeAnnounceViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showAnnounceDetail(announceId: Announce.ID) {
+        let vc = dependencies.makeNoticeDetailViewController(
+            coordinator: self,
+            announceId: announceId)
         navigationController.pushViewController(vc, animated: true)
     }
 }

@@ -57,6 +57,13 @@ class DefaultNoticeRepository: NoticeRepository {
             .map { try $0.toDomain() }
     }
     
+    func fetchAnnounceDetail(announceId id: Announce.ID) -> RxSwift.Single<AnnounceDetail> {
+        return network.rx
+            .request(.fetchAnnounceDetail(announceId: id))
+                .map(BaseResponseDTO<AnnounceDetailDTO>.self)
+                .map { $0.toDomain() }
+    }
+    
     
     
     
@@ -92,19 +99,7 @@ class DefaultNoticeRepository: NoticeRepository {
         })
     }
     
-    func fetchNoticeDetail(noticeIdentifier id: Announce.ID) -> RxSwift.Single<NoticeDetail> {
-        Swift.print(#fileID, #function, "\n- noticeID: \(id)\n")
-        return Single<BaseResponseDTO<NoticeDetailDTO>>.create { observer in
-            observer(.success(MockData.NoticeAPI.detailSuccess))
-            // observer(.success(MockData.NoticeAPI.detailFailed))
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
-    
+   
     
     
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Announce]> {

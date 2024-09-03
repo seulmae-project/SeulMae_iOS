@@ -155,7 +155,7 @@ struct AttendanceRequestDTO: ModelType {
 
 extension BaseResponseDTO<[AttendanceRequestDTO]> {
     func toDomain() -> [AttendanceRequest] {
-        data?.map { $0.toDomain() } ?? []
+        data.map { $0.toDomain() }
     }
 }
 

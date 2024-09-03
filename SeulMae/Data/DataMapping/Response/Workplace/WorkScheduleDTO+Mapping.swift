@@ -23,7 +23,6 @@ struct WorkScheduleDTO: ModelType {
 
 extension BaseResponseDTO<WorkScheduleDTO> {
     func toDomain() throws -> WorkSchedule {
-        guard let data else { throw MappingError.emptyData(Data.self) }
         return try data.toDomain()
     }
 }

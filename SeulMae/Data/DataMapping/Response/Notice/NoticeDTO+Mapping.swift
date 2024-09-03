@@ -30,10 +30,7 @@ extension BaseResponseDTO<[NoticeDTO]> {
         if let reason {
             throw APIError.unauthorized(reason)
         }
-        
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
+
         
         return data.compactMap { try? $0.toDomain() }
     }

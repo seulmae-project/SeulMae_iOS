@@ -40,10 +40,6 @@ struct MemberInfoDTO: ModelType {
 
 extension BaseResponseDTO<MemberInfoDTO> {
     func toDomain() throws -> MemberInfo {
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
-        
         return try data.toDomain()
     }
 }

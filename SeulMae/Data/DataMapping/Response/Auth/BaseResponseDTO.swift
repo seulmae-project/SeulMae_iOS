@@ -16,7 +16,7 @@ import Foundation
 
 
 struct BaseResponseDTO<Data: Codable>: ModelType {
-    let data: Data?
+    let data: Data
     let status: Int?
     let resultMsg: String?
     let divisionCode: String?

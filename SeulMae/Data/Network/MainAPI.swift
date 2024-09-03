@@ -15,15 +15,16 @@ enum MainAPI: SugarTargetType {
     /// - Tag: Main
     case fetchMemberList(_ workplaceID: String)
     
+    // Noti
     case fetchAppNotificationList(userWorkplaceID: Int)
     
     // Announce
     case fetchAnnounceList(workplaceId: Workplace.ID, page: Int, size: Int)
-    
+    case fetchAnnounceDetail(announceId: Announce.ID)
+
     /// - Tag: Notice
     case addNotice(_ request: AddNoticeRequset)
     case updateNotice(noticeID: String, _ request: UpdateNoticeRequest)
-    case fetchNoticeDetail(noticeID: String)
     case fetchAllNotice(workplaceID: String, page: Int, size: Int)
     case fetchMustReadNoticeList(workplaceID: Int)
     case fetchMainAnnounceList(workplaceId: Int)
@@ -53,7 +54,7 @@ extension MainAPI {
             return .post("api/announcement/v1")
         case .updateNotice:
             return .put("api/announcement/v1")
-        case .fetchNoticeDetail:
+        case .fetchAnnounceDetail:
             return .get("api/announcement/v1")
         case .fetchAllNotice:
             return .get("api/announcement/v1/list")
@@ -79,12 +80,13 @@ extension MainAPI {
                 "page": page,
                 "size": size
             ]
+        case .fetchAnnounceDetail(let announceId):
+            return ["announcementId": announceId]
             
             
         case .updateNotice(let noticeID, _):
             return JSONEncoding() => ["announcementId": noticeID]
-        case .fetchNoticeDetail(let noticeID):
-            return JSONEncoding() => ["announcementId": noticeID]
+        
         case .fetchAllNotice(let workplaceID, let page, let size):
             return JSONEncoding() => [
                 "workplaceId": workplaceID,

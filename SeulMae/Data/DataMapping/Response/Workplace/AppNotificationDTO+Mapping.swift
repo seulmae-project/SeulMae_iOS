@@ -27,7 +27,7 @@ struct AppNotificationDTO: ModelType {
 
 extension BaseResponseDTO<[AppNotificationDTO]> {
     func toDomain() -> [AppNotification] {
-        return data?.map { $0.toDomain() } ?? []
+        return data.map { $0.toDomain() }
     }
 }
 

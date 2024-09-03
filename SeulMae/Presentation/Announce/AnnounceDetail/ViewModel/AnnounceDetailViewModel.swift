@@ -14,30 +14,28 @@ final class AnnounceDetailViewModel: ViewModel {
         let isMustRead: Driver<Bool>
         let title: Driver<String>
         let content: Driver<String>
-        let onUpdate: Signal<()>
+        let saveAnnounce: Signal<()>
     }
     
     struct Output {
         let item: Driver<AnnounceDetailItem>
-        let updateEnabled: Driver<Bool>
+        let saveEnabled: Driver<Bool>
     }
     
-    private let noticeIdentifier: Announce.ID
-    
     private let coordinator: MainFlowCoordinator
-    
     private let noticeUseCase: NoticeUseCase
+    private let announceId: Announce.ID
     
     init(
         dependencies: (
-            noticeIdentifier: Announce.ID,
             coordinator: MainFlowCoordinator,
-            noticeUseCase: NoticeUseCase
+            noticeUseCase: NoticeUseCase,
+            announceId: Announce.ID
         )
     ) {
-        self.noticeIdentifier = dependencies.noticeIdentifier
         self.coordinator = dependencies.coordinator
         self.noticeUseCase = dependencies.noticeUseCase
+        self.announceId = dependencies.announceId
     }
     
     @MainActor
@@ -45,9 +43,8 @@ final class AnnounceDetailViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let isLoading = indicator.asDriver()
         
-        // MARK: - Item For View
-        
-        let item = noticeUseCase.fetchNoticeDetail(noticeIdentifier: noticeIdentifier)
+        let item = noticeUseCase.fetchAnnounceDetail(announceId: announceId)
+            .trackActivity(indicator)
             .map { AnnounceDetailItem.init($0) }
             .asDriver()
         
@@ -84,9 +81,9 @@ final class AnnounceDetailViewModel: ViewModel {
             }
             .distinctUntilChanged()
         
-        let isUpdated = input.onUpdate.withLatestFrom(request)
+        let isUpdated = input.saveAnnounce.withLatestFrom(request)
             .flatMapLatest { [unowned self] request -> Driver<Bool> in
-                noticeUseCase.updateNotice(noticeIdentifier: noticeIdentifier, with: request)
+                noticeUseCase.updateNotice(noticeIdentifier: announceId, with: request)
                     .asDriver()
             }
         
@@ -100,7 +97,7 @@ final class AnnounceDetailViewModel: ViewModel {
         
         return Output(
             item: item,
-            updateEnabled: updateEnabled
+            saveEnabled: updateEnabled
         )
     }
     

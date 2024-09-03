@@ -19,7 +19,7 @@ protocol NoticeRepository {
     
     func addNotice(_ request: AddNoticeRequset) -> Single<Bool>
     func updateNotice(noticeIdentifier id: Announce.ID, _ request: UpdateNoticeRequest) -> Single<Bool>
-    func fetchNoticeDetail(noticeIdentifier id: Announce.ID) -> Single<NoticeDetail>
+    func fetchAnnounceDetail(announceId id: Announce.ID) -> Single<AnnounceDetail>
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Announce]>
     func deleteNotice(noticeIdentifier id: Announce.ID) -> Single<Bool>
 }

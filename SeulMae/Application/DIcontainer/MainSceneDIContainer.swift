@@ -228,28 +228,28 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     // MARK: - Notice Detail
     
     func makeNoticeDetailViewController(
-        noticeIdentifier: Announce.ID,
-        coordinator: any MainFlowCoordinator
+        coordinator: any MainFlowCoordinator,
+        announceId: Announce.ID
     ) -> AnnounceDetailViewController {
         return AnnounceDetailViewController(
             viewModel: makeNoticeDtailViewModel(
-                noticeIdentifier: noticeIdentifier,
                 coordinator: coordinator,
-                noticeUseCase: makeNoticeUseCase()
+                noticeUseCase: makeNoticeUseCase(),
+                announceId: announceId
             )
         )
     }
     
     private func makeNoticeDtailViewModel(
-        noticeIdentifier: Announce.ID,
         coordinator: MainFlowCoordinator,
-        noticeUseCase: NoticeUseCase
+        noticeUseCase: NoticeUseCase,
+        announceId: Announce.ID
     ) -> AnnounceDetailViewModel {
         return AnnounceDetailViewModel(
             dependencies: (
-                noticeIdentifier: noticeIdentifier,
                 coordinator: coordinator,
-                noticeUseCase: noticeUseCase
+                noticeUseCase: noticeUseCase,
+                announceId: announceId
             )
         )
     }

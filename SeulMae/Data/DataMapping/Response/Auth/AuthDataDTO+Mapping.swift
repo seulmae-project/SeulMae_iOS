@@ -29,10 +29,6 @@ struct AuthDataDTO: ModelType {
 
 extension BaseResponseDTO<AuthDataDTO> {
     func toDomain() throws -> AuthData {
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
-        
         return try data.toDomain()
     }
 }
