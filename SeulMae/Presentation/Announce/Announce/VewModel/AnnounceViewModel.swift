@@ -6,7 +6,50 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-final class AnnounceViewModel {
+final class AnnounceViewModel: ViewModel {
+    struct Input {
+        let selectedItem: Signal<AnnounceItem>
+    }
     
+    struct Output {
+        let isLoading: Driver<Bool>
+        let items: Driver<[AnnounceItem]>
+    }
+    
+    private let coordinator: MainFlowCoordinator
+    private let noticeUseCase: NoticeUseCase
+    
+    init(
+        dependencies: (
+            coordinator: MainFlowCoordinator,
+            noticeUseCase: NoticeUseCase
+        )
+    ) {
+        self.coordinator = dependencies.coordinator
+        self.noticeUseCase = dependencies.noticeUseCase
+    }
+    
+    @MainActor
+    func transform(_ input: Input) -> Output {
+        let indicator = ActivityIndicator()
+        let isLoading = indicator.asDriver()
+        
+        let items = Driver.just(["전체", "필독"])
+            .map { $0.map(AnnounceItem.init(title:)) }
+        
+        Task {
+            for await selected in input.selectedItem.values {
+                Swift.print("Selected category: \(selected.title)")
+            }
+        }
+        
+        return Output(
+            isLoading: isLoading,
+            items: items
+        )
+    }
 }
+

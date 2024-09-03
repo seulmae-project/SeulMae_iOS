@@ -76,10 +76,19 @@ final class AnnounceViewController: UIViewController {
     }
     
     private func bindSubviews() {
-        let categories = Driver.just(["전체", "필독"])
+        let selectedItem = collectionView.rx
+            .itemSelected
+            .compactMap { [weak dataSource] indexPath in
+                return dataSource?.itemIdentifier(for: indexPath)
+            }
+            .asSignal()
+        
+        let output = viewModel.transform(
+            .init(selectedItem: selectedItem)
+        )
+        
         Task {
-            for await categories in categories.values {
-                let items = categories.map(AnnounceItem.init(title:))
+            for await items in output.items.values {
                 var snapshot = Snapshot()
                 snapshot.appendSections(Section.allCases)
                 snapshot.appendItems(items, toSection: .category)

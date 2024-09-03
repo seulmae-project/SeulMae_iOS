@@ -256,12 +256,22 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
         return AnnounceViewController(
-            viewModel: AnnounceViewModel(),
+            viewModel: AnnounceViewModel(
+                dependencies: (
+                coordinator: coordinator,
+                noticeUseCase: makeNoticeUseCase()
+                )
+            ),
             viewControllers: [
-                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
-                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
-                AnnounceListViewController(viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())),
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
+                ),
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
+                ),
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
+                ),
             ])
     }
-    
 }
