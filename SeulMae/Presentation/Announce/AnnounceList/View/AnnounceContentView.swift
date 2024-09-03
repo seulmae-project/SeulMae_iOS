@@ -68,11 +68,10 @@ final class AnnounceContentView: UIView, UIContentView {
         titleStack.addArrangedSubview(titleLabel)
         titleStack.addArrangedSubview(moreButton)
         
-        titleStack.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        titleLabel.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
         
         let body = UIView()
-        body.backgroundColor = .blue
-        body.heightAnchor.constraint(equalToConstant: 16).isActive = true
+        // body
 
         let contentStack = UIStackView()
         contentStack.axis = .vertical

@@ -99,15 +99,11 @@ final class AnnounceViewController: UIViewController {
     // MARK: - Hierarchy
     
     private func setupConstraints() {
-        view.frame = view.frame
         view.addSubview(collectionView)
         view.addSubview(pageViewController.view)
         
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         pageViewController.view.translatesAutoresizingMaskIntoConstraints = false
-        
-        collectionView.backgroundColor = .red.withAlphaComponent(0.3)
-        pageViewController.view.backgroundColor = .blue.withAlphaComponent(0.3)
         
         NSLayoutConstraint.activate([
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -120,8 +116,6 @@ final class AnnounceViewController: UIViewController {
             pageViewController.view.topAnchor.constraint(equalTo: collectionView.bottomAnchor),
             pageViewController.view.bottomAnchor.constraint(equalTo: view.bottomAnchor),
         ])
-        
-        pageViewController.didMove(toParent: self)
     }
     
     // MARK: - DataSource
@@ -169,24 +163,38 @@ final class AnnounceViewController: UIViewController {
 // MARK: - UIPageViewControllerDataSource
 
 extension AnnounceViewController: UIPageViewControllerDelegate, UIPageViewControllerDataSource {
-    func pageViewController(_ pageViewController: UIPageViewController, didFinishAnimating finished: Bool, previousViewControllers: [UIViewController], transitionCompleted completed: Bool) {
-        
-    }
-
     
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerAfter viewController: UIViewController
     ) -> UIViewController? {
-        Swift.print(#function, "After")
-        return UIViewController()
+        guard let currentIndex = viewControllers.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        let lastIndex = viewControllers.count - 1
+        var nextIndex = currentIndex + 1
+        if (lastIndex < nextIndex) {
+            nextIndex = 0
+        }
+        
+        return viewControllers[nextIndex]
     }
     
     func pageViewController(
         _ pageViewController: UIPageViewController,
         viewControllerBefore viewController: UIViewController
     ) -> UIViewController? {
-        Swift.print(#function, "Before")
-        return UIViewController()
+        guard let currentIndex = viewControllers.firstIndex(of: viewController) else {
+            return nil
+        }
+        
+        let lastIndex = viewControllers.count - 1
+        var previousIndex = currentIndex - 1
+        if (previousIndex < 0) {
+            previousIndex = lastIndex
+        }
+        
+        return viewControllers[previousIndex]
     }
 }
