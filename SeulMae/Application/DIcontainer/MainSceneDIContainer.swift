@@ -227,14 +227,42 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     // MARK: - Notice Detail
     
-    func makeNoticeDetailViewController(
+   
+    
+    
+    
+    // MARK: - Announce
+    
+    func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
+        return AnnounceViewController(
+            viewModel: AnnounceViewModel(
+                dependencies: (
+                    coordinator: coordinator,
+                    noticeUseCase: makeNoticeUseCase()
+                )
+            ),
+            viewControllers: [
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+                ),
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+                ),
+                AnnounceListViewController(
+                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+                ),
+            ])
+    }
+    
+    func makeAnnounceDetailViewController(
         coordinator: any MainFlowCoordinator,
-        announceId: Announce.ID
+        announceId: Announce.ID?
     ) -> AnnounceDetailViewController {
         return AnnounceDetailViewController(
             viewModel: makeNoticeDtailViewModel(
                 coordinator: coordinator,
                 noticeUseCase: makeNoticeUseCase(),
+                wireframe: DefaultWireframe.shared,
                 announceId: announceId
             )
         )
@@ -243,35 +271,16 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     private func makeNoticeDtailViewModel(
         coordinator: MainFlowCoordinator,
         noticeUseCase: NoticeUseCase,
-        announceId: Announce.ID
+        wireframe: Wireframe,
+        announceId: Announce.ID?
     ) -> AnnounceDetailViewModel {
         return AnnounceDetailViewModel(
             dependencies: (
                 coordinator: coordinator,
                 noticeUseCase: noticeUseCase,
+                wireframe: wireframe,
                 announceId: announceId
             )
         )
-    }
-    
-    func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
-        return AnnounceViewController(
-            viewModel: AnnounceViewModel(
-                dependencies: (
-                coordinator: coordinator,
-                noticeUseCase: makeNoticeUseCase()
-                )
-            ),
-            viewControllers: [
-                AnnounceListViewController(
-                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
-                ),
-                AnnounceListViewController(
-                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
-                ),
-                AnnounceListViewController(
-                    viewModel: AnnounceListViewModel(noticeUseCase: makeNoticeUseCase())
-                ),
-            ])
     }
 }

@@ -13,7 +13,6 @@ struct TokenDTO: ModelType {
 }
 
 struct AuthDataDTO: ModelType {
-    
     let token: TokenDTO
     let role: String?
     let workplace: [WorkplaceDTO]
@@ -29,13 +28,12 @@ struct AuthDataDTO: ModelType {
 
 extension BaseResponseDTO<AuthDataDTO> {
     func toDomain() throws -> AuthData {
-        return try data.toDomain()
+        return try getData().toDomain()
     }
 }
 
 extension AuthDataDTO {
-    func toDomain() throws -> AuthData {
-        
+    func toDomain() -> AuthData {
         return AuthData(
             token: token.toDomain(),
             role: role ?? "",

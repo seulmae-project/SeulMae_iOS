@@ -30,7 +30,7 @@ class DefaultNoticeRepository: NoticeRepository {
                 Swift.print("error: \(error)")
             })
             .map(BaseResponseDTO<[AppNotificationDTO]>.self, using: AppNotificationDTO.decoder)
-            .map { $0.toDomain() }
+            .map { try $0.toDomain() }
     }
     
     func fetchAnnounceList(workplaceId id: Workplace.ID, page: Int, size: Int) -> RxSwift.Single<[Announce]> {
@@ -60,46 +60,35 @@ class DefaultNoticeRepository: NoticeRepository {
     func fetchAnnounceDetail(announceId id: Announce.ID) -> RxSwift.Single<AnnounceDetail> {
         return network.rx
             .request(.fetchAnnounceDetail(announceId: id))
-                .map(BaseResponseDTO<AnnounceDetailDTO>.self)
-                .map { $0.toDomain() }
+            .map(BaseResponseDTO<AnnounceDetailDTO>.self, using: BaseResponseDTO<AnnounceDetailDTO>.decoder)
+            .map { try $0.toDomain() }
     }
     
-    
-    
-    
-    
-    
-    
-    func addNotice(_ request: AddNoticeRequset) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- request: \(request)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.NoticeAPI.addSuccess))
-            // observer(.success(MockData.NoticeAPI.addFailed))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func addAnnounce(request: AddAnnounceRequset) -> RxSwift.Single<Bool> {
+        return network.rx
+            .request(.addAnnounce(request: request))
+            .map(BaseResponseDTO<String>.self)
+            .map(\.isSuccess)
     }
     
-    func updateNotice(
-        noticeIdentifier id: Announce.ID,
-        _ request: UpdateNoticeRequest
+    func updateAnnounce(
+        announceId id: Announce.ID,
+        request: UpdateAnnounceRequest
     ) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- noticeID: \(id)\n - request: \(request)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.NoticeAPI.updateSuccess))
-            // observer(.success(MockData.NoticeAPI.updateFailed))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+        return network.rx
+            .request(.updateAnnounce(announceId: id, request: request))
+            .do(onSuccess: { response in
+                Swift.print("response: \(response.request?.url?.absoluteString)")
+                Swift.print("response: \(try response.data.prettyString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
+            .map(BaseResponseDTO<String>.self)
+            .map(\.isSuccess)
     }
     
-   
+    
+    
     
     
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Announce]> {
@@ -113,8 +102,6 @@ class DefaultNoticeRepository: NoticeRepository {
             print("error: \(error)")
         })
     }
-    
-    
     
     func deleteNotice(noticeIdentifier id: Int) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- noticeID: \(id)\n")

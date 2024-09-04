@@ -8,7 +8,7 @@
 import Foundation
 
 struct WorkScheduleDTO: ModelType {
-    let id: String?
+    let id: String
     let title: String?
     let days: [Int]?
     
@@ -22,14 +22,13 @@ struct WorkScheduleDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<WorkScheduleDTO> {
-    func toDomain() throws -> WorkSchedule {
-        return try data.toDomain()
+    func toDomain() -> WorkSchedule? {
+        return data?.toDomain()
     }
 }
 
 extension WorkScheduleDTO {
-    func toDomain() throws -> WorkSchedule {
-        guard let id else { throw MappingError.invalidData(Self.self) }
+    func toDomain() -> WorkSchedule {
         return .init(
             id: id,
             title: title ?? "",

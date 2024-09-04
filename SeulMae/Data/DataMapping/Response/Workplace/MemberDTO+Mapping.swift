@@ -8,7 +8,7 @@
 import Foundation
 
 struct MemberDTO: ModelType {
-    let id: Int?
+    let id: Int
     let name: String?
     let imageURL: String?
     let isManager: Bool?
@@ -24,21 +24,13 @@ struct MemberDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<[MemberDTO]> {
-    func toDomain() throws -> [Member] {
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
-        
-        return data.compactMap { try? $0.toDomain() }
+    func toDomain() -> [Member] {
+        return data?.map { $0.toDomain() } ?? []
     }
 }
 
 extension MemberDTO {
-    func toDomain() throws -> Member {
-        guard let id else {
-            throw MappingError.invalidData(Self.self)
-        }
-        
+    func toDomain() -> Member {
         return .init(
             id: id,
             name: name ?? "",

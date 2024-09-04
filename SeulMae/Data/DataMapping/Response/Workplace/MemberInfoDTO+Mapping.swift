@@ -40,12 +40,12 @@ struct MemberInfoDTO: ModelType {
 
 extension BaseResponseDTO<MemberInfoDTO> {
     func toDomain() throws -> MemberInfo {
-        return try data.toDomain()
+        return try getData().toDomain()
     }
 }
 
 extension MemberInfoDTO {
-    func toDomain() throws -> MemberInfo {
+    func toDomain() -> MemberInfo {
         return .init(
             name: name,
             phoneNumber: phoneNumber,

@@ -59,7 +59,11 @@ public extension SugarTargetType {
             return .uploadMultipart(formData)
         }
         
-        if let body {
+        if let body, let parameters {
+            let encoder = JSONEncoder()
+            let data = try? encoder.encode(body)
+            return .requestCompositeData(bodyData: data ?? Data(), urlParameters: parameters.values)
+        } else if let body {
             return .requestJSONEncodable(body)
         } else if let parameters {
             return .requestParameters(parameters: parameters.values, encoding: parameters.encoding)

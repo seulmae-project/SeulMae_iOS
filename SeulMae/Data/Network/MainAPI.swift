@@ -21,10 +21,10 @@ enum MainAPI: SugarTargetType {
     // Announce
     case fetchAnnounceList(workplaceId: Workplace.ID, page: Int, size: Int)
     case fetchAnnounceDetail(announceId: Announce.ID)
-
+    case updateAnnounce(announceId: Announce.ID, request: UpdateAnnounceRequest)
+    case addAnnounce(request: AddAnnounceRequset)
+    
     /// - Tag: Notice
-    case addNotice(_ request: AddNoticeRequset)
-    case updateNotice(noticeID: String, _ request: UpdateNoticeRequest)
     case fetchAllNotice(workplaceID: String, page: Int, size: Int)
     case fetchMustReadNoticeList(workplaceID: Int)
     case fetchMainAnnounceList(workplaceId: Int)
@@ -45,15 +45,16 @@ extension MainAPI {
             return .get("api/announcement/v1/main")
         case .fetchAnnounceList:
             return .get("api/announcement/v1/list")
+        case .addAnnounce:
+            return .post("api/announcement/v1")
+        case .updateAnnounce:
+            return .put("api/announcement/v1")
             
         case .fetchMemberList:
             return .get("api/")
         
             
-        case .addNotice:
-            return .post("api/announcement/v1")
-        case .updateNotice:
-            return .put("api/announcement/v1")
+        
         case .fetchAnnounceDetail:
             return .get("api/announcement/v1")
         case .fetchAllNotice:
@@ -71,7 +72,6 @@ extension MainAPI {
 
         case .fetchAppNotificationList(userWorkplaceID: let userWorkplaceID):
             return ["userWorkplaceId": userWorkplaceID]
-
         case .fetchMainAnnounceList(let workplaceId):
             return ["workplaceId": workplaceId]
         case .fetchAnnounceList(let workplaceId, let page, let size):
@@ -82,10 +82,9 @@ extension MainAPI {
             ]
         case .fetchAnnounceDetail(let announceId):
             return ["announcementId": announceId]
-            
-            
-        case .updateNotice(let noticeID, _):
-            return JSONEncoding() => ["announcementId": noticeID]
+        case .updateAnnounce(let announceId, _):
+            return ["announcementId": announceId]
+
         
         case .fetchAllNotice(let workplaceID, let page, let size):
             return JSONEncoding() => [
@@ -105,9 +104,9 @@ extension MainAPI {
     
     var body: Encodable? {
         switch self {
-        case .addNotice(let request):
+        case .addAnnounce(let request):
             return request
-        case .updateNotice(_, let request):
+        case .updateAnnounce(_, let request):
             return request
         default:
             return nil

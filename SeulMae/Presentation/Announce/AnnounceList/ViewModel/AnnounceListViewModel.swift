@@ -11,20 +11,22 @@ import RxCocoa
 
 final class AnnounceListViewModel: ViewModel {
     struct Input {
-        
+        let showAnnounceDetails: Signal<AnnounceListItem>
     }
     
     struct Output {
         let isLoading: Driver<Bool>
         let items: Driver<[AnnounceListItem]>
-        
     }
     
+    private let coordinator: MainFlowCoordinator
     private let noticeUseCase: NoticeUseCase
     
     init(
+        coordinator: MainFlowCoordinator,
         noticeUseCase: NoticeUseCase
     ) {
+        self.coordinator = coordinator
         self.noticeUseCase = noticeUseCase
     }
     
@@ -36,6 +38,13 @@ final class AnnounceListViewModel: ViewModel {
         let items = noticeUseCase.fetchAnnounceList(page: 0, size: 30)
             .map { $0.map(AnnounceListItem.init(announce:)) }
             .asDriver()
+        
+        
+        Task {
+            for await item in input.showAnnounceDetails.values {
+                coordinator.showAnnounceDetail(announceId: item.announce.id)
+            }
+        }
         
         return Output(
             isLoading: isLoading,

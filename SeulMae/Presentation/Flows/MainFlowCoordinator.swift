@@ -25,7 +25,7 @@ protocol MainFlowCoordinatorDependencies {
     
     // MARK: - Announce Flow Dependencies
     func makeAnnounceViewController(coordinator: MainFlowCoordinator) -> AnnounceViewController
-    func makeNoticeDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID) -> AnnounceDetailViewController
+    func makeAnnounceDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID?) -> AnnounceDetailViewController
 }
 
 protocol MainFlowCoordinator {
@@ -40,7 +40,7 @@ protocol MainFlowCoordinator {
     
     
     func showAnnounceList()
-    func showAnnounceDetail(announceId: Announce.ID)
+    func showAnnounceDetail(announceId: Announce.ID?)
     
     // Workplace Flow
     // func showTutorial()
@@ -138,8 +138,8 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showAnnounceDetail(announceId: Announce.ID) {
-        let vc = dependencies.makeNoticeDetailViewController(
+    func showAnnounceDetail(announceId: Announce.ID?) {
+        let vc = dependencies.makeAnnounceDetailViewController(
             coordinator: self,
             announceId: announceId)
         navigationController.pushViewController(vc, animated: true)

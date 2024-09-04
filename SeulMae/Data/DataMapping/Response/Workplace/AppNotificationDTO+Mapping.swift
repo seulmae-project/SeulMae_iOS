@@ -26,8 +26,8 @@ struct AppNotificationDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<[AppNotificationDTO]> {
-    func toDomain() -> [AppNotification] {
-        return data.map { $0.toDomain() }
+    func toDomain() throws -> [AppNotification] {
+        return try getData().map { $0.toDomain() }
     }
 }
 

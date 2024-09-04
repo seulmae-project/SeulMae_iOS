@@ -39,26 +39,18 @@ struct WorkplaceDTO: ModelType {
 
 extension BaseResponseDTO<[WorkplaceDTO]> {
     func toDomain() throws -> [Workplace] {
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
-        
-        return data.compactMap { try? $0.toDomain() }
+        return try getData().map { $0.toDomain() }
     }
 }
 
 extension BaseResponseDTO<WorkplaceDTO> {
     func toDomain() throws -> Workplace {
-        guard let data else {
-            throw MappingError.emptyData(Data.self)
-        }
-        
-        return try data.toDomain()
+        return try getData().toDomain()
     }
 }
 
 extension WorkplaceDTO {
-    func toDomain() throws -> Workplace {
+    func toDomain() -> Workplace {
         return .init(
             invitationCode: self.invitationCode ?? "",
             contact: self.contact ?? "",

@@ -191,8 +191,8 @@
 		86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B032C4F386E0051EF2B /* AnnounceDetailViewController.swift */; };
 		86C40B062C4F38E30051EF2B /* AnnounceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B052C4F38E30051EF2B /* AnnounceDetailViewModel.swift */; };
 		86C40B082C4F3C320051EF2B /* AnnounceDetailItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B072C4F3C320051EF2B /* AnnounceDetailItem.swift */; };
-		86D309C72C33975100C08DA8 /* AddNoticeRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C62C33975100C08DA8 /* AddNoticeRequset.swift */; };
-		86D309C92C3397C800C08DA8 /* UpdateNoticeRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C82C3397C800C08DA8 /* UpdateNoticeRequest.swift */; };
+		86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C62C33975100C08DA8 /* AddAnnounceRequset.swift */; };
+		86D309C92C3397C800C08DA8 /* UpdateAnnounceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309C82C3397C800C08DA8 /* UpdateAnnounceRequest.swift */; };
 		86D309CB2C339D8A00C08DA8 /* AnnounceDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86D309CA2C339D8A00C08DA8 /* AnnounceDetail.swift */; };
 		86D309D02C33A80800C08DA8 /* v1_add_notice_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309CF2C33A80800C08DA8 /* v1_add_notice_success.json */; };
 		86D309D22C33A82C00C08DA8 /* v1_add_notice_failed.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309D12C33A82C00C08DA8 /* v1_add_notice_failed.json */; };
@@ -442,8 +442,8 @@
 		86C40B032C4F386E0051EF2B /* AnnounceDetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceDetailViewController.swift; sourceTree = "<group>"; };
 		86C40B052C4F38E30051EF2B /* AnnounceDetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceDetailViewModel.swift; sourceTree = "<group>"; };
 		86C40B072C4F3C320051EF2B /* AnnounceDetailItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceDetailItem.swift; sourceTree = "<group>"; };
-		86D309C62C33975100C08DA8 /* AddNoticeRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNoticeRequset.swift; sourceTree = "<group>"; };
-		86D309C82C3397C800C08DA8 /* UpdateNoticeRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateNoticeRequest.swift; sourceTree = "<group>"; };
+		86D309C62C33975100C08DA8 /* AddAnnounceRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddAnnounceRequset.swift; sourceTree = "<group>"; };
+		86D309C82C3397C800C08DA8 /* UpdateAnnounceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateAnnounceRequest.swift; sourceTree = "<group>"; };
 		86D309CA2C339D8A00C08DA8 /* AnnounceDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceDetail.swift; sourceTree = "<group>"; };
 		86D309CF2C33A80800C08DA8 /* v1_add_notice_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_add_notice_success.json; sourceTree = "<group>"; };
 		86D309D12C33A82C00C08DA8 /* v1_add_notice_failed.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_add_notice_failed.json; sourceTree = "<group>"; };
@@ -1059,8 +1059,8 @@
 		866577B22C34073D0048A111 /* Notice */ = {
 			isa = PBXGroup;
 			children = (
-				86D309C62C33975100C08DA8 /* AddNoticeRequset.swift */,
-				86D309C82C3397C800C08DA8 /* UpdateNoticeRequest.swift */,
+				86D309C62C33975100C08DA8 /* AddAnnounceRequset.swift */,
+				86D309C82C3397C800C08DA8 /* UpdateAnnounceRequest.swift */,
 			);
 			path = Notice;
 			sourceTree = "<group>";
@@ -2030,7 +2030,7 @@
 				861BF6862C27070C00702E24 /* MainAPI.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */,
-				86D309C72C33975100C08DA8 /* AddNoticeRequset.swift in Sources */,
+				86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */,
 				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
 				861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */,
 				868354812C245F7800F055D2 /* Workplace.swift in Sources */,
@@ -2063,7 +2063,7 @@
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
-				86D309C92C3397C800C08DA8 /* UpdateNoticeRequest.swift in Sources */,
+				86D309C92C3397C800C08DA8 /* UpdateAnnounceRequest.swift in Sources */,
 				8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */,
 				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				861B96A62C2068110032C94A /* SheetContainerViewDelegate.swift in Sources */,

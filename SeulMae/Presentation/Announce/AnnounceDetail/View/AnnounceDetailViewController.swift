@@ -13,20 +13,24 @@ final class AnnounceDetailViewController: UIViewController {
     
     private let announceKindLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 16, weight: .bold)
+        label.font = .pretendard(size: 16, weight: .medium)
         label.text = "구분"
         return label
     }()
     
     private let announceKindSegment: UISegmentedControl = {
         let segmentedControl = UISegmentedControl()
-        
+        segmentedControl.insertSegment(withTitle: "일반", at: 0, animated: false)
+        segmentedControl.insertSegment(withTitle: "필독", at: 1, animated: false)
+        segmentedControl.selectedSegmentIndex = 0
+        // segmentedControl.tintColor
+        // segmentedControl.selectedSegmentTintColor
         return segmentedControl
     }()
     
     private let announceTitleLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 16, weight: .bold)
+        label.font = .pretendard(size: 16, weight: .medium)
         label.text = "제목"
         return label
     }()
@@ -38,12 +42,13 @@ final class AnnounceDetailViewController: UIViewController {
         textView.layer.cornerRadius = 12
         textView.layer.cornerCurve = .continuous
         textView.font = .pretendard(size: 16, weight: .regular)
+        textView.textContainerInset = .init(top: 12, left: 12, bottom: 12, right: 12)
         return textView
     }()
     
     private let announceContentLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 16, weight: .bold)
+        label.font = .pretendard(size: 16, weight: .medium)
         label.text = "내용"
         return label
     }()
@@ -55,6 +60,7 @@ final class AnnounceDetailViewController: UIViewController {
         textView.layer.cornerRadius = 12
         textView.layer.cornerCurve = .continuous
         textView.font = .pretendard(size: 16, weight: .regular)
+        textView.textContainerInset = .init(top: 12, left: 12, bottom: 12, right: 12)
         return textView
     }()
     
@@ -121,37 +127,41 @@ final class AnnounceDetailViewController: UIViewController {
         
         let announceTitleStack = UIStackView()
         announceTitleStack.axis = .vertical
-        announceTitleStack.spacing = 4.0
+        announceTitleStack.spacing = 8.0
         announceTitleStack.addArrangedSubview(announceTitleLabel)
         announceTitleStack.addArrangedSubview(announceTitleTextView)
         
         let announceContentStack = UIStackView()
         announceContentStack.axis = .vertical
-        announceContentStack.spacing = 4.0
+        announceContentStack.spacing = 8.0
         announceContentStack.addArrangedSubview(announceContentLabel)
         announceContentStack.addArrangedSubview(announceContentTextView)
         
         let contentStack = UIStackView()
-        announceContentStack.axis = .vertical
-        announceContentStack.spacing = 8.0
-        announceContentStack.addArrangedSubview(announceKindStack)
-        announceContentStack.addArrangedSubview(announceTitleStack)
-        announceContentStack.addArrangedSubview(announceContentStack)
+        contentStack.axis = .vertical
+        contentStack.spacing = 16
+        contentStack.addArrangedSubview(announceKindStack)
+        contentStack.addArrangedSubview(announceTitleStack)
+        contentStack.addArrangedSubview(announceContentStack)
         
         view.addSubview(contentStack)
+        view.addSubview(saveButton)
         
         contentStack.translatesAutoresizingMaskIntoConstraints = false
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-            contentStack.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-            contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            contentStack.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             
             saveButton.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
             saveButton.centerXAnchor.constraint(equalTo: contentStack.centerXAnchor),
-            saveButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            saveButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             saveButton.heightAnchor.constraint(equalToConstant: 56),
             
+            announceTitleTextView.heightAnchor.constraint(equalToConstant: 100),
+            announceContentTextView.heightAnchor.constraint(equalToConstant: 100),
         ])
     }
 }

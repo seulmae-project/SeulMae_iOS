@@ -82,7 +82,16 @@ final class AnnounceListViewController: UIViewController {
     }
     
     private func bindSubviews() {
-        let output = viewModel.transform(.init())
+        let selectedItem = collectionView.rx
+            .itemSelected
+            .compactMap { [unowned self] index in
+                return dataSource.itemIdentifier(for: index)
+            }
+            .asSignal()
+        
+        let output = viewModel.transform(
+            .init(showAnnounceDetails: selectedItem)
+        )
         
         Task {
             for await items in output.items.values {

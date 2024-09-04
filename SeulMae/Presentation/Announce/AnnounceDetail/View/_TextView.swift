@@ -18,10 +18,16 @@ final class _TextView: UITextView {
                 let paragraphStyle = NSMutableParagraphStyle()
                 paragraphStyle.lineSpacing = 4.0
                 paragraphStyle.lineBreakStrategy = .hangulWordPriority
-                textView.typingAttributes = [
+                var typingAttributes: [NSAttributedString.Key: Any] = [
                     .paragraphStyle: paragraphStyle,
                     .foregroundColor: UIColor.label
                 ]
+                
+                if let font = textView.font {
+                    typingAttributes[.font] = font
+                }
+
+                textView.typingAttributes = typingAttributes
             }
         }
         
@@ -43,10 +49,23 @@ final class _TextView: UITextView {
         
         set(newValue) {
             _placeholder = newValue
-            // let attributedText = NSAttributedString(string: newValue!)
-            // attributedText.appendAttribute(color: .secondaryLabel)
-            // self.attributedText = attributedText
             delegator.placeholder = newValue
+            if let newValue {
+                let attributedText = NSMutableAttributedString(
+                    string: newValue,
+                    attributes: [
+                        .foregroundColor: UIColor.secondaryLabel
+                    ]
+                )
+                if let font {
+                    let additionalAttributes: [NSAttributedString.Key: Any] = [
+                        .font: font
+                    ]
+                    attributedText.addAttributes(additionalAttributes, range: NSRange(location: 0, length: attributedText.length))
+                }
+                
+                self.attributedText = attributedText
+            }
         }
     }
     

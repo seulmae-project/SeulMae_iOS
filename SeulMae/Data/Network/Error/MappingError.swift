@@ -10,4 +10,5 @@ import Foundation
 enum MappingError: Error {
     case emptyData(_ model: ModelType.Type)
     case invalidData(_ model: ModelType.Type)
+    case empty
 }

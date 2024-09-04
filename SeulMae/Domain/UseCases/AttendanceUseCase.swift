@@ -98,7 +98,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
                 Swift.print(#function, "error: \(error)")
             })
             .map(BaseResponseDTO<[AttendanceRequestDTO]>.self)
-            .map { $0.toDomain() }
+            .map { try $0.toDomain() }
     }
 }
 
@@ -154,8 +154,8 @@ struct AttendanceRequestDTO: ModelType {
 }
 
 extension BaseResponseDTO<[AttendanceRequestDTO]> {
-    func toDomain() -> [AttendanceRequest] {
-        data.map { $0.toDomain() }
+    func toDomain() throws -> [AttendanceRequest] {
+        return try getData().map { $0.toDomain() }
     }
 }
 

@@ -16,14 +16,20 @@ import Foundation
 
 
 struct BaseResponseDTO<Data: Codable>: ModelType {
-    let data: Data
+    let data: Data?
     let status: Int?
     let resultMsg: String?
     let divisionCode: String?
     let errors: [String]?
     let reason: String?
     
-    //status 200
+    
+    func getData() throws -> Data {
+        guard let data else { throw MappingError.empty }
+        return data
+    }
+    
+    // status 200
     // message LOGIN
     // data
     // timestamp

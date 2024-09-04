@@ -8,7 +8,7 @@
 import Foundation
 
 struct NoticeDTO: ModelType {
-    let id: Int?
+    let id: Int
     let title: String?
     let content: String?
     let regDate: String?
@@ -27,21 +27,12 @@ struct NoticeDTO: ModelType {
 
 extension BaseResponseDTO<[NoticeDTO]> {
     func toDomain() throws -> [Announce] {
-        if let reason {
-            throw APIError.unauthorized(reason)
-        }
-
-        
-        return data.compactMap { try? $0.toDomain() }
+        return data?.map { $0.toDomain() } ?? []
     }
 }
 
 extension NoticeDTO {
-    func toDomain() throws -> Announce {
-        guard let id else { 
-            throw MappingError.invalidData(Self.self)
-        }
-        
+    func toDomain() -> Announce {
         return .init(
             id: id,
             title: title ?? "",

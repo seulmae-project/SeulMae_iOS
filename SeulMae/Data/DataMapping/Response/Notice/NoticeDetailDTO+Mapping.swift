@@ -32,8 +32,8 @@ struct AnnounceDetailDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<AnnounceDetailDTO> {
-    func toDomain() -> AnnounceDetail {
-        return data.toDomain()
+    func toDomain() throws -> AnnounceDetail {
+        return try getData().toDomain()
     }
 }
 
