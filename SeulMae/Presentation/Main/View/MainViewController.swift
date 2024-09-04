@@ -98,9 +98,6 @@ class MainViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
-        
-        
-        
         let onMemberTap = memberCollectionView.rx
             .itemSelected
             .compactMap { [unowned self] index in

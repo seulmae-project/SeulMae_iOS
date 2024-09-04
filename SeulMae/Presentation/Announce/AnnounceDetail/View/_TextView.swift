@@ -9,34 +9,50 @@ import UIKit
 
 final class _TextView: UITextView {
     private class PHTextViewDelegator: NSObject, UITextViewDelegate {
-        fileprivate var placeholder: String?
-        
-        func textViewDidBeginEditing(_ textView: UITextView) {
-            guard let placeholder else { return }
-            if textView.text == placeholder {
-                textView.text = nil
-                let paragraphStyle = NSMutableParagraphStyle()
-                paragraphStyle.lineSpacing = 4.0
-                paragraphStyle.lineBreakStrategy = .hangulWordPriority
-                var typingAttributes: [NSAttributedString.Key: Any] = [
-                    .paragraphStyle: paragraphStyle,
-                    .foregroundColor: UIColor.label
-                ]
-                
-                if let font = textView.font {
-                    typingAttributes[.font] = font
-                }
-
-                textView.typingAttributes = typingAttributes
-            }
+        func textViewDidChange(_ textView: UITextView) {
+            print("텍스트가 변경되었습니다: \(textView.text ?? "")")
         }
         
+        func textViewDidBeginEditing(_ textView: UITextView) {
+            guard let phTextView = textView as? _TextView else { return }
+            if phTextView.text == phTextView.placeholder {
+                phTextView.text = nil
+            }
+            phTextView.applyDefaultAttr()
+            textView.textColor = .label
+        }
+        
+       
         func textViewDidEndEditing(_ textView: UITextView) {
-            guard let placeholder else { return }
-            let trimmedText = textView.text.trimmingCharacters(in: .whitespacesAndNewlines)
+            guard let phTextView = textView as? _TextView else { return }
+            let trimmedText = phTextView.text.trimmingCharacters(in: .whitespacesAndNewlines)
             if trimmedText.isEmpty {
-                textView.text = placeholder
-                textView.textColor = .secondaryLabel
+                phTextView.text = phTextView.placeholder
+                phTextView.textColor = .secondaryLabel
+            }
+        }
+    }
+    
+    func applyDefaultAttr() {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineSpacing = 4.0
+        paragraphStyle.lineBreakStrategy = .hangulWordPriority
+        var attributes: [NSAttributedString.Key: Any] = [
+            .paragraphStyle: paragraphStyle,
+            .foregroundColor: UIColor.label
+        ]
+        
+        if let font {
+            attributes[.font] = font
+        }
+
+        attributedText = NSMutableAttributedString(string: text, attributes: attributes)
+    }
+    
+    override var text: String! {
+        didSet {
+            if text != _placeholder {
+                textColor = .label
             }
         }
     }
@@ -49,7 +65,6 @@ final class _TextView: UITextView {
         
         set(newValue) {
             _placeholder = newValue
-            delegator.placeholder = newValue
             if let newValue {
                 let attributedText = NSMutableAttributedString(
                     string: newValue,
