@@ -244,6 +244,11 @@
 		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
 		86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */; };
 		86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */; };
+		86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */; };
+		86FD61DC2C8957B0005ED02F /* UserHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */; };
+		86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */; };
+		86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E12C8959CE005ED02F /* SettingViewController.swift */; };
+		86FD61E42C895A07005ED02F /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E32C895A07005ED02F /* MainTabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -498,6 +503,11 @@
 		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
 		86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
 		86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStatusView.swift; sourceTree = "<group>"; };
+		86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeViewController.swift; sourceTree = "<group>"; };
+		86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewController.swift; sourceTree = "<group>"; };
+		86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceViewController.swift; sourceTree = "<group>"; };
+		86FD61E12C8959CE005ED02F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
+		86FD61E32C895A07005ED02F /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1728,6 +1738,10 @@
 		86E299E22C17230E00805AD0 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				86FD61E32C895A07005ED02F /* MainTabBarController.swift */,
+				86FD61D62C89575B005ED02F /* Home */,
+				86FD61DD2C895925005ED02F /* WorkplaceInfo */,
+				86FD61E02C89598F005ED02F /* Setting */,
 				8624AC722C2EA93A001FF383 /* View */,
 				8624AC732C2EA93D001FF383 /* ViewModel */,
 			);
@@ -1739,6 +1753,47 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		86FD61D62C89575B005ED02F /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61D72C895764005ED02F /* Manager */,
+				86FD61D82C895778005ED02F /* User */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		86FD61D72C895764005ED02F /* Manager */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */,
+			);
+			path = Manager;
+			sourceTree = "<group>";
+		};
+		86FD61D82C895778005ED02F /* User */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */,
+			);
+			path = User;
+			sourceTree = "<group>";
+		};
+		86FD61DD2C895925005ED02F /* WorkplaceInfo */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */,
+			);
+			path = WorkplaceInfo;
+			sourceTree = "<group>";
+		};
+		86FD61E02C89598F005ED02F /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61E12C8959CE005ED02F /* SettingViewController.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1934,6 +1989,7 @@
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
 				869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */,
+				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
@@ -1947,6 +2003,7 @@
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
+				86FD61E42C895A07005ED02F /* MainTabBarController.swift in Sources */,
 				869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */,
 				869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
@@ -2009,6 +2066,7 @@
 				8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
 				861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */,
+				86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */,
 				869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */,
@@ -2018,6 +2076,7 @@
 				8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86D309EF2C33ED6900C08DA8 /* MappingError.swift in Sources */,
+				86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */,
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
 				869054AD2C60C1C40037B61A /* SQLiteTable.swift in Sources */,
 				860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */,
@@ -2098,6 +2157,7 @@
 				86C40B062C4F38E30051EF2B /* AnnounceDetailViewModel.swift in Sources */,
 				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */,
+				86FD61DC2C8957B0005ED02F /* UserHomeViewController.swift in Sources */,
 				861B96A22C2061D70032C94A /* SheetContainerView.swift in Sources */,
 				8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */,
 				860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */,

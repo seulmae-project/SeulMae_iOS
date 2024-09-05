@@ -82,6 +82,7 @@ class MainViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        setupNavItem()
         setupView()
         setupDataSource()
         setupConstraints()
@@ -213,17 +214,10 @@ class MainViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = .systemBackground
-        
-        let appearance = UINavigationBarAppearance()
-        appearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
-        appearance.titleTextAttributes = [
-            .font: UIFont.systemFont(ofSize: 24, weight: .bold),
-            .foregroundColor: UIColor.red
-        ]
-        navigationController?.navigationBar.standardAppearance = appearance
-//        let workplace = WorkplaceTable.get2().first
-//        navigationItem.title = workplace?.name ?? "근무지 이름"
-        // navigationItem.rightBarButtonItem =
+    }
+    
+    private func setupNavItem() {
+        // navigationController?.navigationBar.standardAppearance.titlePositionAdjustment = UIOffset(horizontal: -(view.frame.width / 2), vertical: 0)
         navigationItem.rightBarButtonItems = [reminderBarButton, changeWorkplaceBarButton]
     }
     

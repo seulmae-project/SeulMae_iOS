@@ -15,6 +15,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: Bundle.main.nativeAPPKey) 
         _ = SQLiteDB.shared.open(databaseName: "seulmae")
+        
+        let navBarAppearance = UINavigationBar.appearance()
+        navBarAppearance.titleTextAttributes = [
+            .font: UIFont.pretendard(size: 20, weight: .bold),
+            .foregroundColor: UIColor.label,
+        ]
+        // navBarAppearance.standardAppearance.titlePositionAdjustment = .zero
+        // navBarAppearance.
+        let appearance = UINavigationBarAppearance()
         return true
     }
 
