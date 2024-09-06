@@ -90,7 +90,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         let viewControllers = [
             UserHomeViewController(),
             WorkplaceViewController(),
-            SettingViewController()
+            SettingViewController(viewModel: SettingViewModel())
         ]
         
         let vc = MainTabBarController(viewContollers: viewControllers)

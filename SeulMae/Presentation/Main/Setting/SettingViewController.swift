@@ -9,6 +9,25 @@ import UIKit
 
 final class SettingViewController: UIViewController {
     
+    // MARK: - Internal Types
+    
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SettingItem>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, SettingItem>
+    
+    enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
+        case account, system, info
+        
+        var description: String {
+            switch self {
+            case .account: return "계정"
+            case .system: return "시스템"
+            case .info: return "정보"
+            }
+        }
+    }
+    
+    // MARK: - UI
+    
     private let userImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 48
@@ -59,13 +78,38 @@ final class SettingViewController: UIViewController {
         return collectionView
     }()
     
+    private var dataSource: DataSource!
+    
+    private let viewModel: SettingViewModel!
+    
+    init(viewModel: SettingViewModel!) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - Life Cycle Methods
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         setupNavItem()
         setupView()
         setupConstraints()
+        setupDataSource()
+        bindSubviews()
     }
+    
+    // MARK: - Data Binding
+    
+    private func bindSubviews() {
+        
+    }
+    
+    // MARK: - Hierarchy
     
     private func setupView() {
         view.backgroundColor = .systemBackground
@@ -108,7 +152,6 @@ final class SettingViewController: UIViewController {
             contentStack.leadingAnchor.constraint(equalTo: view.layoutMarginsGuide.leadingAnchor),
             contentStack.trailingAnchor.constraint(equalTo: view.layoutMarginsGuide.trailingAnchor),
             contentStack.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-            contentStack.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
             
             collectionView.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: contentStack.trailingAnchor),
@@ -124,7 +167,67 @@ final class SettingViewController: UIViewController {
         navigationItem.title = "설정"
     }
     
+    // MARK: - DataSource
+    
+    private func setupDataSource() {
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, SettingItem> { (cell, indexPath, item) in
+            var content = UIListContentConfiguration.valueCell()
+            content.text = item.title
+            // content.image = item.image
+            if item.text != "" {
+                content.secondaryText = item.text
+            } else {
+                cell.accessories = [
+                    .disclosureIndicator()
+                ]
+            }
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        }
+    
+        let headerRegistration = UICollectionView.SupplementaryRegistration
+        <TitleSupplementaryView>(elementKind: "section-header-element-kind") {
+            (supplementaryView, string, indexPath) in
+            let section = Section(rawValue: indexPath.section)
+            supplementaryView.label.text = section?.description ?? ""
+            supplementaryView.label.font = .pretendard(size: 14, weight: .regular)
+            supplementaryView.label.textColor = .secondaryLabel
+        }
+        
+        dataSource = DataSource(collectionView: collectionView) { (view, index, item) -> UICollectionViewCell? in
+            return view.dequeueConfiguredReusableCell(using: cellRegistration, for: index, item: item)
+        }
+        
+        dataSource.supplementaryViewProvider = { (view, kind, index) in
+            return view.dequeueConfiguredReusableSupplementary(
+                using: headerRegistration, for: index)
+        }
+        
+        // initial data
+        let sections = Section.allCases
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        snapshot.appendItems(Section.account.menus, toSection: .account)
+        snapshot.appendItems(Section.system.menus, toSection: .system)
+        snapshot.appendItems(Section.info.menus, toSection: .info)
+        dataSource.apply(snapshot, animatingDifferences: false)
+    }
+    
+    // MARK: - UICollectionViewLayout
+    
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewLayout()
+        return UICollectionViewCompositionalLayout { section, layoutEnvironment in
+            var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
+            config.headerMode = .supplementary
+            config.backgroundColor = .clear
+            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
+            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
+                                                          heightDimension: .estimated(44))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: "section-header-element-kind", alignment: .top)
+            section.boundarySupplementaryItems = [sectionHeader]
+            return section
+        }
     }
 }
