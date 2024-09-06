@@ -250,8 +250,13 @@
 		86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E12C8959CE005ED02F /* SettingViewController.swift */; };
 		86FD61E42C895A07005ED02F /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E32C895A07005ED02F /* MainTabBarController.swift */; };
 		86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E52C8A986F005ED02F /* SettingViewModel.swift */; };
-		86FD61E82C8AA01E005ED02F /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E72C8AA01E005ED02F /* SettingItem.swift */; };
+		86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E72C8AA01E005ED02F /* SettingListItem.swift */; };
 		86FD61EA2C8AA25F005ED02F /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */; };
+		86FD61EC2C8AC886005ED02F /* UserUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61EB2C8AC886005ED02F /* UserUseCase.swift */; };
+		86FD61EE2C8ACBB6005ED02F /* AddressDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61ED2C8ACBB6005ED02F /* AddressDTO+Mapping.swift */; };
+		86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61EF2C8ACBEE005ED02F /* Address.swift */; };
+		86FD61F22C8ACFFF005ED02F /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */; };
+		86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F32C8AD057005ED02F /* UserAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -512,8 +517,13 @@
 		86FD61E12C8959CE005ED02F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
 		86FD61E32C895A07005ED02F /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		86FD61E52C8A986F005ED02F /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
-		86FD61E72C8AA01E005ED02F /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
+		86FD61E72C8AA01E005ED02F /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
 		86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
+		86FD61EB2C8AC886005ED02F /* UserUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserUseCase.swift; sourceTree = "<group>"; };
+		86FD61ED2C8ACBB6005ED02F /* AddressDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AddressDTO+Mapping.swift"; sourceTree = "<group>"; };
+		86FD61EF2C8ACBEE005ED02F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
+		86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
+		86FD61F32C8AD057005ED02F /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -676,6 +686,7 @@
 				869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */,
 				8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */,
 				861BF68B2C2708D300702E24 /* NoticeUseCase.swift */,
+				86FD61EB2C8AC886005ED02F /* UserUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -833,6 +844,7 @@
 				861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */,
 				861BF6852C27070C00702E24 /* MainAPI.swift */,
 				860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */,
+				86FD61F32C8AD057005ED02F /* UserAPI.swift */,
 				866577B02C3406F00048A111 /* Error */,
 			);
 			path = Network;
@@ -1353,6 +1365,7 @@
 				86B4B4532C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift */,
 				86B4B4552C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift */,
 				860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */,
+				86FD61ED2C8ACBB6005ED02F /* AddressDTO+Mapping.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1487,6 +1500,7 @@
 				86B4B4512C4B3D0F00D83488 /* MemberInfo.swift */,
 				868354802C245F7800F055D2 /* Workplace.swift */,
 				860EB2B22C74CFA200310985 /* AppNotification.swift */,
+				86FD61EF2C8ACBEE005ED02F /* Address.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1497,6 +1511,7 @@
 				86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */,
 				861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */,
 				8684C5B12C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift */,
+				86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1799,7 +1814,7 @@
 			children = (
 				86FD61E12C8959CE005ED02F /* SettingViewController.swift */,
 				86FD61E52C8A986F005ED02F /* SettingViewModel.swift */,
-				86FD61E72C8AA01E005ED02F /* SettingItem.swift */,
+				86FD61E72C8AA01E005ED02F /* SettingListItem.swift */,
 				86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */,
 			);
 			path = Setting;
@@ -2001,6 +2016,7 @@
 				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
+				86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
@@ -2038,6 +2054,7 @@
 				864A5E7D2C834D5100D7B0EF /* AnnounceItem.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
+				86FD61F22C8ACFFF005ED02F /* DefaultUserRepository.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
@@ -2122,6 +2139,7 @@
 				868354702C24543000F055D2 /* MockData.swift in Sources */,
 				869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */,
 				860EB2B32C74CFA200310985 /* AppNotification.swift in Sources */,
+				86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
@@ -2137,6 +2155,7 @@
 				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				861B96A62C2068110032C94A /* SheetContainerViewDelegate.swift in Sources */,
 				86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */,
+				86FD61EE2C8ACBB6005ED02F /* AddressDTO+Mapping.swift in Sources */,
 				861C31B62C1BF580007DD6B9 /* APIError.swift in Sources */,
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
@@ -2149,7 +2168,7 @@
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
-				86FD61E82C8AA01E005ED02F /* SettingItem.swift in Sources */,
+				86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */,
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
@@ -2182,6 +2201,7 @@
 				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
+				86FD61EC2C8AC886005ED02F /* UserUseCase.swift in Sources */,
 				86C40B082C4F3C320051EF2B /* AnnounceDetailItem.swift in Sources */,
 				8693C4342C22E07D00D7DCD3 /* ShapeLayer.swift in Sources */,
 				86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */,

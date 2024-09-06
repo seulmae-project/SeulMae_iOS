@@ -19,6 +19,7 @@ struct WorkplaceDTO: ModelType {
     let subAddress: String?
     let userWorkplaceId: Int?
     let isManager: Bool?
+    let address: AddressDTO?
     
     enum CodingKeys: String, CodingKey {
         case id = "workplaceId"
@@ -32,6 +33,7 @@ struct WorkplaceDTO: ModelType {
         case subAddress
         case userWorkplaceId
         case isManager
+        case address
     }
 }
 
@@ -62,7 +64,8 @@ extension WorkplaceDTO {
             id: self.id,
             name: self.name,
             userWorkplaceId: self.userWorkplaceId ?? 0,
-            isManager: self.isManager ?? false
+            isManager: self.isManager ?? false,
+            address: self.address?.toDomain() ?? .init()
         )
     }
 }

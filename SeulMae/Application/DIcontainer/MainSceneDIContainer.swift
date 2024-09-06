@@ -283,4 +283,17 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
+    
+    func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController {
+        return SettingViewController(
+            viewModel: SettingViewModel(
+                dependency: (
+                    coordinator: coordinator,
+                    userUseCase: DefaultUserUseCase(
+                        userRepository: UserRepository(network: UserNetwork())
+                    )
+                )
+            )
+        )
+    }
 }

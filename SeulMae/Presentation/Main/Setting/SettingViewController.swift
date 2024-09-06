@@ -11,8 +11,8 @@ final class SettingViewController: UIViewController {
     
     // MARK: - Internal Types
     
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SettingItem>
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, SettingItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SettingListItem>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, SettingListItem>
     
     enum Section: Int, Hashable, CaseIterable, CustomStringConvertible {
         case account, system, info
@@ -170,7 +170,7 @@ final class SettingViewController: UIViewController {
     // MARK: - DataSource
     
     private func setupDataSource() {
-        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, SettingItem> { (cell, indexPath, item) in
+        let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, SettingListItem> { (cell, indexPath, item) in
             var content = UIListContentConfiguration.valueCell()
             content.text = item.title
             // content.image = item.image

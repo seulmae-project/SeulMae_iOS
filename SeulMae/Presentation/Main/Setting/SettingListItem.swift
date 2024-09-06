@@ -1,5 +1,5 @@
 //
-//  SettingItem.swift
+//  SettingListItem.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/6/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-struct SettingItem: Hashable {
+struct SettingListItem: Hashable {
     private let identifier = UUID()
     
     let title: String
@@ -17,7 +17,7 @@ struct SettingItem: Hashable {
 }
 
 extension SettingViewController.Section {
-    var menus: [SettingItem] {
+    var menus: [SettingListItem] {
         switch self {
         case .account:
             return [

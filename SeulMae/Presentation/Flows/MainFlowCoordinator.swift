@@ -26,6 +26,9 @@ protocol MainFlowCoordinatorDependencies {
     // MARK: - Announce Flow Dependencies
     func makeAnnounceViewController(coordinator: MainFlowCoordinator) -> AnnounceViewController
     func makeAnnounceDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID?) -> AnnounceDetailViewController
+    
+    // MARK: - Setting
+    func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController
 }
 
 protocol MainFlowCoordinator {
@@ -51,6 +54,9 @@ protocol MainFlowCoordinator {
     
     // modal
     func showWorkplaceList()
+    
+    // setting
+    
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
@@ -90,7 +96,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         let viewControllers = [
             UserHomeViewController(),
             WorkplaceViewController(),
-            SettingViewController(viewModel: SettingViewModel())
+            dependencies.makeSettingViewController(coordinator: self)
         ]
         
         let vc = MainTabBarController(viewContollers: viewControllers)

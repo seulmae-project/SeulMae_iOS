@@ -23,18 +23,14 @@ protocol NoticeUseCase {
     func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> Single<[AppNotification]>
 }
 
+
 class DefaultNoticeUseCase: NoticeUseCase {
     
     
-    class UserRepository {
-        var currentWorkplaceId: Workplace.ID {
-            return 8
-            // return UserDefaults.standard.integer(forKey: "currentWorkplaceId")
-        }
-    }
+    
     
     private let noticeRepository: NoticeRepository
-    private let userRepository = UserRepository()
+    private let userRepository = UserRepository(network: UserNetwork())
     
     init(noticeRepository: NoticeRepository) {
         self.noticeRepository = noticeRepository

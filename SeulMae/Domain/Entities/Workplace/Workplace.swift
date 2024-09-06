@@ -21,4 +21,6 @@ struct Workplace: Identifiable {
     let name: String
     let userWorkplaceId: Int
     let isManager: Bool
+    let address: Address
 }
+
