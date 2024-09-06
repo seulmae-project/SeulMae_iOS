@@ -87,7 +87,14 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     // MARK: - Main
     
     func showMain() {
-        let vc = dependencies.makeMainViewController(coordinator: self)
+        let viewControllers = [
+            UserHomeViewController(),
+            WorkplaceViewController(),
+            SettingViewController()
+        ]
+        
+        let vc = MainTabBarController(viewContollers: viewControllers)
+//        let vc = dependencies.makeMainViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
 

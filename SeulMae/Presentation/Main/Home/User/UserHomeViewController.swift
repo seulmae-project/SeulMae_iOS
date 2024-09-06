@@ -9,11 +9,17 @@ import UIKit
 
 final class UserHomeViewController: UIViewController {
     
-    
-    
     private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     private let currentStatusView = CurrentStatusView()
     private let calendarView = CalendarView()
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupView()
+    }
     
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+    }
 }

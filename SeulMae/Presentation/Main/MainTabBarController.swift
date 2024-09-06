@@ -9,11 +9,11 @@ import UIKit
 
 final class MainTabBarController: UITabBarController {
     
-//    override var viewControllers: [UIViewController]? {
-//        didSet {
-//            
-//        }
-//    }
+    override var viewControllers: [UIViewController]? {
+        didSet {
+            setupTabBar()
+        }
+    }
     
     init(
         viewContollers: [UIViewController]
@@ -26,12 +26,18 @@ final class MainTabBarController: UITabBarController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+    
+    }
+    
     private func setupTabBar() {
         guard let home = viewControllers?[0],
               let workplace = viewControllers?[1],
               let setting = viewControllers?[2] else { return }
-        home.tabBarItem = UITabBarItem(title: "홈", image: .empty, tag: 0)
-        workplace.tabBarItem = UITabBarItem(title: "근무지", image: .empty, tag: 1)
-        setting.tabBarItem = UITabBarItem(title: "설정", image: .empty, tag: 2)
+        tabBar.tintColor = .primary
+        home.tabBarItem = UITabBarItem(title: "홈", image: .house, tag: 0)
+        workplace.tabBarItem = UITabBarItem(title: "근무지", image: .users, tag: 1)
+        setting.tabBarItem = UITabBarItem(title: "설정", image: .gear, tag: 2)
     }
 }
