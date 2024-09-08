@@ -21,17 +21,17 @@ extension SettingViewController.Section {
         switch self {
         case .account:
             return [
-                .init(title: "로그아웃", text: "", image: ._1, section: self),
-                .init(title: "개인/보안", text: "", image: ._1, section: self),
+                .init(title: "로그아웃", text: "", image: .lockKeyOpen, section: self),
+                .init(title: "개인/보안", text: "", image: .keyhole, section: self),
             ]
         case .system:
             return [
-                .init(title: "알림", text: "", image: ._1, section: self),
+                .init(title: "알림", text: "", image: .bell, section: self),
             ]
         case .info:
             return [
-                .init(title: "문의하기", text: "", image: ._1, section: self),
-                .init(title: "버전", text: "1.0.0", image: ._1, section: self),
+                .init(title: "문의하기", text: "", image: .info, section: self),
+                .init(title: "버전", text: "1.0.0", image: .sealWarning, section: self),
             ]
         }
     }

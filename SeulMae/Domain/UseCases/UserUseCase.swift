@@ -26,15 +26,15 @@ final class DefaultUserUseCase: UserUseCase {
 
 struct UserDTO: Codable {
     let name: String?
-    let imageURL: String? // userImageURL
+    let imageURL: String?
     let phoneNumber: String?
-    let workplaces: [WorkplaceDTO]? // userWorkplaceInfoResponses
+    let workplaces: [WorkplaceDTO]?
     
     enum CodingKeys: String, CodingKey {
         case name
-        case imageURL
+        case imageURL = "userImageURL"
         case phoneNumber
-        case workplaces
+        case workplaces = "userWorkplaceInfoResponses"
     }
 }
 

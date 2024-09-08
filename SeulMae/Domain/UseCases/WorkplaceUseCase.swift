@@ -49,18 +49,18 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         return dicArray.map { array in
             return array.map { dic in
                 Workplace(
+                    id: dic["id"] as! Int,
+                    name: dic["name"] as! String,
+                    userWorkplaceId: dic["user_workplace_id"] as! Int,
+                    isManager: dic["is_manager"] as! Bool,
+                    address: Address(mainAddress: "", subAddress: ""),
                     invitationCode: "",
                     contact: "",
                     imageURL: [],
                     thumbnailURL: [],
                     manager: "",
                     mainAddress: "",
-                    subAddress: "",
-                    id: dic["id"] as! Int,
-                    name: dic["name"] as! String,
-                    userWorkplaceId: dic["user_workplace_id"] as! Int,
-                    isManager: dic["is_manager"] as! Bool,
-                    address: dic["address"] as! Address
+                    subAddress: ""
                 )
             }
         }

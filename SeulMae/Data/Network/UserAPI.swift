@@ -22,7 +22,7 @@ extension UserAPI {
     var route: Route {
         switch self {
         case .myProfile:
-            return .post("api/users/my-profile")
+            return .get("api/users/my-profile")
         }
     }
     
@@ -47,13 +47,15 @@ extension UserAPI {
         }
     }
     
-    var headers: [String : String]? {
+    var headers: [String: String]? {
         switch self {
         default:
+            let accessToken = UserDefaults.standard.string(forKey: "accessToken")!
+            // let refreshToken = UserDefaults.standard.string(forKey: "refreshToken")!
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
-                //Authorization-refresh
+                "Authorization": "Bearer \(accessToken)",
+                // "Authorization-refresh": "Bearer \(refreshToken)"
             ]
         }
     }

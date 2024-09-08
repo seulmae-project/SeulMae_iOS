@@ -34,13 +34,18 @@ final class SettingViewController: UIViewController {
         imageView.layer.cornerCurve = .continuous
         imageView.layer.borderWidth = 1.0
         imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.masksToBounds = true
+        imageView.image = .gochi
+        imageView.contentMode = .scaleAspectFit
         return imageView
     }()
     
     private let showProfileButton: UIButton = {
         let button = UIButton()
         button.titleLabel?.font = .pretendard(size: 20, weight: .semibold)
-        // button.setImage(, for: )
+        button.setTitleColor(.label, for: .normal)
+        button.setImage(.caretRight.resize(height: 20), for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
         return button
     }()
     
@@ -54,6 +59,7 @@ final class SettingViewController: UIViewController {
     private let phoneNumberOutlet: UILabel = {
         let label = UILabel()
         label.font = .pretendard(size: 14, weight: .semibold)
+        label.textColor = .primary
         return label
     }()
     
@@ -67,6 +73,7 @@ final class SettingViewController: UIViewController {
     private let birthdayOutlet: UILabel = {
         let label = UILabel()
         label.font = .pretendard(size: 14, weight: .semibold)
+        label.textColor = .primary
         return label
     }()
     
@@ -75,6 +82,7 @@ final class SettingViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.isScrollEnabled = false
         return collectionView
     }()
     
@@ -106,7 +114,28 @@ final class SettingViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let selected = collectionView.rx
+            .itemSelected
+            .compactMap { [weak self] indexPath in
+                return self?.dataSource
+                    .itemIdentifier(for: indexPath)
+            }
+            .asDriver()
         
+        let output = viewModel.transform(
+            .init(
+                showProfile: showProfileButton.rx.tap.asSignal(),
+                selectedItem: selected
+            ))
+        
+        Task {
+            for await item in output.item.values {
+                self.showProfileButton.setTitle("\(item.username)의 프로필", for: .normal)
+                // self.userImageView
+                self.phoneNumberOutlet.text = item.phoneNumber
+                self.birthdayOutlet.text = item.birthday
+            }
+        }
     }
     
     // MARK: - Hierarchy
@@ -129,8 +158,11 @@ final class SettingViewController: UIViewController {
         let userInfoStack = UIStackView()
         userInfoStack.spacing = 8.0
         userInfoStack.axis = .vertical
-        userInfoStack.directionalLayoutMargins = .init(top: 12, leading: 16, bottom: 12, trailing: 16)
+        userInfoStack.directionalLayoutMargins = .init(top: 12, leading: 20, bottom: 12, trailing: 20)
         userInfoStack.isLayoutMarginsRelativeArrangement = true
+        userInfoStack.backgroundColor = .init(hexCode: "F8F7F5")
+        userInfoStack.layer.cornerRadius = 12
+        userInfoStack.layer.cornerCurve = .continuous
         userInfoStack.addArrangedSubview(phoneNumberStack)
         userInfoStack.addArrangedSubview(birthdayStack)
         
@@ -141,6 +173,8 @@ final class SettingViewController: UIViewController {
         contentStack.addArrangedSubview(userImageView)
         contentStack.addArrangedSubview(showProfileButton)
         contentStack.addArrangedSubview(userInfoStack)
+        contentStack.directionalLayoutMargins = .init(top: 20, leading: 0, bottom: 20, trailing: 0)
+        contentStack.isLayoutMarginsRelativeArrangement = true
         
         view.addSubview(contentStack)
         view.addSubview(collectionView)
@@ -160,6 +194,8 @@ final class SettingViewController: UIViewController {
             
             userImageView.heightAnchor.constraint(equalToConstant: 96),
             userImageView.widthAnchor.constraint(equalToConstant: 96),
+            
+            userInfoStack.widthAnchor.constraint(equalToConstant: 240),
         ])
     }
     
@@ -172,9 +208,14 @@ final class SettingViewController: UIViewController {
     private func setupDataSource() {
         let cellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, SettingListItem> { (cell, indexPath, item) in
             var content = UIListContentConfiguration.valueCell()
+            content.textProperties.font = .pretendard(size: 16, weight: .regular)
             content.text = item.title
-            // content.image = item.image
+            content.imageProperties.maximumSize = CGSize(width: 24, height: 24)
+            content.image = item.image
+            // TODO: CustomContentView 생성 후 separator
             if item.text != "" {
+                content.secondaryTextProperties.font = .pretendard(size: 16, weight: .regular)
+                content.secondaryTextProperties.color = .secondaryLabel
                 content.secondaryText = item.text
             } else {
                 cell.accessories = [
@@ -218,11 +259,19 @@ final class SettingViewController: UIViewController {
     private func createLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { section, layoutEnvironment in
             var config = UICollectionLayoutListConfiguration(appearance: .insetGrouped)
-            config.headerMode = .supplementary
-            config.backgroundColor = .clear
-            let section = NSCollectionLayoutSection.list(using: config, layoutEnvironment: layoutEnvironment)
-            let headerFooterSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0),
-                                                          heightDimension: .estimated(44))
+            let item = NSCollectionLayoutItem(
+                layoutSize: .init(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(56)))
+            let group = NSCollectionLayoutGroup.vertical(
+                layoutSize: .init(
+                    widthDimension: .fractionalWidth(1.0),
+                    heightDimension: .absolute(56)),
+                subitems: [item])
+            let section = NSCollectionLayoutSection(group: group)
+            let headerFooterSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44))
             let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
                 layoutSize: headerFooterSize,
                 elementKind: "section-header-element-kind", alignment: .top)

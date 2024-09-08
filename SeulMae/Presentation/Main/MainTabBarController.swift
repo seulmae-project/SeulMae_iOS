@@ -36,8 +36,8 @@ final class MainTabBarController: UITabBarController {
               let workplace = viewControllers?[1],
               let setting = viewControllers?[2] else { return }
         tabBar.tintColor = .primary
-        home.tabBarItem = UITabBarItem(title: "홈", image: .house, tag: 0)
-        workplace.tabBarItem = UITabBarItem(title: "근무지", image: .users, tag: 1)
+        home.tabBarItem = UITabBarItem(title: "메인", image: .calendarDots, tag: 0)
+        workplace.tabBarItem = UITabBarItem(title: "근무지", image: .house, tag: 1)
         setting.tabBarItem = UITabBarItem(title: "설정", image: .gear, tag: 2)
     }
 }

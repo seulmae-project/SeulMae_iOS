@@ -257,6 +257,8 @@
 		86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61EF2C8ACBEE005ED02F /* Address.swift */; };
 		86FD61F22C8ACFFF005ED02F /* DefaultUserRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */; };
 		86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F32C8AD057005ED02F /* UserAPI.swift */; };
+		86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F52C8ADE2F005ED02F /* SettingItem.swift */; };
+		86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -524,6 +526,8 @@
 		86FD61EF2C8ACBEE005ED02F /* Address.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Address.swift; sourceTree = "<group>"; };
 		86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultUserRepository.swift; sourceTree = "<group>"; };
 		86FD61F32C8AD057005ED02F /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
+		86FD61F52C8ADE2F005ED02F /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
+		86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1186,6 +1190,7 @@
 				868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */,
 				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
 				869C7A772C6F08E6008EB7ED /* Data+String.swift */,
+				86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1814,6 +1819,7 @@
 			children = (
 				86FD61E12C8959CE005ED02F /* SettingViewController.swift */,
 				86FD61E52C8A986F005ED02F /* SettingViewModel.swift */,
+				86FD61F52C8ADE2F005ED02F /* SettingItem.swift */,
 				86FD61E72C8AA01E005ED02F /* SettingListItem.swift */,
 				86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */,
 			);
@@ -2147,6 +2153,7 @@
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
+				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
@@ -2164,6 +2171,7 @@
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
 				868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */,
 				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
+				86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */,
 				8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,

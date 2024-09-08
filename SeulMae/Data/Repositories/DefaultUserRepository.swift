@@ -27,7 +27,7 @@ final class UserRepository {
     }
     
     func fetchMyProfile() -> RxSwift.Single<User> {
-        network.rx
+        return network.rx
             .request(.myProfile)
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")

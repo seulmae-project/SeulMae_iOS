@@ -9,20 +9,17 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class SettingViewModel {
+final class SettingViewModel: ViewModel {
     struct Input {
         let showProfile: Signal<()>
+        let selectedItem: Driver<SettingListItem>
     }
     
     struct Output {
+        let loading: Driver<Bool>
         let item: Driver<SettingItem>
     }
     
-    struct SettingItem {
-        let username: String
-        let phoneNumber: String
-        // let version: String
-    }
     // MARK: - Dependencies
     
     private let coordinator: MainFlowCoordinator
@@ -31,13 +28,13 @@ final class SettingViewModel {
     // MARK: - Life Cycle Methods
     
     init(
-        dependency: (
+        dependencies: (
             coordinator: MainFlowCoordinator,
             userUseCase: UserUseCase
         )
     ) {
-        self.coordinator = dependency.coordinator
-        self.userUseCase = dependency.userUseCase
+        self.coordinator = dependencies.coordinator
+        self.userUseCase = dependencies.userUseCase
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -45,9 +42,25 @@ final class SettingViewModel {
         let loading = indicator.asDriver()
         
         let item = userUseCase.fetchMyProfile()
+            .trackActivity(indicator)
+            .map(SettingItem.init(user:))
+            .asDriver()
+        
+        Task {
+            for await _ in input.showProfile.values {
+                Swift.print("Did selected setting view showProfileButton)")
+            }
+        }
+        
+        Task {
+            for await selected in input.selectedItem.values {
+                Swift.print("Did selected setting tab collection view item: \(selected.title)")
+            }
+        }
         
         return .init(
-            item: .empty()
+            loading: loading,
+            item: item
         )
     }
 }

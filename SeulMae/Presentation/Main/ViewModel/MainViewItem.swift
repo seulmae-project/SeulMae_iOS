@@ -8,7 +8,7 @@
 import Foundation
 
 struct MainViewItem {
-    var userWorkplaceID: Int
+    var userWorkplaceID: Int?
     var workplaceID: Workplace.ID
     var navItemTitle: String
     var isManager: Bool

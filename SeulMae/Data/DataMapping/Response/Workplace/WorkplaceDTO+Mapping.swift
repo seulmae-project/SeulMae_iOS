@@ -54,18 +54,18 @@ extension BaseResponseDTO<WorkplaceDTO> {
 extension WorkplaceDTO {
     func toDomain() -> Workplace {
         return .init(
+            id: self.id,
+            name: self.name,
+            userWorkplaceId: self.userWorkplaceId,
+            isManager: self.isManager ?? false,
+            address: self.address?.toDomain() ?? .init(mainAddress: "", subAddress: ""),
             invitationCode: self.invitationCode ?? "",
             contact: self.contact ?? "",
             imageURL: self.imageURL ?? [],
             thumbnailURL: self.thumbnailURL ?? [],
             manager: self.manager ?? "",
             mainAddress: self.mainAddress ?? "",
-            subAddress: self.subAddress ?? "",
-            id: self.id,
-            name: self.name,
-            userWorkplaceId: self.userWorkplaceId ?? 0,
-            isManager: self.isManager ?? false,
-            address: self.address?.toDomain() ?? .init()
+            subAddress: self.subAddress ?? ""
         )
     }
 }
