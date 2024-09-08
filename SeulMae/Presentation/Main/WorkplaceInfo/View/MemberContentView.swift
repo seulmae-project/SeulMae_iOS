@@ -19,13 +19,13 @@ final class MemberContentView: UIView, UIContentView {
     }
     
     private let memberImageView: UIImageView = {
-        let iv = UIImageView()
-        iv.image = .userProfile
-        iv.translatesAutoresizingMaskIntoConstraints = false
-        iv.contentMode = .scaleAspectFill
-        iv.layer.cornerRadius = 20
-        iv.layer.cornerCurve = .continuous
-        return iv
+        let imageView = UIImageView()
+        imageView.image = .userProfile
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        imageView.contentMode = .scaleAspectFill
+        imageView.layer.cornerRadius = 20
+        imageView.layer.cornerCurve = .continuous
+        return imageView
     }()
     
     private let iconImageView: UIImageView = {
@@ -44,7 +44,7 @@ final class MemberContentView: UIView, UIContentView {
     override var intrinsicContentSize: CGSize {
         CGSize(width: 0, height: 44)
     }
-        
+    
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
@@ -52,7 +52,6 @@ final class MemberContentView: UIView, UIContentView {
         addSubview(memberImageView)
         addSubview(iconImageView)
         
-        let inset = 4.0
         NSLayoutConstraint.activate([
             memberImageView.leadingAnchor.constraint(equalTo: leadingAnchor),
             memberImageView.trailingAnchor.constraint(equalTo: trailingAnchor),
@@ -61,8 +60,8 @@ final class MemberContentView: UIView, UIContentView {
             memberImageView.heightAnchor.constraint(equalToConstant: 40),
             memberImageView.widthAnchor.constraint(equalToConstant: 40),
             
-            iconImageView.leadingAnchor.constraint(equalTo: memberImageView.leadingAnchor, constant: -inset),
-            iconImageView.topAnchor.constraint(equalTo: memberImageView.topAnchor, constant: -inset),
+            iconImageView.leadingAnchor.constraint(equalTo: memberImageView.leadingAnchor, constant: -4.0),
+            iconImageView.topAnchor.constraint(equalTo: memberImageView.topAnchor, constant: -4.0),
             iconImageView.heightAnchor.constraint(equalToConstant: 20),
             iconImageView.widthAnchor.constraint(equalToConstant: 20)
         ])
@@ -71,7 +70,7 @@ final class MemberContentView: UIView, UIContentView {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-        
+    
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
         //            if let imageURL = URL(string: member.imageURL) {
@@ -83,3 +82,8 @@ final class MemberContentView: UIView, UIContentView {
     }
 }
 
+extension UICollectionViewCell {
+    func memberContentConfiguration() -> MemberContentView.Configuration {
+        return MemberContentView.Configuration()
+    }
+}

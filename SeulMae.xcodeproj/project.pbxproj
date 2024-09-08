@@ -259,6 +259,10 @@
 		86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F32C8AD057005ED02F /* UserAPI.swift */; };
 		86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F52C8ADE2F005ED02F /* SettingItem.swift */; };
 		86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */; };
+		86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61FB2C8D323A005ED02F /* WorkplaceViewModel.swift */; };
+		86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61FF2C8D3601005ED02F /* AnnounceSummeryContentView.swift */; };
+		86FD62042C8D387D005ED02F /* WorkplaceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62032C8D387D005ED02F /* WorkplaceListItem.swift */; };
+		86FD62062C8D3BCB005ED02F /* WorkScheduleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62052C8D3BCB005ED02F /* WorkScheduleContentView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -528,6 +532,10 @@
 		86FD61F32C8AD057005ED02F /* UserAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserAPI.swift; sourceTree = "<group>"; };
 		86FD61F52C8ADE2F005ED02F /* SettingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingItem.swift; sourceTree = "<group>"; };
 		86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+Size.swift"; sourceTree = "<group>"; };
+		86FD61FB2C8D323A005ED02F /* WorkplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceViewModel.swift; sourceTree = "<group>"; };
+		86FD61FF2C8D3601005ED02F /* AnnounceSummeryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceSummeryContentView.swift; sourceTree = "<group>"; };
+		86FD62032C8D387D005ED02F /* WorkplaceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListItem.swift; sourceTree = "<group>"; };
+		86FD62052C8D3BCB005ED02F /* WorkScheduleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleContentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -890,7 +898,6 @@
 			children = (
 				86E299AC2C1721FF00805AD0 /* MainViewController.swift */,
 				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
-				8606F6832C33282100FFC68E /* MemberContentView.swift */,
 				86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */,
 				8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */,
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
@@ -1809,7 +1816,8 @@
 		86FD61DD2C895925005ED02F /* WorkplaceInfo */ = {
 			isa = PBXGroup;
 			children = (
-				86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */,
+				86FD62012C8D3791005ED02F /* View */,
+				86FD62022C8D3795005ED02F /* ViewModel */,
 			);
 			path = WorkplaceInfo;
 			sourceTree = "<group>";
@@ -1817,13 +1825,49 @@
 		86FD61E02C89598F005ED02F /* Setting */ = {
 			isa = PBXGroup;
 			children = (
+				86FD61F92C8D3212005ED02F /* View */,
+				86FD61FA2C8D3216005ED02F /* ViewModel */,
+			);
+			path = Setting;
+			sourceTree = "<group>";
+		};
+		86FD61F92C8D3212005ED02F /* View */ = {
+			isa = PBXGroup;
+			children = (
 				86FD61E12C8959CE005ED02F /* SettingViewController.swift */,
+				86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86FD61FA2C8D3216005ED02F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
 				86FD61E52C8A986F005ED02F /* SettingViewModel.swift */,
 				86FD61F52C8ADE2F005ED02F /* SettingItem.swift */,
 				86FD61E72C8AA01E005ED02F /* SettingListItem.swift */,
-				86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */,
 			);
-			path = Setting;
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86FD62012C8D3791005ED02F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */,
+				8606F6832C33282100FFC68E /* MemberContentView.swift */,
+				86FD61FF2C8D3601005ED02F /* AnnounceSummeryContentView.swift */,
+				86FD62052C8D3BCB005ED02F /* WorkScheduleContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86FD62022C8D3795005ED02F /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61FB2C8D323A005ED02F /* WorkplaceViewModel.swift */,
+				86FD62032C8D387D005ED02F /* WorkplaceListItem.swift */,
+			);
+			path = ViewModel;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -2023,6 +2067,7 @@
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */,
+				86FD62062C8D3BCB005ED02F /* WorkScheduleContentView.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
@@ -2150,7 +2195,9 @@
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
 				864415642C6E217F00295838 /* KPostalViewController.swift in Sources */,
+				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
+				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
@@ -2203,6 +2250,7 @@
 				861BF6822C27044600702E24 /* MainFlowCoordinator.swift in Sources */,
 				861B968E2C2029820032C94A /* ModalListContentView.swift in Sources */,
 				866EA3452C4A7E1F003159F9 /* AppText.swift in Sources */,
+				86FD62042C8D387D005ED02F /* WorkplaceListItem.swift in Sources */,
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */,
 				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,
