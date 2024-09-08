@@ -8,13 +8,13 @@
 import Foundation
 
 struct WorkScheduleDTO: ModelType {
-    let id: String
+    let id: Int
     let title: String?
     let days: [Int]?
     let startTime: String?
     let endTime: String?
     let isActive: Bool?
-    
+ 
     enum CodingKeys: String, CodingKey {
         case id = "workScheduleId"
         case title = "workScheduleTitle"

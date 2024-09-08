@@ -47,6 +47,11 @@ class DefaultMemberRepository: MemberRepository {
     func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
         return network.rx
             .request(.fetchMemberList(workplaceId: workplaceId))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
             .map(BaseResponseDTO<[MemberDTO]>.self)
             .map { $0.toDomain() }
     }
@@ -54,6 +59,11 @@ class DefaultMemberRepository: MemberRepository {
     func fetchMemberProfile(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
         return network.rx
             .request(.fetchMemberProfile(memberId: memberId))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
             .map(BaseResponseDTO<MemberProfileDTO>.self)
             .map { try $0.toDomain() }
     }

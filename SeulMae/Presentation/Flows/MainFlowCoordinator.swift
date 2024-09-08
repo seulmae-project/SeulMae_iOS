@@ -44,7 +44,7 @@ protocol MainFlowCoordinator {
     
     
     func showAnnounceList()
-    func showAnnounceDetail(announceId: Announce.ID?)
+    func showAnnounceDetails(announceId: Announce.ID?)
     
     // Workplace Flow
     // func showTutorial()
@@ -56,6 +56,10 @@ protocol MainFlowCoordinator {
     // modal
     func showWorkplaceList()
     
+    // Workplace Tab
+    
+    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID)
+    func showWorkScheduleList()
     // setting
     
 }
@@ -152,10 +156,22 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showAnnounceDetail(announceId: Announce.ID?) {
+    func showAnnounceDetails(announceId: Announce.ID?) {
         let vc = dependencies.makeAnnounceDetailViewController(
             coordinator: self,
             announceId: announceId)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - WorkSchedule
+    
+    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID) {
+        let vc = WorkScheduleDetailsViewController()
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showWorkScheduleList() {
+        let vc = WorkScheduleListViewController()
         navigationController.pushViewController(vc, animated: true)
     }
 }

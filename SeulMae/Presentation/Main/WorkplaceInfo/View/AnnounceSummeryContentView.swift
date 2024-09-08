@@ -48,10 +48,10 @@ final class AnnounceSummeryContentView: UIView, UIContentView {
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: 16),
-            titleLabel.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -16),
-            titleLabel.topAnchor.constraint(lessThanOrEqualTo: topAnchor, constant: 16),
-            titleLabel.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor, constant: -16),
+            titleLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
+            titleLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
+            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            titleLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
         ])
     }
     

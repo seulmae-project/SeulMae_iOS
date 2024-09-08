@@ -25,8 +25,13 @@ final class DefaultWorkScheduleRepository: WorkScheduleRepository {
     }
     
     func fetchWorkScheduleList(workplaceId: Workplace.ID) -> RxSwift.Single<[WorkSchedule]> {
-        network.rx
+        return network.rx
             .request(.fetchWorkScheduleList(workplaceId: workplaceId))
+            .do(onSuccess: { response in
+                Swift.print("response: \(try response.mapString())")
+            }, onError: { error in
+                Swift.print("error: \(error)")
+            })
             .map(BaseResponseDTO<[WorkScheduleDTO]>.self)
             .map { try $0.toDomain() }
     }

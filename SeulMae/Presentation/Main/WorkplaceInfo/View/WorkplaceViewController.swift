@@ -67,7 +67,72 @@ final class WorkplaceViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let showMemberDetails = collectionView.rx
+            .itemSelected
+            .compactMap { [weak self] indexPath in
+                self?.dataSource?
+                    .itemIdentifier(for: indexPath)?
+                    .member
+            }
+            .asSignal()
         
+        let showAnnouceDetails = collectionView.rx
+            .itemSelected
+            .compactMap { [weak self] indexPath in
+                self?.dataSource?
+                    .itemIdentifier(for: indexPath)?
+                    .announce?
+                    .id
+            }
+            .asSignal()
+        
+        let showWorkScheduleDetails = collectionView.rx
+            .itemSelected
+            .compactMap { [weak self] indexPath in
+                self?.dataSource?
+                    .itemIdentifier(for: indexPath)?
+                    .workSchedule?
+                    .id
+            }
+            .asSignal()
+        
+        let output = viewModel.transform(
+            .init(
+                showMemberDetails: showMemberDetails,
+                showAnnouceList: .empty(),
+                showAnnouceDetails: showAnnouceDetails,
+                showWorkScheduleList: .empty(),
+                showWorkScheduleDetails: showWorkScheduleDetails
+            )
+        )
+        
+        Task {
+            for await loading in output.loading.values {
+                
+            }
+        }
+        
+        Task {
+            for await items in output.listItems.values {
+                guard let item = items.first else { return }
+                var snapshot = dataSource.snapshot()
+                switch item.itemType {
+                case .member:
+                    let oldItems = snapshot.itemIdentifiers(inSection: .members)
+                    snapshot.deleteItems(oldItems)
+                    snapshot.appendItems(items, toSection: .members)
+                case .announce:
+                    let oldItems = snapshot.itemIdentifiers(inSection: .announceList)
+                    snapshot.deleteItems(oldItems)
+                    snapshot.appendItems(items, toSection: .announceList)
+                case .workSchedule:
+                    let oldItems = snapshot.itemIdentifiers(inSection: .workSchedules)
+                    snapshot.deleteItems(oldItems)
+                    snapshot.appendItems(items, toSection: .workSchedules)
+                }
+                dataSource.apply(snapshot)
+            }
+        }
     }
     
     // MARK: - Hierarchy
@@ -104,6 +169,12 @@ final class WorkplaceViewController: UIViewController {
             return view.dequeueConfiguredReusableSupplementary(
                 using: headerCellRegistration, for: indexPath)
         }
+        
+        // initial data
+        let sections = Section.allCases
+        var snapshot = Snapshot()
+        snapshot.appendSections(sections)
+        dataSource.apply(snapshot, animatingDifferences: false)
     }
     
     // MARK: - CellRegistration
@@ -155,6 +226,51 @@ final class WorkplaceViewController: UIViewController {
     // MARK: - UICollectionViewLayout
     
     private func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewLayout()
+        let sectionProvider = { [weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let sectionKind = Section(rawValue: sectionIndex) else { Swift.fatalError("Unknown section!") }
+            let section: NSCollectionLayoutSection
+            switch sectionKind {
+            case .members:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0 / 7.0),
+                                      heightDimension: .estimated(44)))
+                let group = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .estimated(44)),
+                    subitems: [item])
+                group.interItemSpacing = .fixed(12)
+                section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+            case .announceList:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .estimated(64)))
+                let group = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .estimated(64)),
+                    subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+            case .workSchedules:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .estimated(90)))
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .estimated(180)),
+                    subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+            }
+            let headerFooterSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: "section-header-element-kind",
+                alignment: .top, absoluteOffset: .init(x: 0, y: -12))
+            section.boundarySupplementaryItems = [sectionHeader]
+            return section
+        }
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
     }
 }

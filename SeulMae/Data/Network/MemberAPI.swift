@@ -31,7 +31,7 @@ extension MemberAPI {
     var parameters: Parameters? {
         switch self {
         case .fetchMemberList(workplaceId: let workplaceId):
-            return ["workplace": workplaceId]
+            return ["workplaceId": workplaceId]
         case .fetchMemberProfile(let memberId):
             return ["userWorkplaceId": memberId]
         default:

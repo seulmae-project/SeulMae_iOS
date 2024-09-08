@@ -42,7 +42,7 @@ final class AnnounceListViewModel: ViewModel {
         
         Task {
             for await item in input.showAnnounceDetails.values {
-                coordinator.showAnnounceDetail(announceId: item.announce.id)
+                coordinator.showAnnounceDetails(announceId: item.announce.id)
             }
         }
         

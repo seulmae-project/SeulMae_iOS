@@ -29,8 +29,6 @@ extension WorkScheduleAPI {
         switch self {
         case .fetchWorkScheduleList(workplaceId: let workplaceId):
             return ["workplaceId": workplaceId]
-        default:
-            return nil
         }
     }
     

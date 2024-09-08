@@ -24,14 +24,15 @@ struct WorkplaceListItem: Hashable {
         self.workSchedule = nil
     }
     
-    init(annouce: Announce) {
+    init(announce: Announce) {
         self.itemType = .announce
         self.member = nil
-        self.announce = annouce
+        self.announce = announce
         self.workSchedule = nil
     }
     
     init(workSchedule: WorkSchedule) {
+        Swift.print(workSchedule)
         self.itemType = .workSchedule
         self.member = nil
         self.announce = nil

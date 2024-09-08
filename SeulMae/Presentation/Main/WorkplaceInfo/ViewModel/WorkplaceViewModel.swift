@@ -19,7 +19,8 @@ final class WorkplaceViewModel: ViewModel {
     }
     
     struct Output {
-        let listItems: Driver<WorkplaceListItem>
+        let loading: Driver<Bool>
+        let listItems: Driver<[WorkplaceListItem]>
     }
     
     // MARK: - Dependencies
@@ -51,50 +52,68 @@ final class WorkplaceViewModel: ViewModel {
         
         let members = memberUseCase
             .fetchMemberList()
+            .map { $0.map(WorkplaceListItem.init(member:)) }
             .asDriver()
         
         let announceList = announceUseCase
             .fetchMainAnnounceList()
+            .map { $0.map(WorkplaceListItem.init(announce:)) }
             .asDriver()
         
         let workScheduleList = workScheduleUseCase
             .fetchWorkScheduleList()
+            .map { $0.map(WorkplaceListItem.init(workSchedule:)) }
             .asDriver()
+        
+        Task {
+            for await announce in announceList.values {
+                 Swift.print("announce: \(announce)")
+            }
+        }
+        
+        Task {
+            for await schedule in workScheduleList.values {
+                // Swift.print("schedule: \(schedule)")
+            }
+        }
+        
+        let listItems = Driver.merge(members, announceList, workScheduleList)
         
         // MARK: Coordinator Logic
         
         Task {
-            for await _ in input.showMemberDetails.values {
-            
+            for await member in input.showMemberDetails.values {
+                coordinator.showMemberInfo(member: member)
             }
         }
         
         Task {
             for await _ in input.showAnnouceList.values {
-
+                coordinator.showAnnounceList()
             }
         }
         
         Task {
             for await announceId in input.showAnnouceDetails.values {
-                
+                coordinator.showAnnounceDetails(announceId: announceId)
             }
         }
         
         Task {
             for await _ in input.showWorkScheduleList.values {
-                
+                coordinator.showWorkScheduleList()
             }
         }
         
         Task {
             for await workScheduleId in input.showWorkScheduleDetails.values {
-                
+                coordinator.showWorkScheduleDetails(workScheduleId: workScheduleId)
             }
         }
         
         return Output(
-            listItems: .empty()
+            loading: loading,
+            listItems: listItems
         )
     }
 }

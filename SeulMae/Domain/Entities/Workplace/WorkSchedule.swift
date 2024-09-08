@@ -8,7 +8,7 @@
 import Foundation
 
 struct WorkSchedule: Identifiable, Hashable {
-    let id: String
+    let id: Int
     let title: String
     let days: [Int]
     let startTime: String
