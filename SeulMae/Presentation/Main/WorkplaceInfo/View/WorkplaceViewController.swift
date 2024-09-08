@@ -33,6 +33,8 @@ final class WorkplaceViewController: UIViewController {
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         // collectionView.showsHorizontalScrollIndicator = false
         // collectionView.showsVerticalScrollIndicator = false
+        //  collectionView.directionalLayoutMargins = .init(top: 20, leading: 20, bottom: 20, trailing: 20)
+        // collectionView.contentInset = .init(top: 20, left: 20, bottom: 40, right: -40)
         return collectionView
     }()
     
@@ -241,16 +243,18 @@ final class WorkplaceViewController: UIViewController {
                 group.interItemSpacing = .fixed(12)
                 section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.interGroupSpacing = 12
             case .announceList:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .estimated(64)))
+                                      heightDimension: .absolute(64)))
                 let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .estimated(64)),
+                    layoutSize: .init(widthDimension: .fractionalWidth(0.9),
+                                      heightDimension: .absolute(64)),
                     subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.interGroupSpacing = 20
             case .workSchedules:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0),
@@ -260,6 +264,7 @@ final class WorkplaceViewController: UIViewController {
                                       heightDimension: .estimated(180)),
                     subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
+                section.interGroupSpacing = 12
             }
             let headerFooterSize = NSCollectionLayoutSize(
                 widthDimension: .fractionalWidth(1.0),
@@ -269,8 +274,12 @@ final class WorkplaceViewController: UIViewController {
                 elementKind: "section-header-element-kind",
                 alignment: .top, absoluteOffset: .init(x: 0, y: -12))
             section.boundarySupplementaryItems = [sectionHeader]
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
             return section
         }
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider)
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider, configuration: config)
     }
 }
