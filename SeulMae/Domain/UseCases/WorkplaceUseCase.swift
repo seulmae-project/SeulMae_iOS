@@ -23,13 +23,11 @@ protocol WorkplaceUseCase {
 
     
     
-    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]>
-    
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
-    func fetchMemberInfo(memberIdentifier id: Member.ID) -> RxSwift.Single<MemberInfo>
+    
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -37,8 +35,8 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         return .just([])
     }
     
-    
     private let workplaceRepository: WorkplaceRepository
+    private let userRepository = UserRepository(network: UserNetwork())
     
     init(workplaceRepository: WorkplaceRepository) {
         self.workplaceRepository = workplaceRepository
@@ -88,20 +86,13 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.addNewWorkplace(request: request)
     }
     
-    
-
-    
-    
-    
-    
-    
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
         workplaceRepository.fetchMemberList(workplaceIdentifier: id)
     }
     
     func fetchMemberInfo(
         memberIdentifier id: Member.ID
-    ) -> RxSwift.Single<MemberInfo> {
+    ) -> RxSwift.Single<MemberProfile> {
         return workplaceRepository.fetchMemberInfo(memberIdentifier: id)
             .do(onError: { error in
                 print("error: \(error)")
@@ -116,7 +107,6 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.deleteWorkplace(workplaceIdentifier: id)
     }
     
-        
     func acceptApplication(
         workplaceApproveId: String,
         workplaceJoinHistoryId: String

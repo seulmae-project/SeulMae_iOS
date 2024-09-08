@@ -115,16 +115,11 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<String?>.self)
             .map { $0.isSuccess }
     }
-    
-    
-    
-    
-    
         
     func fetchMemberInfo(
         memberIdentifier id: Member.ID
-    ) -> RxSwift.Single<MemberInfo> {
-        return Single<BaseResponseDTO<MemberInfoDTO>>.create { observer in
+    ) -> RxSwift.Single<MemberProfile> {
+        return Single<BaseResponseDTO<MemberProfileDTO>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.memberInfoSuccess))
             return Disposables.create()
         }

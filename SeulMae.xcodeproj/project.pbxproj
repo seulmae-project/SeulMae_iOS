@@ -177,7 +177,7 @@
 		86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B0AF902C2EAD8F0006AF00 /* MainViewItem.swift */; };
 		86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */; };
 		86B4B4502C4B3CB300D83488 /* v1_member_info_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86B4B44F2C4B3CB300D83488 /* v1_member_info_success.json */; };
-		86B4B4522C4B3D0F00D83488 /* MemberInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4512C4B3D0F00D83488 /* MemberInfo.swift */; };
+		86B4B4522C4B3D0F00D83488 /* MemberProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4512C4B3D0F00D83488 /* MemberProfile.swift */; };
 		86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4532C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift */; };
 		86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4552C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift */; };
 		86B4B4582C4B400000D83488 /* WorkSchedule.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4572C4B400000D83488 /* WorkSchedule.swift */; };
@@ -263,6 +263,13 @@
 		86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61FF2C8D3601005ED02F /* AnnounceSummeryContentView.swift */; };
 		86FD62042C8D387D005ED02F /* WorkplaceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62032C8D387D005ED02F /* WorkplaceListItem.swift */; };
 		86FD62062C8D3BCB005ED02F /* WorkScheduleContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62052C8D3BCB005ED02F /* WorkScheduleContentView.swift */; };
+		86FD62082C8D4569005ED02F /* AnnounceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62072C8D4569005ED02F /* AnnounceUseCase.swift */; };
+		86FD620A2C8D45BF005ED02F /* WorkScheduleUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62092C8D45BF005ED02F /* WorkScheduleUseCase.swift */; };
+		86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD620B2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift */; };
+		86FD620E2C8D470C005ED02F /* DefaultAnnounceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD620D2C8D470C005ED02F /* DefaultAnnounceRepository.swift */; };
+		86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD620F2C8D493D005ED02F /* MemberUseCase.swift */; };
+		86FD62122C8D4AD9005ED02F /* MemberAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62112C8D4AD9005ED02F /* MemberAPI.swift */; };
+		86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -447,7 +454,7 @@
 		86B0AF902C2EAD8F0006AF00 /* MainViewItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewItem.swift; sourceTree = "<group>"; };
 		86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkStatusView.swift; sourceTree = "<group>"; };
 		86B4B44F2C4B3CB300D83488 /* v1_member_info_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_member_info_success.json; sourceTree = "<group>"; };
-		86B4B4512C4B3D0F00D83488 /* MemberInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfo.swift; sourceTree = "<group>"; };
+		86B4B4512C4B3D0F00D83488 /* MemberProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberProfile.swift; sourceTree = "<group>"; };
 		86B4B4532C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MemberInfoDTO+Mapping.swift"; sourceTree = "<group>"; };
 		86B4B4552C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkScheduleDTO+Mapping.swift"; sourceTree = "<group>"; };
 		86B4B4572C4B400000D83488 /* WorkSchedule.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkSchedule.swift; sourceTree = "<group>"; };
@@ -536,6 +543,13 @@
 		86FD61FF2C8D3601005ED02F /* AnnounceSummeryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceSummeryContentView.swift; sourceTree = "<group>"; };
 		86FD62032C8D387D005ED02F /* WorkplaceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListItem.swift; sourceTree = "<group>"; };
 		86FD62052C8D3BCB005ED02F /* WorkScheduleContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleContentView.swift; sourceTree = "<group>"; };
+		86FD62072C8D4569005ED02F /* AnnounceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceUseCase.swift; sourceTree = "<group>"; };
+		86FD62092C8D45BF005ED02F /* WorkScheduleUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleUseCase.swift; sourceTree = "<group>"; };
+		86FD620B2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultWorkScheduleRepository.swift; sourceTree = "<group>"; };
+		86FD620D2C8D470C005ED02F /* DefaultAnnounceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAnnounceRepository.swift; sourceTree = "<group>"; };
+		86FD620F2C8D493D005ED02F /* MemberUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUseCase.swift; sourceTree = "<group>"; };
+		86FD62112C8D4AD9005ED02F /* MemberAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberAPI.swift; sourceTree = "<group>"; };
+		86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleAPI.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -697,7 +711,10 @@
 				861B96852C20076E0032C94A /* AuthUseCase.swift */,
 				869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */,
 				8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */,
+				86FD620F2C8D493D005ED02F /* MemberUseCase.swift */,
 				861BF68B2C2708D300702E24 /* NoticeUseCase.swift */,
+				86FD62072C8D4569005ED02F /* AnnounceUseCase.swift */,
+				86FD62092C8D45BF005ED02F /* WorkScheduleUseCase.swift */,
 				86FD61EB2C8AC886005ED02F /* UserUseCase.swift */,
 			);
 			path = UseCases;
@@ -855,8 +872,10 @@
 			children = (
 				861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */,
 				861BF6852C27070C00702E24 /* MainAPI.swift */,
+				86FD62112C8D4AD9005ED02F /* MemberAPI.swift */,
 				860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */,
 				86FD61F32C8AD057005ED02F /* UserAPI.swift */,
+				86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */,
 				866577B02C3406F00048A111 /* Error */,
 			);
 			path = Network;
@@ -1509,7 +1528,7 @@
 			children = (
 				86B4B4572C4B400000D83488 /* WorkSchedule.swift */,
 				8606F67F2C33244400FFC68E /* Member.swift */,
-				86B4B4512C4B3D0F00D83488 /* MemberInfo.swift */,
+				86B4B4512C4B3D0F00D83488 /* MemberProfile.swift */,
 				868354802C245F7800F055D2 /* Workplace.swift */,
 				860EB2B22C74CFA200310985 /* AppNotification.swift */,
 				86FD61EF2C8ACBEE005ED02F /* Address.swift */,
@@ -1522,8 +1541,10 @@
 			children = (
 				86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */,
 				861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */,
+				86FD620D2C8D470C005ED02F /* DefaultAnnounceRepository.swift */,
 				8684C5B12C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift */,
 				86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */,
+				86FD620B2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -2053,6 +2074,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */,
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */,
@@ -2068,6 +2090,7 @@
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */,
 				86FD62062C8D3BCB005ED02F /* WorkScheduleContentView.swift in Sources */,
+				86FD620A2C8D45BF005ED02F /* WorkScheduleUseCase.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
@@ -2106,6 +2129,7 @@
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
 				86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */,
 				86FD61F22C8ACFFF005ED02F /* DefaultUserRepository.swift in Sources */,
+				86FD620E2C8D470C005ED02F /* DefaultAnnounceRepository.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
@@ -2130,6 +2154,7 @@
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				869054AF2C60C9140037B61A /* WorkplaceTable.swift in Sources */,
 				86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */,
+				86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */,
 				864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */,
 				864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
@@ -2180,7 +2205,7 @@
 				861B96952C204C2A0032C94A /* BottomSheetPresentationController.swift in Sources */,
 				86D309E52C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift in Sources */,
 				861B96D72C21C24D0032C94A /* DraggableViewDelegate.swift in Sources */,
-				86B4B4522C4B3D0F00D83488 /* MemberInfo.swift in Sources */,
+				86B4B4522C4B3D0F00D83488 /* MemberProfile.swift in Sources */,
 				866577B92C3410250048A111 /* WorkplaceContentView.swift in Sources */,
 				868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */,
 				868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */,
@@ -2198,6 +2223,7 @@
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
+				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
@@ -2227,6 +2253,7 @@
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
+				86FD62082C8D4569005ED02F /* AnnounceUseCase.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
 				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
@@ -2255,6 +2282,7 @@
 				86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */,
 				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,
 				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
+				86FD62122C8D4AD9005ED02F /* MemberAPI.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86FD61EC2C8AC886005ED02F /* UserUseCase.swift in Sources */,

@@ -284,6 +284,19 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
         )
     }
     
+    func makeWorkplaceViewController(coordinator: MainFlowCoordinator) -> WorkplaceViewController {
+        return WorkplaceViewController(
+            viewModel: WorkplaceViewModel(
+                dependencies: (
+                    coordinator: coordinator,
+                    memberUseCase: DefaultMemberUseCase(),
+                    announceUseCase: DefaultAnnounceUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking())),
+                    workScheduleUseCase: DefaultWorkScheduleUseCase(workScheduleRepository: DefaultWorkScheduleRepository(network: WorkScheduleNetworking()))
+                )
+            )
+        )
+    }
+    
     func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController {
         return SettingViewController(
             viewModel: SettingViewModel(

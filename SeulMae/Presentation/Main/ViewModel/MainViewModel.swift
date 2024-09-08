@@ -129,12 +129,12 @@ final class MainViewModel: ViewModel {
         
         // MARK: - Common Log
         
-        let members = recent.flatMapLatest { [weak self] item -> Driver<[Member]> in
-            guard let strongSelf = self else { return .empty() }
-            return strongSelf.workplaceUseCase
-                .fetchMemberList(workplaceIdentifier: item.workplaceID)
-                .asDriver()
-        }
+//        let members = recent.flatMapLatest { [weak self] item -> Driver<[Member]> in
+//            guard let strongSelf = self else { return .empty() }
+//            return strongSelf.workplaceUseCase
+//                .fetchMemberList(workplaceIdentifier: item.workplaceID)
+//                .asDriver()
+//        }
         
         let announceList = noticeUseCase
             .fetchMainAnnounceList()
@@ -201,7 +201,7 @@ final class MainViewModel: ViewModel {
 //        
         return Output(
             item: recent,
-            members: members,
+            members: .empty(),
             attendanceListItems: attendances,
             announceList: announceList,
             appNotis: appNotis

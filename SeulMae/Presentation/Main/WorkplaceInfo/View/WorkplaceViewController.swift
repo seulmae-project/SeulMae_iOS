@@ -40,7 +40,20 @@ final class WorkplaceViewController: UIViewController {
     
     private var dataSource: DataSource!
     
+    // MARK: - Dependencies
+    
+    private var viewModel: WorkplaceViewModel
+    
     // MARK: - Life Cycle Methods
+    
+    init(viewModel: WorkplaceViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -48,7 +61,16 @@ final class WorkplaceViewController: UIViewController {
         setupView()
         setupConstraints()
         setupDataSource()
+        bindSubviews()
     }
+    
+    // MARK: - Data Binding
+    
+    private func bindSubviews() {
+        
+    }
+    
+    // MARK: - Hierarchy
     
     private func setupConstraints() {
         view.addSubview(collectionView)

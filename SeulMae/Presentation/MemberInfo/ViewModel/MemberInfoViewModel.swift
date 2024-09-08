@@ -16,7 +16,7 @@ final class MemberInfoViewModel: ViewModel {
     }
     
     struct Output {
-        let memberInfo: Driver<MemberInfo>
+        let memberInfo: Driver<MemberProfile>
     }
     
     // MARK: - Dependency
@@ -56,8 +56,8 @@ final class MemberInfoViewModel: ViewModel {
         
         // MARK: Member Info
         
-        let memberInfo = workplaceUseCase.fetchMemberInfo(memberIdentifier: self.memberIdentifier)
-            .asDriver()
+//        let memberInfo = workplaceUseCase.fetchMemberInfo(memberIdentifier: self.memberIdentifier)
+//            .asDriver()
 //        input.onLoad
 //            .flatMap { [unowned self] _ in
 //                return
@@ -88,7 +88,7 @@ final class MemberInfoViewModel: ViewModel {
         //        }
         
         return Output(
-            memberInfo: memberInfo
+            memberInfo: .empty() // memberInfo
         )
     }
 }

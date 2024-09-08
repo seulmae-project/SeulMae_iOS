@@ -34,7 +34,7 @@ enum MockData {
         static let acceptApplicationSuccess: BaseResponseDTO<Bool> = load("v1_accept_application_success.json")
         static let denyApplicationSuccess: BaseResponseDTO<Bool> = load("v1_deny_application_success.json")
         static let memberListSuccess: BaseResponseDTO<[MemberDTO]> = load("v1_member_list_success.json")
-        static let memberInfoSuccess: BaseResponseDTO<MemberInfoDTO> = load("v1_member_info_success.json")
+        static let memberInfoSuccess: BaseResponseDTO<MemberProfileDTO> = load("v1_member_info_success.json")
     }
     
     // MARK: - NoticeAPI

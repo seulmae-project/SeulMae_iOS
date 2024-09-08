@@ -28,6 +28,7 @@ protocol MainFlowCoordinatorDependencies {
     func makeAnnounceDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID?) -> AnnounceDetailViewController
     
     // MARK: - Setting
+    func makeWorkplaceViewController(coordinator: MainFlowCoordinator) -> WorkplaceViewController
     func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController
 }
 
@@ -95,7 +96,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     func showMain() {
         let viewControllers = [
             UserHomeViewController(),
-            WorkplaceViewController(),
+            dependencies.makeWorkplaceViewController(coordinator: self),
             dependencies.makeSettingViewController(coordinator: self)
         ]
         

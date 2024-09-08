@@ -25,5 +25,5 @@ protocol WorkplaceRepository {
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> Single<[Member]>
-    func fetchMemberInfo(memberIdentifier id: Member.ID) -> Single<MemberInfo>
+    func fetchMemberInfo(memberIdentifier id: Member.ID) -> Single<MemberProfile>
 }

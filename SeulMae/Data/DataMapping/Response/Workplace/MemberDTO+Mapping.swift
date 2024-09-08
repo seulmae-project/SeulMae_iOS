@@ -14,7 +14,7 @@ struct MemberDTO: ModelType {
     let isManager: Bool?
     
     enum CodingKeys: String, CodingKey {
-        case id = "userId"
+        case id = "userWorkplaceId"
         case name = "userName"
         case imageURL = "userImageURL"
         case isManager

@@ -1,14 +1,14 @@
 //
-//  NoticeUseCase.swift
+//  AnnounceUseCase.swift
 //  SeulMae
 //
-//  Created by 조기열 on 6/22/24.
+//  Created by 조기열 on 9/8/24.
 //
 
 import Foundation
 import RxSwift
 
-protocol NoticeUseCase {
+protocol AnnounceUseCase {
     func fetchAnnounceList(page: Int, size: Int) -> Single<[Announce]>
     func fetchAnnounceDetail(announceId id: Announce.ID) -> Single<AnnounceDetail>
     func addAnnounce(request: AddAnnounceRequset) -> Single<Bool>
@@ -18,23 +18,15 @@ protocol NoticeUseCase {
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Announce]>
     func fetchMainAnnounceList() -> Single<[Announce]>
     func deleteNotice(noticeIdentifier id: Announce.ID) -> Single<Bool>
-    
-    
-    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> Single<[AppNotification]>
 }
 
-
-class DefaultNoticeUseCase: NoticeUseCase {
+class DefaultAnnounceUseCase: AnnounceUseCase {
     
     private let noticeRepository: NoticeRepository
     private let userRepository = UserRepository(network: UserNetwork())
     
     init(noticeRepository: NoticeRepository) {
         self.noticeRepository = noticeRepository
-    }
-    
-    func fetchAppNotificationList(userWorkplaceID id: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
-        return noticeRepository.fetchAppNotificationList(userWorkplaceID: id)
     }
     
     func fetchAnnounceList(page: Int, size: Int) -> Single<[Announce]> {
