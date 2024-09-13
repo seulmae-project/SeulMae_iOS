@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */; };
+		86016C4F2C94628700EE8A92 /* MonthlyAttenanceSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */; };
 		8606F6802C33244400FFC68E /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F67F2C33244400FFC68E /* Member.swift */; };
 		8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6832C33282100FFC68E /* MemberContentView.swift */; };
 		8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */; };
@@ -301,6 +302,7 @@
 
 /* Begin PBXFileReference section */
 		86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistory.swift; sourceTree = "<group>"; };
+		86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyAttenanceSummary.swift; sourceTree = "<group>"; };
 		8606F67F2C33244400FFC68E /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		8606F6832C33282100FFC68E /* MemberContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberContentView.swift; sourceTree = "<group>"; };
 		8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceRequest.swift; sourceTree = "<group>"; };
@@ -1402,6 +1404,7 @@
 				861BF68D2C270C7C00702E24 /* Auth */,
 				861BF68E2C270C8500702E24 /* Notice */,
 				86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */,
+				86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2216,6 +2219,7 @@
 				86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */,
+				86016C4F2C94628700EE8A92 /* MonthlyAttenanceSummary.swift in Sources */,
 				869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */,
 				861BF6882C27082600702E24 /* DefaultNoticeRepository.swift in Sources */,
 				86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */,
