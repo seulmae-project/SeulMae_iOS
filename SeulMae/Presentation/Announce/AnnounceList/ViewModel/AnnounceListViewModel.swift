@@ -19,15 +19,15 @@ final class AnnounceListViewModel: ViewModel {
         let items: Driver<[AnnounceListItem]>
     }
     
-    private let coordinator: MainFlowCoordinator
-    private let noticeUseCase: NoticeUseCase
+    private let coordinator: WorkplaceFlowCoordinator
+    private let announceUseCase: AnnounceUseCase
     
     init(
-        coordinator: MainFlowCoordinator,
-        noticeUseCase: NoticeUseCase
+        coordinator: WorkplaceFlowCoordinator,
+        announceUseCase: AnnounceUseCase
     ) {
         self.coordinator = coordinator
-        self.noticeUseCase = noticeUseCase
+        self.announceUseCase = announceUseCase
     }
     
     @MainActor
@@ -35,7 +35,7 @@ final class AnnounceListViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let isLoading = indicator.asDriver()
         
-        let items = noticeUseCase.fetchAnnounceList(page: 0, size: 30)
+        let items = announceUseCase.fetchAnnounceList(page: 0, size: 30)
             .map { $0.map(AnnounceListItem.init(announce:)) }
             .asDriver()
         

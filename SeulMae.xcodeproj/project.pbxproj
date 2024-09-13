@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */; };
 		8606F6802C33244400FFC68E /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F67F2C33244400FFC68E /* Member.swift */; };
 		8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6832C33282100FFC68E /* MemberContentView.swift */; };
 		8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */; };
@@ -241,6 +242,13 @@
 		86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E72C17289800805AD0 /* AccountSetupViewController.swift */; };
 		86E299EA2C1728AE00805AD0 /* ProfileSetupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */; };
 		86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = 86E299ED2C17357E00805AD0 /* SnapKit */; };
+		86E39F9C2C8EB77C00361E0D /* HomeFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39F9B2C8EB77C00361E0D /* HomeFlowCoordinator.swift */; };
+		86E39F9E2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39F9D2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift */; };
+		86E39FA02C8EB79900361E0D /* SettingFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39F9F2C8EB79900361E0D /* SettingFlowCoordinator.swift */; };
+		86E39FA22C8EBB2400361E0D /* HomeSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA12C8EBB2400361E0D /* HomeSceneDIContainer.swift */; };
+		86E39FA42C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA32C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift */; };
+		86E39FA62C8EBB3B00361E0D /* SettingSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */; };
+		86E39FA82C8EDB6200361E0D /* AttendanceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA72C8EDB6200361E0D /* AttendanceAPI.swift */; };
 		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
 		86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */; };
 		86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */; };
@@ -292,6 +300,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistory.swift; sourceTree = "<group>"; };
 		8606F67F2C33244400FFC68E /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
 		8606F6832C33282100FFC68E /* MemberContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberContentView.swift; sourceTree = "<group>"; };
 		8606F6852C332DBB00FFC68E /* AddNewWorkplaceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceRequest.swift; sourceTree = "<group>"; };
@@ -523,6 +532,13 @@
 		86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Componet+SeulMae.swift"; sourceTree = "<group>"; };
 		86E299E72C17289800805AD0 /* AccountSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupViewController.swift; sourceTree = "<group>"; };
 		86E299E92C1728AE00805AD0 /* ProfileSetupViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewController.swift; sourceTree = "<group>"; };
+		86E39F9B2C8EB77C00361E0D /* HomeFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeFlowCoordinator.swift; sourceTree = "<group>"; };
+		86E39F9D2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFlowCoordinator.swift; sourceTree = "<group>"; };
+		86E39F9F2C8EB79900361E0D /* SettingFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingFlowCoordinator.swift; sourceTree = "<group>"; };
+		86E39FA12C8EBB2400361E0D /* HomeSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeSceneDIContainer.swift; sourceTree = "<group>"; };
+		86E39FA32C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceSceneDIContainer.swift; sourceTree = "<group>"; };
+		86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSceneDIContainer.swift; sourceTree = "<group>"; };
+		86E39FA72C8EDB6200361E0D /* AttendanceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceAPI.swift; sourceTree = "<group>"; };
 		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
 		86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
 		86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStatusView.swift; sourceTree = "<group>"; };
@@ -805,6 +821,9 @@
 				861B96D02C21BBDC0032C94A /* AppDIContainer.swift */,
 				861B96D22C21BCA70032C94A /* AuthSceneDIContainer.swift */,
 				861BF6832C27065800702E24 /* MainSceneDIContainer.swift */,
+				86E39FA12C8EBB2400361E0D /* HomeSceneDIContainer.swift */,
+				86E39FA32C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift */,
+				86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */,
 			);
 			path = DIcontainer;
 			sourceTree = "<group>";
@@ -880,6 +899,7 @@
 				860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */,
 				86FD61F32C8AD057005ED02F /* UserAPI.swift */,
 				86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */,
+				86E39FA72C8EDB6200361E0D /* AttendanceAPI.swift */,
 				866577B02C3406F00048A111 /* Error */,
 			);
 			path = Network;
@@ -1267,6 +1287,9 @@
 			children = (
 				86766D152C183E5600095010 /* AuthFlowCoordinator.swift */,
 				861BF6812C27044600702E24 /* MainFlowCoordinator.swift */,
+				86E39F9B2C8EB77C00361E0D /* HomeFlowCoordinator.swift */,
+				86E39F9D2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift */,
+				86E39F9F2C8EB79900361E0D /* SettingFlowCoordinator.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -1378,6 +1401,7 @@
 				86B4B4592C4B400300D83488 /* Workplace */,
 				861BF68D2C270C7C00702E24 /* Auth */,
 				861BF68E2C270C8500702E24 /* Notice */,
+				86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -2092,6 +2116,7 @@
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */,
+				86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */,
 				86FD62172C8D9A57005ED02F /* WorkScheduleViewController.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
@@ -2124,6 +2149,7 @@
 				869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
+				86E39F9E2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift in Sources */,
 				860EB2B72C74E47E00310985 /* NotiContentView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */,
@@ -2153,6 +2179,7 @@
 				86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */,
 				861B96D12C21BBDC0032C94A /* AppDIContainer.swift in Sources */,
 				86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */,
+				86E39F9C2C8EB77C00361E0D /* HomeFlowCoordinator.swift in Sources */,
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
 				869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */,
@@ -2183,6 +2210,7 @@
 				86B07D8E2C32D60E0088E1B1 /* Int+CalendarView.swift in Sources */,
 				86FD62192C8D9B3C005ED02F /* WorkScheduleListViewController.swift in Sources */,
 				8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */,
+				86E39FA22C8EBB2400361E0D /* HomeSceneDIContainer.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
 				861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */,
 				86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */,
@@ -2211,6 +2239,8 @@
 				86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */,
 				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
 				861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */,
+				86E39FA02C8EB79900361E0D /* SettingFlowCoordinator.swift in Sources */,
+				86E39FA82C8EDB6200361E0D /* AttendanceAPI.swift in Sources */,
 				868354812C245F7800F055D2 /* Workplace.swift in Sources */,
 				864A5E702C83454200D7B0EF /* AnnounceListViewController.swift in Sources */,
 				861B969F2C2061650032C94A /* SheetState.swift in Sources */,
@@ -2292,8 +2322,10 @@
 				860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */,
 				861BF6822C27044600702E24 /* MainFlowCoordinator.swift in Sources */,
 				861B968E2C2029820032C94A /* ModalListContentView.swift in Sources */,
+				86E39FA62C8EBB3B00361E0D /* SettingSceneDIContainer.swift in Sources */,
 				866EA3452C4A7E1F003159F9 /* AppText.swift in Sources */,
 				86FD62042C8D387D005ED02F /* WorkplaceListItem.swift in Sources */,
+				86E39FA42C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift in Sources */,
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */,
 				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,

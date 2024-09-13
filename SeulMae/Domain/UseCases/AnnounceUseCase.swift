@@ -22,28 +22,28 @@ protocol AnnounceUseCase {
 
 class DefaultAnnounceUseCase: AnnounceUseCase {
     
-    private let noticeRepository: NoticeRepository
+    private let announceRepository: AnnounceRepository
     private let userRepository = UserRepository(network: UserNetwork())
     
-    init(noticeRepository: NoticeRepository) {
-        self.noticeRepository = noticeRepository
+    init(announceRepository: AnnounceRepository) {
+        self.announceRepository = announceRepository
     }
     
     func fetchAnnounceList(page: Int, size: Int) -> Single<[Announce]> {
         let workplaceId = userRepository.currentWorkplaceId
-        return noticeRepository.fetchAnnounceList(workplaceId: workplaceId, page: page, size: size)
+        return announceRepository.fetchAnnounceList(workplaceId: workplaceId, page: page, size: size)
     }
     
     func fetchAnnounceDetail(announceId id: Announce.ID) -> Single<AnnounceDetail> {
-        noticeRepository.fetchAnnounceDetail(announceId: id)
+        announceRepository.fetchAnnounceDetail(announceId: id)
     }
     
     func addAnnounce(request: AddAnnounceRequset) -> Single<Bool> {
-        noticeRepository.addAnnounce(request: request)
+        announceRepository.addAnnounce(request: request)
     }
     
     func updateAnnounce(announceId id: Announce.ID, withRequest request: UpdateAnnounceRequest) -> Single<Bool> {
-        noticeRepository.updateAnnounce(announceId: id, request: request)
+        announceRepository.updateAnnounce(announceId: id, request: request)
     }
     
     func saveAnnounce(announceId id: Announce.ID?, title: String, content: String, isImportant: Bool) -> Single<Bool> {
@@ -58,15 +58,15 @@ class DefaultAnnounceUseCase: AnnounceUseCase {
     }
     
     func fetchMustReadNoticeList(workplaceIdentifier id: Workplace.ID) -> Single<[Announce]> {
-        noticeRepository.fetchMustReadNoticeList(workplaceIdentifier: id)
+        announceRepository.fetchMustReadNoticeList(workplaceIdentifier: id)
     }
     
     func fetchMainAnnounceList() -> Single<[Announce]> {
         let workplaceId = userRepository.currentWorkplaceId
-        return noticeRepository.fetchMainAnnounceList(workplaceId: workplaceId)
+        return announceRepository.fetchMainAnnounceList(workplaceId: workplaceId)
     }
     
     func deleteNotice(noticeIdentifier id: Announce.ID) -> Single<Bool> {
-        noticeRepository.deleteNotice(noticeIdentifier: id)
+        announceRepository.deleteNotice(noticeIdentifier: id)
     }
 }

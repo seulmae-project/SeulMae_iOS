@@ -113,7 +113,7 @@ final class MainViewModel: ViewModel {
         let attendances = managerLogic.flatMapLatest { [weak self] item -> Driver<[AttendanceListItem]> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.attendanceUseCase
-                .fetchAttendanceRequestList(workplaceID: item.workplaceID, date: Date.ext.now)
+                .fetchAttendanceRequestList(year: 1, month: 1)
                 .asDriver()
         }
         
@@ -168,25 +168,25 @@ final class MainViewModel: ViewModel {
         
         Task {
             for await _ in input.changeWorkplace.values {
-                coordinator.showWorkplaceList()
+                // coordinator.showWorkplaceList()
             }
         }
         
         Task {
             for await member in input.onMemberTap.values {
-                coordinator.showMemberInfo(member: member)
+                // coordinator.showMemberInfo(member: member)
             }
         }
         
         Task {
             for await _ in input.onBarButtonTap.values {
-                coordinator.showNotiList(workplaceIdentifier: 8)
+                // coordinator.showNotiList(workplaceIdentifier: 8)
             }
         }
         
         Task {
             for await _ in input.showAnnouceList.values {
-                coordinator.showAnnounceList()
+                // coordinator.showAnnounceList()
             }
         }
         

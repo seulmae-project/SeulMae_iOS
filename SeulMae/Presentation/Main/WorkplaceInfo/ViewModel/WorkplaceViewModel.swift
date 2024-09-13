@@ -25,7 +25,7 @@ final class WorkplaceViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: WorkplaceFlowCoordinator
     private let memberUseCase: MemberUseCase
     private let announceUseCase: AnnounceUseCase
     private let workScheduleUseCase: WorkScheduleUseCase
@@ -34,7 +34,7 @@ final class WorkplaceViewModel: ViewModel {
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: WorkplaceFlowCoordinator,
             memberUseCase: MemberUseCase,
             announceUseCase: AnnounceUseCase,
             workScheduleUseCase: WorkScheduleUseCase
@@ -83,7 +83,7 @@ final class WorkplaceViewModel: ViewModel {
         
         Task {
             for await member in input.showMemberDetails.values {
-                coordinator.showMemberInfo(member: member)
+                // coordinator.showMemberInfo(member: member)
             }
         }
         

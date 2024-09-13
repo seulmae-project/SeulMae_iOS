@@ -22,14 +22,14 @@ final class SettingViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: SettingFlowCoordinator
     private let userUseCase: UserUseCase
     
     // MARK: - Life Cycle Methods
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: SettingFlowCoordinator,
             userUseCase: UserUseCase
         )
     ) {

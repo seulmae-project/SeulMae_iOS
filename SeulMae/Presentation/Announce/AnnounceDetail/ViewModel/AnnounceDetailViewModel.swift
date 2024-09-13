@@ -23,21 +23,21 @@ final class AnnounceDetailViewModel: ViewModel {
         let saveEnabled: Driver<Bool>
     }
     
-    private let coordinator: MainFlowCoordinator
-    private let noticeUseCase: NoticeUseCase
+    private let coordinator: WorkplaceFlowCoordinator
+    private let announceUseCase: AnnounceUseCase
     private let wireframe: Wireframe
     private let announceId: Announce.ID?
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
-            noticeUseCase: NoticeUseCase,
+            coordinator: WorkplaceFlowCoordinator,
+            announceUseCase: AnnounceUseCase,
             wireframe: Wireframe,
-            announceId: Announce.ID?
+            announceId: Announce.ID
         )
     ) {
         self.coordinator = dependencies.coordinator
-        self.noticeUseCase = dependencies.noticeUseCase
+        self.announceUseCase = dependencies.announceUseCase
         self.wireframe = dependencies.wireframe
         self.announceId = dependencies.announceId
     }
@@ -49,7 +49,7 @@ final class AnnounceDetailViewModel: ViewModel {
         
         let item: Driver<AnnounceDetailItem>
         if let announceId {
-            item = noticeUseCase.fetchAnnounceDetail(announceId: announceId)
+            item = announceUseCase.fetchAnnounceDetail(announceId: announceId)
                 .trackActivity(indicator)
                 .map { AnnounceDetailItem.init($0) }
                 .asDriver()
@@ -90,7 +90,7 @@ final class AnnounceDetailViewModel: ViewModel {
         
         let isSaved = input.saveAnnounce.withLatestFrom(request)
             .flatMapLatest { [unowned self] input -> Driver<Bool> in
-                return noticeUseCase.saveAnnounce(announceId: announceId, title: input.title, content: input.content, isImportant: input.isImportant)
+                return announceUseCase.saveAnnounce(announceId: announceId, title: input.title, content: input.content, isImportant: input.isImportant)
                     .trackActivity(indicator)
                     .asDriver()
             }

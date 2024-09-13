@@ -41,13 +41,13 @@ final class WorkplaceFinderViewModel: ViewModel {
         
         Task {
             for await _ in input.search.values {
-                coordinator.showSearchWorkPlace()
+                // coordinator.showSearchWorkPlace()
             }
         }
         
         Task {
             for await _ in input.create.values {
-                coordinator.showAddNewWorkplace()
+                // coordinator.showAddNewWorkplace()
             }
         }
         

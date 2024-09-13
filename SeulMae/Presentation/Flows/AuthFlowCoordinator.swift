@@ -30,7 +30,14 @@ protocol AuthFlowCoordinatorDependencies {
     func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
 }
 
-protocol AuthFlowCoordinator {
+protocol Coordinator {
+    var coordinators: [Coordinator] { get set }
+    var navigationController: UINavigationController { get set }
+    func start()
+    func goBack()
+}
+
+protocol AuthFlowCoordinator: Coordinator {
     
     func start()
     func startMain()
@@ -58,22 +65,19 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Dependency
     
-    private let navigationController: UINavigationController
-    
+    var navigationController: UINavigationController
+    var coordinators: [Coordinator] = []
+
     private let dependencies: AuthFlowCoordinatorDependencies
-    
-    private let mainFlowCoordinator: MainFlowCoordinator
     
     // MARK: - Life Cycle Methods
     
     init(
         navigationController: UINavigationController,
-        dependencies: AuthFlowCoordinatorDependencies,
-        mainFlowCoordinator: MainFlowCoordinator
+        dependencies: AuthFlowCoordinatorDependencies
     ) {
         self.navigationController = navigationController
         self.dependencies = dependencies
-        self.mainFlowCoordinator = mainFlowCoordinator
     }
     
     func start() {
@@ -82,12 +86,20 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         showSingin()
     }
     
+    func goBack() {
+        
+    }
+    
     func startMain() {
-        mainFlowCoordinator.showMain()
+        for child in coordinators {
+            if child is MainFlowCoordinator {
+                child.start()
+            }
+        }
     }
     
     func showSearchWorkplace() {
-        mainFlowCoordinator.showWorkplaceFinder()
+        // mainFlowCoordinator.showWorkplaceFinder()
     }
     
     // MARK: - Common

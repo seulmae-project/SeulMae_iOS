@@ -20,9 +20,28 @@ class AppFlowCoordinator {
     
     func start() {
         let authSceneDIContainer = appDIContainer.makeAuthSceneDIContainer()
+        var authCoordinator = authSceneDIContainer.makeAuthFlowCoordinator(navigationController: navigationController)
+        let mainCoordinator = makeMainCoordinator()
+        authCoordinator.coordinators.append(mainCoordinator)
+        authCoordinator.start()
+    }
+    
+    func makeMainCoordinator() -> MainFlowCoordinator {
         let mainSceneDIContainer = appDIContainer.makeMainSceneDIContainer()
-        let mainFlow = mainSceneDIContainer.makeMainFlowCoordinator(navigationController: navigationController)
-        let flow = authSceneDIContainer.makeAuthFlowCoordinator(navigationController: navigationController, mainFlowCoordinator: mainFlow)
-        flow.start()
+        var mainCoordinator = mainSceneDIContainer.makeMainFlowCoordinator(navigationController: navigationController)
+        
+        let homeSceneDIContainer = appDIContainer.makeHomeSceneDIContainer()
+        let homeCoordinator = homeSceneDIContainer.makeHomeFlowCoordinator()
+        
+        let workplaceSceneDIContainer = appDIContainer.makeWorkplaceSceneDIContainer()
+        let workplaceCoordinator = workplaceSceneDIContainer.makeWorkplaceFlowCoordinator()
+        
+        let settingSceneDIContainer = appDIContainer.makeSettingSceneDIContainer()
+        let settingCoordinator = settingSceneDIContainer.makeSettingFlowCoordinator()
+        
+        mainCoordinator.coordinators = [
+            homeCoordinator, workplaceCoordinator, settingCoordinator
+        ]
+        return mainCoordinator
     }
 }

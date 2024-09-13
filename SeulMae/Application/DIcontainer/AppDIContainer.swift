@@ -18,4 +18,23 @@ final class AppDIContainer {
         let dependencies = MainSceneDIContainer.Dependencies(mainNetworking: MainNetworking())
         return MainSceneDIContainer(dependencies: dependencies)
     }
+    
+    func makeHomeSceneDIContainer() -> HomeSceneDIContainer {
+        let dependencies = HomeSceneDIContainer.Dependencies()
+        return HomeSceneDIContainer(dependencies: dependencies)
+    }
+    
+    func makeWorkplaceSceneDIContainer() -> WorkplaceSceneDIContainer {
+        let dependencies = WorkplaceSceneDIContainer.Dependencies(
+            workScheduleNetworking: WorkScheduleNetworking(),
+            mainNetworking: MainNetworking(),
+            memberNetworking: MemberNetworking())
+        return WorkplaceSceneDIContainer(dependencies: dependencies)
+    }
+    
+    func makeSettingSceneDIContainer() -> SettingSceneDIContainer {
+        let dependencies = SettingSceneDIContainer.Dependencies(
+            userNetworking: UserNetwork())
+        return SettingSceneDIContainer(dependencies: dependencies)
+    }
 }

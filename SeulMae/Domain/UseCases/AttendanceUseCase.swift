@@ -7,71 +7,9 @@
 
 import Foundation
 import RxSwift
-import Moya
-
-typealias AttendanceNetworking = MoyaProvider<AttendanceAPI>
-
-enum AttendanceAPI: SugarTargetType {
-    case fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date)
-}
-
-extension AttendanceAPI {
-    var baseURL: URL {
-        return URL(string: Bundle.main.baseURL)!
-    }
-    
-    var route: Route {
-        switch self {
-        case .fetchAttendanceRequestList:
-            return .get("api/attendance/v1/main/manager")
-        }
-    }
-    
-    var parameters: Parameters? {
-        switch self {
-        case let .fetchAttendanceRequestList(workplaceID, date):
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return [
-                "workplace": workplaceID,
-                "localDate": dateFormatter.string(from: date)
-            ]
-        default:
-            return nil
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        default:
-            return nil
-        }
-    }
-    
-    var headers: [String : String]? {
-        switch self {
-        default:
-            let accessToken = UserDefaults.standard.string(forKey: "accessToken")
-            Swift.print(String("token: \(accessToken?.suffix(5))"))
-            // TODO: - Handle authorization code
-            return [
-                "Content-Type": "application/json",
-                "Authorization": "Bearer \(accessToken!)"
-            ]
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        default:
-            return nil
-        }
-    }
-}
-
 
 protocol AttendanceRepository {
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> Single<[AttendanceRequest]>
+    func fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<[AttendanceRequest]>
 }
 
 final class DefaultAttendanceRepository: AttendanceRepository {
@@ -89,9 +27,9 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 //    Swift.print(#function, "url: \(response.request?.url)")
 //    Swift.print(#function, "httpBody: \(response.request?.httpBody)")
     
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int) -> RxSwift.Single<[AttendanceRequest]> {
         return network.rx
-            .request(.fetchAttendanceRequestList(workplaceID: workplaceID, date: date))
+            .request(.fetchAttendanceRequestList(workplaceId: workplaceId, year: year, month: month))
             .do(onSuccess: { response in
                 Swift.print(#function, "response: \(try response.data.prettyString())")
             }, onError: { error in
@@ -104,7 +42,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 
 protocol AttendanceUseCase {
     // Fetch attendance request list
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> Single<[AttendanceListItem]>
+    func fetchAttendanceRequestList(year: Int, month: Int) -> Single<[AttendanceListItem]>
 }
 
 final class DefaultAttendanceUseCase: AttendanceUseCase {
@@ -114,8 +52,8 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         self.repository = repository
     }
 
-    func fetchAttendanceRequestList(workplaceID: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceListItem]> {
-        repository.fetchAttendanceRequestList(workplaceID: workplaceID, date: date)
+    func fetchAttendanceRequestList(year: Int, month: Int) -> RxSwift.Single<[AttendanceListItem]> {
+        repository.fetchAttendanceRequestList(workplaceId: 1, year: year, month: month)
             .map { $0.map(AttendanceListItem.init) }
     }
 }

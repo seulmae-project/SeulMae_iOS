@@ -19,7 +19,9 @@ final class AuthSceneDIContainer {
         self.dependencies = dependencies
     }
     
-    func makeAuthUseCase() -> AuthUseCase {
+    // MARK: - Private
+    
+    private func makeAuthUseCase() -> AuthUseCase {
         return DefaultAuthUseCase(
             authRepository: makeAuthRepository(),
             workplaceRepository: makeWorkplaceRepository()
@@ -30,16 +32,14 @@ final class AuthSceneDIContainer {
         return DefaultAuthRepository(network: dependencies.authNetworking)
     }
     
-    // MARK: - Flow Coordinators
+    // MARK: - Coordinator
     
     func makeAuthFlowCoordinator(
-        navigationController: UINavigationController,
-        mainFlowCoordinator: MainFlowCoordinator
+        navigationController: UINavigationController
     ) -> AuthFlowCoordinator {
         return DefaultAuthFlowCoordinator(
             navigationController: navigationController,
-            dependencies: self,
-            mainFlowCoordinator: mainFlowCoordinator
+            dependencies: self
         )
     }
 }
