@@ -11,8 +11,8 @@ import Moya
 typealias AttendanceNetworking = MoyaProvider<AttendanceAPI>
 
 enum AttendanceAPI: SugarTargetType {
-    case fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int)
-    case fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int)
+//    case fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int)
+//    case fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int)
     case fetchWorkeInfo(workplaceId: Workplace.ID)
     case fetchMonthlyAttendanceSummery(workplaceId: Workplace.ID, year: Int, month: Int)
     case fetchAttendanceHistories(workplaceId: Workplace.ID, year: Int, month: Int, page: Int, size: Int)
@@ -27,10 +27,10 @@ extension AttendanceAPI {
     
     var route: Route {
         switch self {
-        case .fetchAttendanceRequestList:
-            return .get("api/attendance/request-history/calender")
-        case .fetchAttendanceCalendar:
-            return .get("api/attendance/request-history/calender")
+//        case .fetchAttendanceRequestList:
+//            return .get("api/attendance/request-history/calender")
+//        case .fetchAttendanceCalendar:
+//            return .get("api/attendance/request-history/calender")
         case .fetchWorkeInfo:
             return .get("api/attendance/request-history/status")
         case .fetchMonthlyAttendanceSummery:
@@ -46,20 +46,18 @@ extension AttendanceAPI {
     
     var parameters: Parameters? {
         switch self {
-        case let .fetchAttendanceRequestList(workplaceId: workplaceId, year: year, month: month):
-            let dateFormatter = DateFormatter()
-            dateFormatter.dateFormat = "yyyy-MM-dd"
-            return [
-                "workplaceId": workplaceId,
-                "year": year,
-                "month": month
-            ]
-        case let .fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month):
-            return [
-                "workplaceId": workplaceId,
-                "year": year,
-                "month": month
-            ]
+//        case let .fetchAttendanceRequestList(workplaceId: workplaceId, year: year, month: month):
+//            return [
+//                "workplaceId": workplaceId,
+//                "year": year,
+//                "month": month
+//            ]
+//        case let .fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month):
+//            return [
+//                "workplaceId": workplaceId,
+//                "year": year,
+//                "month": month
+//            ]
         case let .fetchWorkeInfo(workplaceId: workplaceId):
             return ["workplaceId": workplaceId]
         case let .fetchMonthlyAttendanceSummery(workplaceId: workplaceId, year: year, month: month):
