@@ -84,6 +84,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     // MARK: - Main
     
     func showMain() {
+        coordinators.forEach { $0.start() }
         let viewControllers = coordinators.map { $0.navigationController }
         let vc = MainTabBarController(viewContollers: viewControllers)
         navigationController.setViewControllers([vc], animated: false)

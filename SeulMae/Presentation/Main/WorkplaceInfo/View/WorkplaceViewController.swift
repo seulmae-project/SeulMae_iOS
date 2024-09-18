@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 final class WorkplaceViewController: UIViewController {
     
@@ -26,6 +28,8 @@ final class WorkplaceViewController: UIViewController {
         }
     }
     
+    private let disposeBag = DisposeBag()
+    
     // MARK: - UI
     
     private lazy var collectionView: UICollectionView = {
@@ -41,6 +45,8 @@ final class WorkplaceViewController: UIViewController {
     // MARK: - Properties
     
     private var dataSource: DataSource!
+    private var showAnnounceListRelay = PublishSubject<()>()
+    private var showScheduleListRelay = PublishSubject<()>()
     
     // MARK: - Dependencies
     
@@ -78,7 +84,7 @@ final class WorkplaceViewController: UIViewController {
             }
             .asSignal()
         
-        let showAnnouceDetails = collectionView.rx
+        let showAnnounceDetails = collectionView.rx
             .itemSelected
             .compactMap { [weak self] indexPath in
                 self?.dataSource?
@@ -98,12 +104,18 @@ final class WorkplaceViewController: UIViewController {
             }
             .asSignal()
         
+        let a = showAnnounceListRelay.asSignal()
+        Task {
+            for await _ in a.values {
+                Swift.print(" show list !")
+            }
+        }
         let output = viewModel.transform(
             .init(
                 showMemberDetails: showMemberDetails,
-                showAnnouceList: .empty(),
-                showAnnouceDetails: showAnnouceDetails,
-                showWorkScheduleList: .empty(),
+                showAnnounceList: a,
+                showAnnounceDetails: showAnnounceDetails,
+                showWorkScheduleList: showScheduleListRelay.asSignal(),
                 showWorkScheduleDetails: showWorkScheduleDetails
             )
         )
@@ -189,6 +201,28 @@ final class WorkplaceViewController: UIViewController {
             supplementaryView.label.text = section?.description ?? ""
             supplementaryView.label.font = .pretendard(size: 14, weight: .regular)
             supplementaryView.label.textColor = .secondaryLabel
+            guard let section else { return }
+            switch section {
+            case .members:
+                supplementaryView.button.isHidden = true
+            case .announceList:
+                supplementaryView.button.setTitle("전체", for: .normal)
+                supplementaryView.button.titleLabel?.font = .pretendard(size: 14, weight: .regular)
+                supplementaryView.button.setTitleColor(.secondaryLabel, for: .normal)
+                Task {
+                    for await _ in supplementaryView.button.rx.tap.asSignal().values {
+                        self.showAnnounceListRelay.onNext(())
+                    }
+                }
+//                supplementaryView.button.rx.tap.bind(to: self.showAnnounceListRelay).dispose()
+            case .workSchedules:
+                supplementaryView.button.setTitle("전체", for: .normal)
+                supplementaryView.button.titleLabel?.font = .pretendard(size: 14, weight: .regular)
+                supplementaryView.button.setTitleColor(.secondaryLabel, for: .normal)
+                supplementaryView.button.rx.tap.bind(to: self.showScheduleListRelay)
+                    .disposed(by: self.disposeBag) // DisposeBag() 생성시 안됌
+                // dispoase 도 안됌 ㅇ??
+            }
         }
     }
     
@@ -258,10 +292,10 @@ final class WorkplaceViewController: UIViewController {
             case .workSchedules:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .estimated(90)))
+                                      heightDimension: .absolute(180)))
                 let group = NSCollectionLayoutGroup.vertical(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .estimated(180)),
+                                      heightDimension: .absolute(180)),
                     subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
                 section.interGroupSpacing = 12

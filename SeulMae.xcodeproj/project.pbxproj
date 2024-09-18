@@ -223,6 +223,8 @@
 		86D309F32C33F16600C08DA8 /* v1_accept_application_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F22C33F16600C08DA8 /* v1_accept_application_success.json */; };
 		86D309F52C33F18900C08DA8 /* v1_submit_application_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F42C33F18900C08DA8 /* v1_submit_application_success.json */; };
 		86D309F72C33F1E100C08DA8 /* v1_update_workplace_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */; };
+		86DB32CB2C9A818600575A03 /* WorkScheduleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */; };
+		86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
@@ -517,6 +519,8 @@
 		86D309F22C33F16600C08DA8 /* v1_accept_application_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_accept_application_success.json; sourceTree = "<group>"; };
 		86D309F42C33F18900C08DA8 /* v1_submit_application_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_submit_application_success.json; sourceTree = "<group>"; };
 		86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_workplace_success.json; sourceTree = "<group>"; };
+		86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListViewModel.swift; sourceTree = "<group>"; };
+		86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListItem.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
@@ -1954,6 +1958,8 @@
 			children = (
 				86FD62162C8D9A57005ED02F /* WorkScheduleViewController.swift */,
 				86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */,
+				86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */,
+				86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */,
 			);
 			path = WorkSchedule;
 			sourceTree = "<group>";
@@ -2187,6 +2193,7 @@
 				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
 				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
 				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
+				86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */,
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */,
@@ -2222,6 +2229,7 @@
 				8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */,
 				8624AC712C2EA895001FF383 /* MainViewModel.swift in Sources */,
 				86B4B4632C4B583E00D83488 /* WorkLogContentView.swift in Sources */,
+				86DB32CB2C9A818600575A03 /* WorkScheduleListViewModel.swift in Sources */,
 				86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */,
 				860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */,
 				864A5E742C83459B00D7B0EF /* AnnounceListItem.swift in Sources */,

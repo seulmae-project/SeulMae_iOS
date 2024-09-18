@@ -28,6 +28,8 @@ protocol WorkplaceUseCase {
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     
+    
+    func fetchMemberList() -> Single<[Member]>
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -86,8 +88,9 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.addNewWorkplace(request: request)
     }
     
-    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
-        workplaceRepository.fetchMemberList(workplaceId: id)
+    func fetchMemberList() -> RxSwift.Single<[Member]> {
+        let currentWorkplaceId = userRepository.currentWorkplaceId
+        return workplaceRepository.fetchMemberList(workplaceId: currentWorkplaceId)
     }
     
     func fetchMemberInfo(

@@ -12,8 +12,8 @@ import RxCocoa
 final class WorkplaceViewModel: ViewModel {
     struct Input {
         let showMemberDetails: Signal<Member>
-        let showAnnouceList: Signal<()>
-        let showAnnouceDetails: Signal<Announce.ID>
+        let showAnnounceList: Signal<()>
+        let showAnnounceDetails: Signal<Announce.ID>
         let showWorkScheduleList: Signal<()>
         let showWorkScheduleDetails: Signal<WorkSchedule.ID>
     }
@@ -26,6 +26,7 @@ final class WorkplaceViewModel: ViewModel {
     // MARK: - Dependencies
     
     private let coordinator: WorkplaceFlowCoordinator
+    private let workplaceUseCase: WorkplaceUseCase
     private let memberUseCase: MemberUseCase
     private let announceUseCase: AnnounceUseCase
     private let workScheduleUseCase: WorkScheduleUseCase
@@ -35,12 +36,14 @@ final class WorkplaceViewModel: ViewModel {
     init(
         dependencies: (
             coordinator: WorkplaceFlowCoordinator,
+            workplaceUseCase: WorkplaceUseCase,
             memberUseCase: MemberUseCase,
             announceUseCase: AnnounceUseCase,
             workScheduleUseCase: WorkScheduleUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator
+        self.workplaceUseCase = dependencies.workplaceUseCase
         self.memberUseCase = dependencies.memberUseCase
         self.announceUseCase = dependencies.announceUseCase
         self.workScheduleUseCase = dependencies.workScheduleUseCase
@@ -50,10 +53,10 @@ final class WorkplaceViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-//        let members = memberUseCase
-//            .fetchMemberList()
-//            .map { $0.map(WorkplaceListItem.init(member:)) }
-//            .asDriver()
+        let members = workplaceUseCase
+            .fetchMemberList()
+            .map { $0.map(WorkplaceListItem.init(member:)) }
+            .asDriver()
         
         let announceList = announceUseCase
             .fetchMainAnnounceList()
@@ -73,7 +76,7 @@ final class WorkplaceViewModel: ViewModel {
         
         Task {
             for await schedule in workScheduleList.values {
-                // Swift.print("schedule: \(schedule)")
+                Swift.print("schedule: \(schedule)")
             }
         }
         
@@ -88,19 +91,20 @@ final class WorkplaceViewModel: ViewModel {
         }
         
         Task {
-            for await _ in input.showAnnouceList.values {
+            for await _ in input.showAnnounceList.values {
                 coordinator.showAnnounceList()
             }
         }
         
         Task {
-            for await announceId in input.showAnnouceDetails.values {
+            for await announceId in input.showAnnounceDetails.values {
                 coordinator.showAnnounceDetails(announceId: announceId)
             }
         }
         
         Task {
             for await _ in input.showWorkScheduleList.values {
+                
                 coordinator.showWorkScheduleList()
             }
         }

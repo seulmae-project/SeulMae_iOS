@@ -58,10 +58,17 @@ final class WorkplaceSceneDIContainer {
         return DefaultWorkScheduleUseCase(workScheduleRepository: makeWorkScheduleRepository())
     }
     
+    private func makeWorkplaceUseCase() -> WorkplaceUseCase {
+        return DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository(
+            network: WorkplaceNetworking(),
+            storage: SQLiteWorkplaceStorage()))
+    }
+    
     private func makeWorkplaceViewModel(coordinator: any WorkplaceFlowCoordinator) -> WorkplaceViewModel {
         return .init(
             dependencies: (
                 coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
                 memberUseCase: makeMemberUseCase(),
                 announceUseCase: makeAnnounceUseCase(),
                 workScheduleUseCase: makeWorkScheduleUseCase()
@@ -99,9 +106,11 @@ final class WorkplaceSceneDIContainer {
     }
     
     private func makeWorkScheduleListViewModel(
-        coordinator: any WorkplaceFlowCoordinator
-    ) {
-        
+        coordinator: any WorkplaceFlowCoordinator) -> WorkScheduleListViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                workScheduleUseCase: makeWorkScheduleUseCase()))
     }
 }
 
@@ -143,7 +152,7 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
     func makeWorkScheduleListViewController(
         coordinator: any WorkplaceFlowCoordinator
     ) -> WorkScheduleListViewController {
-        return .init()
+        return .init(viewModel: makeWorkScheduleListViewModel(coordinator: coordinator))
     }
     
     func makeMemberProfileViewController(

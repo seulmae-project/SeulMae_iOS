@@ -128,17 +128,11 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     }
     
     func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
-        return Single<BaseResponseDTO<[MemberDTO]>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.memberListSuccess))
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+        return network.rx
+            .request(.memberList(workplaceId: workplaceId))
+            .map(BaseResponseDTO<[MemberDTO]>.self)
+            .map { $0.toDomain() }
     }
-
- 
     
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- request: \(request)\n")
@@ -162,8 +156,6 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             print("error: \(error)")
         })
     }
-    
-   
     
     func acceptApplication(
         workplaceApproveId: String,

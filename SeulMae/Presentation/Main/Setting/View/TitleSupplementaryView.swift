@@ -12,21 +12,26 @@ class TitleSupplementaryView: UICollectionReusableView {
     static let reuseIdentifier = "title-supplementary-reuse-identifier"
     
     let label = UILabel()
+    let button = UIButton()
 
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-        label.adjustsFontForContentSizeCategory = true
+        let stack = UIStackView()
+        stack.alignment = .center
+        stack.distribution = .equalCentering
+        stack.addArrangedSubview(label)
+        stack.addArrangedSubview(button)
         
-        addSubview(label)
+        addSubview(stack)
         
-        label.translatesAutoresizingMaskIntoConstraints = false
+        stack.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: leadingAnchor),
-            label.trailingAnchor.constraint(equalTo: trailingAnchor),
-            label.topAnchor.constraint(equalTo: topAnchor),
-            label.bottomAnchor.constraint(equalTo: bottomAnchor)
+            stack.leadingAnchor.constraint(equalTo: leadingAnchor),
+            stack.trailingAnchor.constraint(equalTo: trailingAnchor),
+            stack.topAnchor.constraint(equalTo: topAnchor),
+            stack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
     
