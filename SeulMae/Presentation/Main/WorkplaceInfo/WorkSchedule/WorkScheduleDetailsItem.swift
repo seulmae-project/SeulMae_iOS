@@ -7,24 +7,46 @@
 
 import Foundation
 
-struct WorkScheduleDetailsItem {
+struct WorkScheduleDetailsItem: Hashable {
     enum ItemType {
-        case title, time, weekdays, members
+        case text, weekdays, members
     }
     
+    var itemType: ItemType
+    var title: String
+    var text: String?
+    var weekdays: [Int]?
+    var members: [Member]?
+    
     init(title: String) {
-        
+        self.itemType = .text
+        self.title = "이름"
+        self.text = title
+        self.weekdays = nil
+        self.members = nil
     }
     
     init(time: String) {
-        
+        self.itemType = .text
+        self.title = "근무 시간"
+        self.text = time
+        self.weekdays = nil
+        self.members = nil
     }
     
     init(weekdays: [Int]) {
-        
+        self.itemType = .weekdays
+        self.title = "근무 요일"
+        self.text = nil
+        self.weekdays = weekdays
+        self.members = nil
     }
     
     init(members: [Member]) {
-        
+        self.itemType = .members
+        self.title = "근무지"
+        self.text = nil
+        self.weekdays = nil
+        self.members = members
     }
 }

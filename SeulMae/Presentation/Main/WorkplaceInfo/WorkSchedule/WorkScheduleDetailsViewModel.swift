@@ -50,9 +50,9 @@ final class WorkScheduleDetailsViewModel: ViewModel {
         let loading = indicator.asDriver()
     
         let items = workScheduleUseCase.fetchWorkScheduleDetails(workScheduleId: workScheduleId)
+            .trackActivity(indicator)
             .map { self.toItems(from: $0) }
             .asDriver()
-        
         
         return Output(
             loading: loading,
