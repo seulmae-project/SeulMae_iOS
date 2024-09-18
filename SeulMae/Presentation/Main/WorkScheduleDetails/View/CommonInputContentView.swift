@@ -86,7 +86,6 @@ final class CommonInputContentView: UIView, UIContentView {
     }
     
     @objc func textFieldDidChange(_ textField: UITextField) {
-        Swift.print(#function)
         onChange?(textField.text ?? "")
     }
         

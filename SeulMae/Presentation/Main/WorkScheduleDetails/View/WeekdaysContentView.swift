@@ -1,5 +1,5 @@
 //
-//  ScheduleWeekdaysContentView.swift
+//  WeekdaysContentView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/18/24.
@@ -7,14 +7,15 @@
 
 import UIKit
 
-final class ScheduleWeekdaysContentView: UIView, UIContentView {
+final class WeekdaysContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
         var title: String = ""
         var weekdays: [Int] = []
+        var onChange: (([Int]) -> Void)?
         
         func makeContentView() -> UIView & UIContentView {
-            return ScheduleWeekdaysContentView(self)
+            return WeekdaysContentView(self)
         }
     }
     
@@ -32,8 +33,25 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
     }()
     
     private var weekdays = [
-        "월", "화", "수", "목", "금", "토", "일"
+        "일", "월", "화", "수", "목", "금", "토"
     ]
+    
+    private var _weekdays: [Int] {
+        var retval: [Int] = []
+        guard let buttons = weekdayStack.subviews as? [UIButton] else {
+            return []
+        }
+
+        for (index, button) in buttons.enumerated() {
+            if button.isSelected {
+                retval.append(index)
+            }
+        }
+        
+        return retval
+    }
+    
+    private var onChange: (([Int]) -> Void)?
     
     var configuration: UIContentConfiguration {
         didSet {
@@ -50,7 +68,7 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
         super.init(frame: .zero)
         
         weekdays.forEach { weekday in
-            let button = createWeekday(weekday)
+            let button = createWeekdayButton(weekday)
             weekdayStack.addArrangedSubview(button)
         }
         
@@ -79,20 +97,26 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
     }
     
     // MARK: - Private
+    
+    @objc private func didButtonTapped(_ sender: UIButton) {
+        sender.isSelected.toggle()
+        sender.backgroundColor = sender.isSelected ? .primary : .lightPrimary
+        onChange?(_weekdays)
+    }
         
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration,
               let buttons = weekdayStack.subviews as? [UIButton] else { return }
         titleLabel.text = config.title
         buttons.forEach { $0.isSelected = false }
-        config.weekdays.forEach { weekday in
-            var index = (weekday - 1)
-            if (index == -1) { index = 6 }
+        config.weekdays.forEach { index in
             buttons[index].isSelected = true
+            buttons[index].backgroundColor = .primary
         }
+        onChange = config.onChange
     }
     
-    private func createWeekday(_ weekday: String) -> UIButton {
+    private func createWeekdayButton(_ weekday: String) -> UIButton {
         let button = UIButton()
         button.setTitle(weekday, for: .normal)
         button.titleLabel?.font = .pretendard(size: 16, weight: .bold)
@@ -103,12 +127,13 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
         button.layer.cornerCurve = .continuous
         button.layer.masksToBounds = true
         button.widthAnchor.constraint(equalToConstant: 44).isActive = true
+        button.addTarget(self, action: #selector(didButtonTapped), for: .touchUpInside)
         return button
     }
 }
 
 extension UICollectionViewCell {
-    func scheduleWeekdaysContentConfiguration() -> ScheduleWeekdaysContentView.Configuration {
-        return ScheduleWeekdaysContentView.Configuration()
+    func weekdaysContentConfiguration() -> WeekdaysContentView.Configuration {
+        return WeekdaysContentView.Configuration()
     }
 }

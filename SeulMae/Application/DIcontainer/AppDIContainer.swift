@@ -10,7 +10,10 @@ import Foundation
 final class AppDIContainer {
 
     func makeAuthSceneDIContainer() -> AuthSceneDIContainer {
-        let dependencies = AuthSceneDIContainer.Dependencies(authNetworking: AuthNetworking(session: .custom, plugins: [CustomNetworkLoggerPlugin()]))
+        let dependencies = AuthSceneDIContainer.Dependencies(
+            authNetworking: AuthNetworking(
+                session: .custom,
+                plugins: [CustomNetworkLoggerPlugin()]))
         return AuthSceneDIContainer(dependencies: dependencies)
     }
     

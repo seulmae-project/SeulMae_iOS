@@ -62,6 +62,7 @@ final class WorkScheduleListViewController: UIViewController {
         setupView()
         setupConstraints()
         setupDataSource()
+        setupNavItem()
         bindSubviews()
     }
     
@@ -108,6 +109,10 @@ final class WorkScheduleListViewController: UIViewController {
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.heightAnchor.constraint(equalToConstant: 56),
         ])
+    }
+    
+    private func setupNavItem() {
+        navigationItem.title = "근무 일정 목록"
     }
     
     private func setupView() {

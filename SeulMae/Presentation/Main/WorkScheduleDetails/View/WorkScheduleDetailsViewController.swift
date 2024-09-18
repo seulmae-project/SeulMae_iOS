@@ -9,6 +9,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 
+// TODO: - 1. update save 시 로딩 처리 error 처리
+// TODO: - 2. update save 시 닫고 뷰 화면 새로 고침 > viewDidLoad>??
+// TODO: - 3. update save input data validation
+// TODO: - 4. memberList View 선택시 멤버 연결 화면?
+// TODO: - 5. 오늘의 일정만 workScheduleVC 에 표시 
+// TODO: - 6. 일정 필터 고민해 보기
+
 final class WorkScheduleDetailsViewController: UIViewController {
     
     // MARK: - Internal Types
@@ -17,13 +24,20 @@ final class WorkScheduleDetailsViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkScheduleDetailsItem>
     
     enum Section: Int, Hashable, CaseIterable {
-        case title
+        case name
         case workTime
         case weekday
         case members
     }
     
     // MARK: - UI
+    
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.hidesWhenStopped = true
+        activity.stopAnimating()
+        return activity
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
@@ -45,6 +59,12 @@ final class WorkScheduleDetailsViewController: UIViewController {
     // MARK: - Properties
     
     private var dataSource: DataSource!
+    
+    private let nameRelay = PublishRelay<String>()
+    private let startTimeRelay = PublishRelay<Date>()
+    private let endTimeRelay = PublishRelay<Date>()
+    private let weekdayRelay = PublishRelay<[Int]>()
+    private let memberRelay = PublishRelay<[Member.ID]>()
     
     // MARK: - Dependencies
     
@@ -75,22 +95,38 @@ final class WorkScheduleDetailsViewController: UIViewController {
     private func bindSubviews() {
         let output = viewModel.transform(
             .init(
-                name: .empty(),
-                time: .empty(),
-                weekdays: .empty(),
-                members: .empty(),
+                name: nameRelay.asDriver(),
+                startTime: startTimeRelay.asDriver(),
+                endTime: endTimeRelay.asDriver(),
+                weekdays: weekdayRelay.asDriver(),
+                members: memberRelay.asDriver(),
                 save: saveButton.rx.tap.asSignal()
-            ))
+            )
+        )
         
+        // Handle loading indicator
+        Task {
+            for await loading in output.loading.values {
+                loadingIndicator.ext.isAnimating(loading)
+            }
+        }
+        
+        // Setup navigation title
+        Task {
+            for await title in output.title.values {
+                navigationItem.title = title
+            }
+        }
+        
+        // Apply converted items to the collection view
         Task {
             for await items in output.items.values {
                 var snapshot = dataSource.snapshot()
-                Swift.print("items: \(items)")
                 for item in items {
                     switch item.itemType {
-                    case .title:
-                        snapshot.appendItems([item], toSection: .title)
-                    case .workTime:
+                    case .name:
+                        snapshot.appendItems([item], toSection: .name)
+                    case .startTime, .endTime:
                         snapshot.appendItems([item], toSection: .workTime)
                     case .weekday:
                         snapshot.appendItems([item], toSection: .weekday)
@@ -128,12 +164,15 @@ final class WorkScheduleDetailsViewController: UIViewController {
     private func setupDataSource() {
         let textFieldCellRegistration = createCommonTextFieldCellRegistration()
         let weekdayCellRegistration = createWeekdayCellRegistration()
+        let timePickerCellRegistration = createTimePickerCellRegistration()
         
         dataSource = DataSource(collectionView: collectionView) { (view, indexPath, item) -> UICollectionViewCell? in
             guard let section = Section(rawValue: indexPath.section) else { Swift.fatalError("Unknown section") }
             switch section {
-            case .title, .workTime:
+            case .name:
                 return view.dequeueConfiguredReusableCell(using: textFieldCellRegistration, for: indexPath, item: item)
+            case .workTime:
+                return view.dequeueConfiguredReusableCell(using: timePickerCellRegistration, for: indexPath, item: item)
             case .weekday:
                 return view.dequeueConfiguredReusableCell(using: weekdayCellRegistration, for: indexPath, item: item)
             case .members:
@@ -153,10 +192,32 @@ final class WorkScheduleDetailsViewController: UIViewController {
     func createCommonTextFieldCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem>  {
         return UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem> { (cell, indexPath, item) in
             var content = cell.commonInputContentConfiguration()
-            guard [.title, .workTime].contains(item.itemType),
-                  let text = item.text else { return }
+            guard case .name = item.itemType,
+                  let name = item.name else { return }
             content.title = item.title
-            content.text = text
+            content.text = name
+            content.onChange = { [weak self] name in
+                self?.nameRelay.accept(name)
+            }
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        }
+    }
+    
+    func createTimePickerCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem>  {
+        return UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem> { (cell, indexPath, item) in
+            var content = cell.timePickerContentConfiguration()
+            guard [.startTime, .endTime].contains(item.itemType),
+                  let date = item.date else { return }
+            content.title = item.title
+            content.date = date
+            content.onChange = { [weak self] date in
+                if case .startTime = item.itemType {
+                    self?.startTimeRelay.accept(date)
+                } else {
+                    self?.endTimeRelay.accept(date)
+                }
+            }
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
@@ -164,11 +225,14 @@ final class WorkScheduleDetailsViewController: UIViewController {
     
     func createWeekdayCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem>  {
         return UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem> { (cell, indexPath, item) in
-            var content = cell.scheduleWeekdaysContentConfiguration()
+            var content = cell.weekdaysContentConfiguration()
             guard case .weekday = item.itemType,
                   let weekdays = item.weekdays else { return }
             content.title = item.title
             content.weekdays = weekdays
+            content.onChange = { [weak self] weekdays in
+                self?.weekdayRelay.accept(weekdays)
+            }
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
@@ -178,10 +242,13 @@ final class WorkScheduleDetailsViewController: UIViewController {
     
     private func createLayout() -> UICollectionViewLayout {
         let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let sectionKind = Section(rawValue: sectionIndex) else { Swift.fatalError("Unknown section!") }
+            guard let sectionKind = Section(rawValue: sectionIndex) else {
+                Swift.fatalError("Unknown section!")
+            }
+            
             let section: NSCollectionLayoutSection
             switch sectionKind {
-            case .title, .workTime:
+            case .name, .workTime:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(widthDimension: .fractionalWidth(1.0),
                                       heightDimension: .estimated(44)))

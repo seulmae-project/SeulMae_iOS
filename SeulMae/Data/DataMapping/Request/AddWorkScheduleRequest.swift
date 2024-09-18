@@ -8,7 +8,6 @@
 import Foundation
 
 struct AddWorkScheduleRequest: ModelType {
-    let workplaceId: Workplace.ID
     let workScheduleTitle: String
     let startTime: String // "09:00"
     let endTime: String // "13:00",

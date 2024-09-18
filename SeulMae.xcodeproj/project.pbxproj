@@ -229,7 +229,8 @@
 		86DB32D12C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */; };
 		86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */; };
 		86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */; };
-		86DB32D72C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D62C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift */; };
+		86DB32D72C9AAA9A00575A03 /* WeekdaysContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */; };
+		86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
@@ -530,7 +531,8 @@
 		86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleDetailsViewModel.swift; sourceTree = "<group>"; };
 		86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleDetailsItem.swift; sourceTree = "<group>"; };
 		86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInputContentView.swift; sourceTree = "<group>"; };
-		86DB32D62C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleWeekdaysContentView.swift; sourceTree = "<group>"; };
+		86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysContentView.swift; sourceTree = "<group>"; };
+		86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimePickerContentView.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
@@ -1680,7 +1682,8 @@
 			children = (
 				86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */,
 				86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */,
-				86DB32D62C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift */,
+				86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */,
+				86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1913,6 +1916,8 @@
 				86FD61D62C89575B005ED02F /* Home */,
 				86FD61DD2C895925005ED02F /* WorkplaceInfo */,
 				86FD61E02C89598F005ED02F /* Setting */,
+				86FD62152C8D9A3E005ED02F /* WorkScheduleList */,
+				86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */,
 				8624AC722C2EA93A001FF383 /* View */,
 				8624AC732C2EA93D001FF383 /* ViewModel */,
 			);
@@ -1954,8 +1959,6 @@
 		86FD61DD2C895925005ED02F /* WorkplaceInfo */ = {
 			isa = PBXGroup;
 			children = (
-				86FD62152C8D9A3E005ED02F /* WorkScheduleList */,
-				86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */,
 				86FD62012C8D3791005ED02F /* View */,
 				86FD62022C8D3795005ED02F /* ViewModel */,
 			);
@@ -2371,6 +2374,7 @@
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
 				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
+				86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
@@ -2433,7 +2437,7 @@
 				86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */,
 				86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */,
 				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,
-				86DB32D72C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift in Sources */,
+				86DB32D72C9AAA9A00575A03 /* WeekdaysContentView.swift in Sources */,
 				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
