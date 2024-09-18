@@ -7,16 +7,16 @@
 
 import Foundation
 
-struct WorkScheduleListItem {
+struct WorkScheduleListItem: Hashable {
     enum ItemType {
         case workSchedule
     }
     
-    let itmeType: ItemType
+    let itemType: ItemType
     let workSchedule: WorkSchedule?
     
     init(workSchedule: WorkSchedule) {
-        self.itmeType = .workSchedule
+        self.itemType = .workSchedule
         self.workSchedule = workSchedule
     }
 }

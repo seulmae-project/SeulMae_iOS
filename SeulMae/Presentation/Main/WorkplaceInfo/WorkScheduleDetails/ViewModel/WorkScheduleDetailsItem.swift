@@ -9,7 +9,7 @@ import Foundation
 
 struct WorkScheduleDetailsItem: Hashable {
     enum ItemType {
-        case text, weekdays, members
+        case title, workTime, weekday, members
     }
     
     var itemType: ItemType
@@ -19,7 +19,7 @@ struct WorkScheduleDetailsItem: Hashable {
     var members: [Member]?
     
     init(title: String) {
-        self.itemType = .text
+        self.itemType = .title
         self.title = "이름"
         self.text = title
         self.weekdays = nil
@@ -27,7 +27,7 @@ struct WorkScheduleDetailsItem: Hashable {
     }
     
     init(time: String) {
-        self.itemType = .text
+        self.itemType = .workTime
         self.title = "근무 시간"
         self.text = time
         self.weekdays = nil
@@ -35,7 +35,7 @@ struct WorkScheduleDetailsItem: Hashable {
     }
     
     init(weekdays: [Int]) {
-        self.itemType = .weekdays
+        self.itemType = .weekday
         self.title = "근무 요일"
         self.text = nil
         self.weekdays = weekdays

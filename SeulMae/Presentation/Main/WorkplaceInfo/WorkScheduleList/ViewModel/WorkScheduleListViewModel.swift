@@ -14,7 +14,8 @@ final class WorkScheduleListViewModel: ViewModel {
     // MARK: - Internal Types
     
     struct Input {
-        let showWorkScheduleDetails: Signal<WorkSchedule.ID>
+        let addNew: Signal<()>
+        let showDetails: Signal<WorkSchedule.ID>
     }
     
     struct Output {
@@ -49,7 +50,13 @@ final class WorkScheduleListViewModel: ViewModel {
             .asDriver()
         
         Task {
-            for await workScheduleId in input.showWorkScheduleDetails.values {
+            for await _ in input.addNew.values {
+                coordinator.showWorkScheduleDetails(workScheduleId: nil)
+            }
+        }
+        
+        Task {
+            for await workScheduleId in input.showDetails.values {
                 coordinator.showWorkScheduleDetails(workScheduleId: workScheduleId)
             }
         }

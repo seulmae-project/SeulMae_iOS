@@ -14,7 +14,7 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
         var weekdays: [Int] = []
         
         func makeContentView() -> UIView & UIContentView {
-            return WorkScheduleContentView(self)
+            return ScheduleWeekdaysContentView(self)
         }
     }
     
@@ -27,9 +27,7 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
     
     private let weekdayStack: UIStackView = {
         let stack = UIStackView()
-        stack.axis = .vertical
-        stack.spacing = 4.0
-        stack.distribution = .fillEqually
+        stack.distribution = .equalSpacing
         return stack
     }()
     
@@ -71,6 +69,8 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
             contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentStack.topAnchor.constraint(equalTo: topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
+            
+            weekdayStack.heightAnchor.constraint(equalToConstant: 44),
         ])
     }
     
@@ -83,6 +83,7 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration,
               let buttons = weekdayStack.subviews as? [UIButton] else { return }
+        titleLabel.text = config.title
         buttons.forEach { $0.isSelected = false }
         config.weekdays.forEach { weekday in
             var index = (weekday - 1)
@@ -103,10 +104,6 @@ final class ScheduleWeekdaysContentView: UIView, UIContentView {
         button.layer.masksToBounds = true
         button.widthAnchor.constraint(equalToConstant: 44).isActive = true
         return button
-    }
-    
-    private func applyWeekdayOnOff(_ weekdays: [Int]) {
-
     }
 }
 

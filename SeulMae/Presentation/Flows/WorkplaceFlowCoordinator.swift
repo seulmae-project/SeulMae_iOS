@@ -14,7 +14,7 @@ protocol WorkplaceFlowCoordinatorDependencies {
     func makeAnnounceDetailsViewController(coordinator: WorkplaceFlowCoordinator, announceId: Announce.ID) -> AnnounceDetailViewController
     
     func makeWorkScheduleListViewController(coordinator: WorkplaceFlowCoordinator) -> WorkScheduleListViewController
-    func makeWorkScheduleDetailsViewController(coordinator: WorkplaceFlowCoordinator, workScheduleId: WorkSchedule.ID) -> WorkScheduleDetailsViewController
+    func makeWorkScheduleDetailsViewController(coordinator: WorkplaceFlowCoordinator, workScheduleId: WorkSchedule.ID?) -> WorkScheduleDetailsViewController
     
     func makeMemberProfileViewController(coordinator: WorkplaceFlowCoordinator) -> MemberInfoViewController
 }
@@ -25,7 +25,7 @@ protocol WorkplaceFlowCoordinator: Coordinator {
     func showAnnounceDetails(announceId: Announce.ID)
     func showAnnounceList()
     
-    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID)
+    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID?)
     func showWorkScheduleList()
     
     func showMemberProfile(memberId: Member.ID)
@@ -79,7 +79,7 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     
     // MARK: - WorkSchedule
     
-    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID) {
+    func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID?) {
         let vc = dependencies.makeWorkScheduleDetailsViewController(coordinator: self, workScheduleId: workScheduleId)
         navigationController.pushViewController(vc, animated: true)
     }

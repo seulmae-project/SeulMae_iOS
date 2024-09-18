@@ -11,8 +11,8 @@ final class WorkScheduleListViewController: UIViewController {
     
     // MARK: - Internal Types
     
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceListItem>
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceListItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkScheduleListItem>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkScheduleListItem>
     
     enum Section: Int, Hashable, CaseIterable {
         case list
@@ -24,6 +24,17 @@ final class WorkScheduleListViewController: UIViewController {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         return collectionView
+    }()
+    
+    private let addButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("생성하기", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .pretendard(size: 18, weight: .semibold)
+        button.backgroundColor = .primary
+        button.layer.cornerRadius = 16
+        button.layer.cornerCurve = .continuous
+        return button
     }()
     
     // MARK: - Properties
@@ -57,13 +68,46 @@ final class WorkScheduleListViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let showDetails = collectionView.rx
+            .itemSelected
+            .compactMap { [weak self] indexPath in
+                self?.dataSource?
+                    .itemIdentifier(for: indexPath)?
+                    .workSchedule?
+                    .id
+            }
+            .asSignal()
         
+        let output = viewModel.transform(
+            .init(
+                addNew: addButton.rx.tap.asSignal(),
+                showDetails: showDetails
+            )
+        )
+        
+        Task {
+            for await items in output.items.values {
+                var snapshot = dataSource.snapshot()
+                snapshot.appendItems(items, toSection: .list)
+                dataSource.apply(snapshot)
+            }
+        }
     }
     
     // MARK: - Hierarchy
     
     private func setupConstraints() {
         view.addSubview(collectionView)
+        view.addSubview(addButton)
+    
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            addButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            addButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -16),
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.heightAnchor.constraint(equalToConstant: 56),
+        ])
     }
     
     private func setupView() {
@@ -73,7 +117,7 @@ final class WorkScheduleListViewController: UIViewController {
     // MARK: - DataSource
     
     private func setupDataSource() {
-        let workScheduleCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, WorkplaceListItem> { (cell, indexPath, item) in
+        let workScheduleCellRegistration = UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleListItem> { (cell, indexPath, item) in
             var content = cell.workScheduleContentConfiguration()
             guard case .workSchedule = item.itemType,
                   let workSchedule = item.workSchedule else { return }

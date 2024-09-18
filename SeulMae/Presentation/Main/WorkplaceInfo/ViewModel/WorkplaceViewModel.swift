@@ -104,7 +104,6 @@ final class WorkplaceViewModel: ViewModel {
         
         Task {
             for await _ in input.showWorkScheduleList.values {
-                
                 coordinator.showWorkScheduleList()
             }
         }

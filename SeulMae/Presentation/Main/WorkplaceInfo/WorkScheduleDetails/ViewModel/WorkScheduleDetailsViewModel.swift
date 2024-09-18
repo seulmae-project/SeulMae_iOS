@@ -18,6 +18,7 @@ final class WorkScheduleDetailsViewModel: ViewModel {
         let time: Driver<String>
         let weekdays: Driver<[Int]>
         let members: Driver<Member.ID>
+        let save: Signal<()>
     }
     
     struct Output {
@@ -29,7 +30,7 @@ final class WorkScheduleDetailsViewModel: ViewModel {
     
     private let coordinator: WorkplaceFlowCoordinator
     private let workScheduleUseCase: WorkScheduleUseCase
-    private let workScheduleId: WorkSchedule.ID
+    private let workScheduleId: WorkSchedule.ID?
         
     // MARK: - Life Cycle
     
@@ -37,7 +38,7 @@ final class WorkScheduleDetailsViewModel: ViewModel {
         dependencies: (
             coordinator: WorkplaceFlowCoordinator,
             workScheduleUseCase: WorkScheduleUseCase,
-            workScheduleId: WorkSchedule.ID
+            workScheduleId: WorkSchedule.ID?
         )
     ) {
         self.coordinator = dependencies.coordinator
@@ -48,11 +49,16 @@ final class WorkScheduleDetailsViewModel: ViewModel {
     @MainActor func transform(_ input: Input) -> Output {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-    
-        let items = workScheduleUseCase.fetchWorkScheduleDetails(workScheduleId: workScheduleId)
-            .trackActivity(indicator)
-            .map { self.toItems(from: $0) }
-            .asDriver()
+        
+        let items: Driver<[WorkScheduleDetailsItem]>
+        if let workScheduleId {
+            items = workScheduleUseCase.fetchWorkScheduleDetails(workScheduleId: workScheduleId)
+                .trackActivity(indicator)
+                .map { self.toItems(from: $0) }
+                .asDriver()
+        } else {
+            items = .empty()
+        }
         
         return Output(
             loading: loading,

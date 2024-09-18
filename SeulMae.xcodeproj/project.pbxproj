@@ -1666,6 +1666,51 @@
 			path = Auth;
 			sourceTree = "<group>";
 		};
+		86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */ = {
+			isa = PBXGroup;
+			children = (
+				86DB32D92C9AC0B500575A03 /* View */,
+				86DB32DA2C9AC0BA00575A03 /* ViewModel */,
+			);
+			path = WorkScheduleDetails;
+			sourceTree = "<group>";
+		};
+		86DB32D92C9AC0B500575A03 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */,
+				86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */,
+				86DB32D62C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86DB32DA2C9AC0BA00575A03 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */,
+				86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86DB32DB2C9AC0C500575A03 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86DB32DC2C9AC0C900575A03 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */,
+				86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		86DE55592C18B6F7009CC520 /* Components */ = {
 			isa = PBXGroup;
 			children = (
@@ -1909,7 +1954,8 @@
 		86FD61DD2C895925005ED02F /* WorkplaceInfo */ = {
 			isa = PBXGroup;
 			children = (
-				86FD62152C8D9A3E005ED02F /* WorkSchedule */,
+				86FD62152C8D9A3E005ED02F /* WorkScheduleList */,
+				86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */,
 				86FD62012C8D3791005ED02F /* View */,
 				86FD62022C8D3795005ED02F /* ViewModel */,
 			);
@@ -1964,19 +2010,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86FD62152C8D9A3E005ED02F /* WorkSchedule */ = {
+		86FD62152C8D9A3E005ED02F /* WorkScheduleList */ = {
 			isa = PBXGroup;
 			children = (
-				86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */,
-				86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */,
-				86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */,
-				86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */,
-				86DB32D62C9AAA9A00575A03 /* ScheduleWeekdaysContentView.swift */,
-				86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */,
-				86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */,
-				86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */,
+				86DB32DB2C9AC0C500575A03 /* View */,
+				86DB32DC2C9AC0C900575A03 /* ViewModel */,
 			);
-			path = WorkSchedule;
+			path = WorkScheduleList;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

@@ -31,6 +31,17 @@ final class WorkScheduleDetailsViewController: UIViewController {
         return collectionView
     }()
     
+    private let saveButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("저장하기", for: .normal)
+        button.setTitleColor(.white, for: .normal)
+        button.titleLabel?.font = .pretendard(size: 18, weight: .semibold)
+        button.backgroundColor = .primary
+        button.layer.cornerRadius = 16
+        button.layer.cornerCurve = .continuous
+        return button
+    }()
+    
     // MARK: - Properties
     
     private var dataSource: DataSource!
@@ -62,13 +73,50 @@ final class WorkScheduleDetailsViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let output = viewModel.transform(
+            .init(
+                name: .empty(),
+                time: .empty(),
+                weekdays: .empty(),
+                members: .empty(),
+                save: saveButton.rx.tap.asSignal()
+            ))
         
+        Task {
+            for await items in output.items.values {
+                var snapshot = dataSource.snapshot()
+                Swift.print("items: \(items)")
+                for item in items {
+                    switch item.itemType {
+                    case .title:
+                        snapshot.appendItems([item], toSection: .title)
+                    case .workTime:
+                        snapshot.appendItems([item], toSection: .workTime)
+                    case .weekday:
+                        snapshot.appendItems([item], toSection: .weekday)
+                    case .members:
+                        snapshot.appendItems([item], toSection: .members)
+                    }
+                }
+                dataSource.apply(snapshot)
+            }
+        }
     }
     
     // MARK: - Hierarchy
     
     private func setupConstraints() {
         view.addSubview(collectionView)
+        view.addSubview(saveButton)
+    
+        saveButton.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            saveButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            saveButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -16),
+            saveButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            saveButton.heightAnchor.constraint(equalToConstant: 56),
+        ])
     }
     
     private func setupView() {
@@ -105,7 +153,7 @@ final class WorkScheduleDetailsViewController: UIViewController {
     func createCommonTextFieldCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem>  {
         return UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem> { (cell, indexPath, item) in
             var content = cell.commonInputContentConfiguration()
-            guard case .text = item.itemType,
+            guard [.title, .workTime].contains(item.itemType),
                   let text = item.text else { return }
             content.title = item.title
             content.text = text
@@ -117,7 +165,7 @@ final class WorkScheduleDetailsViewController: UIViewController {
     func createWeekdayCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem>  {
         return UICollectionView.CellRegistration<UICollectionViewCell, WorkScheduleDetailsItem> { (cell, indexPath, item) in
             var content = cell.scheduleWeekdaysContentConfiguration()
-            guard case .weekdays = item.itemType,
+            guard case .weekday = item.itemType,
                   let weekdays = item.weekdays else { return }
             content.title = item.title
             content.weekdays = weekdays
@@ -161,7 +209,7 @@ final class WorkScheduleDetailsViewController: UIViewController {
                     subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
             }
-            // section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+            section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
             return section
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
