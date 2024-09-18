@@ -33,7 +33,7 @@ struct MemberProfileDTO: ModelType {
 
 extension BaseResponseDTO<MemberProfileDTO> {
     func toDomain() throws -> MemberProfile {
-        return try getData().toDomain()
+        return data!.toDomain()
     }
 }
 

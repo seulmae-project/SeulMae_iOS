@@ -7,28 +7,12 @@
 
 import Foundation
 
-struct Notification: Identifiable {
+struct AppNotification: Hashable, Identifiable {
     let id: Int // notificationId
     let title: String
     let message: String
     let type: NotificationType // notificationType
-    let regDate: String // regDateNotification 2024-07-23T19:24:46.025958
-}
-
-struct NotificationDTO: ModelType {
-    let id: Int // notificationId
-    let title: String
-    let message: String
-    let type: NotificationType // notificationType
-    let regDate: String // regDateNotification 2024-07-23T19:24:46.025958
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "notificationId"
-        case title
-        case message
-        case type = "notificationType"
-        case regDate = "regDateNotification"
-    }
+    let regDate: Date // regDateNotification 2024-07-23T19:24:46.025958
 }
 
 enum NotificationType: String, Codable {
@@ -49,24 +33,4 @@ enum NotificationType: String, Codable {
     case event
 }
 
-extension NotificationType {
-    
-}
 
-extension BaseResponseDTO<[NotificationDTO]> {
-    func toDomain() -> [Notification] {
-        return data?.map { $0.toDomain() } ?? []
-    }
-}
-
-extension NotificationDTO {
-    func toDomain() -> Notification {
-        return .init(
-            id: self.id,
-            title: self.title,
-            message: self.message,
-            type: self.type,
-            regDate: self.regDate
-        )
-    }
-}

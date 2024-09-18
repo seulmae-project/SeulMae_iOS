@@ -27,8 +27,8 @@ struct AuthDataDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<AuthDataDTO> {
-    func toDomain() throws -> AuthData {
-        return try getData().toDomain()
+    func toDomain() -> AuthData {
+        return data!.toDomain()
     }
 }
 
@@ -37,7 +37,7 @@ extension AuthDataDTO {
         return AuthData(
             token: token.toDomain(),
             role: role ?? "",
-            workplace: workplace.map { try! $0.toDomain() }
+            workplace: workplace.map { $0.toDomain() }
         )
     }
 }

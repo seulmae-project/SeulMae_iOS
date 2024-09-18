@@ -10,7 +10,7 @@ import UIKit
 final class MainSceneDIContainer {
     
     struct Dependencies {
-        let mainNetworking: MainNetworking
+        let notificationNetworking: NotificationNetworking
     }
     
     private let dependencies: Dependencies
@@ -26,7 +26,7 @@ final class MainSceneDIContainer {
     }
     
     private func makeNoticeRepository() -> NoticeRepository {
-        return DefaultNoticeRepository(network: dependencies.mainNetworking)
+        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
     }
     
     // Attedance

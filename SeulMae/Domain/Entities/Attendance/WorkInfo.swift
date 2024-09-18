@@ -1,5 +1,5 @@
 //
-//  WorkeInfo.swift
+//  WorkInfo.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/13/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkeInfo {
+struct WorkInfo {
     let workedDays: Int
     let firstWorkDate: Date
     let payday: Int
@@ -20,13 +20,13 @@ struct WorkeInfoDTO: ModelType {
 }
 
 extension BaseResponseDTO<WorkeInfoDTO> {
-    func toDomain() -> WorkeInfo? {
+    func toDomain() -> WorkInfo? {
         return data?.toDomain()
     }
 }
 
 extension WorkeInfoDTO {
-    func toDomain() -> WorkeInfo {
+    func toDomain() -> WorkInfo {
         .init(
             workedDays: self.workedDays,
             firstWorkDate: self.firstWorkDate,

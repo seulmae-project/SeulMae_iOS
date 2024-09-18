@@ -8,9 +8,9 @@
 import Foundation
 import Moya
 
-typealias AttendanceNetworking = MoyaProvider<AttendanceAPI>
+typealias AttendanceHistoryNetworking = MoyaProvider<AttendanceHistoryAPI>
 
-enum AttendanceAPI: SugarTargetType {
+enum AttendanceHistoryAPI: SugarTargetType {
 //    case fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int)
 //    case fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int)
     case fetchWorkeInfo(workplaceId: Workplace.ID)
@@ -20,7 +20,7 @@ enum AttendanceAPI: SugarTargetType {
     case updateAttendanceHistory(attendanceHistoryId: AttendanceHistory.ID)
 }
 
-extension AttendanceAPI {
+extension AttendanceHistoryAPI {
     var baseURL: URL {
         return URL(string: Bundle.main.baseURL)!
     }
@@ -44,7 +44,7 @@ extension AttendanceAPI {
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
 //        case let .fetchAttendanceRequestList(workplaceId: workplaceId, year: year, month: month):
 //            return [
@@ -59,34 +59,39 @@ extension AttendanceAPI {
 //                "month": month
 //            ]
         case let .fetchWorkeInfo(workplaceId: workplaceId):
-            return ["workplaceId": workplaceId]
+            return .requestParameters(
+                parameters: [
+                        "workplaceId": workplaceId,
+                    ],
+                encoding: URLEncoding.queryString)
         case let .fetchMonthlyAttendanceSummery(workplaceId: workplaceId, year: year, month: month):
-            return [
-                "workplaceId": workplaceId,
-                "year": year,
-                "month": month
-            ]
+            return .requestParameters(
+                parameters: [
+                        "workplaceId": workplaceId,
+                        "year": year,
+                        "month": month
+                    ],
+                encoding: URLEncoding.queryString)
         case let .fetchAttendanceHistories(workplaceId: workplaceId, year: year, month: month, page: page, size: size):
-            return [
-                "workplaceId": workplaceId,
-                "year": year,
-                "month": month
-            ]
+            return .requestParameters(
+                parameters: [
+                        "workplaceId": workplaceId,
+                        "year": year,
+                        "month": month,
+                        "page": page,
+                        "size": size
+                    ],
+                encoding: URLEncoding.queryString)
         case let .fetchAttendanceHistoryDetails(attendanceHistoryId: attendanceHistoryId):
-            return [
-                "attendanceHistoryId": attendanceHistoryId
-            ]
+            return .requestParameters(
+                parameters: [
+                    "idAttendanceRequestHistory": attendanceHistoryId
+                ],
+                encoding: URLEncoding.queryString)
         case let .updateAttendanceHistory(attendanceHistoryId: attendanceHistoryId):
-            return [
-                "attendanceHistoryId": attendanceHistoryId
-            ]
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        default:
-            return nil
+            return .requestParameters(parameters: [
+                "idAttendanceRequestHistory": attendanceHistoryId
+            ], encoding: URLEncoding.queryString)
         }
     }
     
@@ -98,13 +103,6 @@ extension AttendanceAPI {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer \(accessToken!)"
             ]
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        default:
-            return nil
         }
     }
 }

@@ -22,23 +22,18 @@ extension NotificationAPI {
     var route: Route {
         switch self {
         case .fetchNotifications:
-            return .get("api/notification/v1/list")
+            return .get("api/notification/v1)")
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
         case let .fetchNotifications(workplaceId: workplaceId):
-            return [
-                "userWorkplaceId": workplaceId,
-            ]
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        default:
-            return nil
+            return .requestParameters(
+                parameters: [
+                    "userWorkplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
         }
     }
     
@@ -50,13 +45,6 @@ extension NotificationAPI {
                 "Content-Type": "application/json",
                 "Authorization": "Bearer \(accessToken!)"
             ]
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        default:
-            return nil
         }
     }
 }

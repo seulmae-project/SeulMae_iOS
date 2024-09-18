@@ -14,7 +14,7 @@ enum SMSVerificationItem {
 }
 
 extension SMSVerificationItem {
-    var isNeedAccout: Bool {
+    var isNeedAccount: Bool {
         switch self {
         case .passwordRecovery(account: _):
             return true
@@ -42,6 +42,17 @@ extension SMSVerificationItem {
             return "가입시 입력하신\n휴대폰 번호를 입력해주세요"
         case .passwordRecovery:
             return "가입시 입력하신 계정 아이디와\n휴대폰 번호를 입력해주세요"
+        }
+    }
+    
+    var smsVerificationType: String {
+        switch self {
+        case .signup:
+            return "signUp"
+        case .accountRecovery:
+            return "findAccountId"
+        case .passwordRecovery:
+            return "findPassword"
         }
     }
 }

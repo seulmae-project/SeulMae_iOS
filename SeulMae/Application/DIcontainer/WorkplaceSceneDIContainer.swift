@@ -11,8 +11,8 @@ final class WorkplaceSceneDIContainer {
     
     struct Dependencies {
         let workScheduleNetworking: WorkScheduleNetworking
-        let mainNetworking: MainNetworking
-        let memberNetworking: MemberNetworking
+        let mainNetworking: AnnounceNetworking
+        let memberNetworking: UserNetworking
     }
     
     private let dependencies: Dependencies

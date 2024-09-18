@@ -52,7 +52,7 @@ final class NotiListViewModel: ViewModel {
         
         // TODO: workplace도 userUseCase에서 가저오기
         let notiList = noticeUseCase
-            .fetchAppNotificationList(userWorkplaceID: workplaceIdentifier)
+            .fetchAppNotificationList(workplaceId: workplaceIdentifier)
             .map { $0.map(NotiListItem.init(noti:)) }
             .asDriver()
        

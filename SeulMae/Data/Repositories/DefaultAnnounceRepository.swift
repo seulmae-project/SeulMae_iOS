@@ -23,11 +23,11 @@ class DefaultAnnounceRepository: AnnounceRepository {
    
     // MARK: - Dependancies
     
-    private let network: MainNetworking
+    private let network: AnnounceNetworking
     
     // MARK: - Life Cycle Methods
     
-    init(network: MainNetworking) {
+    init(network: AnnounceNetworking) {
         self.network = network
     }
     

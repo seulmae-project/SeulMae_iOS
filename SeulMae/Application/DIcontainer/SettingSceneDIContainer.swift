@@ -10,7 +10,7 @@ import UIKit
 final class SettingSceneDIContainer {
     
     struct Dependencies {
-        let userNetworking: UserNetwork
+        let userNetworking: UserNetworking
     }
     
     private let dependencies: Dependencies

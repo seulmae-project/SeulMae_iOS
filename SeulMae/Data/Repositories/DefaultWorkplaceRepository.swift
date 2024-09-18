@@ -48,7 +48,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     
     func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
         return network.rx
-            .request(.fetchWorkplaces(keyword: ""))
+            .request(.fetchWorkplaceList)
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
@@ -78,7 +78,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> RxSwift.Single<Bool> {
         return network.rx
-            .request(.addNewWorkplace(request: request))
+            .request(.addWorkplace(request: request, data: Data()))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
@@ -89,9 +89,9 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { $0.isSuccess }
     }
     
-    func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> RxSwift.Single<Workplace> {
+    func fetchWorkplaceDetail(workplaceId: Workplace.ID) -> RxSwift.Single<Workplace> {
         return network.rx
-            .request(.fetchWorkplaceDetail(workplaceID: id))
+            .request(.fetchWorkplaceDetails(workplaceId: workplaceId))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
@@ -103,9 +103,9 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { try $0.toDomain() }
     }
     
-    func submitApplication(workplaceID id: Workplace.ID) -> RxSwift.Single<Bool> {
+    func submitApplication(workplaceId: Workplace.ID) -> RxSwift.Single<Bool> {
         return network.rx
-            .request(.submitApplication(workplaceID: id))
+            .request(.submitApplication(workplaceId: workplaceId))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
                 Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
@@ -116,9 +116,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { $0.isSuccess }
     }
         
-    func fetchMemberInfo(
-        memberIdentifier id: Member.ID
-    ) -> RxSwift.Single<MemberProfile> {
+    func fetchMemberInfo(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
         return Single<BaseResponseDTO<MemberProfileDTO>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.memberInfoSuccess))
             return Disposables.create()
@@ -129,7 +127,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
+    func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
         return Single<BaseResponseDTO<[MemberDTO]>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.memberListSuccess))
             return Disposables.create()
@@ -154,8 +152,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
-    func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceID: \(id)\n")
+    func deleteWorkplace(workplaceId: Workplace.ID) -> RxSwift.Single<Bool> {
         return Single<BaseResponseDTO<Bool>>.create { observer in
             observer(.success(MockData.WorkplaceAPI.deleteSuccess))
             return Disposables.create()

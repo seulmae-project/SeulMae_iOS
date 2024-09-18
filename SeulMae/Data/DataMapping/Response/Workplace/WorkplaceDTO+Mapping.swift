@@ -40,14 +40,14 @@ struct WorkplaceDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<[WorkplaceDTO]> {
-    func toDomain() throws -> [Workplace] {
-        return try getData().map { $0.toDomain() }
+    func toDomain() -> [Workplace] {
+        return data?.map { $0.toDomain() } ?? []
     }
 }
 
 extension BaseResponseDTO<WorkplaceDTO> {
-    func toDomain() throws -> Workplace {
-        return try getData().toDomain()
+    func toDomain() -> Workplace {
+        return data!.toDomain()
     }
 }
 

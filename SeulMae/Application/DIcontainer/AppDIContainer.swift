@@ -15,7 +15,7 @@ final class AppDIContainer {
     }
     
     func makeMainSceneDIContainer() -> MainSceneDIContainer {
-        let dependencies = MainSceneDIContainer.Dependencies(mainNetworking: MainNetworking())
+        let dependencies = MainSceneDIContainer.Dependencies(notificationNetworking: NotificationNetworking())
         return MainSceneDIContainer(dependencies: dependencies)
     }
     
@@ -27,14 +27,14 @@ final class AppDIContainer {
     func makeWorkplaceSceneDIContainer() -> WorkplaceSceneDIContainer {
         let dependencies = WorkplaceSceneDIContainer.Dependencies(
             workScheduleNetworking: WorkScheduleNetworking(),
-            mainNetworking: MainNetworking(),
-            memberNetworking: MemberNetworking())
+            mainNetworking: AnnounceNetworking(),
+            memberNetworking: UserNetworking())
         return WorkplaceSceneDIContainer(dependencies: dependencies)
     }
     
     func makeSettingSceneDIContainer() -> SettingSceneDIContainer {
         let dependencies = SettingSceneDIContainer.Dependencies(
-            userNetworking: UserNetwork())
+            userNetworking: UserNetworking())
         return SettingSceneDIContainer(dependencies: dependencies)
     }
 }

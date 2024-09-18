@@ -113,14 +113,14 @@ final class MainViewModel: ViewModel {
         let attendances = managerLogic.flatMapLatest { [weak self] item -> Driver<[AttendanceListItem]> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.attendanceUseCase
-                .fetchAttendanceRequestList(year: 1, month: 1)
+                .fetchAttendanceRequestList(date: Date())
                 .asDriver()
         }
         
         let appNotis = managerLogic.flatMapLatest { [weak self] item -> Driver<[AppNotification]> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.noticeUseCase
-                .fetchAppNotificationList(userWorkplaceID: item.workplaceID)
+                .fetchAppNotificationList(workplaceId: item.workplaceID)
                 .asDriver()
         }
         
@@ -136,9 +136,9 @@ final class MainViewModel: ViewModel {
 //                .asDriver()
 //        }
         
-        let announceList = noticeUseCase
-            .fetchMainAnnounceList()
-            .asDriver()
+//        let announceList = noticeUseCase
+//            .fetchMainAnnounceList()
+//            .asDriver()
         
         
         
@@ -203,7 +203,7 @@ final class MainViewModel: ViewModel {
             item: recent,
             members: .empty(),
             attendanceListItems: attendances,
-            announceList: announceList,
+            announceList: .empty(),
             appNotis: appNotis
         )
     }

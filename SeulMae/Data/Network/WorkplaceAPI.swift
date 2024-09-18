@@ -5,9 +5,6 @@
 //  Created by 조기열 on 8/13/24.
 //
 
-import struct Foundation.URL
-import class Foundation.Bundle
-import struct Foundation.Data
 import Moya
 import Foundation
 
@@ -15,17 +12,20 @@ import Foundation
 typealias WorkplaceNetworking = MoyaProvider<WorkplaceAPI>
 
 enum WorkplaceAPI: SugarTargetType {
-    case fetchWorkplaces(keyword: String)
-    
-    case fetchWorkplaceDetail(workplaceID: Workplace.ID)
-    case submitApplication(workplaceID: Workplace.ID)
-    
-    case addNewWorkplace(request: AddNewWorkplaceRequest)
-   
-    case updateWorkplace(request: UpdateWorkplaceRequest)
-    case deleteWorkplace(workplaceID: String)
-    case acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
-    case denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String)
+    case addWorkplace(request: AddNewWorkplaceRequest, data: Data)
+    case fetchWorkplaceList
+    case fetchWorkplaceDetails(workplaceId: Workplace.ID)
+    case updateWorkplace(requset: UpdateWorkplaceRequest)
+    case deleteWorkplace(workplaceId: Workplace.ID)
+    case submitApplication(workplaceId: Workplace.ID)
+    case acceptApplication(workplaceApproveId: String, requset: AcceptApplicationRequset)
+    case denyApplication(workplaceApproveId: String)
+    case fetchApplicationList(workplaceId: Workplace.ID)
+    case memberList(workplaceId: Workplace.ID)
+    case memberDetails(userId: Member.ID)
+    case fetchJoinedWorkplaceList
+    case promote(requset: PromoteRequset)
+    case leaveWorkplace(workplaceId: Workplace.ID)
 }
 
 extension WorkplaceAPI {
@@ -35,60 +35,117 @@ extension WorkplaceAPI {
     
     var route: Route {
         switch self {
-        case .fetchWorkplaces:
-            return .get("api/workplace/v1/info/all")
-            
-        case .fetchWorkplaceDetail:
-            return .get("api/workplace/v1/info")
-        case .submitApplication:
-            return .post("api/workplace/join/v1/request")
-            
-        case .addNewWorkplace:
-            return .post("api/workplace/v1/add")
-            
-        case .updateWorkplace:
-            return .patch("api/workplace/v1/modify")
-        case .deleteWorkplace:
-            return .post("api/workplace/v1/delete")
-      
-        case .acceptApplication:
-            return .get("api/workplace/join/v1/approval")
-        case .denyApplication:
-            return .put("api/workplace/join/v1/rejection")
+        case .addWorkplace: return .post("api/workplace/v1/add")
+        case .fetchWorkplaceList: return .get("api/workplace/v1/info/all")
+        case .fetchWorkplaceDetails: return .get("v1/info")
+        case .updateWorkplace: return .patch("api/workplace/v1/modify")
+        case .deleteWorkplace: return .delete("api/workplace/v1/delete")
+        case .submitApplication: return .post("api/workplace/join/v1/request")
+        case .acceptApplication: return .post("api/workplace/join/v1/approval")
+        case .denyApplication: return .post("api/workplace/join/v1/rejection")
+        case .fetchApplicationList: return .get("api/workplace/join/v1/request/list")
+        case .memberList: return .get("api/workplace/user/v1/list")
+        case .memberDetails: return .get("api/workplace/user/v1")
+        case .fetchJoinedWorkplaceList: return .get("api/workplace/v1/info/join")
+        case .promote: return .post("api/workplace/user/v1/manager/delegate")
+        case .leaveWorkplace: return .delete("api/workplace/user/v1/list")
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
-        case .fetchWorkplaceDetail(let workplaceID):
-            return ["workplaceId": workplaceID]
-        case .submitApplication(let workplaceID):
-            return Parameters(encoding: URLEncoding.queryString, values: ["workplaceId": workplaceID])
-        case .deleteWorkplace(let workplaceId):
-            return JSONEncoding() => ["workplaceId": workplaceId]
-        case .acceptApplication(let workplaceApproveId, let workplaceJoinHistoryId):
-            return JSONEncoding() => [
-                "workplaceApproveId": workplaceApproveId,
-                "workplaceJoinHistoryId": workplaceJoinHistoryId
-            ]
-        case .denyApplication(let workplaceApproveId, let workplaceJoinHistoryId):
-            return JSONEncoding() => [
-                "workplaceApproveId": workplaceApproveId,
-                "workplaceJoinHistoryId": workplaceJoinHistoryId
-            ]
-        default:
-            return nil
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        case .addNewWorkplace(request: let request):
-            return ["workplaceAddDto": request]
-        case .updateWorkplace(request: let request):
-            return ["workplaceUpdateDto": request]
-        default:
-            return nil
+        case let .addWorkplace(request: requset, data: data):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .uploadMultipart(
+                [
+                    .init(
+                        provider: .data(data),
+                        name: "multipartFileList",
+                        fileName: "\(arc4random()).jpeg",
+                        mimeType: "image/jpeg"),
+                    .init(
+                        provider: .data(json!),
+                        name: "workplaceAddDto",
+                        mimeType: "application/json"),
+                ])
+        case .fetchWorkplaceList:
+            return .requestPlain
+        case let .fetchWorkplaceDetails(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .updateWorkplace(requset: requset):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .uploadMultipart(
+                [
+//                    .init(
+//                        provider: .data(data),
+//                        name: "multipartFileList",
+//                        fileName: "\(arc4random()).jpeg",
+//                        mimeType: "image/jpeg"),
+                    .init(
+                        provider: .data(json!),
+                        name: "workplaceModifyDto",
+                        mimeType: "application/json"),
+                ])
+        case let .deleteWorkplace(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .submitApplication(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.httpBody)
+        case let .acceptApplication(workplaceApproveId: workplaceApproveId, requset: requset):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .requestCompositeData(
+                bodyData: json!,
+                urlParameters: [
+                    "workplaceApproveId": workplaceApproveId
+                ])
+        case let .denyApplication(workplaceApproveId: workplaceApproveId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceApproveId": workplaceApproveId
+                ],
+                encoding: URLEncoding.httpBody)
+        case let .fetchApplicationList(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .memberList(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .memberDetails(userId: userId):
+            return .requestParameters(
+                parameters: [
+                    "userWorkplaceId": userId
+                ],
+                encoding: URLEncoding.queryString)
+        case .fetchJoinedWorkplaceList:
+            return .requestPlain
+        case let .promote(requset: requset):
+            return .requestJSONEncodable(requset)
+        case let .leaveWorkplace(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
         }
     }
     
@@ -101,15 +158,6 @@ extension WorkplaceAPI {
                 "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
                 //Authorization-refresh
             ]
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        case .addNewWorkplace(_):
-            return Data()
-        default:
-            return nil
         }
     }
 }

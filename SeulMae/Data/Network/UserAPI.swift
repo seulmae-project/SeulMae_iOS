@@ -8,10 +8,11 @@
 import Moya
 import Foundation
 
-typealias UserNetwork = MoyaProvider<UserAPI>
+typealias UserNetworking = MoyaProvider<UserAPI>
 
 enum UserAPI: SugarTargetType {
-    case myProfile
+    case fetchUserProfile(userId: Member.ID)
+    case fetchMyProfile
 }
 
 extension UserAPI {
@@ -21,29 +22,23 @@ extension UserAPI {
     
     var route: Route {
         switch self {
-        case .myProfile:
+        case .fetchUserProfile:
+            return .get("api/users")
+        case .fetchMyProfile:
             return .get("api/users/my-profile")
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
-        default:
-            return nil
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        default:
-            return nil
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        default:
-            return nil
+        case let .fetchUserProfile(userId: userId):
+            return .requestParameters(
+                parameters: [
+                    "id": userId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .fetchMyProfile:
+            return .requestPlain
         }
     }
     

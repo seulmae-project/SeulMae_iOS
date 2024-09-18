@@ -10,20 +10,18 @@ import Moya
 
 typealias WorkScheduleNetworking = MoyaProvider<WorkScheduleAPI>
 
-struct AddWorkScheduleRequest: ModelType {
-    
-}
+
 
 enum WorkScheduleAPI: SugarTargetType {
     case addWorkSchedule(request: AddWorkScheduleRequest)
     case fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID)
     case updateWorkSchedule(workScheduleId: WorkSchedule.ID, requset: AddWorkScheduleRequest)
-    case deleteWorkSchedlue(workScheduleId: WorkSchedule.ID)
+    case deleteWorkSchedule(workScheduleId: WorkSchedule.ID)
     case fetchWorkScheduleList(workplaceId: Workplace.ID)
     case addUserToWorkSchedule(workScheduleId: WorkSchedule.ID, memberId: Member.ID)
     case moveUserToWorkSchedule(fromWorkScheduleId: WorkSchedule.ID, toWorkScheduleId: WorkSchedule.ID)
     case fetchUserList(workScheduleId: WorkSchedule.ID)
-    case deleteUserFromWorkSchedlue(workScheduleId: WorkSchedule.ID)
+    case deleteUserFromWorkSchedule(workScheduleId: WorkSchedule.ID)
 }
 
 extension WorkScheduleAPI {
@@ -39,7 +37,7 @@ extension WorkScheduleAPI {
             return .get("api/schedule/v1")
         case .updateWorkSchedule:
             return .put("api/schedule/v1")
-        case .deleteWorkSchedlue:
+        case .deleteWorkSchedule:
             return .delete("api/schedule/v1")
         case .fetchWorkScheduleList:
             return .get("api/schedule/v1/list")
@@ -49,57 +47,75 @@ extension WorkScheduleAPI {
             return .patch("api/user/schedule/v1")
         case .fetchUserList:
             return .get("api/user/schedule/v1/list")
-        case .deleteUserFromWorkSchedlue:
+        case .deleteUserFromWorkSchedule:
             return .delete("api/user/schedule/v1")
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
         case let .addWorkSchedule(request: request):
-            return JSONEncoding() => (try! request.asDictionary())
+            return .requestJSONEncodable(request)
         case let .fetchWorkScheduleDetails(workScheduleId: workScheduleId):
-            return [
-                "workScheduleId": workScheduleId
-            ]
+            return .requestParameters(
+                parameters: [
+                    "workScheduleId": workScheduleId
+                ],
+                encoding: URLEncoding.queryString)
         case let .updateWorkSchedule(workScheduleId: workScheduleId, requset: requset):
-            return [
-                "workScheduleId": workScheduleId
-                // requset
-            ]
-        case let .deleteWorkSchedlue(workScheduleId: workScheduleId):
-            return [
-                "workScheduleId": workScheduleId
-            ]
+            let encoder = JSONEncoder()
+            let data = try? encoder.encode(requset)
+            return .requestCompositeData(
+                bodyData: data!,
+                urlParameters: [
+                    "workScheduleId": workScheduleId
+                ])
+        case let .deleteWorkSchedule(workScheduleId: workScheduleId):
+            return .requestParameters(
+                parameters: [
+                    "workScheduleId": workScheduleId
+                ],
+                encoding: URLEncoding.queryString)
         case let .fetchWorkScheduleList(workplaceId: workplaceId):
-            return [
-                "workplaceId": workplaceId
-            ]
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
         case let .addUserToWorkSchedule(workScheduleId: workScheduleId, memberId: memberId):
-            return [
-                "targetUserId": memberId,
-                "workScheduleId": workScheduleId
-            ]
+            return .requestParameters(
+                parameters: [
+                    "targetUserId": memberId,
+                    "workScheduleId": workScheduleId
+                ],
+                encoding: URLEncoding.queryString)
         case let .moveUserToWorkSchedule(fromWorkScheduleId: fromWorkScheduleId, toWorkScheduleId: toWorkScheduleId):
-            return [
-                "userWorkScheduleId": fromWorkScheduleId
-                // userWorkScheduleId: toWorkScheduleId body!
-            ]
+            return .requestParameters(
+                parameters: [
+                    "userWorkScheduleId": fromWorkScheduleId
+                    // userWorkScheduleId: toWorkScheduleId body!
+                ],
+                encoding: URLEncoding.queryString)
+            return .requestCompositeParameters(
+                bodyParameters: [
+                    "userWorkScheduleId": toWorkScheduleId
+                ],
+                bodyEncoding: JSONEncoding.prettyPrinted,
+                urlParameters: [
+                    "userWorkScheduleId": fromWorkScheduleId
+                ])
         case let .fetchUserList(workScheduleId: workScheduleId):
-            return [
-                "workScheduleId": workScheduleId
-            ]
-        case let .deleteUserFromWorkSchedlue(workScheduleId: workScheduleId):
-            return [
-                "userWorkScheduleId": workScheduleId
-            ]
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        default:
-            return nil
+            return .requestParameters(
+                parameters: [
+                    "workScheduleId": workScheduleId
+                ],
+                encoding: URLEncoding.queryString)
+        case let .deleteUserFromWorkSchedule(workScheduleId: workScheduleId):
+            return .requestParameters(
+                parameters: [
+                    "userWorkScheduleId": workScheduleId
+                ],
+                encoding: URLEncoding.queryString)
         }
     }
     
@@ -114,9 +130,5 @@ extension WorkScheduleAPI {
                 // "Authorization-refresh": "Bearer \(refreshToken)"
             ]
         }
-    }
-    
-    var data: Data? {
-        return nil
     }
 }

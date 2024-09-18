@@ -28,8 +28,14 @@ struct WorkScheduleDTO: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<[WorkScheduleDTO]>{
-    func toDomain() throws -> [WorkSchedule] {
-        return try getData().map { $0.toDomain() }
+    func toDomain() -> [WorkSchedule] {
+        return data?.map { $0.toDomain() } ?? []
+    }
+}
+
+extension BaseResponseDTO<WorkScheduleDTO>{
+    func toDomain() -> WorkSchedule? {
+        return data?.toDomain()
     }
 }
 

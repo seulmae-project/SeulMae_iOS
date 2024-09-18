@@ -23,9 +23,9 @@ struct MonthlyAttenanceSummaryDTO: ModelType {
     let monthlyWorkTime: Int?
 }
 
-extension BaseResponseDTO<[MonthlyAttenanceSummaryDTO]> {
-    func toDomain() -> [MonthlyAttenanceSummary] {
-        return data?.map { $0.toDomain() } ?? []
+extension BaseResponseDTO<MonthlyAttenanceSummaryDTO> {
+    func toDomain() -> MonthlyAttenanceSummary? {
+        return data.map { $0.toDomain() }
     }
 }
 

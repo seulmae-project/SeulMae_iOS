@@ -16,7 +16,7 @@ protocol WorkScheduleUseCase {
 class DefaultWorkScheduleUseCase: WorkScheduleUseCase {
    
     private let workScheduleRepository: WorkScheduleRepository
-    private let userRepository = UserRepository(network: UserNetwork())
+    private let userRepository = UserRepository(network: UserNetworking())
     
     init(workScheduleRepository: WorkScheduleRepository) {
         self.workScheduleRepository = workScheduleRepository

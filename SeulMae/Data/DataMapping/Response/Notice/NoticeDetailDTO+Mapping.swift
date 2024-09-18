@@ -33,7 +33,7 @@ struct AnnounceDetailDTO: ModelType {
 
 extension BaseResponseDTO<AnnounceDetailDTO> {
     func toDomain() throws -> AnnounceDetail {
-        return try getData().toDomain()
+        return data!.toDomain() 
     }
 }
 

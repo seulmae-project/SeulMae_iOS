@@ -26,7 +26,7 @@ class DefaultAuthRepository: AuthRepository {
     
     func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
         return network.rx
-            .request(.signin(accountID: account, password: password, fcmToken: fcmToken))
+            .request(.signin(accountId: account, password: password, fcmToken: fcmToken))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in
@@ -49,7 +49,7 @@ class DefaultAuthRepository: AuthRepository {
     // MARK: - Signup
     
     func verifyAccountID(_ accountID: String) -> Single<Bool> {
-        return network.rx.request(.verifyAccountID(accountID))
+        return network.rx.request(.verifyAccountId(accountID))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in
@@ -96,7 +96,7 @@ class DefaultAuthRepository: AuthRepository {
     func sendSMSCode(phoneNumber: String, email: String?) -> Single<String> {
         Swift.print(#function, "Send SMS Code: \(phoneNumber), \(email ?? "nil")")
         return network.rx
-            .request(.sendSMSCode(phoneNumber: phoneNumber, email: email))
+            .request(.sendSMSCode(phoneNumber: phoneNumber, item: .accountRecovery))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in
@@ -109,7 +109,7 @@ class DefaultAuthRepository: AuthRepository {
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {
         Swift.print(#function, "SMS Verification Code: \(code)")
         return network.rx
-            .request(.verifySMSCode(phoneNumber: phoneNumber, code: code))
+            .request(.verifySMSCode(phoneNumber: phoneNumber, code: code, item: .accountRecovery))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in

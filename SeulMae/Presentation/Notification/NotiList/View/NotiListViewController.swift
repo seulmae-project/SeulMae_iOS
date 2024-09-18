@@ -110,7 +110,7 @@ final class NotiListViewController: UIViewController {
         let notiCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, NotiListItem> { (cell, indexPath, item) in
             var content = NotiContentView.Configuration()
             guard let noti = item.noti else { return }
-            content.type = noti.type
+            content.type = noti.type.rawValue
             content.date = noti.regDate
             content.title = noti.title
             content.message = noti.message

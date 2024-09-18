@@ -23,7 +23,7 @@ protocol AnnounceUseCase {
 class DefaultAnnounceUseCase: AnnounceUseCase {
     
     private let announceRepository: AnnounceRepository
-    private let userRepository = UserRepository(network: UserNetwork())
+    private let userRepository = UserRepository(network: UserNetworking())
     
     init(announceRepository: AnnounceRepository) {
         self.announceRepository = announceRepository

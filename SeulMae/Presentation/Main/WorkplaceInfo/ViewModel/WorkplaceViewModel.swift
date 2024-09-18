@@ -50,10 +50,10 @@ final class WorkplaceViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        let members = memberUseCase
-            .fetchMemberList()
-            .map { $0.map(WorkplaceListItem.init(member:)) }
-            .asDriver()
+//        let members = memberUseCase
+//            .fetchMemberList()
+//            .map { $0.map(WorkplaceListItem.init(member:)) }
+//            .asDriver()
         
         let announceList = announceUseCase
             .fetchMainAnnounceList()
@@ -77,8 +77,8 @@ final class WorkplaceViewModel: ViewModel {
             }
         }
         
-        let listItems = Driver.merge(members, announceList, workScheduleList)
-        
+        // let listItems = Driver.merge(members, announceList, workScheduleList)
+        let listItems = Driver.merge( announceList, workScheduleList)
         // MARK: Coordinator Logic
         
         Task {

@@ -13,11 +13,11 @@ final class UserRepository {
     
     // MARK: - Dependancies
     
-    private let network: UserNetwork
+    private let network: UserNetworking
     
     // MARK: - Life Cycle Methods
     
-    init(network: UserNetwork) {
+    init(network: UserNetworking) {
         self.network = network
     }
     
@@ -28,7 +28,7 @@ final class UserRepository {
     
     func fetchMyProfile() -> RxSwift.Single<User> {
         return network.rx
-            .request(.myProfile)
+            .request(.fetchMyProfile)
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in

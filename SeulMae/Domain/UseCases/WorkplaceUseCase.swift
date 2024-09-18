@@ -36,7 +36,7 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     }
     
     private let workplaceRepository: WorkplaceRepository
-    private let userRepository = UserRepository(network: UserNetwork())
+    private let userRepository = UserRepository(network: UserNetworking())
     
     init(workplaceRepository: WorkplaceRepository) {
         self.workplaceRepository = workplaceRepository
@@ -73,11 +73,11 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     // MARK: - Details
     
     func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> RxSwift.Single<Workplace> {
-        workplaceRepository.fetchWorkplaceDetail(workplaceID: id)
+        workplaceRepository.fetchWorkplaceDetail(workplaceId: id)
     }
 
     func submitApplication(workplaceID id: Workplace.ID) -> RxSwift.Single<Bool> {
-        workplaceRepository.submitApplication(workplaceID: id)
+        workplaceRepository.submitApplication(workplaceId: id)
     }
     
     // MARK: - Add New
@@ -87,13 +87,13 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     }
     
     func fetchMemberList(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<[Member]> {
-        workplaceRepository.fetchMemberList(workplaceIdentifier: id)
+        workplaceRepository.fetchMemberList(workplaceId: id)
     }
     
     func fetchMemberInfo(
         memberIdentifier id: Member.ID
     ) -> RxSwift.Single<MemberProfile> {
-        return workplaceRepository.fetchMemberInfo(memberIdentifier: id)
+        return workplaceRepository.fetchMemberInfo(memberId: id)
             .do(onError: { error in
                 print("error: \(error)")
             })
@@ -104,7 +104,7 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     }
     
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> RxSwift.Single<Bool> {
-        workplaceRepository.deleteWorkplace(workplaceIdentifier: id)
+        workplaceRepository.deleteWorkplace(workplaceId: id)
     }
     
     func acceptApplication(

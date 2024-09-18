@@ -36,11 +36,31 @@ struct UserDTO: Codable {
         case phoneNumber
         case workplaces = "userWorkplaceInfoResponses"
     }
+    
+//    {
+//          "userWorkScheduleId": 1,
+//          "userId": 1,
+//          "userName": "테스트",
+//          "userImageURL": null
+//        }
+}
+
+struct User {
+    let name: String
+    let imageURL: String
+    let phoneNumber: String
+    let workplaces: [Workplace]
 }
 
 extension BaseResponseDTO<UserDTO> {
     func toDomain() throws -> User {
-        return try getData().toDomain()
+        return data!.toDomain()
+    }
+}
+
+extension BaseResponseDTO<[UserDTO]> {
+    func toDomain() -> [User] {
+        return data?.map { $0.toDomain() } ?? []
     }
 }
 
@@ -53,11 +73,4 @@ extension UserDTO {
             workplaces: self.workplaces?.map { $0.toDomain() } ?? []
         )
     }
-}
-
-struct User {
-    let name: String
-    let imageURL: String
-    let phoneNumber: String
-    let workplaces: [Workplace]
 }

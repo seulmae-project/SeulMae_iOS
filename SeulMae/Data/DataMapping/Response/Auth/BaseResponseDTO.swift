@@ -23,12 +23,6 @@ struct BaseResponseDTO<Data: Codable>: ModelType {
     let errors: [String]?
     let reason: String?
     
-    
-    func getData() throws -> Data {
-        guard let data else { throw MappingError.empty }
-        return data
-    }
-    
     // status 200
     // message LOGIN
     // data

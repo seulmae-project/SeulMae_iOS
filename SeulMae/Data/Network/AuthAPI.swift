@@ -10,16 +10,50 @@ import Moya
 
 typealias AuthNetworking = MoyaProvider<AuthAPI>
 
+enum SMSVerificationType {
+    case signUp
+    case findAccountId
+    case findPaswword
+    case changePhoneNumber
+}
+
+enum SocialLoginType {
+    case kakao
+    case apple
+    
+    var provider: String {
+        switch self {
+        case .kakao:
+            return "kakao"
+        case .apple:
+            return "apple"
+        }
+    }
+}
+
+struct UpdateProfileRequest: ModelType {
+    let name: String
+}
+
+struct SetupProfileRequest: ModelType {
+    let name: String
+    let isMale: Bool
+    let birthday: Date // YYYYMMDD
+}
+
 enum AuthAPI: SugarTargetType {
     case signup(request: SignupRequest, file: Data)
-    case sendSMSCode(phoneNumber: String, email: String? = nil)
-    case verifySMSCode(phoneNumber: String, code: String)
-    case verifyAccountID(_ accountID: String)
-    case signin(accountID: String, password: String, fcmToken: String)
-    case socialLogin
-    case logout
-    case updatePassword(password: String)
-    case updateProfile(name: String, imageURL: String)
+    case sendSMSCode(phoneNumber: String, item: SMSVerificationItem)
+    case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationItem)
+    case verifyAccountId(_ accountId: String)
+    case signin(accountId: String, password: String, fcmToken: String)
+    case socialLogin(type: SocialLoginType, token: String, fcmToken: String)
+    case signout
+    case updatePassword(accountId: String, password: String)
+    case updateProfile(userId: Member.ID, request: UpdateProfileRequest, file: Data)
+    case setupProfile(request: SetupProfileRequest, file: Data) // in case social login
+    case cancelAccoount(userId: Member.ID)
+    case updatePhoneNumber(userId: Member.ID, phoneNumber: String)
 }
 
 extension AuthAPI {
@@ -35,55 +69,133 @@ extension AuthAPI {
             return .post("api/users/sms-certification/send")
         case .verifySMSCode:
             return .post("api/users/sms-certification/confirm")
-        case .verifyAccountID:
+        case .verifyAccountId:
             return .post("api/users/id/duplication")
         case .signin:
             return .post("api/users/login")
         case .socialLogin:
             return .post("api/users/login/kakao")
-        case .logout:
+        case .signout:
             return .get("api/users/logout")
         case .updatePassword:
             return .put("api/users/pw")
         case .updateProfile:
             return .put("api/users")
+        case .setupProfile:
+            return .put("api/users/extra-profile")
+        case .cancelAccoount:
+            return .delete("api/users")
+        case .updatePhoneNumber:
+            return .put("api/users/phone")
         }
     }
     
-    var parameters: Parameters? {
+    var task: Task {
         switch self {
-        default:
-            return nil
-        }
-    }
-    
-    var body: Encodable? {
-        switch self {
-        case .signup(let request, _):
-            return ["userSignUpDto": request]
-        case let .sendSMSCode(phoneNumber, email):
-            return ["phoneNumber": phoneNumber, "email": email]
-        case let .verifySMSCode(phoneNumber, code):
-            return ["phoneNumber": phoneNumber, "authCode": code]
-        case let .verifyAccountID(accountID):
-            return ["accountId": accountID]
-        case let .signin(accountID: accountID, password: password, fcmToken: fcmToken):
-            return ["accountId": accountID, "password": password, "fcmToken": fcmToken]
-        case let .updatePassword(password):
-            return ["password": password]
-        case let .updateProfile(name, imageURL):
-            return ["name": name, "imageURL": imageURL]
-        default:
-            return nil
-        }
-    }
-    
-    var data: Data? {
-        switch self {
-        case .signup(_, let data):
-            return data
-        default:
-            return nil
+        case let .signup(request: requset, file: file):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .uploadMultipart(
+                [
+                    .init(
+                        provider: .data(file),
+                        name: "file",
+                        fileName: "\(arc4random()).jpeg",
+                        mimeType: "image/jpeg"),
+                    .init(
+                        provider: .data(json!),
+                        name: "userSignUpDto",
+                        mimeType: "application/json"),
+                ])
+        case let .sendSMSCode(phoneNumber: phoneNumber, item: item):
+            var parameters = [
+                "sendingType": item.smsVerificationType,
+                "phoneNumber": phoneNumber
+            ]
+            if case let .passwordRecovery(account: accountId) = item {
+                parameters.updateValue(accountId, forKey: "accountId")
+            }
+            return .requestParameters(parameters: parameters, encoding: JSONEncoding.prettyPrinted)
+        case let .verifySMSCode(phoneNumber: phoneNumber, code: code, item: item):
+            return .requestParameters(
+                parameters: [
+                    "sendingType": item.smsVerificationType,
+                    "phoneNumber": phoneNumber,
+                    "authCode": code
+                ],
+                encoding: JSONEncoding.prettyPrinted)
+        case let .verifyAccountId(accountId):
+            return .requestParameters(
+                parameters: [
+                    "accountId": accountId
+                ],
+                encoding: JSONEncoding.prettyPrinted)
+        case let .signin(accountId: accountId, password: password, fcmToken: fcmToken):
+            return .requestParameters(
+                parameters: [
+                    "accountId": accountId,
+                    "password": password,
+                    "fcmToken": fcmToken
+                ],
+                encoding: JSONEncoding.prettyPrinted)
+        case let .socialLogin(type: type, token: token, fcmToken: fcmToken):
+            return .requestParameters(
+                parameters: [
+                    "token": token,
+                    "provider": type.provider,
+                    "fcmToken": fcmToken
+                ],
+                encoding: JSONEncoding.prettyPrinted)
+        case .signout: return .requestPlain
+        case let .updatePassword(accountId: accountId, password: password):
+            return .requestParameters(
+                parameters: [
+                    "accountId": accountId,
+                    "password": password
+                ],
+                encoding: JSONEncoding.prettyPrinted)
+        case let .updateProfile(userId: userId, request: requset, file: file):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .uploadCompositeMultipart(
+                [
+                    .init(
+                        provider: .data(file),
+                        name: "file",
+                        fileName: "\(arc4random()).jpeg",
+                        mimeType: "image/jpeg"),
+                    .init(
+                        provider: .data(json!),
+                        name: "userSignUpDto",
+                        mimeType: "application/json"),
+                ],
+                urlParameters: ["id": userId])
+        case let .setupProfile(request: requset, file: file):
+            let encoder = JSONEncoder()
+            let json = try? encoder.encode(requset)
+            return .uploadMultipart(
+                [
+                    .init(
+                        provider: .data(file),
+                        name: "file",
+                        fileName: "\(arc4random()).jpeg",
+                        mimeType: "image/jpeg"),
+                    .init(
+                        provider: .data(json!),
+                        name: "oAuth2AdditionalDataRequest",
+                        mimeType: "application/json"),
+                ])
+        case let .cancelAccoount(userId: userId):
+            return .requestParameters(
+                parameters: ["id": userId],
+                encoding: URLEncoding.queryString)
+        case let .updatePhoneNumber(userId: userId, phoneNumber: phoneNumber):
+            return .requestCompositeParameters(
+                bodyParameters: [
+                    "phoneNumber": phoneNumber
+                ],
+                bodyEncoding: JSONEncoding.prettyPrinted,
+                urlParameters: ["id": userId])
         }
     }
     

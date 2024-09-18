@@ -160,8 +160,8 @@ final class SMSVerificationViewController: UIViewController {
             for await item in output.item.values {
                 titleLabel.text = item.title
                 navigationItem.title = item.navItemTitle
-                accountLabel.isHidden = !item.isNeedAccout
-                accountTextField.isHidden = !item.isNeedAccout
+                // accountLabel.isHidden = !item.isNeedAccout
+                // accountTextField.isHidden = !item.isNeedAccout
             }
         }
         

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol AttendanceRepository {
-    func fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<[AttendanceRequest]>
+    func fetchAttendanceRequestList(workplaceId: Workplace.ID, date: Date) -> Single<[AttendanceRequest]>
 }
 
 final class DefaultAttendanceRepository: AttendanceRepository {
@@ -27,9 +27,9 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 //    Swift.print(#function, "url: \(response.request?.url)")
 //    Swift.print(#function, "httpBody: \(response.request?.httpBody)")
     
-    func fetchAttendanceRequestList(workplaceId: Workplace.ID, year: Int, month: Int) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequestList(workplaceId: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceRequest]> {
         return network.rx
-            .request(.fetchAttendanceRequestList(workplaceId: workplaceId, year: year, month: month))
+            .request(.fetchAttendanceRequsetList2(workplaceId: workplaceId, date: date))
             .do(onSuccess: { response in
                 Swift.print(#function, "response: \(try response.data.prettyString())")
             }, onError: { error in
@@ -42,7 +42,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 
 protocol AttendanceUseCase {
     // Fetch attendance request list
-    func fetchAttendanceRequestList(year: Int, month: Int) -> Single<[AttendanceListItem]>
+    func fetchAttendanceRequestList(date: Date) -> Single<[AttendanceListItem]>
 }
 
 final class DefaultAttendanceUseCase: AttendanceUseCase {
@@ -52,8 +52,8 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         self.repository = repository
     }
 
-    func fetchAttendanceRequestList(year: Int, month: Int) -> RxSwift.Single<[AttendanceListItem]> {
-        repository.fetchAttendanceRequestList(workplaceId: 1, year: year, month: month)
+    func fetchAttendanceRequestList(date: Date) -> RxSwift.Single<[AttendanceListItem]> {
+        repository.fetchAttendanceRequestList(workplaceId: 1, date: date)
             .map { $0.map(AttendanceListItem.init) }
     }
 }
@@ -93,7 +93,7 @@ struct AttendanceRequestDTO: ModelType {
 
 extension BaseResponseDTO<[AttendanceRequestDTO]> {
     func toDomain() throws -> [AttendanceRequest] {
-        return try getData().map { $0.toDomain() }
+        return data?.map { $0.toDomain() } ?? []
     }
 }
 
