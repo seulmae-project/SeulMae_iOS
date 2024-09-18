@@ -11,10 +11,10 @@ protocol WorkplaceFlowCoordinatorDependencies {
     func makeWorkplaceViewController(coordinator: WorkplaceFlowCoordinator) -> WorkplaceViewController
     
     func makeAnnounceListViewController(coordinator: WorkplaceFlowCoordinator) -> AnnounceListViewController
-    func makeAnnounceDetailViewController(coordinator: WorkplaceFlowCoordinator, announceId: Announce.ID) -> AnnounceDetailViewController
+    func makeAnnounceDetailsViewController(coordinator: WorkplaceFlowCoordinator, announceId: Announce.ID) -> AnnounceDetailViewController
     
-    func makeWorkScheduleDetailsViewController(coordinator: WorkplaceFlowCoordinator) -> WorkScheduleDetailsViewController
     func makeWorkScheduleListViewController(coordinator: WorkplaceFlowCoordinator) -> WorkScheduleListViewController
+    func makeWorkScheduleDetailsViewController(coordinator: WorkplaceFlowCoordinator, workScheduleId: WorkSchedule.ID) -> WorkScheduleDetailsViewController
     
     func makeMemberProfileViewController(coordinator: WorkplaceFlowCoordinator) -> MemberInfoViewController
 }
@@ -71,7 +71,7 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     }
     
     func showAnnounceDetails(announceId: Announce.ID) {
-        let vc = dependencies.makeAnnounceDetailViewController(
+        let vc = dependencies.makeAnnounceDetailsViewController(
             coordinator: self,
             announceId: announceId)
         navigationController.pushViewController(vc, animated: true)
@@ -80,7 +80,7 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     // MARK: - WorkSchedule
     
     func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID) {
-        let vc = dependencies.makeWorkScheduleDetailsViewController(coordinator: self)
+        let vc = dependencies.makeWorkScheduleDetailsViewController(coordinator: self, workScheduleId: workScheduleId)
         navigationController.pushViewController(vc, animated: true)
     }
     

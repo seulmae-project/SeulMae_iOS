@@ -10,8 +10,11 @@ import RxSwift
 import RxCocoa
 
 final class WorkScheduleListViewModel: ViewModel {
+    
+    // MARK: - Internal Types
+    
     struct Input {
-        
+        let showWorkScheduleDetails: Signal<WorkSchedule.ID>
     }
     
     struct Output {
@@ -39,11 +42,21 @@ final class WorkScheduleListViewModel: ViewModel {
     @MainActor func transform(_ input: Input) -> Output {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
-      
+        
+        let items = workScheduleUseCase.fetchWorkScheduleList()
+            .trackActivity(indicator)
+            .map { $0.map(WorkScheduleListItem.init(workSchedule:)) }
+            .asDriver()
+        
+        Task {
+            for await workScheduleId in input.showWorkScheduleDetails.values {
+                coordinator.showWorkScheduleDetails(workScheduleId: workScheduleId)
+            }
+        }
         
         return Output(
             loading: loading,
-            items: .empty()
+            items: items
         )
     }
 }

@@ -100,9 +100,13 @@ final class WorkplaceSceneDIContainer {
     }
     
     private func makeWorkScheduleDetailsViewModel(
-        coordinator: any WorkplaceFlowCoordinator
-    ) {
-        
+        coordinator: any WorkplaceFlowCoordinator,
+        workScheduleId: WorkSchedule.ID) -> WorkScheduleDetailsViewModel {
+            return .init(
+                dependencies: (
+                    coordinator: coordinator,
+                    workScheduleUseCase: makeWorkScheduleUseCase(),
+                    workScheduleId: workScheduleId))
     }
     
     private func makeWorkScheduleListViewModel(
@@ -131,7 +135,7 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
         )
     }
     
-    func makeAnnounceDetailViewController(
+    func makeAnnounceDetailsViewController(
         coordinator: any WorkplaceFlowCoordinator,
         announceId: Announce.ID
     ) -> AnnounceDetailViewController {
@@ -144,9 +148,9 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
     }
     
     func makeWorkScheduleDetailsViewController(
-        coordinator: any WorkplaceFlowCoordinator
-    ) -> WorkScheduleDetailsViewController {
-        return .init()
+        coordinator: any WorkplaceFlowCoordinator,
+        workScheduleId: WorkSchedule.ID) -> WorkScheduleDetailsViewController {
+            return .init(viewModel: makeWorkScheduleDetailsViewModel(coordinator: coordinator, workScheduleId: workScheduleId))
     }
     
     func makeWorkScheduleListViewController(

@@ -9,8 +9,22 @@ import Foundation
 import RxSwift
 
 protocol WorkScheduleUseCase {
-    // func fetchAnnounceList(page: Int, size: Int) -> Single<[Announce]>
+    func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> Single<WorkSchedule>
+    
     func fetchWorkScheduleList() -> Single<[WorkSchedule]>
+    
+    // func addWorkSchedule(request: AddWorkScheduleRequest) -> Single<Bool>
+    
+//    func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> Single<WorkSchedule>
+//    func updateWorkSchedule(workScheduleId: WorkSchedule.ID, request: AddWorkScheduleRequest) -> Single<Bool>
+//    func deleteWorkSchedule(workScheduleId: WorkSchedule.ID) -> Single<Bool>
+    
+    // func fetchWorkScheduleList(workplaceId: Workplace.ID) -> Single<[WorkSchedule]>
+    
+//    func addUserToWorkSchedule(workScheduleId: WorkSchedule.ID, memberId: Member.ID) -> Single<Bool>
+//    func moveUserToWorkSchedule(fromWorkScheduleId: WorkSchedule.ID, toWorkScheduleId: WorkSchedule.ID) -> Single<Bool>
+//    func fetchUserList(workScheduleId: WorkSchedule.ID) -> Single<[User]>
+//    func deleteUserFromWorkSchedule(workScheduleId: WorkSchedule.ID) -> Single<Bool>
 }
 
 class DefaultWorkScheduleUseCase: WorkScheduleUseCase {
@@ -20,6 +34,10 @@ class DefaultWorkScheduleUseCase: WorkScheduleUseCase {
     
     init(workScheduleRepository: WorkScheduleRepository) {
         self.workScheduleRepository = workScheduleRepository
+    }
+    
+    func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> RxSwift.Single<WorkSchedule> {
+        return workScheduleRepository.fetchWorkScheduleDetails(workScheduleId: workScheduleId)
     }
     
     func fetchWorkScheduleList() -> RxSwift.Single<[WorkSchedule]> {

@@ -226,6 +226,8 @@
 		86DB32CB2C9A818600575A03 /* WorkScheduleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */; };
 		86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */; };
 		86DB32CF2C9A995C00575A03 /* NetwrokLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */; };
+		86DB32D12C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */; };
+		86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
@@ -523,6 +525,8 @@
 		86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListViewModel.swift; sourceTree = "<group>"; };
 		86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListItem.swift; sourceTree = "<group>"; };
 		86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwrokLogger.swift; sourceTree = "<group>"; };
+		86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleDetailsViewModel.swift; sourceTree = "<group>"; };
+		86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleDetailsItem.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
@@ -1960,6 +1964,8 @@
 			isa = PBXGroup;
 			children = (
 				86FD62162C8D9A57005ED02F /* WorkScheduleViewController.swift */,
+				86DB32D02C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift */,
+				86DB32D22C9A9D5500575A03 /* WorkScheduleDetailsItem.swift */,
 				86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */,
 				86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */,
 				86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */,
@@ -2283,6 +2289,7 @@
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
 				86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */,
 				86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */,
+				86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */,
 				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
 				861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */,
 				86E39FA02C8EB79900361E0D /* SettingFlowCoordinator.swift in Sources */,
@@ -2293,6 +2300,7 @@
 				8684C5B52C4A06C800EB3D28 /* SliderView.swift in Sources */,
 				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				861B969B2C205A3A0032C94A /* BottomSheetPresentationControllerDelegate.swift in Sources */,
+				86DB32D12C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift in Sources */,
 				86B4B45F2C4B57C500D83488 /* DateRangePickerView.swift in Sources */,
 				861B96952C204C2A0032C94A /* BottomSheetPresentationController.swift in Sources */,
 				86D309E52C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift in Sources */,

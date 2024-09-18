@@ -8,6 +8,9 @@
 import UIKit
 
 final class WorkScheduleListViewController: UIViewController {
+    
+    // MARK: - Internal Types
+    
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceListItem>
     typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceListItem>
     

@@ -8,5 +8,15 @@
 import Foundation
 
 struct WorkScheduleListItem {
+    enum ItemType {
+        case workSchedule
+    }
     
+    let itmeType: ItemType
+    let workSchedule: WorkSchedule?
+    
+    init(workSchedule: WorkSchedule) {
+        self.itmeType = .workSchedule
+        self.workSchedule = workSchedule
+    }
 }
