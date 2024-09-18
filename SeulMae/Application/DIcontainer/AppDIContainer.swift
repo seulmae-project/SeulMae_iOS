@@ -10,7 +10,7 @@ import Foundation
 final class AppDIContainer {
 
     func makeAuthSceneDIContainer() -> AuthSceneDIContainer {
-        let dependencies = AuthSceneDIContainer.Dependencies(authNetworking: AuthNetworking())
+        let dependencies = AuthSceneDIContainer.Dependencies(authNetworking: AuthNetworking(session: .custom))
         return AuthSceneDIContainer(dependencies: dependencies)
     }
     
@@ -26,15 +26,15 @@ final class AppDIContainer {
     
     func makeWorkplaceSceneDIContainer() -> WorkplaceSceneDIContainer {
         let dependencies = WorkplaceSceneDIContainer.Dependencies(
-            workScheduleNetworking: WorkScheduleNetworking(),
-            mainNetworking: AnnounceNetworking(),
-            memberNetworking: UserNetworking())
+            workScheduleNetworking: WorkScheduleNetworking(session: .custom),
+            mainNetworking: AnnounceNetworking(session: .custom),
+            memberNetworking: UserNetworking(session: .custom))
         return WorkplaceSceneDIContainer(dependencies: dependencies)
     }
     
     func makeSettingSceneDIContainer() -> SettingSceneDIContainer {
         let dependencies = SettingSceneDIContainer.Dependencies(
-            userNetworking: UserNetworking())
+            userNetworking: UserNetworking(session: .custom))
         return SettingSceneDIContainer(dependencies: dependencies)
     }
 }

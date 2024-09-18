@@ -225,6 +225,7 @@
 		86D309F72C33F1E100C08DA8 /* v1_update_workplace_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */; };
 		86DB32CB2C9A818600575A03 /* WorkScheduleListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */; };
 		86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */; };
+		86DB32CF2C9A995C00575A03 /* NetwrokLogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
@@ -521,6 +522,7 @@
 		86D309F62C33F1E100C08DA8 /* v1_update_workplace_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_update_workplace_success.json; sourceTree = "<group>"; };
 		86DB32CA2C9A818600575A03 /* WorkScheduleListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListViewModel.swift; sourceTree = "<group>"; };
 		86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListItem.swift; sourceTree = "<group>"; };
+		86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetwrokLogger.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
@@ -1279,6 +1281,7 @@
 				861C31CF2C1C13A9007DD6B9 /* Protocols */,
 				861C31D42C1C13DC007DD6B9 /* Configuration */,
 				8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */,
+				86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2241,6 +2244,7 @@
 				86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */,
 				864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */,
 				864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */,
+				86DB32CF2C9A995C00575A03 /* NetwrokLogger.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
 				8606F6802C33244400FFC68E /* Member.swift in Sources */,
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
