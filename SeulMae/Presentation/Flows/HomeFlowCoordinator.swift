@@ -8,12 +8,16 @@
 import UIKit
 
 protocol HomeFlowCoordinatorDependencies {
-   
+    func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
 }
 
 protocol HomeFlowCoordinator: Coordinator {
     func start()
     func goBack()
+    
+    func showUserHome()
+    func showManagerHome()
+    func showNotiList()
 }
 
 final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
@@ -36,14 +40,24 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     }
     
     func start() {
-        showHome()
+        showUserHome()
     }
     
     func goBack() {
-    
+        navigationController.popViewController(animated: true)
     }
     
-    func showHome() {
+    func showUserHome() {
         
+    }
+    
+    func showManagerHome() {
+        
+    }
+    
+    func showNotiList() {
+        let vc = dependencies.makeNotiListViewController(
+            coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
     }
 }

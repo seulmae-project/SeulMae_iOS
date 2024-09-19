@@ -25,7 +25,7 @@ final class MainSceneDIContainer {
         return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
     }
     
-    private func makeNoticeRepository() -> NoticeRepository {
+    private func makeNoticeRepository() -> NotificationRepository {
         return DefaultNoticeRepository(network: dependencies.notificationNetworking)
     }
     
@@ -199,31 +199,31 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     // MARK: - Noti List
     
-    func makeNotiListViewController(
-        workplaceIdentifier: Workplace.ID,
-        coordinator: any MainFlowCoordinator
-    ) -> NotiListViewController {
-        return NotiListViewController(
-            viewModel: makeNotiListViewModel(
-                workplaceIdentifier: workplaceIdentifier,
-                coordinator: coordinator
-            )
-        )
-    }
-    
-    private func makeNotiListViewModel(
-        workplaceIdentifier: Workplace.ID,
-        coordinator: MainFlowCoordinator
-    ) -> NotiListViewModel {
-        return NotiListViewModel(
-            dependency: (
-                workplaceIdentifier: workplaceIdentifier,
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                noticeUseCase: makeNoticeUseCase()
-            )
-        )
-    }
+//    func makeNotiListViewController(
+//        workplaceIdentifier: Workplace.ID,
+//        coordinator: any MainFlowCoordinator
+//    ) -> NotiListViewController {
+//        return NotiListViewController(
+//            viewModel: makeNotiListViewModel(
+//                workplaceIdentifier: workplaceIdentifier,
+//                coordinator: coordinator
+//            )
+//        )
+//    }
+//    
+//    private func makeNotiListViewModel(
+//        workplaceIdentifier: Workplace.ID,
+//        coordinator: MainFlowCoordinator
+//    ) -> NotiListViewModel {
+//        return NotiListViewModel(
+//            dependency: (
+//                workplaceIdentifier: workplaceIdentifier,
+//                coordinator: coordinator,
+//                workplaceUseCase: makeWorkplaceUseCase(),
+//                noticeUseCase: makeNoticeUseCase()
+//            )
+//        )
+//    }
     
     // MARK: - Notice Detail
     

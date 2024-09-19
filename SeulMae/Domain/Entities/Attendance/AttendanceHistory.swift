@@ -21,10 +21,10 @@ struct AttendanceHistory: Identifiable {
 struct AttendanceHistoryDTO: ModelType {
     let id: Int
     let workDate: Date
-    let workStartTime: Date
-    let workEndTime: Date
-    let totalWorkTime: Double
-    let wage: Double
+    let workStartTime: Date?
+    let workEndTime: Date?
+    let totalWorkTime: Double?
+    let wage: Double?
     let isRequestApprove: Bool
     let isManagerCheck: Bool
     
@@ -57,10 +57,10 @@ extension AttendanceHistoryDTO {
         return AttendanceHistory(
             id: self.id,
             workDate: self.workDate,
-            workStartTime: self.workDate,
-            workEndTime: self.workDate,
-            totalWorkTime: self.totalWorkTime,
-            wage: self.wage,
+            workStartTime: self.workStartTime ?? Date(),
+            workEndTime: self.workEndTime ?? Date(),
+            totalWorkTime: self.totalWorkTime ?? 0,
+            wage: self.wage ?? 0,
             isRequestApprove: self.isRequestApprove,
             isManagerCheck: self.isManagerCheck
         )

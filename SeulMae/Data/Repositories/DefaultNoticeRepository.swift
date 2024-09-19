@@ -9,7 +9,7 @@ import Moya
 import RxMoya
 import RxSwift
 
-class DefaultNoticeRepository: NoticeRepository {
+class DefaultNoticeRepository: NotificationRepository {
    
     // MARK: - Dependancies
     

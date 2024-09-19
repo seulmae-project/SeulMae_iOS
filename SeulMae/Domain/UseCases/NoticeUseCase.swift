@@ -16,10 +16,10 @@ protocol NoticeUseCase {
 
 class DefaultNoticeUseCase: NoticeUseCase {
     
-    private let noticeRepository: NoticeRepository
+    private let noticeRepository: NotificationRepository
     private let userRepository = UserRepository(network: UserNetworking())
     
-    init(noticeRepository: NoticeRepository) {
+    init(noticeRepository: NotificationRepository) {
         self.noticeRepository = noticeRepository
     }
     

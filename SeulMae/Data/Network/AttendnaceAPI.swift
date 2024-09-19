@@ -11,12 +11,12 @@ import Moya
 typealias AttendanceNetworking = MoyaProvider<AttendnaceAPI>
 // 추후 attendnaceAPI
 enum AttendnaceAPI: SugarTargetType {
-    case attend(requset: AttendRequset)  // 출퇴근 승인 요청
+    case attend(request: AttendRequset)  // 출퇴근 승인 요청
     case approveAttendance(request: ApproveAttendanceRequest) // 출퇴근 승인 요청 승인
     case disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) // 거절
-    case fetchAttendanceRequsetList(workplaceId: Workplace.ID)
-    case attend2(requset: AttendRequset) // 출퇴근 별도 근무 요청
-    case fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) // 매니저 메인 화면 리스트
+    case fetchAttendanceRequsetList(workplaceId: Workplace.ID) // 응답하지 않은 요청
+    case attend2(request: AttendRequset) // 출퇴근 별도 근무 요청
+    case fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) // 모든 요청 리스트
 }
 
 extension AttendnaceAPI {
@@ -37,7 +37,7 @@ extension AttendnaceAPI {
     
     var task: Task {
         switch self {
-        case let .attend(requset: request):
+        case let .attend(request: request):
             return .requestJSONEncodable(request)
         case let .approveAttendance(request: request):
             return .requestJSONEncodable(request)
@@ -51,7 +51,7 @@ extension AttendnaceAPI {
                 parameters: [
                     "workplaceId": workplaceId,
                 ], encoding: URLEncoding.queryString)
-        case let .attend2(requset: request):
+        case let .attend2(request: request):
             return .requestJSONEncodable(request)
         case let .fetchAttendanceRequsetList2(workplaceId: workplaceId, date: date):
             return .requestParameters(

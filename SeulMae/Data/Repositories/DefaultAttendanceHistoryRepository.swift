@@ -1,5 +1,5 @@
 //
-//  DefaultAttedanceHistoryRepository.swift
+//  DefaultAttendanceHistoryRepository.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/16/24.
@@ -8,7 +8,8 @@
 import Foundation
 import RxSwift
 
-protocol AttedanceHistoryRepository {
+protocol AttendanceHistoryRepository {
+    func fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<[AttendanceHistory]>
     func fetchWorkInfo(workplaceId: Workplace.ID) -> Single<WorkInfo>
     func fetchMonthlyAttendanceSummery(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<MonthlyAttenanceSummary>
     func fetchAttendanceHistories(workplaceId: Workplace.ID, year: Int, month: Int, page: Int, size: Int) -> Single<[AttendanceHistory]>
@@ -16,7 +17,7 @@ protocol AttedanceHistoryRepository {
     func updateAttendanceHistory(attendanceHistoryId: AttendanceHistory.ID) -> Single<Bool>
 }
 
-class DefaultAttedanceHistoryRepository: AttedanceHistoryRepository {
+class DefaultAttendanceHistoryRepository: AttendanceHistoryRepository {
     
     // MARK: - Dependancies
     
@@ -26,6 +27,13 @@ class DefaultAttedanceHistoryRepository: AttedanceHistoryRepository {
     
     init(network: AttendanceHistoryNetworking) {
         self.network = network
+    }
+    
+    func fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int) -> RxSwift.Single<[AttendanceHistory]> {
+        return network.rx
+            .request(.fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month))
+            .map(BaseResponseDTO<[AttendanceHistoryDTO]>.self)
+            .map { $0.toDomain() }
     }
     
     func fetchWorkInfo(workplaceId: Workplace.ID) -> RxSwift.Single<WorkInfo> {

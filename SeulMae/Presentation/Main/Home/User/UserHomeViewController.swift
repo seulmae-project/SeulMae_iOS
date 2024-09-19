@@ -85,6 +85,12 @@ final class UserHomeViewController: UIViewController {
                 add: addRelay.asSignal()
             )
         )
+        
+        Task {
+            for await loading in output.loading.values {
+                loadingIndicator.ext.isAnimating(loading)
+            }
+        }
     }
     
     // MARK: - Hierarchy
@@ -104,7 +110,9 @@ final class UserHomeViewController: UIViewController {
         scrollView.addSubview(calendarView)
         scrollView.addSubview(currentStatusView)
         scrollView.addSubview(emptyView)
+        view.addSubview(loadingIndicator)
         
+        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
         calendarView.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +120,9 @@ final class UserHomeViewController: UIViewController {
         emptyView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
+            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),

@@ -34,12 +34,38 @@ final class HomeSceneDIContainer {
         DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: AttendanceNetworking()))
     }
     
+    private func makeAttendanceHistoryUseCase() -> AttendanceHistoryUseCase {
+        DefaultAttendanceHistoryUseCase(attendanceHistoryRepository: DefaultAttendanceHistoryRepository(network: AttendanceHistoryNetworking()))
+    }
+    
+    private func makeNotiUseCase() -> NoticeUseCase {
+        return DefaultNoticeUseCase(noticeRepository: makeNotiRepository())
+    }
+    
+    private func makeNotiRepository() -> NotificationRepository {
+        return DefaultNoticeRepository(network: NotificationNetworking())
+    }
+    
     private func makeUserHomeViewModel(
         coordinator: any HomeFlowCoordinator) -> UserHomeViewModel {
         return .init(
             dependencies: (
                 coordinator: coordinator,
-                attendnaceUseCase: makeAttendanceUseCase()))
+                attendanceUseCase: makeAttendanceUseCase(),
+                attendanceHistoryUseCase: makeAttendanceHistoryUseCase()
+            ))
+    }
+    
+    private func makeManagerHomeViewModel(coordinator: any HomeFlowCoordinator) {
+        
+    }
+    
+    private func makeNotiListViewModel(
+        coordinator: any HomeFlowCoordinator) -> NotiListViewModel {
+            .init(
+                dependency: (
+                    coordinator: coordinator,
+                    noticeUseCase: makeNotiUseCase()))
     }
 }
 
@@ -59,9 +85,8 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
         )
     }
     
-    private func makeManagerHomeViewModel(
-        coordinator: any HomeFlowCoordinator
-    ) {
-        
-    }
+    func makeNotiListViewController(
+        coordinator: HomeFlowCoordinator) -> NotiListViewController {
+            return .init(viewModel: makeNotiListViewModel(coordinator: coordinator))
+        }
 }

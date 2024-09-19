@@ -21,24 +21,18 @@ final class NotiListViewModel: ViewModel {
     
     // MARK: - Dependency
     
-    private let coordinator: MainFlowCoordinator
-    private let workplaceUseCase: WorkplaceUseCase
+    private let coordinator: HomeFlowCoordinator
     private let noticeUseCase: NoticeUseCase
-    private let workplaceIdentifier: Workplace.ID
         
     // MARK: - Life Cycle
     
     init(
         dependency: (
-            workplaceIdentifier: Workplace.ID,
-            coordinator: MainFlowCoordinator,
-            workplaceUseCase: WorkplaceUseCase,
+            coordinator: HomeFlowCoordinator,
             noticeUseCase: NoticeUseCase
         )
     ) {
-        self.workplaceIdentifier = dependency.workplaceIdentifier
         self.coordinator = dependency.coordinator
-        self.workplaceUseCase = dependency.workplaceUseCase
         self.noticeUseCase = dependency.noticeUseCase
     }
     
@@ -51,10 +45,10 @@ final class NotiListViewModel: ViewModel {
             .map { $0.map(NotiListItem.init(cateogry:)) }
         
         // TODO: workplace도 userUseCase에서 가저오기
-        let notiList = noticeUseCase
-            .fetchAppNotificationList(workplaceId: workplaceIdentifier)
-            .map { $0.map(NotiListItem.init(noti:)) }
-            .asDriver()
+//        let notiList = noticeUseCase
+//            .fetchAppNotificationList(workplaceId: workplaceIdentifier)
+//            .map { $0.map(NotiListItem.init(noti:)) }
+//            .asDriver()
        
         // MARK: Coordinator Logic
         
@@ -76,7 +70,7 @@ final class NotiListViewModel: ViewModel {
 
         return Output(
             categories: categories,
-            notiList: notiList
+            notiList: .empty()
         )
     }
 }

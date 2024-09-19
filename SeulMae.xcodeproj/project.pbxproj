@@ -11,7 +11,7 @@
 		86016C4F2C94628700EE8A92 /* MonthlyAttenanceSummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */; };
 		86016C512C94641400EE8A92 /* WorkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C502C94641400EE8A92 /* WorkInfo.swift */; };
 		86016C532C97108300EE8A92 /* AnnounceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C522C97108300EE8A92 /* AnnounceAPI.swift */; };
-		86016C552C9824FE00EE8A92 /* DefaultAttedanceHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C542C9824FE00EE8A92 /* DefaultAttedanceHistoryRepository.swift */; };
+		86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */; };
 		86016C572C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */; };
 		86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */; };
 		86016C5B2C9A611B00EE8A92 /* AttendRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5A2C9A611B00EE8A92 /* AttendRequset.swift */; };
@@ -73,7 +73,7 @@
 		861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6832C27065800702E24 /* MainSceneDIContainer.swift */; };
 		861BF6862C27070C00702E24 /* AttendnaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6852C27070C00702E24 /* AttendnaceAPI.swift */; };
 		861BF6882C27082600702E24 /* DefaultNoticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */; };
-		861BF68A2C27084000702E24 /* NoticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6892C27084000702E24 /* NoticeRepository.swift */; };
+		861BF68A2C27084000702E24 /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6892C27084000702E24 /* NotificationRepository.swift */; };
 		861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF68B2C2708D300702E24 /* NoticeUseCase.swift */; };
 		861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6912C2723C800702E24 /* RemainingTimer.swift */; };
 		861BF6952C273FC100702E24 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6942C273FC100702E24 /* ToastView.swift */; };
@@ -177,6 +177,8 @@
 		869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */; };
 		869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */; };
 		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
+		86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */; };
+		86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
 		86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D842C3295320088E1B1 /* CalendarView.swift */; };
@@ -268,6 +270,7 @@
 		86E39FA62C8EBB3B00361E0D /* SettingSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */; };
 		86E39FA82C8EDB6200361E0D /* AttendanceHistoryAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E39FA72C8EDB6200361E0D /* AttendanceHistoryAPI.swift */; };
 		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
+		86EB5F372C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EB5F362C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift */; };
 		86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */; };
 		86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */; };
 		86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */; };
@@ -295,7 +298,6 @@
 		86FD620E2C8D470C005ED02F /* DefaultAnnounceRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD620D2C8D470C005ED02F /* DefaultAnnounceRepository.swift */; };
 		86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD620F2C8D493D005ED02F /* MemberUseCase.swift */; };
 		86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */; };
-		86FD62172C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */; };
 		86FD62192C8D9B3C005ED02F /* WorkScheduleListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */; };
 /* End PBXBuildFile section */
 
@@ -321,7 +323,7 @@
 		86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyAttenanceSummary.swift; sourceTree = "<group>"; };
 		86016C502C94641400EE8A92 /* WorkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkInfo.swift; sourceTree = "<group>"; };
 		86016C522C97108300EE8A92 /* AnnounceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceAPI.swift; sourceTree = "<group>"; };
-		86016C542C9824FE00EE8A92 /* DefaultAttedanceHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAttedanceHistoryRepository.swift; sourceTree = "<group>"; };
+		86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAttendanceHistoryRepository.swift; sourceTree = "<group>"; };
 		86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkScheduleRequest.swift; sourceTree = "<group>"; };
 		86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveAttendanceRequest.swift; sourceTree = "<group>"; };
 		86016C5A2C9A611B00EE8A92 /* AttendRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequset.swift; sourceTree = "<group>"; };
@@ -381,7 +383,7 @@
 		861BF6832C27065800702E24 /* MainSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainSceneDIContainer.swift; sourceTree = "<group>"; };
 		861BF6852C27070C00702E24 /* AttendnaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendnaceAPI.swift; sourceTree = "<group>"; };
 		861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNoticeRepository.swift; sourceTree = "<group>"; };
-		861BF6892C27084000702E24 /* NoticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeRepository.swift; sourceTree = "<group>"; };
+		861BF6892C27084000702E24 /* NotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
 		861BF68B2C2708D300702E24 /* NoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeUseCase.swift; sourceTree = "<group>"; };
 		861BF6912C2723C800702E24 /* RemainingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimer.swift; sourceTree = "<group>"; };
 		861BF6942C273FC100702E24 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
@@ -481,6 +483,8 @@
 		869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplacePlaceListViewController.swift; sourceTree = "<group>"; };
 		869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListViewModel.swift; sourceTree = "<group>"; };
 		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
+		86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryUseCase.swift; sourceTree = "<group>"; };
+		86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistorySummary.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
 		86B07D842C3295320088E1B1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -575,6 +579,7 @@
 		86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingSceneDIContainer.swift; sourceTree = "<group>"; };
 		86E39FA72C8EDB6200361E0D /* AttendanceHistoryAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryAPI.swift; sourceTree = "<group>"; };
 		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
+		86EB5F362C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkScheduleDetailsViewController.swift; path = SeulMae/Presentation/Main/WorkScheduleDetails/View/WorkScheduleDetailsViewController.swift; sourceTree = SOURCE_ROOT; };
 		86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
 		86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStatusView.swift; sourceTree = "<group>"; };
 		86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeViewController.swift; sourceTree = "<group>"; };
@@ -602,7 +607,6 @@
 		86FD620D2C8D470C005ED02F /* DefaultAnnounceRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAnnounceRepository.swift; sourceTree = "<group>"; };
 		86FD620F2C8D493D005ED02F /* MemberUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberUseCase.swift; sourceTree = "<group>"; };
 		86FD62132C8D952B005ED02F /* WorkScheduleAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleAPI.swift; sourceTree = "<group>"; };
-		86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleDetailsViewController.swift; sourceTree = "<group>"; };
 		86FD62182C8D9B3C005ED02F /* WorkScheduleListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleListViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -770,6 +774,7 @@
 				86FD62072C8D4569005ED02F /* AnnounceUseCase.swift */,
 				86FD62092C8D45BF005ED02F /* WorkScheduleUseCase.swift */,
 				86FD61EB2C8AC886005ED02F /* UserUseCase.swift */,
+				86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */,
 			);
 			path = UseCases;
 			sourceTree = "<group>";
@@ -778,7 +783,7 @@
 			isa = PBXGroup;
 			children = (
 				861B96882C2008290032C94A /* AuthRepository.swift */,
-				861BF6892C27084000702E24 /* NoticeRepository.swift */,
+				861BF6892C27084000702E24 /* NotificationRepository.swift */,
 				8684C5AF2C49F9AB00EB3D28 /* WorkplaceRepository.swift */,
 			);
 			path = Interfaces;
@@ -1160,6 +1165,7 @@
 				86016C502C94641400EE8A92 /* WorkInfo.swift */,
 				86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */,
 				86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */,
+				86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */,
 			);
 			path = Attendance;
 			sourceTree = "<group>";
@@ -1622,7 +1628,7 @@
 				8684C5B12C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift */,
 				86FD61F12C8ACFFF005ED02F /* DefaultUserRepository.swift */,
 				86FD620B2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift */,
-				86016C542C9824FE00EE8A92 /* DefaultAttedanceHistoryRepository.swift */,
+				86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */,
 			);
 			path = Repositories;
 			sourceTree = "<group>";
@@ -1684,8 +1690,8 @@
 		86DB32D92C9AC0B500575A03 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				86FD62162C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift */,
 				86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */,
+				86EB5F362C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift */,
 				86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */,
 				86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */,
 			);
@@ -2216,7 +2222,6 @@
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */,
 				86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */,
-				86FD62172C8D9A57005ED02F /* WorkScheduleDetailsViewController.swift in Sources */,
 				86639B992C9562020029C1F9 /* AppNotification.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
@@ -2291,7 +2296,7 @@
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
 				869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */,
-				861BF68A2C27084000702E24 /* NoticeRepository.swift in Sources */,
+				861BF68A2C27084000702E24 /* NotificationRepository.swift in Sources */,
 				861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */,
 				8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */,
 				8624AC712C2EA895001FF383 /* MainViewModel.swift in Sources */,
@@ -2313,6 +2318,7 @@
 				8606F6802C33244400FFC68E /* Member.swift in Sources */,
 				8693C4302C22DEA100D7DCD3 /* ShapedShadowLayer.swift in Sources */,
 				869238EF2C4A238E00493B7B /* MemberDTO+Mapping.swift in Sources */,
+				86EB5F372C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift in Sources */,
 				861BF6952C273FC100702E24 /* ToastView.swift in Sources */,
 				86B4B4582C4B400000D83488 /* WorkSchedule.swift in Sources */,
 				86C2930D2C24725A0006AC72 /* DefaultAuthRepository.swift in Sources */,
@@ -2359,6 +2365,7 @@
 				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				861B969B2C205A3A0032C94A /* BottomSheetPresentationControllerDelegate.swift in Sources */,
 				86DB32D12C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift in Sources */,
+				86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */,
 				86B4B45F2C4B57C500D83488 /* DateRangePickerView.swift in Sources */,
 				861B96952C204C2A0032C94A /* BottomSheetPresentationController.swift in Sources */,
 				86D309E52C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift in Sources */,
@@ -2405,10 +2412,11 @@
 				86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */,
 				8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */,
 				86016C5B2C9A611B00EE8A92 /* AttendRequset.swift in Sources */,
-				86016C552C9824FE00EE8A92 /* DefaultAttedanceHistoryRepository.swift in Sources */,
+				86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
+				86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */,
 				86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */,
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
