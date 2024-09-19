@@ -231,6 +231,8 @@
 		86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */; };
 		86DB32D72C9AAA9A00575A03 /* WeekdaysContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */; };
 		86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */; };
+		86DB32E52C9BB39000575A03 /* UserHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */; };
+		86DB32E72C9BB52400575A03 /* ManagerHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
@@ -533,6 +535,8 @@
 		86DB32D42C9AA59100575A03 /* CommonInputContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonInputContentView.swift; sourceTree = "<group>"; };
 		86DB32D62C9AAA9A00575A03 /* WeekdaysContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdaysContentView.swift; sourceTree = "<group>"; };
 		86DB32E22C9AE47000575A03 /* WorkTimePickerContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimePickerContentView.swift; sourceTree = "<group>"; };
+		86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewModel.swift; sourceTree = "<group>"; };
+		86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeViewModel.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
@@ -1944,6 +1948,7 @@
 			isa = PBXGroup;
 			children = (
 				86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */,
+				86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -1952,6 +1957,7 @@
 			isa = PBXGroup;
 			children = (
 				86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */,
+				86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */,
 			);
 			path = User;
 			sourceTree = "<group>";
@@ -2229,6 +2235,7 @@
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
+				86DB32E52C9BB39000575A03 /* UserHomeViewModel.swift in Sources */,
 				86E296FA2C4E82850080A3A2 /* NotiListViewModel.swift in Sources */,
 				8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */,
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
@@ -2251,6 +2258,7 @@
 				86B07D872C32A05D0088E1B1 /* CalendarControl.swift in Sources */,
 				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
 				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
+				86DB32E72C9BB52400575A03 /* ManagerHomeViewModel.swift in Sources */,
 				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
 				86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */,
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,

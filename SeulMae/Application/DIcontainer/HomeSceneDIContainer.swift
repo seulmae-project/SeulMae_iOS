@@ -29,6 +29,18 @@ final class HomeSceneDIContainer {
             dependencies: self
         )
     }
+    
+    private func makeAttendanceUseCase() -> AttendanceUseCase {
+        DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: AttendanceNetworking()))
+    }
+    
+    private func makeUserHomeViewModel(
+        coordinator: any HomeFlowCoordinator) -> UserHomeViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                attendnaceUseCase: makeAttendanceUseCase()))
+    }
 }
 
 extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
@@ -36,15 +48,7 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
     func makeHomeViewController(
         coordinator: any HomeFlowCoordinator
     ) -> UserHomeViewController {
-        return .init(
-            // viewModel: makeUserHomeViewModel(coordinator: coordinator)
-        )
-    }
-    
-    private func makeUserHomeViewModel(
-        coordinator: any HomeFlowCoordinator
-    ) {
-        
+        return .init(viewModel: makeUserHomeViewModel(coordinator: coordinator))
     }
     
     func makeHomeViewController(
