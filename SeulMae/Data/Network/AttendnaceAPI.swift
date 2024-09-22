@@ -11,11 +11,11 @@ import Moya
 typealias AttendanceNetworking = MoyaProvider<AttendnaceAPI>
 // 추후 attendnaceAPI
 enum AttendnaceAPI: SugarTargetType {
-    case attend(request: AttendRequset)  // 출퇴근 승인 요청
+    case attend(request: AttendRequest)  // 출퇴근 승인 요청
     case approveAttendance(request: ApproveAttendanceRequest) // 출퇴근 승인 요청 승인
     case disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) // 거절
     case fetchAttendanceRequsetList(workplaceId: Workplace.ID) // 응답하지 않은 요청
-    case attend2(request: AttendRequset) // 출퇴근 별도 근무 요청
+    case attend2(request: AttendRequest) // 출퇴근 별도 근무 요청
     case fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) // 모든 요청 리스트
 }
 

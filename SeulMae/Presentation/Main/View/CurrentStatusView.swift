@@ -28,45 +28,45 @@ extension UIView {
 final class CurrentStatusView: UIView {
     
     private let titleLabel: UILabel = {
-        let l = UILabel()
-        l.textColor = .black
-        l.text = "금일의\n근무를 확인해주세요"
-        l.numberOfLines = 2
-        l.font = .systemFont(ofSize: 24, weight: .bold)
-        l.translatesAutoresizingMaskIntoConstraints = false
-        return l
+        let label = UILabel()
+        label.textColor = .black
+        label.text = "금일의\n근무를 확인해주세요"
+        label.numberOfLines = 2
+        // label.font = .pretendard(size: , weight: )
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
     }()
     
     private let progressLabel: UILabel = {
-        let l = UILabel()
-        l.text = "미완료"
-        l.font = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor = .primary
-        return l
+        let label = UILabel()
+        label.text = "미완료"
+        // label.font = .pretendard(size: , weight: )
+        label.textColor = .primary
+        return label
     }()
     
     private let progressCountLabel: UILabel = {
-        let l = UILabel()
-        l.text = "1개"
-        l.font = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor = .primary
-        return l
+        let label = UILabel()
+        label.text = "1개"
+        // label.font = .pretendard(size: , weight: )
+        label.textColor = .primary
+        return label
     }()
     
     private let completedLabel: UILabel = {
-        let l = UILabel()
-        l.text = "완료"
-        l.font = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor = .white
-        return l
+        let label = UILabel()
+        label.text = "완료"
+        // label.font = .pretendard(size: , weight: )
+        label.textColor = .white
+        return label
     }()
     
     private let completedCountLabel: UILabel = {
-        let l = UILabel()
-        l.text = "2개"
-        l.font = .systemFont(ofSize: 12, weight: .semibold)
-        l.textColor = .primary
-        return l
+        let label = UILabel()
+        label.text = "2개"
+        // label.font = .pretendard(size: , weight: )
+        label.textColor = .primary
+        return label
     }()
 
     override init(frame: CGRect) {

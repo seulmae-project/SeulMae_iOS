@@ -1,5 +1,5 @@
 //
-//  AttendRequset.swift
+//  AttendRequest.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/18/24.
@@ -7,13 +7,13 @@
 
 import Foundation
 
-struct AttendRequset: ModelType {
-    let workplaceId: Workplace.ID?
+struct AttendRequest: ModelType {
+    var workplaceId: Workplace.ID?
     let workDate: Date
     let workStartTime: Date
     let workEndTime: Date
-    let confirmedWage: Int?
-    let unconfirmedWage: Int
+    let confirmedWage: Double?
+    let unconfirmedWage: Double
     let totalWorkTime: Double
     let deliveryMessage: String
     let day: Int?

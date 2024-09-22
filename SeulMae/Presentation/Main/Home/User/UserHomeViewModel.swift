@@ -15,8 +15,8 @@ final class UserHomeViewModel {
         let refresh: Signal<()>
         let showNotis: Signal<()>
         let showDetails: Signal<()>
-        let attend: Signal<AttendRequset>
-        let add: Signal<AttendRequset>
+        let attend: Signal<AttendRequest>
+        let add: Signal<AttendRequest>
     }
     
     struct Output {

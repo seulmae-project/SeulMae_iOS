@@ -13,9 +13,8 @@ final class ManagerHomeViewModel {
     struct Input {
         let onLoad: Signal<()>
         let refresh: Signal<()>
+        let showNotis: Signal<()>
         let showDetails: Signal<()>
-        let attend: Signal<()>
-        let add: Signal<()>
     }
     
     struct Output {

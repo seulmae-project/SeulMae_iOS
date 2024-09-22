@@ -9,11 +9,11 @@ import Foundation
 import RxSwift
 
 protocol AttendanceRepository {
-func attend(request: AttendRequset) -> Single<Bool>  // 출퇴근 승인 요청
+func attend(request: AttendRequest) -> Single<Bool>  // 출퇴근 승인 요청
 func approveAttendance(request: ApproveAttendanceRequest) -> Single<Bool> // 출퇴근 승인 요청 승인
 func disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) ->  Single<Bool> // 거절
 func fetchAttendanceRequsetList(workplaceId: Workplace.ID) -> Single<[AttendanceRequest]> // 응답하지 않은 요청
-func attend2(request: AttendRequset) -> Single<Bool>// 출퇴근 별도 근무 요청
+func attend2(request: AttendRequest) -> Single<Bool>// 출퇴근 별도 근무 요청
 func fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) -> Single<[AttendanceRequest]> // 모든 요청 리스트
 }
 
@@ -29,7 +29,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
         self.network = network
     }
     
-    func attend(request: AttendRequset) -> RxSwift.Single<Bool> {
+    func attend(request: AttendRequest) -> RxSwift.Single<Bool> {
         return network.rx
             .request(.attend(request: request))
             .map(BaseResponseDTO<Bool>.self)
@@ -57,7 +57,7 @@ final class DefaultAttendanceRepository: AttendanceRepository {
             .map { $0.toDomain() }
     }
     
-    func attend2(request: AttendRequset) -> RxSwift.Single<Bool> {
+    func attend2(request: AttendRequest) -> RxSwift.Single<Bool> {
         return network.rx
             .request(.attend2(request: request))
             .map(BaseResponseDTO<Bool>.self)
@@ -86,11 +86,11 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 
 protocol AttendanceUseCase {
     
-    func attend(request: AttendRequset) -> Single<Bool>  // 출퇴근 승인 요청
+    func attend(request: AttendRequest) -> Single<Bool>  // 출퇴근 승인 요청
     func approveAttendance(request: ApproveAttendanceRequest) -> Single<Bool> // 출퇴근 승인 요청 승인
     func disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) ->  Single<Bool> // 거절
     func fetchAttendanceRequsetList() -> Single<[AttendanceRequest]> // 응답하지 않은 요청
-    func attend2(request: AttendRequset) -> Single<Bool>// 출퇴근 별도 근무 요청
+    func attend2(request: AttendRequest) -> Single<Bool>// 출퇴근 별도 근무 요청
     func fetchAttendanceRequsetList2(date: Date) -> Single<[AttendanceRequest]> // 모든 요청 리스트
 }
 
@@ -103,7 +103,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         self.repository = repository
     }
     
-    func attend(request: AttendRequset) -> RxSwift.Single<Bool> {
+    func attend(request: AttendRequest) -> RxSwift.Single<Bool> {
         return repository.attend(request: request)
     }
     
@@ -120,7 +120,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         return repository.fetchAttendanceRequsetList(workplaceId: currentWorkplaceId)
     }
     
-    func attend2(request: AttendRequset) -> RxSwift.Single<Bool> {
+    func attend2(request: AttendRequest) -> RxSwift.Single<Bool> {
         return repository.attend2(request: request)
     }
     

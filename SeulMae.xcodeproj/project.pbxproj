@@ -14,7 +14,7 @@
 		86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */; };
 		86016C572C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */; };
 		86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */; };
-		86016C5B2C9A611B00EE8A92 /* AttendRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5A2C9A611B00EE8A92 /* AttendRequset.swift */; };
+		86016C5B2C9A611B00EE8A92 /* AttendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */; };
 		86016C5D2C9A620E00EE8A92 /* PromoteRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */; };
 		86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */; };
 		8606F6802C33244400FFC68E /* Member.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8606F67F2C33244400FFC68E /* Member.swift */; };
@@ -179,6 +179,9 @@
 		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
 		86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */; };
 		86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */; };
+		86AC25F42C9C2FE40009D249 /* AttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F32C9C2FE40009D249 /* AttendanceViewController.swift */; };
+		86AC25F62C9C32360009D249 /* AttendanceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F52C9C32360009D249 /* AttendanceViewModel.swift */; };
+		86AC25F82CA039D00009D249 /* WorkTimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
 		86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D842C3295320088E1B1 /* CalendarView.swift */; };
@@ -326,7 +329,7 @@
 		86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAttendanceHistoryRepository.swift; sourceTree = "<group>"; };
 		86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkScheduleRequest.swift; sourceTree = "<group>"; };
 		86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveAttendanceRequest.swift; sourceTree = "<group>"; };
-		86016C5A2C9A611B00EE8A92 /* AttendRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequset.swift; sourceTree = "<group>"; };
+		86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequest.swift; sourceTree = "<group>"; };
 		86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteRequset.swift; sourceTree = "<group>"; };
 		86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptApplicationRequset.swift; sourceTree = "<group>"; };
 		8606F67F2C33244400FFC68E /* Member.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Member.swift; sourceTree = "<group>"; };
@@ -485,6 +488,9 @@
 		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
 		86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryUseCase.swift; sourceTree = "<group>"; };
 		86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistorySummary.swift; sourceTree = "<group>"; };
+		86AC25F32C9C2FE40009D249 /* AttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewController.swift; sourceTree = "<group>"; };
+		86AC25F52C9C32360009D249 /* AttendanceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceViewModel.swift; sourceTree = "<group>"; };
+		86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeCalculator.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
 		86B07D842C3295320088E1B1 /* CalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarView.swift; sourceTree = "<group>"; };
@@ -978,6 +984,7 @@
 		8624AC722C2EA93A001FF383 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				86AC25F22C9C2A220009D249 /* Attendance */,
 				86E299AC2C1721FF00805AD0 /* MainViewController.swift */,
 				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
 				86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */,
@@ -1433,7 +1440,7 @@
 				866577B22C34073D0048A111 /* Notice */,
 				86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */,
 				86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */,
-				86016C5A2C9A611B00EE8A92 /* AttendRequset.swift */,
+				86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */,
 				86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */,
 				86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */,
 			);
@@ -1605,6 +1612,16 @@
 				8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */,
 			);
 			path = "RxCocoa+";
+			sourceTree = "<group>";
+		};
+		86AC25F22C9C2A220009D249 /* Attendance */ = {
+			isa = PBXGroup;
+			children = (
+				86AC25F32C9C2FE40009D249 /* AttendanceViewController.swift */,
+				86AC25F52C9C32360009D249 /* AttendanceViewModel.swift */,
+				86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */,
+			);
+			path = Attendance;
 			sourceTree = "<group>";
 		};
 		86B4B4592C4B400300D83488 /* Workplace */ = {
@@ -2267,6 +2284,7 @@
 				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
 				86DB32CD2C9A821800575A03 /* WorkScheduleListItem.swift in Sources */,
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
+				86AC25F82CA039D00009D249 /* WorkTimeCalculator.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
@@ -2288,6 +2306,7 @@
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
+				86AC25F62C9C32360009D249 /* AttendanceViewModel.swift in Sources */,
 				86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */,
 				86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */,
 				861B96D12C21BBDC0032C94A /* AppDIContainer.swift in Sources */,
@@ -2338,6 +2357,7 @@
 				86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */,
 				86D309CB2C339D8A00C08DA8 /* AnnounceDetail.swift in Sources */,
 				8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */,
+				86AC25F42C9C2FE40009D249 /* AttendanceViewController.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */,
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
@@ -2411,7 +2431,7 @@
 				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
 				86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */,
 				8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */,
-				86016C5B2C9A611B00EE8A92 /* AttendRequset.swift in Sources */,
+				86016C5B2C9A611B00EE8A92 /* AttendRequest.swift in Sources */,
 				86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,

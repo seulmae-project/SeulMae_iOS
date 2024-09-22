@@ -45,8 +45,8 @@ final class UserHomeViewController: UIViewController {
         let control = UIRefreshControl()
         return control
     }()
-    private let attendRelay = PublishRelay<()>()
-    private let addRelay = PublishRelay<()>()
+    private let attendRelay = PublishRelay<AttendRequest>()
+    private let addRelay = PublishRelay<AttendRequest>()
     
     // MARK: - Dependencies
  

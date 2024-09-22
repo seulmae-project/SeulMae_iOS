@@ -56,8 +56,11 @@ final class HomeSceneDIContainer {
             ))
     }
     
-    private func makeManagerHomeViewModel(coordinator: any HomeFlowCoordinator) {
-        
+    private func makeManagerHomeViewModel(coordinator: any HomeFlowCoordinator) -> ManagerHomeViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                attendnaceUseCase: makeAttendanceUseCase()))
     }
     
     private func makeNotiListViewModel(
@@ -81,7 +84,7 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
         coordinator: any HomeFlowCoordinator
     ) -> ManagerHomeViewController {
         return .init(
-            // viewModel: makeManagerHomeViewModel(coordinator: coordinator)
+            viewModel: makeManagerHomeViewModel(coordinator: coordinator)
         )
     }
     
