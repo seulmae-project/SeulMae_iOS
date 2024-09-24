@@ -168,6 +168,8 @@ class BottomSheetPresentationController: UIPresentationController {
         // Add tap handler to dismiss the sheet.
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPresentedControllerIfNecessary(_:)))
         tapGesture.cancelsTouchesInView = false
+        // TODO: 아마 여기서 뷰 뒤의 컨텐츠를 사용자가 선택할 수 있도록 커스텀 가능할 듯..?
+        // 제스처를 전달할 지 여부
         containerView.isUserInteractionEnabled = true
         containerView.addGestureRecognizer(tapGesture)
         
@@ -249,11 +251,14 @@ class BottomSheetPresentationController: UIPresentationController {
     }
     
     @objc private func dismissPresentedControllerIfNecessary(_ tapRecognizer: UITapGestureRecognizer) {
-        if !dismissOnBackgroundTap {
+        guard dismissOnBackgroundTap else { return }
+        
+        // Only dismiss if the tap is outside of the presented view.
+        guard let contentView = presentedViewController.view else { 
             return
         }
-        // Only dismiss if the tap is outside of the presented view.
-        guard let contentView = presentedViewController.view else { return }
+        
+        // content view == dimming view
         let pointInContentView = tapRecognizer.location(in: contentView)
         if contentView.point(inside: pointInContentView, with: nil) {
             return

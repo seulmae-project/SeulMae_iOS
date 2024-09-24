@@ -18,7 +18,7 @@ class BottomSheetController: UIViewController {
     
     weak var delegate: BottomSheetControllerDelegate?
         
-    private var kElevationSpreadMaskAffordance: CGFloat = 50.0
+    // private var kElevationSpreadMaskAffordance: CGFloat = 50.0
     
     private(set) var state: SheetState
     
@@ -118,7 +118,6 @@ class BottomSheetController: UIViewController {
         bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
         bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
         
-        Swift.print("view.bounds: \(view.bounds)")
         contentViewController.view.frame = view.bounds
         contentViewController.view.layoutIfNeeded()
     }
