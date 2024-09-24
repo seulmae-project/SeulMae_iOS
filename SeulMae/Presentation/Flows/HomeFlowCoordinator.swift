@@ -8,6 +8,7 @@
 import UIKit
 
 protocol HomeFlowCoordinatorDependencies {
+    func makeUserHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
     func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
 }
 
@@ -48,7 +49,8 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     }
     
     func showUserHome() {
-        
+        let vc = dependencies.makeUserHomeViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
     }
     
     func showManagerHome() {

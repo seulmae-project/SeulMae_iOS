@@ -1,5 +1,5 @@
 //
-//  AttendanceViewModel.swift
+//  ScheduleReminderViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/19/24.
@@ -9,18 +9,21 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class AttendanceViewModel {
+final class ScheduleReminderViewModel {
     
     struct Input {
         let onLoad: Signal<()>
         let startDate: Driver<Date>
         let endDate: Driver<Date>
         let memo: Driver<String>
-        let onRequest: Signal<Date>
+        let onRequest: Signal<()> // Date
+        let onRegister: Signal<()>
+        let onWorkStart: Signal<()>
     }
     
     struct Output {
         let loading: Driver<Bool>
+        let item: Driver<ScheduleReminderItem>
     }
     
     // MARK: - Dependencies
@@ -79,9 +82,26 @@ final class AttendanceViewModel {
         }
         
         // MARK: - Coordinator
+        
+        Task {
+            for await _ in input.onWorkStart.values {
+                let vc = WorkRecordViewController()
+                guard let parentVC = coordinator.navigationController.topViewController as? ScheduleReminderViewController else { return }
+                parentVC.addChild(vc)
+                parentVC.view.addSubview(vc.view)
+                vc.didMove(toParent: parentVC)
+            }
+        }
+        
+        Task {
+            for await _ in input.onRegister.values {
+                
+            }
+        }
       
         return Output(
-            loading: loading
+            loading: loading,
+            item: .empty()// item
         )
     }
 }

@@ -74,7 +74,7 @@ final class HomeSceneDIContainer {
 
 extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
     
-    func makeHomeViewController(
+    func makeUserHomeViewController(
         coordinator: any HomeFlowCoordinator
     ) -> UserHomeViewController {
         return .init(viewModel: makeUserHomeViewModel(coordinator: coordinator))

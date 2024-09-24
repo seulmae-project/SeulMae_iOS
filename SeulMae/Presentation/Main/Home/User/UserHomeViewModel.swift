@@ -29,7 +29,7 @@ final class UserHomeViewModel {
     private let coordinator: HomeFlowCoordinator
     private let attendanceUseCase: AttendanceUseCase
     private let attendanceHistoryUseCase: AttendanceHistoryUseCase
-        
+    private var disposeBag = DisposeBag()
     // MARK: - Life Cycle
     
     init(
@@ -79,6 +79,25 @@ final class UserHomeViewModel {
             }
         }
         
+        input.onLoad
+            .emit(onNext: { _ in
+                let vc = ScheduleReminderViewController(viewModel: .init(
+                    dependencies: (
+                        coordinator: self.coordinator,
+                        attendanceUseCase: DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: AttendanceNetworking())),
+                        workTimeCalculator: WorkTimeCalculator()
+                    )))
+                let bottomSheet =  BottomSheetController(contentViewController: vc)
+                let nav = self.coordinator.navigationController
+                nav.present(bottomSheet, animated: true)
+            })
+            .disposed(by: disposeBag)
+        
+        Task {
+            for await _ in input.onLoad.values {
+              // TODO: viewDidLoad dispose issue
+            }
+        }
         
     
         
