@@ -49,38 +49,39 @@ class DraggableView: UIView {
     // MARK: - Gesture handling
     
     @objc private func didPan(_ recognizer: UIPanGestureRecognizer) {
-        switch recognizer.state {
-        case .began:
+        if case .began = recognizer.state {
             mostRecentMinY = frame.minY // 426
             delegate?.draggableViewBeganDragging(self)
+            return
+        }
+                    
+        var velocity = recognizer.velocity(in: superview)
+        let translation = recognizer.translation(in: superview)
+        velocity.x = 0
+        
+        let maxHeight = delegate?.maximumHeight(for: self) ?? 0
+        let minimumStableMinY = (superview?.bounds.height ?? 0) - maxHeight - KeyboardWatcher.shared.visibleKeyboardHeight
+        
+        var newMinY = mostRecentMinY + translation.y
+
+        if newMinY < minimumStableMinY {
+            if scrollView == nil && !simulateScrollViewBounce {
+                velocity = .zero
+                newMinY = minimumStableMinY
+            } else {
+                // Ensure that dragging the sheet past the maximum height results in an exponential decay on
+                // the translation. This gives the same effect as when you overscroll a scrollview.
+                newMinY = minimumStableMinY + (translation.y - (translation.y / 1.2))
+            }
+        }
+        
+        Swift.print("newMinY: \(newMinY)")
+        switch recognizer.state {
         case .changed:
-            var velocity = recognizer.velocity(in: superview)
-            let translation = recognizer.translation(in: superview)
-            velocity.x = 0
-            
-            let maxHeight = delegate?.maximumHeight(for: self) ?? 0
-            let minimumStableMinY = superview?.bounds.height ?? 0 - maxHeight - KeyboardWatcher.shared.visibleKeyboardHeight
-            
-            var newMinY = mostRecentMinY + translation.y
-            Swift.print(mostRecentMinY, translation.y, newMinY, maxHeight, minimumStableMinY)
-            // TODO: 이건 뭐하는 걸까? 위로 가는 경우 ? minimumStableMinY 이 계산이 잘 못된 것 같음
-//            if newMinY < minimumStableMinY {
-//                if scrollView == nil && !simulateScrollViewBounce {
-//                    velocity = .zero
-//                    newMinY = minimumStableMinY
-//                } else {
-//                    // Ensure that dragging the sheet past the maximum height results in an exponential decay on
-//                    // the translation. This gives the same effect as when you overscroll a scrollview.
-//                    newMinY = minimumStableMinY + (translation.y - (translation.y / 1.2))
-//                }
-//            }
-            
             let newFrame = CGRect(x: frame.minX, y: newMinY, width: frame.width, height: frame.height)
             frame = newFrame
-            
             delegate?.draggableView(self, didPanToOffset: frame.minY)
         case .ended:
-            let velocity = recognizer.velocity(in: superview)
             delegate?.draggableView(self, draggingEndedWithVelocity: velocity)
         case .cancelled:
             delegate?.draggableView(self, draggingEndedWithVelocity: .zero)
