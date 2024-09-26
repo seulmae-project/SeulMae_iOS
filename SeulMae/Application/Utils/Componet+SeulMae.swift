@@ -140,12 +140,13 @@ extension UILabel {
 // MARK: - UIButton
 
 extension UIButton {
-    static func half(title: String = "") -> UIButton {
+    static func half(title: String, highlight: Bool = true) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
-        button.backgroundColor = .primary
-        button.layer.cornerRadius = 16
+        button.titleLabel?.font = .pretendard(size: 18, weight: .medium)
+        button.backgroundColor = highlight ? .primary : .lightGray
+        button.setTitleColor(highlight ? .white : .primary, for: .normal)
+        button.layer.cornerRadius = 12
         button.layer.cornerCurve = .continuous
         return button
     }

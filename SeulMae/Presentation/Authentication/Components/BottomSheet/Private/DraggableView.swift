@@ -75,7 +75,6 @@ class DraggableView: UIView {
             }
         }
         
-        Swift.print("newMinY: \(newMinY)")
         switch recognizer.state {
         case .changed:
             let newFrame = CGRect(x: frame.minX, y: newMinY, width: frame.width, height: frame.height)

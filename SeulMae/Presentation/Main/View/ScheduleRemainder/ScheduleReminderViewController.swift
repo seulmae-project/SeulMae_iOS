@@ -20,15 +20,16 @@ final class ScheduleReminderViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.text = "금일의 근무 일정"
-        label.font = .pretendard(size: 17, weight: .regular)
+        label.text = "금일의 근무 일정을 확인해 보세요"
+        label.font = .pretendard(size: 24, weight: .medium)
         return label
     }()
     
     private let scheduleReminderLabel: UILabel = {
         let label = UILabel()
-        label.text = "다음 일정까지 남은 시간: 00:00"
-        label.font = .pretendard(size: 17, weight: .regular)
+        label.text = "다음 일정까지 00시간 00분 남았어요"
+        label.font = .pretendard(size: 14, weight: .regular)
+        label.textColor = .secondaryLabel
         return label
     }()
     
@@ -40,17 +41,8 @@ final class ScheduleReminderViewController: UIViewController {
         return stack
     }()
     
-    private let workStartButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("출근", for: .normal)
-        return button
-    }()
-    
-    private let registerAttendnaceButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("근무 등록", for: .normal)
-        return button
-    }()
+    private let workStartButton = UIButton.half(title: "출근 하기", highlight: true)
+    private let registerAttendnaceButton = UIButton.half(title: "등록 하기", highlight: true)
     
     // MARK: - Properties
     
@@ -80,7 +72,20 @@ final class ScheduleReminderViewController: UIViewController {
         setupView()
         setupConstraints()
         bindSubviews()
+        setEmptyScheduleView()
     }
+    
+    // MARK: - Private
+    
+    private func setEmptyScheduleView() {
+        guard scheduleListStack.subviews.isEmpty else { return }
+        let emptyView = UIView()
+        emptyView.heightAnchor.constraint(equalToConstant: 56)
+            .isActive = true
+        scheduleListStack.addArrangedSubview(emptyView)
+    }
+    
+    // MARK: - Data Binding
     
     private func bindSubviews() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
@@ -117,47 +122,50 @@ final class ScheduleReminderViewController: UIViewController {
         }
     }
     
+    // MARK: - Hierarchy
+    
     private func setupView() {
         view.backgroundColor = .systemBackground
     }
     
     private func setupConstraints() {
+        let buttonStack = UIStackView()
+        buttonStack.spacing = 12
+        buttonStack.distribution = .fillEqually
+        buttonStack.addArrangedSubview(workStartButton)
+        buttonStack.addArrangedSubview(registerAttendnaceButton)
         
-        //        let leftLabelVStack = UIStackView(arrangedSubviews: [
-        //            titleLabel, nextScheduleRemaindLabel
-        //        ])
-        //        leftLabelVStack.axis = .vertical
-        //        leftLabelVStack.spacing = 4.0
-        //
-        //        let rightLabelVStack = UIStackView(arrangedSubviews: [
-        //            label3, label4
-        //        ])
-        //        rightLabelVStack.axis = .vertical
-        //        rightLabelVStack.spacing = 4.0
-        //
-        //        let labelHStack = UIStackView(arrangedSubviews: [
-        //            leftLabelVStack, rightLabelVStack
-        //        ])
-        //        labelHStack.distribution = .equalCentering
-        //
-        //        progressView.progressTintColor = .primary
-        //        progressView.trackTintColor = .systemBackground
-        //
-        //        let contentStack = UIStackView(arrangedSubviews: [
-        //            labelHStack, progressView
-        //        ])
-        //        contentStack.axis = .vertical
-        //        contentStack.spacing = 8.0
-        //
-        //        view.addSubview(contentStack)
-        //
-        //        contentStack.translatesAutoresizingMaskIntoConstraints = false
-        //
-        //        NSLayoutConstraint.activate([
-        //            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-        //            contentStack.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-        //            contentStack.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
-        //            contentStack.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor)
-        //        ])
+        let contentStack = UIStackView()
+        contentStack.axis = .vertical
+        contentStack.spacing = 8.0
+        contentStack.addArrangedSubview(titleLabel)
+        contentStack.addArrangedSubview(scheduleReminderLabel)
+        contentStack.addArrangedSubview(scheduleListStack)
+        contentStack.addArrangedSubview(buttonStack)
+        
+        let spacer = UIView()
+        spacer.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
+        spacer.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
+        contentStack.addArrangedSubview(spacer)
+        
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        scrollView.addSubview(contentStack)
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+      
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            contentStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            contentStack.topAnchor.constraint(equalTo: scrollView.frameLayoutGuide.topAnchor, constant: 20),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.frameLayoutGuide.bottomAnchor, constant: -20),
+            
+            buttonStack.heightAnchor.constraint(equalToConstant: 56),
+        ])
     }
 }

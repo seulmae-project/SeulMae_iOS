@@ -28,7 +28,7 @@ final class WorkScheduleListViewController: UIViewController {
     
     private let addButton: UIButton = {
         let button = UIButton()
-        button.setTitle("생성하기", for: .normal)
+        button.setTitle("", for: .normal)
         button.setTitleColor(.white, for: .normal)
         button.titleLabel?.font = .pretendard(size: 18, weight: .semibold)
         button.backgroundColor = .primary
