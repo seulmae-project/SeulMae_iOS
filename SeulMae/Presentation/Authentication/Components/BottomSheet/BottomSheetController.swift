@@ -102,6 +102,23 @@ class BottomSheetController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+            
+        let offset = CGFloat(6)
+        let width = CGFloat(36)
+        let height = CGFloat(5)
+        let frame = CGRect(
+            x: ((contentViewController.view.bounds.width / 2) - width / 2),
+            y: offset,
+            width: width,
+            height: height)
+        let detent = UIView(frame: frame)
+        detent.backgroundColor = .init(hexCode: "7F7F7F").withAlphaComponent(0.4)
+        // 3D3D3D 50
+        contentViewController.view.addSubview(detent)
+        // round shape
+        contentViewController.view.layer.cornerCurve = .continuous
+        contentViewController.view.layer.cornerRadius = 14
+        
         
         view.preservesSuperviewLayoutMargins = true
         contentViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
