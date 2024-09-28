@@ -81,15 +81,8 @@ final class UserHomeViewModel {
         
         input.onLoad
             .emit(onNext: { _ in
-                let vc = ScheduleReminderViewController(viewModel: .init(
-                    dependencies: (
-                        coordinator: self.coordinator,
-                        attendanceUseCase: DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: AttendanceNetworking())),
-                        workTimeCalculator: WorkTimeCalculator()
-                    )))
-                let bottomSheet =  BottomSheetController(contentViewController: vc)
-                let nav = self.coordinator.navigationController
-                nav.present(bottomSheet, animated: true)
+                self.coordinator.showScheduleReminder()
+                
             })
             .disposed(by: disposeBag)
         

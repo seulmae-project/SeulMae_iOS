@@ -8,6 +8,32 @@
 import UIKit
 
 final class WorkStatusView: UIView {
+    
+//    private let leftTimeLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = .pretendard(size: 17, weight: .regular)
+//        return label
+//    }()
+//    
+//    private let leftTimeOutlet: UILabel = {
+//        let label = UILabel()
+//        label.font = .pretendard(size: 17, weight: .regular)
+//        return label
+//    }()
+//    
+//    private let totalMonthlySalaryLabel: UILabel = {
+//        let label = UILabel()
+//        label.font = .pretendard(size: 17, weight: .regular)
+//        return label
+//    }()
+//    
+//    private let amountEarnedToday: UILabel = {
+//        let label = UILabel()
+//        label.font = .pretendard(size: 17, weight: .regular)
+//        return label
+//    }()
+//    
+//    let progressView: UIProgressView = UIProgressView()
 
     lazy var label: UILabel = makeLabel(font: .systemFont(ofSize: 16))
     

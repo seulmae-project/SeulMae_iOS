@@ -6,18 +6,91 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
-final class WorkTimeCalculator {
+final class WorkTimeCalculator: SharedSequenceConvertibleType {
 
-//    "workplaceId": 12,
-//     "workDate": "2024-09-21",
-//     "workStartTime": "2024-09-21T10:09:07.328938",
-//     "workEndTime": "2024-09-21T14:00:00",
-//     "confirmedWage" : 55000,
-//     "unconfirmedWage": 55000,
-//     "totalWorkTime": 4, 이거 double 인지?
-//     "deliveryMessage" : "string",
-//     "day" : 6
+    typealias Element = WorkTimeRecordingItem
+    typealias SharingStrategy = DriverSharingStrategy
+    
+    func asSharedSequence() -> RxCocoa.SharedSequence<RxCocoa.DriverSharingStrategy, WorkTimeRecordingItem> {
+        return item
+    }
+
+    private var timer: Timer?
+    private var workSchedule: WorkSchedule?
+    private let item: SharedSequence<SharingStrategy, Element>
+    private let relay = PublishRelay<Element>()
+    
+    public init() {
+        item = relay.asDriver()
+            .distinctUntilChanged()
+    }
+    
+    func start(workSchedule: WorkSchedule) {
+        self.workSchedule = workSchedule
+        timer = Timer.scheduledTimer(
+            withTimeInterval: 1.0, repeats: true) { _ in
+                let element = Element(
+                    leftTime: self.getLeftTime() ?? "",
+                    totalMonthlySalary: "",
+                    amountEarnedToday: "",
+                    process: self.getRecordingState() ?? 0
+                )
+                self.relay.accept(element)
+        }
+    }
+    
+    private func getLeftTime() -> String? {
+        let components = getLeftTimeComponents()
+        guard let hours = components?.hour,
+              let minutes = components?.minute else {
+            return nil
+        }
+        
+        return "\(hours)시간 \(minutes)분 남았어요!"
+        // 아직 근무 시간이 되지 않았어요?
+    }
+    
+    private func getLeftTimeComponents() -> DateComponents? {
+        guard let workSchedule else {
+            return nil
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        
+        guard let endDate = dateFormatter.date(from: workSchedule.endTime) else {
+            return nil
+        }
+
+        var calendar = Calendar.current
+        calendar.timeZone = TimeZone.current
+        return calendar.dateComponents([.hour, .minute], from: Date(), to: endDate)
+    }
+    
+    private func getRecordingState() -> Double? {
+        guard let workSchedule else {
+            return nil
+        }
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm:ss"
+        dateFormatter.timeZone = TimeZone.current
+        
+        guard let startDate  = dateFormatter.date(from: workSchedule.endTime),
+              let endDate = dateFormatter.date(from: workSchedule.endTime) else {
+            return nil
+        }
+        
+        let totalDuration = endDate.timeIntervalSince(startDate)
+        let elapsedDuration = Date().timeIntervalSince(startDate)
+        let completionPercentage = (totalDuration > 0) ? (elapsedDuration / totalDuration) * 100 : 0
+        
+        return completionPercentage
+    }
     
     func calculate(start: Date, end: Date, wage: Int) -> AttendRequest {
         let components = Calendar.current.dateComponents([.day, .hour, .minute, .second], from: start, to: end)

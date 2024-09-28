@@ -11,6 +11,11 @@ final class ScheduleReminderViewController: UIViewController {
     
     // MARK: - UI
     
+    private let refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        return control
+    }()
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
@@ -44,13 +49,13 @@ final class ScheduleReminderViewController: UIViewController {
     private let workStartButton = UIButton.half(title: "출근 하기", highlight: true)
     private let registerAttendnaceButton = UIButton.half(title: "등록 하기", highlight: true)
     
-    // MARK: - Properties
-    
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
+    private let loadingIndicator: UIActivityIndicatorView = {
+        let activity = UIActivityIndicatorView(style: .medium)
+        activity.hidesWhenStopped = true
+        activity.stopAnimating()
+        return activity
     }()
-    
+   
     // MARK: - Dependencies
     
     private let viewModel: ScheduleReminderViewModel
@@ -99,8 +104,8 @@ final class ScheduleReminderViewController: UIViewController {
                 endDate: .empty(),
                 memo: .empty(),
                 onRequest: .empty(), // deprecated
-                onRegister: registerAttendnaceButton.rx.tap.asSignal(),
-                onWorkStart: workStartButton.rx.tap.asSignal()
+                onWorkStart: workStartButton.rx.tap.asSignal(),
+                onRegister: registerAttendnaceButton.rx.tap.asSignal()
             )
         )
         

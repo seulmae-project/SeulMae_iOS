@@ -17,8 +17,8 @@ final class ScheduleReminderViewModel {
         let endDate: Driver<Date>
         let memo: Driver<String>
         let onRequest: Signal<()> // Date
-        let onRegister: Signal<()>
         let onWorkStart: Signal<()>
+        let onRegister: Signal<()>
     }
     
     struct Output {
@@ -29,21 +29,18 @@ final class ScheduleReminderViewModel {
     // MARK: - Dependencies
     
     private let coordinator: HomeFlowCoordinator
-    private let attendanceUseCase: AttendanceUseCase
-    private let workTimeCalculator: WorkTimeCalculator
+    private let workplaceUseCase: WorkplaceUseCase
         
     // MARK: - Life Cycle
     
     init(
         dependencies: (
             coordinator: HomeFlowCoordinator,
-            attendanceUseCase: AttendanceUseCase,
-            workTimeCalculator: WorkTimeCalculator
+            workplaceUseCase: WorkplaceUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator
-        self.attendanceUseCase = dependencies.attendanceUseCase
-        self.workTimeCalculator = dependencies.workTimeCalculator
+        self.workplaceUseCase = dependencies.workplaceUseCase
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -64,32 +61,28 @@ final class ScheduleReminderViewModel {
         
         let dateAndWage = Driver.combineLatest(input.startDate, input.endDate, wage)
         
-        let isAttend = input.onRequest.withLatestFrom(dateAndWage)
-            .flatMapLatest { [weak self] (start, end, wage) -> Driver<Bool> in
-                guard let strongSelf = self else { return .empty() }
-                let request = strongSelf.workTimeCalculator
-                    .calculate(start: start, end: end, wage: wage)
-                return strongSelf.attendanceUseCase
-                    .attend(request: request)
-                    .trackActivity(indicator)
-                    .asDriver()
-            }
-        
-        Task {
-            for await _ in isAttend.values {
-                
-            }
-        }
+//        let isAttend = input.onRequest.withLatestFrom(dateAndWage)
+//            .flatMapLatest { [weak self] (start, end, wage) -> Driver<Bool> in
+//                guard let strongSelf = self else { return .empty() }
+//                let request = strongSelf.workTimeCalculator
+//                    .calculate(start: start, end: end, wage: wage)
+//                return strongSelf.attendanceUseCase
+//                    .attend(request: request)
+//                    .trackActivity(indicator)
+//                    .asDriver()
+//            }
+//        
+//        Task {
+//            for await _ in isAttend.values {
+//                
+//            }
+//        }
         
         // MARK: - Coordinator
         
         Task {
             for await _ in input.onWorkStart.values {
-                let vc = WorkRecordViewController()
-                guard let parentVC = coordinator.navigationController.topViewController as? ScheduleReminderViewController else { return }
-                parentVC.addChild(vc)
-                parentVC.view.addSubview(vc.view)
-                vc.didMove(toParent: parentVC)
+                coordinator.startWorkTimeRecord()
             }
         }
         

@@ -10,6 +10,10 @@ import UIKit
 protocol HomeFlowCoordinatorDependencies {
     func makeUserHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
     func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
+    
+    // bottom modal
+    func makeScheduleReminderViewController(coordinator: HomeFlowCoordinator) -> ScheduleReminderViewController
+    func makeWorkTimeRecordingViewController(coordinator: HomeFlowCoordinator) -> WorkRecordViewController
 }
 
 protocol HomeFlowCoordinator: Coordinator {
@@ -19,6 +23,9 @@ protocol HomeFlowCoordinator: Coordinator {
     func showUserHome()
     func showManagerHome()
     func showNotiList()
+    
+    func showScheduleReminder()
+    func startWorkTimeRecord()
 }
 
 final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
@@ -61,5 +68,19 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
         let vc = dependencies.makeNotiListViewController(
             coordinator: self)
         navigationController.pushViewController(vc, animated: true)
+    }
+    
+    func showScheduleReminder() {
+        let vc = dependencies.makeScheduleReminderViewController(coordinator: self)
+        let bottomSheet =  BottomSheetController(contentViewController: vc)
+        navigationController.present(bottomSheet, animated: true)
+    }
+    
+    func startWorkTimeRecord() {
+        let vc = dependencies.makeWorkTimeRecordingViewController(coordinator: self)
+        guard let parentVC = navigationController.topViewController as? ScheduleReminderViewController else { Swift.print("???????"); return }
+        parentVC.addChild(vc)
+        parentVC.view.addSubview(vc.view)
+        vc.didMove(toParent: parentVC)
     }
 }
