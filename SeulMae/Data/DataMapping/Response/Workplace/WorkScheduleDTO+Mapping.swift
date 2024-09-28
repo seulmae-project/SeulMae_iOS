@@ -9,7 +9,7 @@ import Foundation
 
 struct WorkScheduleDTO: ModelType {
     let id: Int
-    let title: String?
+    let title: String
     let days: [Int]?
     let startTime: String?
     let endTime: String?
@@ -43,7 +43,7 @@ extension WorkScheduleDTO {
     func toDomain() -> WorkSchedule {
         return .init(
             id: self.id,
-            title: self.title ?? "",
+            title: self.title ,
             days: self.days ?? [],
             startTime: self.startTime ?? "",
             endTime: self.endTime ?? "",

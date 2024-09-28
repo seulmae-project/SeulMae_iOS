@@ -34,6 +34,8 @@ import Moya
 //}
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
+ 
+    
     private let network: WorkplaceNetworking
     private let storage: WorkplaceStorage
     
@@ -116,16 +118,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { $0.isSuccess }
     }
         
-    func fetchMemberInfo(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
-        return Single<BaseResponseDTO<MemberProfileDTO>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.memberInfoSuccess))
-            return Disposables.create()
-        }
-        .map { try $0.toDomain() }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
-    }
+   
     
     func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
         return network.rx
@@ -185,5 +178,19 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         .do(onError: { error in
             print("error: \(error)")
         })
+    }
+    
+    func fetchMemberInfo(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
+        return network.rx
+            .request(.memberDetails(userId: memberId))
+            .map(BaseResponseDTO<MemberProfileDto>.self)
+            .map { $0.toDomain() }
+    }
+    
+    func fetchMyInfo(workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
+        return network.rx
+            .request(.myDetails(workplaceId: workplaceId))
+            .map(BaseResponseDTO<MemberProfileDto>.self)
+            .map { $0.toDomain() }
     }
 }

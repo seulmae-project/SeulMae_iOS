@@ -1,5 +1,5 @@
 //
-//  WorkRecordViewController.swift
+//  WorkTimeRecordingViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/22/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class WorkRecordViewController: UIViewController {
+final class WorkTimeRecordingViewController: UIViewController {
     
     // MARK: - UI
     
@@ -25,17 +25,14 @@ final class WorkRecordViewController: UIViewController {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 17, weight: .regular)
+        label.text = "근무를 기록하고 있어요"
+        label.font = .pretendard(size: 24, weight: .medium)
         return label
     }()
     
     private let timeRecordingView = WorkStatusView()
     
-    private let getOffWorkButton: UIButton = {
-        let button = UIButton()
-        button.setTitle("퇴근하기", for: .normal)
-        return button
-    }()
+    private let getOffWorkButton: UIButton = .half(title: "퇴근하기")
     
     private let loadingIndicator: UIActivityIndicatorView = {
         let activity = UIActivityIndicatorView(style: .medium)
@@ -46,11 +43,11 @@ final class WorkRecordViewController: UIViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: WorkRecordViewModel
+    private var viewModel: WorkTimeRecordingViewModel
     
     // MARK: - Life Cycle Methods
     
-    init(viewModel: WorkRecordViewModel) {
+    init(viewModel: WorkTimeRecordingViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

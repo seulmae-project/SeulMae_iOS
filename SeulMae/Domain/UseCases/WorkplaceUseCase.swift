@@ -21,21 +21,23 @@ protocol WorkplaceUseCase {
     // Add new workplace
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>
 
-    
-    
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
     func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     
-    
     func fetchMemberList() -> Single<[Member]>
+    
+    func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
+    func fetchMyInfo() -> Single<MemberProfile>
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     func fetchWorkplaces() -> RxSwift.Single<[Workplace]> {
         return .just([])
     }
+    
+    
     
     private let workplaceRepository: WorkplaceRepository
     private let userRepository = UserRepository(network: UserNetworking())
@@ -93,14 +95,6 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         return workplaceRepository.fetchMemberList(workplaceId: currentWorkplaceId)
     }
     
-    func fetchMemberInfo(
-        memberIdentifier id: Member.ID
-    ) -> RxSwift.Single<MemberProfile> {
-        return workplaceRepository.fetchMemberInfo(memberId: id)
-            .do(onError: { error in
-                print("error: \(error)")
-            })
-    }
     
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         workplaceRepository.updateWorkplace(request)
@@ -128,5 +122,17 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
             workplaceApproveId: workplaceApproveId,
             workplaceJoinHistoryId: workplaceJoinHistoryId
         )
+    }
+    
+    func fetchMemberInfo(memberId id: Member.ID) -> RxSwift.Single<MemberProfile> {
+        return workplaceRepository.fetchMemberInfo(memberId: id)
+            .do(onError: { error in
+                print("error: \(error)")
+            })
+    }
+    
+    func fetchMyInfo() -> RxSwift.Single<MemberProfile> {
+        let workplaceId = userRepository.currentWorkplaceId
+        return workplaceRepository.fetchMyInfo(workplaceId: workplaceId)
     }
 }

@@ -11,19 +11,17 @@ import RxCocoa
 
 final class ScheduleReminderViewModel {
     
+    typealias Item = ScheduleReminderItem
+    
     struct Input {
         let onLoad: Signal<()>
-        let startDate: Driver<Date>
-        let endDate: Driver<Date>
-        let memo: Driver<String>
-        let onRequest: Signal<()> // Date
         let onWorkStart: Signal<()>
         let onRegister: Signal<()>
     }
     
     struct Output {
         let loading: Driver<Bool>
-        let item: Driver<ScheduleReminderItem>
+        let item: Driver<Item>
     }
     
     // MARK: - Dependencies
@@ -48,35 +46,15 @@ final class ScheduleReminderViewModel {
         let loading = indicator.asDriver()
             
         let onLoad = Signal.merge(.just(()), input.onLoad)
-        
-        let wage = onLoad.flatMapLatest { [weak self] _ -> Driver<Int> in
+        let item = onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
             guard let strongSelf = self else { return .empty() }
-            return .just(10_000)
+            return strongSelf.workplaceUseCase
+                .fetchMyInfo()
+                .trackActivity(indicator)
+                .map(\.workScheduleList)
+                .map(Item.init(workScheduleList:))
+                .asDriver()
         }
-        
-        let workScheduleList = onLoad.flatMapLatest { [weak self] _ -> Driver<[WorkSchedule]> in
-            guard let strongSelf = self else { return .empty() }
-            return .just([])
-        }
-        
-        let dateAndWage = Driver.combineLatest(input.startDate, input.endDate, wage)
-        
-//        let isAttend = input.onRequest.withLatestFrom(dateAndWage)
-//            .flatMapLatest { [weak self] (start, end, wage) -> Driver<Bool> in
-//                guard let strongSelf = self else { return .empty() }
-//                let request = strongSelf.workTimeCalculator
-//                    .calculate(start: start, end: end, wage: wage)
-//                return strongSelf.attendanceUseCase
-//                    .attend(request: request)
-//                    .trackActivity(indicator)
-//                    .asDriver()
-//            }
-//        
-//        Task {
-//            for await _ in isAttend.values {
-//                
-//            }
-//        }
         
         // MARK: - Coordinator
         
@@ -94,7 +72,7 @@ final class ScheduleReminderViewModel {
       
         return Output(
             loading: loading,
-            item: .empty()// item
+            item: item
         )
     }
 }

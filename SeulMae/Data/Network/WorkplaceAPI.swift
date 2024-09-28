@@ -22,7 +22,10 @@ enum WorkplaceAPI: SugarTargetType {
     case denyApplication(workplaceApproveId: String)
     case fetchApplicationList(workplaceId: Workplace.ID)
     case memberList(workplaceId: Workplace.ID)
+    
     case memberDetails(userId: Member.ID)
+    case myDetails(workplaceId: Workplace.ID)
+    
     case fetchJoinedWorkplaceList
     case promote(requset: PromoteRequset)
     case leaveWorkplace(workplaceId: Workplace.ID)
@@ -45,7 +48,10 @@ extension WorkplaceAPI {
         case .denyApplication: return .post("api/workplace/join/v1/rejection")
         case .fetchApplicationList: return .get("api/workplace/join/v1/request/list")
         case .memberList: return .get("api/workplace/user/v1/list")
+            
         case .memberDetails: return .get("api/workplace/user/v1")
+        case .myDetails: return .get("api/workplace/user/v1/self")
+            
         case .fetchJoinedWorkplaceList: return .get("api/workplace/v1/info/join")
         case .promote: return .post("api/workplace/user/v1/manager/delegate")
         case .leaveWorkplace: return .delete("api/workplace/user/v1/list")
@@ -130,12 +136,20 @@ extension WorkplaceAPI {
                     "workplaceId": workplaceId
                 ],
                 encoding: URLEncoding.queryString)
+            
         case let .memberDetails(userId: userId):
             return .requestParameters(
                 parameters: [
                     "userWorkplaceId": userId
                 ],
                 encoding: URLEncoding.queryString)
+        case let .myDetails(workplaceId: workplaceId):
+            return .requestParameters(
+                parameters: [
+                    "workplaceId": workplaceId
+                ],
+                encoding: URLEncoding.queryString)
+            
         case .fetchJoinedWorkplaceList:
             return .requestPlain
         case let .promote(requset: requset):

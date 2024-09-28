@@ -64,7 +64,7 @@ class DefaultMemberRepository: MemberRepository {
             }, onError: { error in
                 Swift.print("error: \(error)")
             })
-            .map(BaseResponseDTO<MemberProfileDTO>.self)
+            .map(BaseResponseDTO<MemberProfileDto>.self)
             .map { try $0.toDomain() }
     }
 }

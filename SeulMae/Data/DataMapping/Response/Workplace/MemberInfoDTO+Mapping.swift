@@ -1,5 +1,5 @@
 //
-//  MemberProfileDTO+Mapping.swift
+//  MemberProfileDto+Mapping.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/20/24.
@@ -7,14 +7,14 @@
 
 import Foundation
 
-struct MemberProfileDTO: ModelType {
-    let name: String?
-    let phoneNumber: String?
+struct MemberProfileDto: ModelType {
+    let name: String
+    let phoneNumber: String
     let imageURL: String?
-    let joinDate: Date? // 2024-07-19
-    let workScheduleDTO: WorkScheduleDTO?
-    let payDay: Int?
-    let baseWage: Int?
+    let joinDate: Date
+    let workScheduleList: [WorkScheduleDTO]?
+    let payDay: Int
+    let baseWage: Int
     let memo: String?
     
     enum CodingKeys: String, CodingKey {
@@ -22,7 +22,7 @@ struct MemberProfileDTO: ModelType {
         case phoneNumber
         case imageURL
         case joinDate
-        case workScheduleDTO = "workScheduleDto"
+        case workScheduleList = "workScheduleDtoList"
         case payDay
         case baseWage
         case memo
@@ -31,23 +31,23 @@ struct MemberProfileDTO: ModelType {
 
 // MARK: - Mappings To Domain
 
-extension BaseResponseDTO<MemberProfileDTO> {
-    func toDomain() throws -> MemberProfile {
+extension BaseResponseDTO<MemberProfileDto> {
+    func toDomain() -> MemberProfile {
         return data!.toDomain()
     }
 }
 
-extension MemberProfileDTO {
+extension MemberProfileDto {
     func toDomain() -> MemberProfile {
         return .init(
             name: name,
             phoneNumber: phoneNumber,
             imageURL: imageURL,
             joinDate: joinDate,
-            workSchedule: workScheduleDTO?.toDomain(),
+            workScheduleList: workScheduleList?.map { $0.toDomain() } ?? [],
             payDay: payDay,
             baseWage: baseWage,
-            memo: memo
+            memo: memo ?? ""
         )
     }
 }

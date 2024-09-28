@@ -113,6 +113,7 @@
 		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
 		8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */; };
 		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
+		865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -186,8 +187,8 @@
 		86AC25F42C9C2FE40009D249 /* ScheduleReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */; };
 		86AC25F62C9C32360009D249 /* ScheduleReminderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F52C9C32360009D249 /* ScheduleReminderViewModel.swift */; };
 		86AC25F82CA039D00009D249 /* WorkTimeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */; };
-		86AC25FB2CA0437E0009D249 /* WorkRecordViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25FA2CA0437E0009D249 /* WorkRecordViewController.swift */; };
-		86AC25FD2CA043A20009D249 /* WorkRecordViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25FC2CA043A20009D249 /* WorkRecordViewModel.swift */; };
+		86AC25FB2CA0437E0009D249 /* WorkTimeRecordingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25FA2CA0437E0009D249 /* WorkTimeRecordingViewController.swift */; };
+		86AC25FD2CA043A20009D249 /* WorkTimeRecordingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25FC2CA043A20009D249 /* WorkTimeRecordingViewModel.swift */; };
 		86AC26002CA0440D0009D249 /* RequestAttendanceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25FF2CA0440D0009D249 /* RequestAttendanceViewController.swift */; };
 		86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D802C3293CD0088E1B1 /* DayContentView.swift */; };
 		86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */; };
@@ -429,6 +430,7 @@
 		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
+		865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftScheduleView.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -502,8 +504,8 @@
 		86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleReminderViewController.swift; sourceTree = "<group>"; };
 		86AC25F52C9C32360009D249 /* ScheduleReminderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleReminderViewModel.swift; sourceTree = "<group>"; };
 		86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeCalculator.swift; sourceTree = "<group>"; };
-		86AC25FA2CA0437E0009D249 /* WorkRecordViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkRecordViewController.swift; sourceTree = "<group>"; };
-		86AC25FC2CA043A20009D249 /* WorkRecordViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkRecordViewModel.swift; sourceTree = "<group>"; };
+		86AC25FA2CA0437E0009D249 /* WorkTimeRecordingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeRecordingViewController.swift; sourceTree = "<group>"; };
+		86AC25FC2CA043A20009D249 /* WorkTimeRecordingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeRecordingViewModel.swift; sourceTree = "<group>"; };
 		86AC25FF2CA0440D0009D249 /* RequestAttendanceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RequestAttendanceViewController.swift; sourceTree = "<group>"; };
 		86B07D802C3293CD0088E1B1 /* DayContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DayContentView.swift; sourceTree = "<group>"; };
 		86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UIContentConfiguration+Stateless.swift"; sourceTree = "<group>"; };
@@ -1000,7 +1002,7 @@
 			children = (
 				86AC26012CA044190009D249 /* AttendanceTabBar */,
 				86AC25F22C9C2A220009D249 /* ScheduleRemainder */,
-				86AC25F92CA042EC0009D249 /* WorkRecord */,
+				86AC25F92CA042EC0009D249 /* WorkTimeRecording */,
 				86AC25FE2CA043B70009D249 /* RequestAttendance */,
 				86E299AC2C1721FF00805AD0 /* MainViewController.swift */,
 				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
@@ -1636,21 +1638,21 @@
 			isa = PBXGroup;
 			children = (
 				86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */,
+				865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */,
 				86AC25F52C9C32360009D249 /* ScheduleReminderViewModel.swift */,
-				86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */,
 				8603CBDF2CA2F58D00194A79 /* ScheduleReminderItem.swift */,
 			);
 			path = ScheduleRemainder;
 			sourceTree = "<group>";
 		};
-		86AC25F92CA042EC0009D249 /* WorkRecord */ = {
+		86AC25F92CA042EC0009D249 /* WorkTimeRecording */ = {
 			isa = PBXGroup;
 			children = (
-				86AC25FA2CA0437E0009D249 /* WorkRecordViewController.swift */,
-				86AC25FC2CA043A20009D249 /* WorkRecordViewModel.swift */,
+				86AC25FA2CA0437E0009D249 /* WorkTimeRecordingViewController.swift */,
+				86AC25FC2CA043A20009D249 /* WorkTimeRecordingViewModel.swift */,
 				8603CBE32CA78ACF00194A79 /* WorkTimeRecordingItem.swift */,
 			);
-			path = WorkRecord;
+			path = WorkTimeRecording;
 			sourceTree = "<group>";
 		};
 		86AC25FE2CA043B70009D249 /* RequestAttendance */ = {
@@ -1990,6 +1992,7 @@
 				86FD61E02C89598F005ED02F /* Setting */,
 				86FD62152C8D9A3E005ED02F /* WorkScheduleList */,
 				86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */,
+				86AC25F72CA039D00009D249 /* WorkTimeCalculator.swift */,
 				8624AC722C2EA93A001FF383 /* View */,
 				8624AC732C2EA93D001FF383 /* ViewModel */,
 			);
@@ -2281,7 +2284,7 @@
 			files = (
 				86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */,
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
-				86AC25FB2CA0437E0009D249 /* WorkRecordViewController.swift in Sources */,
+				86AC25FB2CA0437E0009D249 /* WorkTimeRecordingViewController.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
 				869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */,
 				86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */,
@@ -2352,7 +2355,7 @@
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */,
-				86AC25FD2CA043A20009D249 /* WorkRecordViewModel.swift in Sources */,
+				86AC25FD2CA043A20009D249 /* WorkTimeRecordingViewModel.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
 				86AC25F62C9C32360009D249 /* ScheduleReminderViewModel.swift in Sources */,
 				86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */,
@@ -2471,6 +2474,7 @@
 				86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */,
 				86FD61EE2C8ACBB6005ED02F /* AddressDTO+Mapping.swift in Sources */,
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
+				865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
 				86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */,
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,

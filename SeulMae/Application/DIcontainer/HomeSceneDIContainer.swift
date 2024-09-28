@@ -88,10 +88,11 @@ final class HomeSceneDIContainer {
     
     
     private func makeWorkTimeRecordingViewModel(
-        coordinator: any HomeFlowCoordinator) -> WorkRecordViewModel {
+        coordinator: any HomeFlowCoordinator) -> WorkTimeRecordingViewModel {
             return .init(
                 dependencies: (
                     coordinator: coordinator,
+                    workplaceUseCase: makeWorkplaceUseCase(),
                     atendanceHistoryUseCase: makeAttendanceHistoryUseCase(),
                     workTimeCalculator: WorkTimeCalculator()
                 )
@@ -130,8 +131,8 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
         }
     
     func makeWorkTimeRecordingViewController(
-        coordinator: any HomeFlowCoordinator) -> WorkRecordViewController {
-            return WorkRecordViewController(
+        coordinator: any HomeFlowCoordinator) -> WorkTimeRecordingViewController {
+            return WorkTimeRecordingViewController(
                 viewModel: makeWorkTimeRecordingViewModel(coordinator: coordinator)
             )
         }

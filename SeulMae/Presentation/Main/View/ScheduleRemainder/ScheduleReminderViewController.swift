@@ -100,29 +100,23 @@ final class ScheduleReminderViewController: UIViewController {
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                startDate: .empty(),
-                endDate: .empty(),
-                memo: .empty(),
-                onRequest: .empty(), // deprecated
                 onWorkStart: workStartButton.rx.tap.asSignal(),
                 onRegister: registerAttendnaceButton.rx.tap.asSignal()
             )
         )
         
         Task {
-            for await _ in output.loading.values {
-                
+            for await loading in output.loading.values {
+                loadingIndicator.ext.isAnimating(loading)
             }
         }
         
         Task {
             for await item in output.item.values {
-                switch item.itemType {
-                case .reminder:
-                    scheduleReminderLabel.text = item.reminder
-                case .workScheduleList:
-                    break // content view able..?
-                }
+                scheduleReminderLabel.text = item.reminder
+                item.inToday
+                    .map { LeftScheduleView.init(title: $0.title) }
+                    .forEach(scheduleListStack.addArrangedSubview)
             }
         }
     }

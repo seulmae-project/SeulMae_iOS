@@ -8,12 +8,12 @@
 import Foundation
 
 struct MemberProfile: Hashable {
-    let name: String?
-    let phoneNumber: String?
+    let name: String
+    let phoneNumber: String
     let imageURL: String?
-    let joinDate: Date? // 2024-07-19
-    let workSchedule: WorkSchedule?
-    let payDay: Int?
-    let baseWage: Int?
-    let memo: String?
+    let joinDate: Date
+    let workScheduleList: [WorkSchedule]
+    let payDay: Int
+    let baseWage: Int
+    let memo: String
 }
