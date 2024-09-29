@@ -88,31 +88,16 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     func fetchWorkplaceDetail(workplaceId: Workplace.ID) -> RxSwift.Single<Workplace> {
         return network.rx
             .request(.fetchWorkplaceDetails(workplaceId: workplaceId))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
-            }, onError: { error in
-                print(#function)
-                Swift.print("error: \(error)")
-            })
             .map(BaseResponseDTO<WorkplaceDTO>.self)
-            .map { try $0.toDomain() }
+            .map { $0.toDomain() }
     }
     
     func submitApplication(workplaceId: Workplace.ID) -> RxSwift.Single<Bool> {
         return network.rx
             .request(.submitApplication(workplaceId: workplaceId))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
             .map(BaseResponseDTO<String?>.self)
             .map { $0.isSuccess }
     }
-        
-   
     
     func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
         return network.rx

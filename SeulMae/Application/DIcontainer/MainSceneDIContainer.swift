@@ -66,8 +66,8 @@ final class MainSceneDIContainer {
 }
 
 extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
- 
-   
+    
+    
     // MARK: - Main
     
     func makeMainViewController(coordinator: any MainFlowCoordinator) -> MainViewController {
@@ -101,7 +101,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
             )
         )
     }
-   
+    
     
     // MARK: - Workplace Finder
     
@@ -127,22 +127,22 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     private func makeSearchWorkplaceViewModel(
         coordinator: any MainFlowCoordinator) -> SearchWorkplaceViewModel {
-        return SearchWorkplaceViewModel(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase()
-//                validationService: any ValidationService,
-//                wireframe: any Wireframe
+            return SearchWorkplaceViewModel(
+                dependencies: (
+                    coordinator: coordinator,
+                    workplaceUseCase: makeWorkplaceUseCase()
+                    //                validationService: any ValidationService,
+                    //                wireframe: any Wireframe
+                )
             )
-        )
-    }
+        }
     
     // MARK: - Add New Workplace
     
     func makeAddNewWorkplaceViewController(
         coordinator: any MainFlowCoordinator) -> AddNewWorkplaceViewController {
             return AddNewWorkplaceViewController(viewModel: makeAddNewWorkplaceViewModel(coordinator: coordinator))
-    }
+        }
     
     private func makeAddNewWorkplaceViewModel(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewModel {
         return AddNewWorkplaceViewModel(
@@ -159,20 +159,21 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     func makeWorkplaceDetailsViewController(
         coordinator: any MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController {
-            return WorkplaceDetailsViewController(viewModel: makeWorkplaceDetailsViewModel(coordinator: coordinator, workplaceID: workplaceID))
-    }
+            return WorkplaceDetailsViewController(viewModel: makeWorkplaceDetailsViewModel(coordinator: coordinator, workplaceId: workplaceID))
+        }
     
-    private func makeWorkplaceDetailsViewModel(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewModel {
-        return WorkplaceDetailsViewModel(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                validationService: DefaultValidationService.shared,
-                wireframe: DefaultWireframe.shared,
-                workplaceID: workplaceID
+    private func makeWorkplaceDetailsViewModel(
+        coordinator: MainFlowCoordinator,
+        workplaceId: Workplace.ID) -> WorkplaceDetailsViewModel {
+            return WorkplaceDetailsViewModel(
+                dependencies: (
+                    coordinator: coordinator,
+                    workplaceUseCase: makeWorkplaceUseCase(),
+                    wireframe: DefaultWireframe.shared,
+                    workplaceId: workplaceId
+                )
             )
-        )
-    }
+        }
     
     // MARK: - Member Info
     
@@ -203,111 +204,111 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     // MARK: - Noti List
     
-//    func makeNotiListViewController(
-//        workplaceIdentifier: Workplace.ID,
-//        coordinator: any MainFlowCoordinator
-//    ) -> NotiListViewController {
-//        return NotiListViewController(
-//            viewModel: makeNotiListViewModel(
-//                workplaceIdentifier: workplaceIdentifier,
-//                coordinator: coordinator
-//            )
-//        )
-//    }
-//    
-//    private func makeNotiListViewModel(
-//        workplaceIdentifier: Workplace.ID,
-//        coordinator: MainFlowCoordinator
-//    ) -> NotiListViewModel {
-//        return NotiListViewModel(
-//            dependency: (
-//                workplaceIdentifier: workplaceIdentifier,
-//                coordinator: coordinator,
-//                workplaceUseCase: makeWorkplaceUseCase(),
-//                noticeUseCase: makeNoticeUseCase()
-//            )
-//        )
-//    }
+    //    func makeNotiListViewController(
+    //        workplaceIdentifier: Workplace.ID,
+    //        coordinator: any MainFlowCoordinator
+    //    ) -> NotiListViewController {
+    //        return NotiListViewController(
+    //            viewModel: makeNotiListViewModel(
+    //                workplaceIdentifier: workplaceIdentifier,
+    //                coordinator: coordinator
+    //            )
+    //        )
+    //    }
+    //
+    //    private func makeNotiListViewModel(
+    //        workplaceIdentifier: Workplace.ID,
+    //        coordinator: MainFlowCoordinator
+    //    ) -> NotiListViewModel {
+    //        return NotiListViewModel(
+    //            dependency: (
+    //                workplaceIdentifier: workplaceIdentifier,
+    //                coordinator: coordinator,
+    //                workplaceUseCase: makeWorkplaceUseCase(),
+    //                noticeUseCase: makeNoticeUseCase()
+    //            )
+    //        )
+    //    }
     
     // MARK: - Notice Detail
     
-   
+    
     
     
     
     // MARK: - Announce
-//    
-//    func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
-//        return AnnounceViewController(
-//            viewModel: AnnounceViewModel(
-//                dependencies: (
-//                    coordinator: coordinator,
-//                    noticeUseCase: makeNoticeUseCase()
-//                )
-//            ),
-//            viewControllers: [
-//                AnnounceListViewController(
-//                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
-//                ),
-//                AnnounceListViewController(
-//                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
-//                ),
-//                AnnounceListViewController(
-//                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
-//                ),
-//            ])
-//    }
-//    
-//    func makeAnnounceDetailViewController(
-//        coordinator: any MainFlowCoordinator,
-//        announceId: Announce.ID?
-//    ) -> AnnounceDetailViewController {
-//        return AnnounceDetailViewController(
-//            viewModel: makeNoticeDtailViewModel(
-//                coordinator: coordinator,
-//                noticeUseCase: makeNoticeUseCase(),
-//                wireframe: DefaultWireframe.shared,
-//                announceId: announceId
-//            )
-//        )
-//    }
-//    
-//    private func makeNoticeDtailViewModel(
-//        coordinator: MainFlowCoordinator,
-//        noticeUseCase: NoticeUseCase,
-//        wireframe: Wireframe,
-//        announceId: Announce.ID?
-//    ) -> AnnounceDetailViewModel {
-//        return AnnounceDetailViewModel(
-//            dependencies: (
-//                coordinator: coordinator,
-//                noticeUseCase: noticeUseCase,
-//                wireframe: wireframe,
-//                announceId: announceId
-//            )
-//        )
-//    }
-//    
-//    func makeWorkplaceViewController(coordinator: MainFlowCoordinator) -> WorkplaceViewController {
-//        return WorkplaceViewController(
-//            viewModel: WorkplaceViewModel(
-//                dependencies: (
-//                    coordinator: coordinator,
-//                    memberUseCase: DefaultMemberUseCase(),
-//                    announceUseCase: DefaultAnnounceUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking())),
-//                    workScheduleUseCase: DefaultWorkScheduleUseCase(workScheduleRepository: DefaultWorkScheduleRepository(network: WorkScheduleNetworking()))
-//                )
-//            )
-//        )
-//    }
-//    
-//    func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController {
-//        return SettingViewController(
-//            viewModel: SettingViewModel(
-//                dependencies: (
-//                    coordinator: coordinator,
-//                    userUseCase: DefaultUserUseCase(
-//                        userRepository: UserRepository(network: UserNetwork())
-//                    ))))
-//    }
+    //
+    //    func makeAnnounceViewController(coordinator: any MainFlowCoordinator) -> AnnounceViewController {
+    //        return AnnounceViewController(
+    //            viewModel: AnnounceViewModel(
+    //                dependencies: (
+    //                    coordinator: coordinator,
+    //                    noticeUseCase: makeNoticeUseCase()
+    //                )
+    //            ),
+    //            viewControllers: [
+    //                AnnounceListViewController(
+    //                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+    //                ),
+    //                AnnounceListViewController(
+    //                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+    //                ),
+    //                AnnounceListViewController(
+    //                    viewModel: AnnounceListViewModel(coordinator: coordinator, noticeUseCase: makeNoticeUseCase())
+    //                ),
+    //            ])
+    //    }
+    //
+    //    func makeAnnounceDetailViewController(
+    //        coordinator: any MainFlowCoordinator,
+    //        announceId: Announce.ID?
+    //    ) -> AnnounceDetailViewController {
+    //        return AnnounceDetailViewController(
+    //            viewModel: makeNoticeDtailViewModel(
+    //                coordinator: coordinator,
+    //                noticeUseCase: makeNoticeUseCase(),
+    //                wireframe: DefaultWireframe.shared,
+    //                announceId: announceId
+    //            )
+    //        )
+    //    }
+    //
+    //    private func makeNoticeDtailViewModel(
+    //        coordinator: MainFlowCoordinator,
+    //        noticeUseCase: NoticeUseCase,
+    //        wireframe: Wireframe,
+    //        announceId: Announce.ID?
+    //    ) -> AnnounceDetailViewModel {
+    //        return AnnounceDetailViewModel(
+    //            dependencies: (
+    //                coordinator: coordinator,
+    //                noticeUseCase: noticeUseCase,
+    //                wireframe: wireframe,
+    //                announceId: announceId
+    //            )
+    //        )
+    //    }
+    //
+    //    func makeWorkplaceViewController(coordinator: MainFlowCoordinator) -> WorkplaceViewController {
+    //        return WorkplaceViewController(
+    //            viewModel: WorkplaceViewModel(
+    //                dependencies: (
+    //                    coordinator: coordinator,
+    //                    memberUseCase: DefaultMemberUseCase(),
+    //                    announceUseCase: DefaultAnnounceUseCase(noticeRepository: DefaultNoticeRepository(network: MainNetworking())),
+    //                    workScheduleUseCase: DefaultWorkScheduleUseCase(workScheduleRepository: DefaultWorkScheduleRepository(network: WorkScheduleNetworking()))
+    //                )
+    //            )
+    //        )
+    //    }
+    //
+    //    func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController {
+    //        return SettingViewController(
+    //            viewModel: SettingViewModel(
+    //                dependencies: (
+    //                    coordinator: coordinator,
+    //                    userUseCase: DefaultUserUseCase(
+    //                        userRepository: UserRepository(network: UserNetwork())
+    //                    ))))
+    //    }
 }

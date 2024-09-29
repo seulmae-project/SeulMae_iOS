@@ -6,67 +6,119 @@
 //
 
 import UIKit
+import MapKit
 
-final class WorkplaceDetailsViewController: UIViewController {
+final class WorkplaceDetailsViewController: BaseViewController {
     
-// MAin image and common 구성
-    private let workplaceMainImageView: UIImageView = {
+    // MARK: - UI
+    
+    private let refreshControl = UIRefreshControl()
+   
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.refreshControl = refreshControl
+        let inset = CGFloat(20)
+        scrollView.directionalLayoutMargins = .init(top: 0, leading: inset, bottom: 0, trailing: inset)
+        return scrollView
+    }()
+    
+    private lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.isUserInteractionEnabled = false
+        return mapView
+    }()
+    
+    private let mainImageView: UIImageView = {
         let imageView = UIImageView()
-        
+        imageView.layer.cornerRadius = 125
+        imageView.layer.cornerCurve = .continuous
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.shadowColor = UIColor.black.cgColor
+        imageView.layer.shadowOpacity = 0.5
+        imageView.layer.shadowRadius = 7.0
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 3)
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
         return imageView
     }()
     
-    private let nameLabel: UILabel = .callout(title: "근무지")
-    private let workplaceNameLabel: UILabel = .callout(title: "")
+    private let _nameLabel: UILabel = .callout(title: "근무지")
+    private let nameLabel: UILabel = .callout(title: "")
     
     private let workplaceManagerLabel: UILabel = .callout(title: "매니저")
     
+    private let _contactLabel: UILabel = .callout(title: "연락처")
     private let contactLabel: UILabel = .callout(title: "연락처")
-    private let workplaceContactLabel: UILabel = .callout(title: "연락처")
 
-    private let addressLabel: UILabel = .callout(title: "주소")
-    private let workplaceAddressLabel: UILabel = .footnote(title: "주소")
+    private let _addressLabel: UILabel = .callout(title: "주소")
+    private let addressLabel: UILabel = .footnote(title: "주소")
     
-    private let membersLabel: UILabel = .callout(title: "참여인원")
-    private let workplaceMembersLabel: UILabel = .footnote(title: "-명")
+    private let _membersCountLabel: UILabel = .callout(title: "참여인원")
+    private let membersCountLabel: UILabel = .footnote(title: "-명")
     
     private let joinWorkplaceButton: UIButton = .common(title: "입장하기")
+    
+    // MARK: - Properties
  
     private var viewModel: WorkplaceDetailsViewModel
+    
+    // MARK: - Life Cycle Methods
     
     init(viewModel: WorkplaceDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        
-        setupView()
-        setupNavItem()
-        setupConstraints()
-        bindSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupView()
+        setupConstraints()
+        bindSubviews()
+    }
+    
     private func bindSubviews() {
+        let onLoad = rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in }
+            .asSignal()
+        
         let output = viewModel.transform(
-            .init(joinWorkplace: joinWorkplaceButton.rx.tap.asSignal())
+            .init(
+                onLoad: onLoad,
+                joinWorkplace: joinWorkplaceButton.rx.tap.asSignal()
+            )
         )
-        // Handle api loading
+        
+        // handle loading
         Task {
-            for await isLoading in output.isLoading.values {
-                Swift.print(isLoading)
+            for await loading in output.loading.values {
+                loadingIndicator.ext.isAnimating(loading)
             }
         }
+        
         // Handle workplace details information
         Task {
-            for await details in output.details.values {
-                // workplaceMainImageView
-                workplaceNameLabel.text = details.name
-                workplaceContactLabel.text = details.contact
-                workplaceAddressLabel.text = details.mainAddress
-                workplaceManagerLabel.text = details.manager
-                // workplaceMembersLabel
+            for await item in output.item.values {
+                if let imageURL = URL(string: item.imageUrl) {
+                    mainImageView.kf.setImage(
+                        with: imageURL,
+                        options: [
+                           .onFailureImage(UIImage()),
+                           .cacheOriginalImage
+                       ])
+                }
+                nameLabel.ext.setText(item.name)
+                contactLabel.ext.setText(item.contact)
+                addressLabel.ext.setText(item.address)
+                workplaceManagerLabel.ext.setText(item.manager)
+                navigationItem.title = item.name
             }
         }
     }
@@ -75,41 +127,60 @@ final class WorkplaceDetailsViewController: UIViewController {
         view.backgroundColor = .systemBackground
     }
     
-    private func setupNavItem() {
-        // navigationItem.title = "근무지 이름"
-    }
-    
     private func setupConstraints() {
         let contentStack = UIStackView()
         contentStack.axis = .vertical
         contentStack.spacing = 8.0
+        let views = [
+            _nameLabel,
+            nameLabel,
+            _contactLabel,
+            contactLabel,
+            _addressLabel,
+            addressLabel,
+            _membersCountLabel,
+            membersCountLabel,
+            joinWorkplaceButton
+        ]
+        views.forEach(contentStack.addArrangedSubview(_:))
         
-        view.addSubview(contentStack)
+        view.addSubview(scrollView)
+            
+        scrollView.addSubview(mapView)
+        scrollView.addSubview(mainImageView)
+        scrollView.addSubview(contentStack)
         
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        mainImageView.translatesAutoresizingMaskIntoConstraints = false
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         
-        contentStack.addArrangedSubview(nameLabel)
-        contentStack.addArrangedSubview(workplaceNameLabel)
-        
-        contentStack.addArrangedSubview(workplaceManagerLabel)
-        
-        contentStack.addArrangedSubview(contactLabel)
-        contentStack.addArrangedSubview(workplaceContactLabel)
-        
-        contentStack.addArrangedSubview(addressLabel)
-        contentStack.addArrangedSubview(workplaceAddressLabel)
-        
-        contentStack.addArrangedSubview(membersLabel)
-        contentStack.addArrangedSubview(workplaceMembersLabel)
-        
-        contentStack.addArrangedSubview(joinWorkplaceButton)
-        
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            // scrollView
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+    
+            // mapView
+            mapView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            mapView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mapView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            mapView.heightAnchor.constraint(equalToConstant: 300),
             
-            // Constraint button heigth
+            // mainImageView
+            mainImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -130),
+            mainImageView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
+            mainImageView.widthAnchor.constraint(equalToConstant: 250),
+            mainImageView.heightAnchor.constraint(equalToConstant: 250),
+            
+            // contentStack
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
+            contentStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 20),
+            contentStack.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            // Constraint buttons height
             joinWorkplaceButton.heightAnchor.constraint(equalToConstant: 56),
         ])
     }

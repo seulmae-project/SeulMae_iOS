@@ -11,21 +11,21 @@ import RxCocoa
 
 final class WorkplaceDetailsViewModel: ViewModel {
     struct Input {
+        let onLoad: Signal<()>
         let joinWorkplace: Signal<()>
     }
     
     struct Output {
-        let isLoading: Driver<Bool>
-        let details: Driver<Workplace>
+        let loading: Driver<Bool>
+        let item: Driver<WorkplaceDetailsItem>
     }
     
     // MARK: - Dependencies
     
     private let coordinator: MainFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
-    private let validationService: ValidationService
     private let wireframe: Wireframe
-    private let workplaceID: Workplace.ID
+    private let workplaceId: Workplace.ID
     
     // MARK: - Life Cycle
 
@@ -33,53 +33,61 @@ final class WorkplaceDetailsViewModel: ViewModel {
         dependencies: (
             coordinator: MainFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
-            validationService: ValidationService,
             wireframe: Wireframe,
-            workplaceID: Workplace.ID
+            workplaceId: Workplace.ID
         )
     ) {
         self.coordinator = dependencies.coordinator
         self.workplaceUseCase = dependencies.workplaceUseCase
-        self.validationService = dependencies.validationService
         self.wireframe = dependencies.wireframe
-        self.workplaceID = dependencies.workplaceID
+        self.workplaceId = dependencies.workplaceId
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        let indicator = ActivityIndicator()
-        let isLoading = indicator.asDriver()
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
         
-        let onLoad = Driver.just(())
+        let onLoad = Signal.merge(.just(()), input.onLoad)
         
-        let details = onLoad.flatMapLatest { [weak self] _ -> Driver<Workplace> in
+        let item = onLoad.flatMapLatest { [weak self] _ -> Driver<WorkplaceDetailsItem> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.workplaceUseCase
-                .fetchWorkplaceDetail(workplaceID: strongSelf.workplaceID)
-                .trackActivity(indicator)
+                .fetchWorkplaceDetail(workplaceId: strongSelf.workplaceId)
+                .trackActivity(tracker)
+                .map(WorkplaceDetailsItem.init(workplace:))
                 .asDriver()
         }
         
-        let isJoined = input.joinWorkplace
+        let isSubmit = input.joinWorkplace
             .flatMapLatest { [weak self] _ -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.workplaceUseCase
-                    .submitApplication(workplaceID: strongSelf.workplaceID)
-                    .trackActivity(indicator)
+                    .submitApplication(workplaceID: strongSelf.workplaceId)
+                    .trackActivity(tracker)
+                    .flatMap { isSubmit in
+                        let message = isSubmit ? "가입 요청되었습니다" : "잠시 후 다시 시도해주세요"
+                        return strongSelf.wireframe
+                            .promptFor(message, cancelAction: "확인", actions: [])
+                            .map { _ in isSubmit }
+                    }
                     .asDriver()
-                // TODO: - API Error 핸들링 필요
             }
         
         Task {
-            for await isJoined in isJoined.values {
-                Swift.print(#line, "isJoined: \(isJoined)")
+            for await isSubmit in isSubmit.values {
+                if isSubmit {
+                    coordinator.goBack()
+                } else {
+                    // TODO: - Handle API Error...
+                }
             }
         }
         
         // MARK: Output
         
         return Output(
-            isLoading: isLoading,
-            details: details
+            loading: loading,
+            item: item
         )
     }
 }

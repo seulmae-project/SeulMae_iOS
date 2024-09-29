@@ -22,4 +22,17 @@ extension Extension where ExtendedType == UILabel {
         ]
         type.attributedText = NSAttributedString(string: text, attributes: attributes)
     }
+    
+    func setText(_ text: String,
+                 lineHeightMultiple: CGFloat = 1.2,
+                 kern: CGFloat = 1.0) {
+        let paragraphStyle = NSMutableParagraphStyle()
+        paragraphStyle.lineHeightMultiple = lineHeightMultiple
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: type.font,
+            .kern: kern,
+            .paragraphStyle: paragraphStyle
+        ]
+        type.attributedText = NSAttributedString(string: text, attributes: attributes)
+    }
 }

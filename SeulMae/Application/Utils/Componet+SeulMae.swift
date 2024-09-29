@@ -46,8 +46,7 @@ extension UILabel {
     
     static func callout(title: String = "") -> UILabel {
         let label = UILabel()
-        label.text = title
-        label.font = .systemFont(ofSize: 16)
+        label.ext.setText(title, size: 16, weight: .regular)
         return label
     }
     

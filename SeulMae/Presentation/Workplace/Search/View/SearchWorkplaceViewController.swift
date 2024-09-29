@@ -70,11 +70,6 @@ final class SearchWorkplaceViewController: UIViewController {
             .map { _ in }
             .asSignal()
         
-        onLoad.emit(onNext: { _ in
-            Swift.print(#line, "onLoad")
-        })
-        .dispose()
-        
         let selected = collectionView.rx
             .itemSelected
             .compactMap { [weak self] index in

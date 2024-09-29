@@ -15,7 +15,7 @@ protocol WorkplaceUseCase {
     func fetchWorkplaces() -> Single<[Workplace]>
     
     // Workpalce details
-    func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> Single<Workplace>
+    func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> Single<Workplace>
     func submitApplication(workplaceID id: Workplace.ID) -> Single<Bool>
 
     // Add new workplace
@@ -74,7 +74,7 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     
     // MARK: - Details
     
-    func fetchWorkplaceDetail(workplaceID id: Workplace.ID) -> RxSwift.Single<Workplace> {
+    func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> RxSwift.Single<Workplace> {
         workplaceRepository.fetchWorkplaceDetail(workplaceId: id)
     }
 

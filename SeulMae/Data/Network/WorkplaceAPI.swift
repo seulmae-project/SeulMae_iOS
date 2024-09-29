@@ -40,7 +40,7 @@ extension WorkplaceAPI {
         switch self {
         case .addWorkplace: return .post("api/workplace/v1/add")
         case .fetchWorkplaceList: return .get("api/workplace/v1/info/all")
-        case .fetchWorkplaceDetails: return .get("v1/info")
+        case .fetchWorkplaceDetails: return .get("api/workplace/v1/info")
         case .updateWorkplace: return .patch("api/workplace/v1/modify")
         case .deleteWorkplace: return .delete("api/workplace/v1/delete")
         case .submitApplication: return .post("api/workplace/join/v1/request")
@@ -107,11 +107,9 @@ extension WorkplaceAPI {
                 ],
                 encoding: URLEncoding.queryString)
         case let .submitApplication(workplaceId: workplaceId):
-            return .requestParameters(
-                parameters: [
-                    "workplaceId": workplaceId
-                ],
-                encoding: URLEncoding.httpBody)
+            return .requestJSONEncodable([
+                "workplaceId": workplaceId
+            ])
         case let .acceptApplication(workplaceApproveId: workplaceApproveId, requset: requset):
             let encoder = JSONEncoder()
             let json = try? encoder.encode(requset)

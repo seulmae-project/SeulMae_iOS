@@ -117,6 +117,7 @@
 		865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */; };
 		865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */; };
 		865AA2012CA9735A00D70B09 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */; };
+		865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -436,6 +437,7 @@
 		865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceItem.swift; sourceTree = "<group>"; };
 		865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
+		865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsItem.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -766,6 +768,7 @@
 			isa = PBXGroup;
 			children = (
 				860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */,
+				865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2342,6 +2345,7 @@
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
 				86AC25F82CA039D00009D249 /* WorkTimeCalculator.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
+				865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
