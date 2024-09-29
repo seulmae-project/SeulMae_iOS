@@ -83,11 +83,11 @@ extension UILabel {
         return label
     }
     
-    static func common(title: String = "", size: CGFloat, wight: UIFont.PretendardWeight, color: UIColor = .label, numOfLines: Int = 0) -> UILabel {
+    static func common(title: String = "", size: CGFloat = 15, weight: UIFont.PretendardWeight = .regular, color: UIColor = .label, numOfLines: Int = 0) -> UILabel {
         let label = UILabel()
         label.text = title
         label.numberOfLines = numOfLines
-        label.font = .pretendard(size: size, weight: wight)
+        label.font = .pretendard(size: size, weight: weight)
         label.textColor = color
         return label
     }
@@ -151,11 +151,18 @@ extension UIButton {
         return button
     }
     
-    static func common(title: String = "") -> UIButton {
+    static func common(
+        title: String = "",
+        size: CGFloat = 15,
+        weight: UIFont.PretendardWeight = .regular,
+        color: UIColor = .white,
+        backgroundColor: UIColor? = .primary
+    ) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
-        button.backgroundColor = .primary
+        button.titleLabel?.font = .pretendard(size: size, weight: weight)
+        button.setTitleColor(color, for: .normal)
+        button.backgroundColor = backgroundColor
         button.layer.cornerRadius = 8.0
         button.layer.cornerCurve = .continuous
         return button
@@ -166,6 +173,9 @@ extension UIButton {
         button.setImage(image, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
+        button.layer.cornerRadius = 4.0
+        button.layer.cornerCurve = .continuous
+        button.layer.masksToBounds = true
         return button
     }
     
@@ -173,7 +183,7 @@ extension UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.setTitleColor(UIColor(hexCode: "676768"), for: .normal)
-        button.titleLabel?.font = .pretendard(size: 16, weight: .semibold)
+        button.titleLabel?.font = .pretendard(size: 15, weight: .regular)
         return button
     }
 }
@@ -213,6 +223,22 @@ extension UITextField {
     static func password(placeholder: String) -> UITextField {
         let textField: UITextField = .common(placeholder: placeholder)
         textField.isSecureTextEntry = true
+        let showPasswordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        showPasswordButton.setImage(.eyeFill, for: .normal)
+        showPasswordButton.setImage(.eyeSlashFill, for: .selected)
+        showPasswordButton.contentVerticalAlignment = .fill
+        showPasswordButton.contentHorizontalAlignment = .fill
+        showPasswordButton.adjustsImageWhenHighlighted = false
+        let buttonPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        buttonPaddingView.addSubview(showPasswordButton)
+        showPasswordButton.center = buttonPaddingView.center
+        textField.rightView = buttonPaddingView
+        textField.rightViewMode = .always
+        let action = UIAction(handler: { _ in
+            showPasswordButton.isSelected.toggle()
+            textField.isSecureTextEntry.toggle()
+        })
+        showPasswordButton.addAction(action, for: .touchUpInside)
         return textField
     }
 }

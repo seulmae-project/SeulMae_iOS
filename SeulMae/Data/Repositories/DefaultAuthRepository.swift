@@ -27,23 +27,15 @@ class DefaultAuthRepository: AuthRepository {
     func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
         return network.rx
             .request(.signin(accountId: account, password: password, fcmToken: fcmToken))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
             .map(BaseResponseDTO<AuthDataDTO>.self)
-            .map { try $0.toDomain() }
+            .map { $0.toDomain() }
     }
     
-    func kakaoSignin() -> Single<Bool> {
-        return Single<Bool>.create { observer in
-            observer(.success(true))
-            return Disposables.create()
-        }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func socialSignin(token: String) -> Single<AuthData> {
+        return network.rx
+            .request(.socialLogin(type: .kakao, token: token, fcmToken: nil))
+            .map(BaseResponseDTO<AuthDataDTO>.self)
+            .map { $0.toDomain() }
     }
     
     // MARK: - Signup

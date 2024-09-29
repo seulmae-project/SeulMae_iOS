@@ -47,7 +47,7 @@ enum AuthAPI: SugarTargetType {
     case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationItem)
     case verifyAccountId(_ accountId: String)
     case signin(accountId: String, password: String, fcmToken: String)
-    case socialLogin(type: SocialLoginType, token: String, fcmToken: String)
+    case socialLogin(type: SocialLoginType, token: String, fcmToken: String?)
     case signout
     case updatePassword(accountId: String, password: String)
     case updateProfile(userId: Member.ID, request: UpdateProfileRequest, file: Data)

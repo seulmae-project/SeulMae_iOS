@@ -11,7 +11,7 @@ import RxSwift
 protocol AuthRepository {
     /// - Tag: Signin
     func signin(account: String, password: String, fcmToken: String) -> Single<AuthData>
-    func kakaoSignin() -> Single<Bool>
+    func socialSignin(token: String) -> Single<AuthData>
     
     /// - Tag: Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>

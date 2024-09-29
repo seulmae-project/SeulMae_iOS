@@ -4,7 +4,6 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="22685"/>
-        <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -18,66 +17,37 @@
                         <rect key="frame" x="0.0" y="0.0" width="393" height="852"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="gcx-4z-UD5">
-                                <rect key="frame" x="46.666666666666657" y="176" width="300" height="500"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" alignment="center" spacing="16" translatesAutoresizingMaskIntoConstraints="NO" id="WDW-Je-SaM">
+                                <rect key="frame" x="16" y="362" width="361" height="128"/>
                                 <subviews>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vVI-wz-MPR">
-                                        <rect key="frame" x="0.0" y="0.0" width="300" height="20.333333333333332"/>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="5ks-YX-J18">
+                                        <rect key="frame" x="0.0" y="0.0" width="144" height="128"/>
+                                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c02-Rb-g0o">
+                                        <rect key="frame" x="160" y="54.000000000000007" width="41.333333333333343" height="20.333333333333336"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5ze-VT-5Iq">
-                                        <rect key="frame" x="0.0" y="24.333333333333371" width="300" height="20.333333333333314"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="WDW-Je-SaM">
-                                        <rect key="frame" x="0.0" y="48.666666666666629" width="300" height="44"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EWR-fh-xVY">
-                                                <rect key="frame" x="0.0" y="0.0" width="300" height="44"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                                <constraints>
-                                                    <constraint firstAttribute="height" constant="44" id="bUR-ub-oc8"/>
-                                                </constraints>
-                                            </view>
-                                        </subviews>
-                                    </stackView>
-                                    <stackView opaque="NO" contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="jmv-Dt-lBb">
-                                        <rect key="frame" x="0.0" y="96.666666666666686" width="300" height="66"/>
-                                        <subviews>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hjh-en-kBm">
-                                                <rect key="frame" x="0.0" y="0.0" width="150" height="66"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </view>
-                                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F8i-xg-EG0">
-                                                <rect key="frame" x="150" y="0.0" width="150" height="66"/>
-                                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
-                                            </view>
-                                        </subviews>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="66" id="Zfh-HC-lZ0"/>
-                                        </constraints>
-                                    </stackView>
-                                    <view contentMode="scaleToFill" verticalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="K4J-Qp-uwR">
-                                        <rect key="frame" x="0.0" y="166.66666666666674" width="300" height="333.33333333333326"/>
+                                    <view contentMode="scaleToFill" horizontalHuggingPriority="1" translatesAutoresizingMaskIntoConstraints="NO" id="POl-dB-dzi">
+                                        <rect key="frame" x="217.33333333333337" y="0.0" width="143.66666666666663" height="128"/>
                                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                     </view>
                                 </subviews>
-                                <color key="backgroundColor" name="SecondaryLabel"/>
+                                <color key="backgroundColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
-                                    <constraint firstAttribute="width" constant="300" id="5Zk-By-aaa"/>
-                                    <constraint firstAttribute="height" constant="500" id="lAg-oH-uqA"/>
+                                    <constraint firstItem="POl-dB-dzi" firstAttribute="width" secondItem="5ks-YX-J18" secondAttribute="width" id="u3b-XK-7nk"/>
                                 </constraints>
                             </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="dcK-z0-vnE"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstItem="gcx-4z-UD5" firstAttribute="centerY" secondItem="0Pg-Hu-p15" secondAttribute="centerY" id="4hY-GO-TQ1"/>
-                            <constraint firstItem="gcx-4z-UD5" firstAttribute="centerX" secondItem="0Pg-Hu-p15" secondAttribute="centerX" id="qE0-Ob-E13"/>
+                            <constraint firstItem="WDW-Je-SaM" firstAttribute="centerY" secondItem="0Pg-Hu-p15" secondAttribute="centerY" id="9DV-ze-Mzp"/>
+                            <constraint firstItem="WDW-Je-SaM" firstAttribute="centerX" secondItem="0Pg-Hu-p15" secondAttribute="centerX" id="Ajc-kk-9yi"/>
+                            <constraint firstItem="WDW-Je-SaM" firstAttribute="leading" secondItem="dcK-z0-vnE" secondAttribute="leading" constant="16" id="g6F-qV-Yb0"/>
+                            <constraint firstItem="dcK-z0-vnE" firstAttribute="trailing" secondItem="WDW-Je-SaM" secondAttribute="trailing" constant="16" id="jRy-PM-JL0"/>
                         </constraints>
                     </view>
                 </viewController>
@@ -87,9 +57,6 @@
         </scene>
     </scenes>
     <resources>
-        <namedColor name="SecondaryLabel">
-            <color red="0.40400001406669617" green="0.40400001406669617" blue="0.40799999237060547" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

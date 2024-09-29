@@ -63,7 +63,7 @@ protocol AuthFlowCoordinator: Coordinator {
 
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
-    // MARK: - Dependency
+    // MARK: - Dependencies
     
     var navigationController: UINavigationController
     var coordinators: [Coordinator] = []

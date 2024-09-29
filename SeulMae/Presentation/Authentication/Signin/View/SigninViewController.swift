@@ -14,22 +14,21 @@ enum CredentialRecoveryOption {
     case account, password
 }
 
-final class SigninViewController: UIViewController {
+final class SigninViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let titleLabel: UILabel = .common(title: "로그인", size: 24, wight: .semibold)
+    private let titleLabel: UILabel = .common(title: "로그인", size: 24, weight: .semibold)
     // private let appIconImageView: UIImageView = .common(image: .appLogo)
-    private let userIDTextField: UITextField = .common(placeholder: "아이디를 입력해주세요")
+    private let idTextField: UITextField = .common(placeholder: "아이디를 입력해주세요")
     private let passwordTextField: UITextField = .password(placeholder: "비밀번호를 입력해주세요")
-    private let signInButton: UIButton = .common(title: "로그인")
-    private let accountRecoveryButton: UIButton = .callout(title: "아이디 또는 비밀번호 찾기")
-    private let dotLabel: UILabel = .common(title: "·", size: 14, wight: .regular)
-    private let signupButton: UIButton = .callout(title: "회원가입")
-    private let orLabel: UILabel = .common(title: "OR", size: 14, wight: .regular)
+    private let signInButton: UIButton = .common(title: "로그인", size: 18, weight: .medium)
+    private let accountRecoveryButton: UIButton = .common(title: "아이디 또는 비밀번호 찾기", color: .signinText, backgroundColor: nil)
+    private let dotLabel: UILabel = .common(title: "·", color: .signinText)
+    private let signupButton: UIButton = .common(title: "회원가입", color: .signinText, backgroundColor: nil)
+    private let orLabel: UILabel = .common(title: "OR", color: .signinText)
     private let kakaoSignInButton: UIButton = .image(.kakaoLogin)
     private let appleSignInButton: UIButton = .image(.appleLogin)
-    // private let loadingIndicator: UIActivityIndicatorView!
     
     // MARK: - Properties
     
@@ -62,6 +61,13 @@ final class SigninViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        // handle textField enter
+        Task {
+            for await _ in idTextField.rx.controlEvent(.editingDidEndOnExit).asDriver().values {
+                passwordTextField.becomeFirstResponder()
+            }
+        }
+        
         let appleSignin = appleSignInButton.rx.tap.asSignal()
         
         Task {
@@ -79,7 +85,7 @@ final class SigninViewController: UIViewController {
 
         let output = viewModel.transform(
             .init(
-                userID: userIDTextField.rx.text.orEmpty.asDriver(),
+                userID: idTextField.rx.text.orEmpty.asDriver(),
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
@@ -91,7 +97,7 @@ final class SigninViewController: UIViewController {
         
         Task {
             for await loading in output.loading.values {
-                
+                loadingIndicator.ext.isAnimating(loading)
             }
         }
     }
@@ -119,14 +125,15 @@ final class SigninViewController: UIViewController {
         
         let separatorStack = UIStackView()
         separatorStack.spacing = 16
-        separatorStack.distribution = .equalCentering
         separatorStack.alignment = .center
-        separatorStack.addArrangedSubview(.separator)
+        let leftSeparator = UIView.separator
+        let rightSeparator = UIView.separator
+        separatorStack.addArrangedSubview(leftSeparator)
         separatorStack.addArrangedSubview(orLabel)
-        separatorStack.addArrangedSubview(.separator)
+        separatorStack.addArrangedSubview(rightSeparator)
        
         let optionStack = UIStackView()
-        optionStack.spacing = 16
+        optionStack.spacing = 4.0
         optionStack.addArrangedSubview(accountRecoveryButton)
         optionStack.addArrangedSubview(dotLabel)
         optionStack.addArrangedSubview(signupButton)
@@ -134,7 +141,7 @@ final class SigninViewController: UIViewController {
         let contentStack = UIStackView()
         contentStack.axis = .vertical
         contentStack.spacing = 16
-        contentStack.addArrangedSubview(userIDTextField)
+        contentStack.addArrangedSubview(idTextField)
         contentStack.addArrangedSubview(passwordTextField)
         contentStack.addArrangedSubview(signInButton)
         
@@ -175,8 +182,11 @@ final class SigninViewController: UIViewController {
             socialLoginStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             socialLoginStack.topAnchor.constraint(equalTo: separatorStack.bottomAnchor, constant: 36),
             
+            // Constraint separator width
+            leftSeparator.widthAnchor.constraint(equalTo: rightSeparator.widthAnchor),
+            
             // Constraint textfields height
-            userIDTextField.heightAnchor.constraint(equalToConstant: 48),
+            idTextField.heightAnchor.constraint(equalToConstant: 48),
             passwordTextField.heightAnchor.constraint(equalToConstant: 48),
             
             // Constraint buttons height
@@ -196,5 +206,3 @@ extension SigninViewController: ASAuthorizationControllerPresentationContextProv
         self.view.window!
     }
 }
-
-

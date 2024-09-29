@@ -114,6 +114,7 @@
 		8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */; };
 		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
 		865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */; };
+		865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -146,7 +147,6 @@
 		8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B62C4A079800EB3D28 /* PageControl.swift */; };
 		8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */; };
 		8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */; };
-		868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -431,6 +431,7 @@
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
 		865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftScheduleView.swift; sourceTree = "<group>"; };
+		865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -462,7 +463,6 @@
 		8684C5B62C4A079800EB3D28 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceView.swift; sourceTree = "<group>"; };
 		8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameCalculator.swift; sourceTree = "<group>"; };
-		868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+Ex.swift"; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -1312,7 +1312,6 @@
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 				8697FBEA2C2D19140027A035 /* Rxswift+ */,
 				86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */,
-				868F37C92C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift */,
 				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
 				869C7A772C6F08E6008EB7ED /* Data+String.swift */,
 				86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */,
@@ -1329,6 +1328,7 @@
 				8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */,
 				86DB32CE2C9A995C00575A03 /* NetwrokLogger.swift */,
 				8603CBE12CA5A1C000194A79 /* AuthPlugin.swift */,
+				865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -2325,7 +2325,6 @@
 				86E39F9E2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift in Sources */,
 				860EB2B72C74E47E00310985 /* NotiContentView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
-				868F37CA2C634DC300A0A440 /* UIActivityIndicatorView+Ex.swift in Sources */,
 				86B07D872C32A05D0088E1B1 /* CalendarControl.swift in Sources */,
 				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
 				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
@@ -2455,6 +2454,7 @@
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
 				864415642C6E217F00295838 /* KPostalViewController.swift in Sources */,
+				865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */,
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,

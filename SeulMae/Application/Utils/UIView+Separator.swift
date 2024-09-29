@@ -10,10 +10,11 @@ import UIKit
 extension UIView {
     static var separator: UIView {
         let separator = UIView()
-        separator.backgroundColor = .init(hexCode: "E5E5E5")
+        separator.backgroundColor = .signinSeparator
         separator.heightAnchor
             .constraint(equalToConstant: 1.0)
             .isActive = true
+        separator.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
         return separator
     }
 }

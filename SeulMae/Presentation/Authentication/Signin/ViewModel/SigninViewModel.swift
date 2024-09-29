@@ -118,8 +118,8 @@ final class SigninViewModel: ViewModel {
         
         Task {
             for await token in oAuthToken.values {
-                Swift.print("☘️ Login With Kakao Success: \(token)")
-                
+                Swift.print("☘️ did received kakao token: \(token)")
+                authUseCase.signin(email: <#T##String#>, password: <#T##String#>, fcmToken: <#T##String#>)
             }
         }
   

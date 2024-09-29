@@ -20,10 +20,10 @@ final class NotiContentView: UIView, UIContentView {
         }
     }
     
-    private let typeLabel: UILabel = .common(size: 13, wight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
-    private let dateLabel: UILabel = .common(size: 11, wight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
-    private let titleLabel: UILabel = .common(size: 16, wight: .bold, numOfLines: 1)
-    private let messageLabel: UILabel = .common(size: 16, wight: .regular, numOfLines: 1)
+    private let typeLabel: UILabel = .common(size: 13, weight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
+    private let dateLabel: UILabel = .common(size: 11, weight: .regular, color: UIColor(hexCode: "393939", alpha: 0.5), numOfLines: 1)
+    private let titleLabel: UILabel = .common(size: 16, weight: .bold, numOfLines: 1)
+    private let messageLabel: UILabel = .common(size: 16, weight: .regular, numOfLines: 1)
 
     var configuration: UIContentConfiguration {
         didSet {
