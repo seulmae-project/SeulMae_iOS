@@ -12,7 +12,8 @@ import RxCocoa
 final class WorkplaceDetailsViewModel: ViewModel {
     struct Input {
         let onLoad: Signal<()>
-        let joinWorkplace: Signal<()>
+        let onRefresh: Signal<()>
+        let onSubmit: Signal<()>
     }
     
     struct Output {
@@ -47,7 +48,7 @@ final class WorkplaceDetailsViewModel: ViewModel {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
         
-        let onLoad = Signal.merge(.just(()), input.onLoad)
+        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
         
         let item = onLoad.flatMapLatest { [weak self] _ -> Driver<WorkplaceDetailsItem> in
             guard let strongSelf = self else { return .empty() }
@@ -58,7 +59,7 @@ final class WorkplaceDetailsViewModel: ViewModel {
                 .asDriver()
         }
         
-        let isSubmit = input.joinWorkplace
+        let isSubmit = input.onSubmit
             .flatMapLatest { [weak self] _ -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.workplaceUseCase

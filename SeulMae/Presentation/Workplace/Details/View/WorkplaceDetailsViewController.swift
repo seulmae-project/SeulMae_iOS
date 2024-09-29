@@ -33,7 +33,7 @@ final class WorkplaceDetailsViewController: BaseViewController {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 125
         imageView.layer.cornerCurve = .continuous
-        imageView.layer.masksToBounds = true
+        // imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
         imageView.layer.borderWidth = 8.0
         imageView.layer.shadowColor = UIColor.black.cgColor
@@ -84,15 +84,30 @@ final class WorkplaceDetailsViewController: BaseViewController {
         bindSubviews()
     }
     
+    // MARK: - Data Binding
+    
     private func bindSubviews() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
+        let onRefresh = refreshControl.rx
+            .controlEvent(.valueChanged)
+            .map { _ in }
+            .asSignal()
+        
+        // handle refresh loading
+        Task {
+            for await _ in onRefresh.values {
+                try await Task.sleep(nanoseconds: 1_000_000_000)
+                refreshControl.endRefreshing()
+            }
+        }
         
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                joinWorkplace: joinWorkplaceButton.rx.tap.asSignal()
+                onRefresh: onRefresh,
+                onSubmit: joinWorkplaceButton.rx.tap.asSignal()
             )
         )
         
@@ -122,6 +137,8 @@ final class WorkplaceDetailsViewController: BaseViewController {
             }
         }
     }
+    
+    // MARK: - Hierarchy
     
     private func setupView() {
         view.backgroundColor = .systemBackground
