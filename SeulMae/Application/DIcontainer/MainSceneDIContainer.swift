@@ -11,6 +11,7 @@ final class MainSceneDIContainer {
     
     struct Dependencies {
         let notificationNetworking: NotificationNetworking
+        let workplaceNetworking: WorkplaceNetworking
     }
     
     private let dependencies: Dependencies
@@ -46,7 +47,10 @@ final class MainSceneDIContainer {
     }
     
     private func makeWorkplaceRepository() -> WorkplaceRepository {
-        return DefaultWorkplaceRepository(network: WorkplaceNetworking(), storage: SQLiteWorkplaceStorage())
+        return DefaultWorkplaceRepository(
+            network: dependencies.workplaceNetworking,
+            storage: SQLiteWorkplaceStorage()
+        )
     }
     
     // MARK: - Flow Coordinators
@@ -118,8 +122,8 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     func makeSearchWorkplaceViewController(
         coordinator: any MainFlowCoordinator) -> SearchWorkplaceViewController {
-        return SearchWorkplaceViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
-    }
+            return SearchWorkplaceViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
+        }
     
     private func makeSearchWorkplaceViewModel(
         coordinator: any MainFlowCoordinator) -> SearchWorkplaceViewModel {

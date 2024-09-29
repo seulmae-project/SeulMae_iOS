@@ -12,6 +12,8 @@ import RxSwift
 import RxCocoa
 
 final class SearchWorkplaceViewModel: ViewModel {
+    typealias Item = SearchWorkplaceItem
+    
     struct Input {
         var onLoad: Signal<()>
         var query: Driver<String>
@@ -21,19 +23,14 @@ final class SearchWorkplaceViewModel: ViewModel {
     }
     
     struct Output {
-        let workplaces: Driver<[Workplace]>
+        let loading: Driver<Bool>
+        let item: Driver<Item>
     }
     
     // MARK: - Dependencies
     
     private let coordinator: MainFlowCoordinator
-    
     private let workplaceUseCase: WorkplaceUseCase
-    
-//    private let validationService: ValidationService
-//    
-//    private let wireframe: Wireframe
-
     
     // MARK: - Life Cycle
     
@@ -45,20 +42,25 @@ final class SearchWorkplaceViewModel: ViewModel {
     ) {
         self.coordinator = dependencies.coordinator
         self.workplaceUseCase = dependencies.workplaceUseCase
-//        self.validationService = dependency.validationService
-//        self.wireframe = dependency.wireframe
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        let workplaces = Signal.just(())
-            .flatMap { [weak self] _ -> Driver<[Workplace]> in
-                guard let strongSelf = self else { return .empty() }
-                return strongSelf.workplaceUseCase
-                    .fetchWorkplaces(keyword: "")
-                    .asDriver()
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
+        
+        let onLoad = Signal.merge(.just(()), input.onLoad)
+        
+        let item =  onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
+            guard let strongSelf = self else {
+                return .empty()
             }
-        
-        
+            
+            return strongSelf.workplaceUseCase
+                .fetchWorkplaces(keyword: "")
+                .trackActivity(tracker)
+                .map(Item.init(workplaceList:))
+                .asDriver()
+        }
         
         
         // MARK: - Coordinator Logic
@@ -76,7 +78,8 @@ final class SearchWorkplaceViewModel: ViewModel {
         }
         
         return Output(
-            workplaces: workplaces
+            loading: loading,
+            item: item
         )
     }
 }

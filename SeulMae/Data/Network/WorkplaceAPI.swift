@@ -13,7 +13,7 @@ typealias WorkplaceNetworking = MoyaProvider<WorkplaceAPI>
 
 enum WorkplaceAPI: SugarTargetType {
     case addWorkplace(request: AddNewWorkplaceRequest, data: Data)
-    case fetchWorkplaceList
+    case fetchWorkplaceList(keyword: String)
     case fetchWorkplaceDetails(workplaceId: Workplace.ID)
     case updateWorkplace(requset: UpdateWorkplaceRequest)
     case deleteWorkplace(workplaceId: Workplace.ID)
@@ -48,10 +48,8 @@ extension WorkplaceAPI {
         case .denyApplication: return .post("api/workplace/join/v1/rejection")
         case .fetchApplicationList: return .get("api/workplace/join/v1/request/list")
         case .memberList: return .get("api/workplace/user/v1/list")
-            
         case .memberDetails: return .get("api/workplace/user/v1")
         case .myDetails: return .get("api/workplace/user/v1/self")
-            
         case .fetchJoinedWorkplaceList: return .get("api/workplace/v1/info/join")
         case .promote: return .post("api/workplace/user/v1/manager/delegate")
         case .leaveWorkplace: return .delete("api/workplace/user/v1/list")
@@ -75,8 +73,12 @@ extension WorkplaceAPI {
                         name: "workplaceAddDto",
                         mimeType: "application/json"),
                 ])
-        case .fetchWorkplaceList:
-            return .requestPlain
+        case let .fetchWorkplaceList(keyword: keyword):
+            return .requestParameters(
+                parameters: [
+                    "keyword": keyword
+                ],
+                encoding: URLEncoding.queryString)
         case let .fetchWorkplaceDetails(workplaceId: workplaceId):
             return .requestParameters(
                 parameters: [
@@ -136,7 +138,6 @@ extension WorkplaceAPI {
                     "workplaceId": workplaceId
                 ],
                 encoding: URLEncoding.queryString)
-            
         case let .memberDetails(userId: userId):
             return .requestParameters(
                 parameters: [
@@ -169,8 +170,7 @@ extension WorkplaceAPI {
             // TODO: - Handle authorization code
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
-                //Authorization-refresh
+                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken") ?? "")"
             ]
         }
     }

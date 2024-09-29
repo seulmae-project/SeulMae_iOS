@@ -26,7 +26,7 @@ final class NetwrokLogger: EventMonitor {
                     + "Method: " + (request.request?.httpMethod ?? "") + "\n"
                     + "Body: " + "\(request.request?.httpBody?.toPrettyPrintedString ?? "")" + "\n")
     }
-        
+    
     func request<Value>(_ request: DataRequest, didParseResponse response: DataResponse<Value, AFError>) {
         print("🛰 NETWORK Response LOG")
         print("URL: " + (request.request?.url?.absoluteString ?? "") + "\n"
@@ -48,18 +48,27 @@ extension Data {
 
 final class CustomNetworkLoggerPlugin: PluginType {
     func willSend(_ request: RequestType, target: TargetType) {
-        print("🛰 Sending request: \(request.request?.url?.absoluteString ?? "")")
+        Swift.print("""
+            🛰 NETWORK Reqeust LOG
+                URL: \(request.request?.url?.absoluteString ?? "")
+                Method: \(request.request?.httpMethod ?? "")
+                Body: \(request.request?.httpBody?.toPrettyPrintedString ?? "")
+                Header: \(request.request?.headers.description ?? "")
+            """)
     }
-
+    
     func didReceive(_ result: Result<Response, MoyaError>, target: TargetType) {
         switch result {
         case .success(let response):
-            print("✅ Response received: \(response.statusCode)")
-            if let json = try? response.mapJSON() {
-                print("Response JSON: \(json)")
+            if let json = try? response.mapJSON(),
+               let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
+               let jsonString = String(data: data, encoding: .utf8) {
+                Swift.print("🛰 Received response: \(jsonString)")
+            } else {
+                Swift.print("🛰 Can't convert response to JSON or serialize it...")
             }
         case .failure(let error):
-            print("❌ Request failed with error: \(error)")
+            Swift.print("🛰 Request failed with error: \(error)")
         }
     }
 }

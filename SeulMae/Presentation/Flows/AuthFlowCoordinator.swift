@@ -43,7 +43,7 @@ protocol AuthFlowCoordinator: Coordinator {
     func startMain()
     // func showTutorial()
     //
-    func showSearchWorkplace()
+    func showWorkplaceFinder()
     
     // Shared
     func showSMSValidation(item: SMSVerificationItem)
@@ -98,8 +98,12 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         }
     }
     
-    func showSearchWorkplace() {
-        // mainFlowCoordinator.showWorkplaceFinder()
+    func showWorkplaceFinder() {
+        for child in coordinators {
+            if let main = child as? MainFlowCoordinator {
+                main.showWorkplaceFinder()
+            }
+        }
     }
     
     // MARK: - Common

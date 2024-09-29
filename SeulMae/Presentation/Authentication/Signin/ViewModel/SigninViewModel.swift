@@ -67,25 +67,18 @@ final class SigninViewModel: ViewModel {
             .flatMapLatest { [weak self] pair -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
-                    .signin(email: pair.userID, password: pair.password, fcmToken: "")
+                    .signin(email: pair.userID, password: pair.password)
                     .trackActivity(tracker)
-                    .asDriver { error in
-                        let message: String
-                        message = "error"
-                        return strongSelf.wireframe
-                            .promptFor(message, cancelAction: "OK", actions: [])
-                            .map { _ in false }
-                            .asDriver(onErrorDriveWith: .empty())
-                    }
+                    .asDriver()
             }
         
-        let isFirst = signedIn
+        let hasGroup = signedIn
             .filter { $0 }
             .flatMapLatest { [weak self] _ -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.workplaceUseCase
                     .fetchWorkplaces()
-                    .map { $0.isEmpty }
+                    .map { !($0.isEmpty) }
                     .asDriver()
             }
         
@@ -144,11 +137,11 @@ final class SigninViewModel: ViewModel {
         }
         
         Task {
-            for await isFirst in isFirst.values {
-                if isFirst {
+            for await hasGroup in hasGroup.values {
+                if hasGroup {
                     coordinator.startMain()
                 } else {
-                    coordinator.showSearchWorkplace()
+                    coordinator.showWorkplaceFinder()
                 }
             }
         }

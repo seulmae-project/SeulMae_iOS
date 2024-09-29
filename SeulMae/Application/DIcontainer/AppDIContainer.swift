@@ -18,7 +18,14 @@ final class AppDIContainer {
     }
     
     func makeMainSceneDIContainer() -> MainSceneDIContainer {
-        let dependencies = MainSceneDIContainer.Dependencies(notificationNetworking: NotificationNetworking())
+        let dependencies = MainSceneDIContainer.Dependencies(
+            notificationNetworking: NotificationNetworking(
+                plugins: [CustomNetworkLoggerPlugin()]
+            ),
+            workplaceNetworking: WorkplaceNetworking(
+                plugins: [CustomNetworkLoggerPlugin()]
+            )
+        )
         return MainSceneDIContainer(dependencies: dependencies)
     }
     

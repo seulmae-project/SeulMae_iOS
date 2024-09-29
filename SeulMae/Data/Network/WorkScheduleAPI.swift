@@ -10,8 +10,6 @@ import Moya
 
 typealias WorkScheduleNetworking = MoyaProvider<WorkScheduleAPI>
 
-
-
 enum WorkScheduleAPI: SugarTargetType {
     case addWorkSchedule(request: AddWorkScheduleRequest)
     case fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID)

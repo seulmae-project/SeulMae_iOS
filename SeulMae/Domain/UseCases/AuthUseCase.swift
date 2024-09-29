@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthUseCase {
     // Signin
-    func signin(email: String, password: String, fcmToken: String) -> Single<Bool>
+    func signin(email: String, password: String) -> Single<Bool>
     func socialSignin(type: SocialSigninType, token: String) -> Single<Credentials>
     
     // Signup
@@ -36,7 +36,8 @@ class DefaultAuthUseCase: AuthUseCase {
         self.workplaceRepository = workplaceRepository
     }
         
-    func signin(email: String, password: String, fcmToken: String) -> RxSwift.Single<Bool> {
+    func signin(email: String, password: String) -> RxSwift.Single<Bool> {
+        let fcmToken = ""
         return authRepository.signin(account: email, password: password, fcmToken: fcmToken)
             .map { [weak self] response in
                 guard let strongSelf = self else { return false }
@@ -45,9 +46,6 @@ class DefaultAuthUseCase: AuthUseCase {
                     .do(onSuccess: { isSaved in
                         Swift.print("isSaved: \(isSaved)")
                     })
-                
-                Swift.print(#line, String("token: \(response.token.accessToken.suffix(5))"))
-
                 // Save acount
                 UserDefaults.standard.setValue(email, forKey: "account")
                 // Save token

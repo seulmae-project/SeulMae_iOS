@@ -115,6 +115,7 @@
 		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
 		865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */; };
 		865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */; };
+		865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -432,6 +433,7 @@
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
 		865AA1FA2CA7DA8B00D70B09 /* LeftScheduleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeftScheduleView.swift; sourceTree = "<group>"; };
 		865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
+		865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceItem.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -700,6 +702,7 @@
 			isa = PBXGroup;
 			children = (
 				866577B62C340E300048A111 /* SearchWorkplaceViewModel.swift */,
+				865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2283,6 +2286,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */,
+				865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */,
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				86AC25FB2CA0437E0009D249 /* WorkTimeRecordingViewController.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,

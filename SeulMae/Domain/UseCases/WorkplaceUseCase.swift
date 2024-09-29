@@ -37,8 +37,6 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         return .just([])
     }
     
-    
-    
     private let workplaceRepository: WorkplaceRepository
     private let userRepository = UserRepository(network: UserNetworking())
     

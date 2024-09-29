@@ -104,9 +104,9 @@ final class SearchWorkplaceViewController: UIViewController {
         )
         //
         Task {
-            for await workplaces in output.workplaces.values {
-                Swift.print(#line, "\(workplaces.count) items have been applied")
-                let items = workplaces.map {
+            for await item in output.item.values {
+                Swift.print(#line, "\(item.workplaceList.count) items have been applied")
+                let items = item.workplaceList.map {
                     return Item(
                         id: $0.id,
                         placeName: $0.name,

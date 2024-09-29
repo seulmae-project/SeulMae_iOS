@@ -50,15 +50,9 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     
     func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
         return network.rx
-            .request(.fetchWorkplaceList)
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-                Swift.print("response2: \(NSString(data: response.data, encoding: String.Encoding.utf8.rawValue) ?? "")")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
+            .request(.fetchWorkplaceList(keyword: keyword))
             .map(BaseResponseDTO<[WorkplaceDTO]>.self)
-            .map { try $0.toDomain() }
+            .map { $0.toDomain() }
     }
     
     enum SomeError: Error {

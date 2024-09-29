@@ -9,14 +9,18 @@ import UIKit
 
 final class WorkplaceFinderViewController: UIViewController {
     
-    private let titleLabel: UILabel = .title(title: "참여중인 근무지가 없어요")
+    // MARK: - UI
     
+    private let titleLabel: UILabel = .title(title: "참여중인 근무지가 없어요")
     private let searchWorkplaceButton: UIButton = .common(title: "찾아보기")
     private let createWorkplaceButton: UIButton = .common(title: "생성하기")
-    
     private let pendingLabel: UILabel = .title(title: "승인 대기중인 근무지")
     
+    // MARK: - Properties
+    
     private var viewModel: WorkplaceFinderViewModel
+    
+    // MARK: - Life Cycle Methods
     
     init(viewModel: WorkplaceFinderViewModel) {
         self.viewModel = viewModel
@@ -30,6 +34,8 @@ final class WorkplaceFinderViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: - Data Binding
+    
     private func bindSubviews() {
         let output = viewModel.transform(
             .init(
@@ -37,7 +43,13 @@ final class WorkplaceFinderViewController: UIViewController {
                 create: createWorkplaceButton.rx.tap.asSignal()
             )
         )
+        
+        Task {
+            
+        }
     }
+    
+    // MARK: - Hierarchy
     
     private func setupView() {
         view.backgroundColor = .systemBackground
