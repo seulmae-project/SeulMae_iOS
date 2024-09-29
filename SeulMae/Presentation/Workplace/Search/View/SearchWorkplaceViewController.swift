@@ -13,19 +13,12 @@ final class SearchWorkplaceViewController: UIViewController {
         
     // MARK: - Internal Types
     
+    typealias Item = SearchWorkplaceItem
     typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
     
     enum Section: Int, Hashable, CaseIterable {
         case list
-    }
-    
-    struct Item: Hashable {
-        let id: Workplace.ID
-        let placeName: String
-        let placeAddress: String
-        let placeTel: String
-        let placeMananger: String
     }
     
     // MARK: - UI Properties
@@ -99,8 +92,8 @@ final class SearchWorkplaceViewController: UIViewController {
         )
         
         Task {
-            for await item in output.item.values {
-                applySnapshot(items: item.toListItem())
+            for await items in output.items.values {
+                applySnapshot(items: items)
             }
         }
     }
@@ -166,7 +159,7 @@ final class SearchWorkplaceViewController: UIViewController {
             content.mainAddress = item.placeAddress
             content.contact = item.placeTel
             content.manager = item.placeMananger
-            // content.showsSeparator =
+            content.imageUrl = item.imageUrl
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }

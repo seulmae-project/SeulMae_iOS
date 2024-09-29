@@ -23,7 +23,7 @@ final class SearchWorkplaceViewModel: ViewModel {
     
     struct Output {
         let loading: Driver<Bool>
-        let item: Driver<Item>
+        let items: Driver<[Item]>
     }
     
     // MARK: - Dependencies
@@ -49,7 +49,7 @@ final class SearchWorkplaceViewModel: ViewModel {
         
         let onLoad = Signal.merge(.just(()), input.onLoad)
         
-        let fetched =  onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
+        let fetched =  onLoad.flatMapLatest { [weak self] _ -> Driver<[Item]> in
             guard let strongSelf = self else {
                 return .empty()
             }
@@ -57,23 +57,22 @@ final class SearchWorkplaceViewModel: ViewModel {
             return strongSelf.workplaceUseCase
                 .fetchWorkplaces(keyword: "")
                 .trackActivity(tracker)
-                .map(Item.init(workplaceList:))
+                .map { $0.map(Item.init(workplace:)) }
                 .asDriver()
         }
         
-        let searched = input.query
-            .withLatestFrom(fetched) { (query: $0, item: $1) }
+        let matched = input.query
+            .withLatestFrom(fetched) { (query: $0, items: $1) }
             .map { pair in
-                if (pair.query.isEmpty) { return pair.item }
-                let matched = pair.item.workplaceList.filter {
-                    let name = $0.name.lowercased()
-                    let address = $0.mainAddress.lowercased()
+                if (pair.query.isEmpty) { return pair.items }
+                return pair.items.filter {
+                    let name = $0.placeName.lowercased()
+                    let address = $0.placeAddress.lowercased()
                     return (name + address).contains(pair.query.lowercased())
                 }
-                return Item(workplaceList: matched)
             }
         
-        let item = Driver.merge(fetched, searched)
+        let items = Driver.merge(fetched, matched)
         
         // MARK: - Coordinator Logic
         
@@ -85,7 +84,7 @@ final class SearchWorkplaceViewModel: ViewModel {
         
         return Output(
             loading: loading,
-            item: item
+            items: items
         )
     }
 }

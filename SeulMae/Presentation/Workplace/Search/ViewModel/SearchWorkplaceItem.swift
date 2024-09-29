@@ -7,26 +7,21 @@
 
 import Foundation
 
-struct SearchWorkplaceItem {
-    enum ItemType {
-        
-    }
+struct SearchWorkplaceItem: Hashable {
     
-    var workplaceList: [Workplace]
+    let id: Workplace.ID
+    let placeName: String
+    let placeAddress: String
+    let placeTel: String
+    let placeMananger: String
+    let imageUrl: String
     
-    init(workplaceList: [Workplace]) {
-        self.workplaceList = workplaceList
-    }
-    
-    func toListItem() -> [SearchWorkplaceViewController.Item] {
-        return workplaceList.map {
-            SearchWorkplaceViewController.Item(
-                id: $0.id,
-                placeName: $0.name,
-                placeAddress: ($0.mainAddress + ($0.subAddress ?? "")),
-                placeTel: $0.contact,
-                placeMananger: $0.manager ?? ""
-            )
-        }
+    init(workplace: Workplace) {
+        self.id = workplace.id
+        self.placeName = workplace.name
+        self.placeAddress = (workplace.mainAddress + (workplace.subAddress ?? ""))
+        self.placeTel = workplace.contact
+        self.placeMananger = workplace.manager ?? ""
+        self.imageUrl = workplace.thumbnailURL ?? ""
     }
 }

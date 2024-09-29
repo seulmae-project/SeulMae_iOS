@@ -31,6 +31,7 @@ class WorkplaceContentView: UIView, UIContentView {
         let imageView = UIImageView()
         imageView.layer.cornerRadius = 4.0
         imageView.layer.cornerCurve = .continuous
+        imageView.layer.masksToBounds = true
         imageView.contentMode = .scaleAspectFill
         imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
         return imageView
@@ -119,7 +120,7 @@ class WorkplaceContentView: UIView, UIContentView {
             imageView.kf.setImage(
                 with: imageURL,
                 options: [
-                   .onFailureImage(UIImage(systemName: "circle.fill")),
+                   .onFailureImage(UIImage()),
                    .cacheOriginalImage
                ])
         }
