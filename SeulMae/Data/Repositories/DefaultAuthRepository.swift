@@ -24,17 +24,17 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signin
     
-    func signin(account: String, password: String, fcmToken: String) -> Single<AuthData> {
+    func signin(account: String, password: String, fcmToken: String) -> Single<Credentials> {
         return network.rx
             .request(.signin(accountId: account, password: password, fcmToken: fcmToken))
-            .map(BaseResponseDTO<AuthDataDTO>.self)
+            .map(BaseResponseDTO<CredentialsDto>.self)
             .map { $0.toDomain() }
     }
     
-    func socialSignin(token: String) -> Single<AuthData> {
+    func socialSignin(type: SocialSigninType, token: String, fcmToken: String?) -> Single<Credentials> {
         return network.rx
-            .request(.socialLogin(type: .kakao, token: token, fcmToken: nil))
-            .map(BaseResponseDTO<AuthDataDTO>.self)
+            .request(.socialLogin(type: type.provider, token: token, fcmToken: nil))
+            .map(BaseResponseDTO<CredentialsDto>.self)
             .map { $0.toDomain() }
     }
     
@@ -85,17 +85,10 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Common
     
-    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String> {
-        Swift.print(#function, "Send SMS Code: \(phoneNumber), \(email ?? "nil")")
+    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool> {
         return network.rx
-            .request(.sendSMSCode(phoneNumber: phoneNumber, item: .accountRecovery))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
-            .map(String?.self, atKeyPath: "data.accountId")
-            .map { $0 ?? "nil" }
+            .request(.sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId))
+            .map(Bool.self, atKeyPath: "data.isSuccess")
     }
     
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {

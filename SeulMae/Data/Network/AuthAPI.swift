@@ -17,7 +17,7 @@ enum SMSVerificationType {
     case changePhoneNumber
 }
 
-enum SocialLoginType {
+enum SocialSigninType {
     case kakao
     case apple
     
@@ -43,11 +43,11 @@ struct SetupProfileRequest: ModelType {
 
 enum AuthAPI: SugarTargetType {
     case signup(request: SignupRequest, file: Data)
-    case sendSMSCode(phoneNumber: String, item: SMSVerificationItem)
+    case sendSMSCode(type: String, phoneNumber: String, accountId: String?)
     case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationItem)
     case verifyAccountId(_ accountId: String)
     case signin(accountId: String, password: String, fcmToken: String)
-    case socialLogin(type: SocialLoginType, token: String, fcmToken: String?)
+    case socialLogin(type: String, token: String, fcmToken: String?)
     case signout
     case updatePassword(accountId: String, password: String)
     case updateProfile(userId: Member.ID, request: UpdateProfileRequest, file: Data)
@@ -71,10 +71,10 @@ extension AuthAPI {
             return .post("api/users/sms-certification/confirm")
         case .verifyAccountId:
             return .post("api/users/id/duplication")
-        case .signin:
-            return .post("api/users/login")
-        case .socialLogin:
-            return .post("api/users/login/kakao")
+        case .signin: return .post("api/users/login")
+            
+        case .socialLogin: return .post("api/users/social-login")
+            
         case .signout:
             return .get("api/users/logout")
         case .updatePassword:
@@ -107,15 +107,14 @@ extension AuthAPI {
                         name: "userSignUpDto",
                         mimeType: "application/json"),
                 ])
-        case let .sendSMSCode(phoneNumber: phoneNumber, item: item):
-            var parameters = [
-                "sendingType": item.smsVerificationType,
-                "phoneNumber": phoneNumber
-            ]
-            if case let .passwordRecovery(account: accountId) = item {
-                parameters.updateValue(accountId, forKey: "accountId")
-            }
-            return .requestParameters(parameters: parameters, encoding: JSONEncoding.prettyPrinted)
+        case let .sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId):
+            return .requestParameters(
+                parameters: [
+                    "sendingType": type,
+                    "phoneNumber": phoneNumber,
+                    "accountId": accountId ?? ""
+                ],
+                encoding: JSONEncoding.prettyPrinted)
         case let .verifySMSCode(phoneNumber: phoneNumber, code: code, item: item):
             return .requestParameters(
                 parameters: [
@@ -142,8 +141,8 @@ extension AuthAPI {
             return .requestParameters(
                 parameters: [
                     "token": token,
-                    "provider": type.provider,
-                    "fcmToken": fcmToken
+                    "provider": type,
+                    "fcmToken": fcmToken ?? ""
                 ],
                 encoding: JSONEncoding.prettyPrinted)
         case .signout: return .requestPlain

@@ -181,7 +181,7 @@
 		869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A772C6F08E6008EB7ED /* Data+String.swift */; };
 		869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */; };
 		869C7A7C2C6F221C008EB7ED /* WorkplaceListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */; };
-		86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* AuthData.swift */; };
+		86A03A8A2C623E5B00EA99DD /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* Credentials.swift */; };
 		86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */; };
 		86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */; };
 		86AC25F42C9C2FE40009D249 /* ScheduleReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */; };
@@ -498,7 +498,7 @@
 		869C7A772C6F08E6008EB7ED /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
 		869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplacePlaceListViewController.swift; sourceTree = "<group>"; };
 		869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListViewModel.swift; sourceTree = "<group>"; };
-		86A03A892C623E5B00EA99DD /* AuthData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthData.swift; sourceTree = "<group>"; };
+		86A03A892C623E5B00EA99DD /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryUseCase.swift; sourceTree = "<group>"; };
 		86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistorySummary.swift; sourceTree = "<group>"; };
 		86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleReminderViewController.swift; sourceTree = "<group>"; };
@@ -901,7 +901,7 @@
 		861BF68D2C270C7C00702E24 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				86A03A892C623E5B00EA99DD /* AuthData.swift */,
+				86A03A892C623E5B00EA99DD /* Credentials.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2500,7 +2500,7 @@
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,
-				86A03A8A2C623E5B00EA99DD /* AuthData.swift in Sources */,
+				86A03A8A2C623E5B00EA99DD /* Credentials.swift in Sources */,
 				869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */,
 				864A5E7B2C83491D00D7B0EF /* AnnounceViewModel.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,

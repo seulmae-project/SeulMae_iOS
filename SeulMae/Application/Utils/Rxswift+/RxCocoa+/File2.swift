@@ -14,7 +14,7 @@ extension Reactive where Base: ASAuthorizationController {
         return RxASAuthorizationControllerDelegateProxy.proxy(for: base)
     }
     
-    public var credential: ControlEvent<AppleAccountCredential> {
+    public var credential: ControlEvent<ASAuthorizationAppleIDCredential> {
         let source = RxASAuthorizationControllerDelegateProxy.proxy(for: base).credentialPublishSubject
         return ControlEvent(events: source)
     }

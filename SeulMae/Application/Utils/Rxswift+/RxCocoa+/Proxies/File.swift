@@ -25,14 +25,14 @@ open class RxASAuthorizationControllerDelegateProxy: DelegateProxy<ASAuthorizati
         self.register { RxASAuthorizationControllerDelegateProxy(authorizationController: $0) }
     }
     
-    private var _credentialPublishSubject: PublishSubject<AppleAccountCredential>?
+    private var _credentialPublishSubject: PublishSubject<ASAuthorizationAppleIDCredential>?
     
-    internal var credentialPublishSubject: PublishSubject<AppleAccountCredential> {
+    internal var credentialPublishSubject: PublishSubject<ASAuthorizationAppleIDCredential> {
         if let subject = _credentialPublishSubject {
             return subject
         }
 
-        let subject = PublishSubject<AppleAccountCredential>()
+        let subject = PublishSubject<ASAuthorizationAppleIDCredential>()
         _credentialPublishSubject = subject
 
         return subject
@@ -45,30 +45,13 @@ open class RxASAuthorizationControllerDelegateProxy: DelegateProxy<ASAuthorizati
     }
 }
 
-public struct AppleAccountCredential {
-    
-}
-
 extension RxASAuthorizationControllerDelegateProxy: ASAuthorizationControllerDelegate {
     public func authorizationController(controller: ASAuthorizationController, didCompleteWithAuthorization authorization: ASAuthorization) {
       switch authorization.credential {
       case let appleIDCredential as ASAuthorizationAppleIDCredential:
-          Swift.print(#line, appleIDCredential.user)
-          Swift.print(#line, appleIDCredential.fullName)
-          Swift.print(#line, appleIDCredential.email)
-          Swift.print(#line, String(data: appleIDCredential.identityToken!, encoding: .utf8)!)
-          Swift.print(#line, String(data: appleIDCredential.authorizationCode!, encoding: .utf8)!)
-          
           if let subject = self._credentialPublishSubject {
-              subject.on(.next(AppleAccountCredential()))
+              subject.on(.next(appleIDCredential))
           }
-      case let passwordCredential as ASPasswordCredential:
-          if let subject = self._credentialPublishSubject {
-              subject.on(.next(AppleAccountCredential()))
-          }
-          
-          Swift.print(#line, passwordCredential.user)
-          Swift.print(#line, passwordCredential.password)
       default:
         break
       }

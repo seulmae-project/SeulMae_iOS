@@ -9,20 +9,20 @@ import Foundation
 import RxSwift
 
 protocol AuthUseCase {
-    /// - Tag: Signin
+    // Signin
     func signin(email: String, password: String, fcmToken: String) -> Single<Bool>
-    func kakaoSignin() -> Single<Bool>
+    func socialSignin(type: SocialSigninType, token: String) -> Single<Credentials>
     
-    /// - Tag: Signup
+    // Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>
     func signup(request: SignupRequest, file: Data) -> Single<Bool>
     
-    /// - Tag: Account Recovery
+    // Credential Recovery
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
     
-    /// - Tag: Common
-    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String>
+    // Common
+    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool>
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
 }
 
@@ -57,8 +57,9 @@ class DefaultAuthUseCase: AuthUseCase {
             }
     }
     
-    func kakaoSignin() -> RxSwift.Single<Bool> {
-        authRepository.kakaoSignin()
+    func socialSignin(type: SocialSigninType, token: String) -> RxSwift.Single<Credentials> {
+        let fcmToken = ""
+        return authRepository.socialSignin(type: type, token: token, fcmToken: fcmToken)
     }
     
     func verifyAccountID(_ accountID: String) -> RxSwift.Single<Bool> {
@@ -77,8 +78,8 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.recoveryPassword(phoneNumber, newPassword)
     }
     
-    func sendSMSCode(phoneNumber: String, email: String?) -> RxSwift.Single<String> {
-        authRepository.sendSMSCode(phoneNumber: phoneNumber, email: email)
+    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> RxSwift.Single<Bool> {
+        return authRepository.sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId)
     }
     
     func verifySMSCode(phoneNumber: String, code: String) -> RxSwift.Single<Bool> {

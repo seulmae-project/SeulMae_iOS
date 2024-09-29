@@ -31,17 +31,14 @@ final class SMSVerificationViewController: UIViewController {
         return activity
     }()
     private let titleLabel: UILabel = .title()
-    private let accountLabel: UILabel = .callout(title: "아이디")
-    private let accountTextField: UITextField = .common(placeholder: "아이디 입력")
+    private let idLabel: UILabel = .callout(title: "아이디")
+    private let idTextField: UITextField = .common(placeholder: "아이디 입력")
+    
     private let phoneNumberLabel: UILabel = .callout(title: "휴대폰 번호")
-    private let phoneNumberTextField: UITextField = {
-        let tf = UITextField.common(placeholder: "휴대폰 번호 입력")
-        tf.textContentType = .telephoneNumber
-        tf.keyboardType = .phonePad
-        return tf
-    }()
+    private let phoneNumberTextField: UITextField = .tel(placeholder: "휴대폰 번호 입력")
     private let smsCodeLabel: UILabel = .callout(title: "인증번호")
     private let smsCodeTextField: UITextField = .common(placeholder: "인증번호 6자리 입력")
+    
     private lazy var remainingTimer: RemainingTimer = {
         let timer = RemainingTimer()
         timer.setRemainingTime(minutes: 3)
@@ -146,7 +143,7 @@ final class SMSVerificationViewController: UIViewController {
         // Handle View Model Output
         let output = viewModel.transform(
             .init(
-                account: accountTextField.rx.text.orEmpty.asDriver(),
+                account: idTextField.rx.text.orEmpty.asDriver(),
                 phoneNumber: phoneNumber,
                 code: code,
                 sendSMSCode: sendSMSCodeButton.rx.tap.asSignal(),
@@ -160,8 +157,8 @@ final class SMSVerificationViewController: UIViewController {
             for await item in output.item.values {
                 titleLabel.text = item.title
                 navigationItem.title = item.navItemTitle
-                // accountLabel.isHidden = !item.isNeedAccout
-                // accountTextField.isHidden = !item.isNeedAccout
+                idLabel.isHidden = !item.isNeedIdField
+                idTextField.isHidden = !item.isNeedIdField
             }
         }
         
@@ -237,7 +234,7 @@ final class SMSVerificationViewController: UIViewController {
     private func setupConstraints() {
         /// - Tag: Account ID
         let accountIDVStack = UIStackView(arrangedSubviews: [
-            accountLabel, accountTextField
+            idLabel, idTextField
         ])
         accountIDVStack.axis = .vertical
         accountIDVStack.spacing = 8.0
@@ -317,7 +314,7 @@ final class SMSVerificationViewController: UIViewController {
         NSLayoutConstraint.activate([
             
             // Constraint textField height
-            accountTextField.heightAnchor.constraint(equalToConstant: 48),
+            idTextField.heightAnchor.constraint(equalToConstant: 48),
         ])
     }
 }
@@ -331,8 +328,8 @@ extension Extension where ExtendedType == UITextField {
             type.layer.borderColor = UIColor.graphite.cgColor
             type.layer.borderWidth = 1.0
         } else {
-            type.layer.borderColor = UIColor.textFieldBorder.cgColor
-            type.layer.borderWidth = 1.0
+            type.layer.borderColor = nil
+            type.layer.borderWidth = 0
         }
     }
 }

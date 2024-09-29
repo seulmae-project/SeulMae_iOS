@@ -9,19 +9,12 @@ import Foundation
 import RxSwift
 
 protocol AuthRepository {
-    /// - Tag: Signin
-    func signin(account: String, password: String, fcmToken: String) -> Single<AuthData>
-    func socialSignin(token: String) -> Single<AuthData>
-    
-    /// - Tag: Signup
+    func signin(account: String, password: String, fcmToken: String) -> Single<Credentials>
+    func socialSignin(type: SocialSigninType, token: String, fcmToken: String?) -> Single<Credentials>
     func verifyAccountID(_ accountID: String) -> Single<Bool>
     func signup(request: SignupRequest, file: Data) -> Single<Bool>
-    
-    /// - Tag: Account Recovery
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
-    
-    /// - Tag: Common
-    func sendSMSCode(phoneNumber: String, email: String?) -> Single<String>
+    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool>
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
 }

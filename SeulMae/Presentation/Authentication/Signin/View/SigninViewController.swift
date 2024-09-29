@@ -67,19 +67,16 @@ final class SigninViewController: BaseViewController {
                 passwordTextField.becomeFirstResponder()
             }
         }
-        
-        let appleSignin = appleSignInButton.rx.tap.asSignal()
-        
+            
         Task {
-            for await _ in appleSignin.values {
+            for await _ in appleSignInButton.rx.tap.asSignal().values {
                  authorizationController.performRequests()
             }
         }
-        
-        let credential = authorizationController.rx.credential
+            
         Task {
-            for await _ in credential.asSignal().values {
-                
+            for await appleCredential in authorizationController.rx.credential.asSignal().values {
+                Swift.print("appleCredential: \(appleCredential)")
             }
         }
 
@@ -89,7 +86,7 @@ final class SigninViewController: BaseViewController {
                 password: passwordTextField.rx.text.orEmpty.asDriver(),
                 signin: signInButton.rx.tap.asSignal(),
                 kakaoSignin: kakaoSignInButton.rx.tap.asSignal(),
-                appleSignin: appleSignInButton.rx.tap.asSignal(),
+                appleSignin: authorizationController.rx.credential.asSignal(),
                 accountRecovery: accountRecoveryButton.rx.tap.asSignal(),
                 signup: signupButton.rx.tap.asSignal()
             )
@@ -102,9 +99,7 @@ final class SigninViewController: BaseViewController {
         }
     }
     
-    private func setupView() {
-        view.backgroundColor = .systemBackground
-    }
+    // MARK: - Private Methods
     
     private func setupAuthController() {
         let appleIDProvider = ASAuthorizationAppleIDProvider()
@@ -115,6 +110,10 @@ final class SigninViewController: BaseViewController {
     }
     
     // MARK: - Hierarchy
+    
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+    }
 
     private func setupConstraints() {
         let socialLoginStack = UIStackView()
@@ -199,7 +198,7 @@ final class SigninViewController: BaseViewController {
     }
 }
 
-// MAKR: - ASAuthorizationControllerPresentationContextProviding
+// MARK: - ASAuthorizationControllerPresentationContextProviding
 
 extension SigninViewController: ASAuthorizationControllerPresentationContextProviding {
     func presentationAnchor(for controller: ASAuthorizationController) -> ASPresentationAnchor {

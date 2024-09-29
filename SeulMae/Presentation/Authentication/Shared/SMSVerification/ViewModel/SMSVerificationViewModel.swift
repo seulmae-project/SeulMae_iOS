@@ -86,26 +86,36 @@ final class SMSVerificationViewModel: ViewModel {
         let isSent = input.sendSMSCode.withLatestFrom(input.phoneNumber)
             .flatMapLatest { [weak self] phoneNumber -> Driver<SMSRequestStatus> in
                 guard let strongSelf = self else { return .empty() }
-                // TODO: - 인증이 성공했을 때 저장으로 변경
+                let type = strongSelf.item.smsVerificationType
+                // TODO: service class로 번경
                 let account = "yonggipo"
+                
                 strongSelf.phoneNumber = phoneNumber
                 if strongSelf.sendCount != 3 {
                     strongSelf.sendCount += 1
                     return strongSelf.authUseCase
-                        .sendSMSCode(phoneNumber: phoneNumber, email: nil)
+                        .sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: account)
                         .trackActivity(indicator)
-                        .map { foundAccount in
-                            // 비밀번호 찾기 일 경우
-                            if case .passwordRecovery(_) = strongSelf.item {
-                                // 입력된 account 와 전달받은 account 가 일치하지 않음 => 문자 발송 안됨
-                                if (foundAccount != account) {
-                                    return .invalid
-                                }
+                        .map { isSending in
+                            if isSending {
+                                return (strongSelf.sendCount == 1) ? .request : .reRequest
+                            } else {
+                                return .invalid
                             }
-                            strongSelf.account = account
-                            return (strongSelf.sendCount == 1) ? .request : .reRequest
                         }
-                        .asDriver(onErrorDriveWith: .empty())
+                        .asDriver()
+//                        .map { foundAccount in
+//                            // 비밀번호 찾기 일 경우
+//                            if case .passwordRecovery(_) = strongSelf.item {
+//                                // 입력된 account 와 전달받은 account 가 일치하지 않음 => 문자 발송 안됨
+//                                if (foundAccount != account) {
+//                                    return .invalid
+//                                }
+//                            }
+//                            strongSelf.account = account
+//                            return (strongSelf.sendCount == 1) ? .request : .reRequest
+//                        }
+//                        .asDriver(onErrorDriveWith: .empty())
                     // TODO: API Error 핸들링 필요
                 } else {
                     return strongSelf.wireframe
@@ -175,6 +185,8 @@ final class SMSVerificationViewModel: ViewModel {
                 case .passwordRecovery:
                     break // MARK: - 백) 유저 계정을 전송시 번호와 일치하는 계정이 있을 경우만 코드 전송
                     coordinator.showAccountSetup(item: .passwordRecovery, request: SignupRequest())
+                case .changePhoneNumber:
+                    break
                 }
             }
         }

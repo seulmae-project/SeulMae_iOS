@@ -11,6 +11,7 @@ import RxCocoa
 import KakaoSDKAuth
 import KakaoSDKUser
 import RxKakaoSDKUser
+import AuthenticationServices
 
 final class SigninViewModel: ViewModel {
     
@@ -19,7 +20,7 @@ final class SigninViewModel: ViewModel {
         let password: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
-        let appleSignin: Signal<()>
+        let appleSignin: Signal<ASAuthorizationAppleIDCredential>
         let accountRecovery: Signal<()>
         let signup: Signal<()>
     }
@@ -55,8 +56,8 @@ final class SigninViewModel: ViewModel {
     }
         
     @MainActor func transform(_ input: Input) -> Output {
-        let indicator = ActivityIndicator()
-        let loading = indicator.asDriver()
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
         
         // MARK: - Signin
         
@@ -67,7 +68,7 @@ final class SigninViewModel: ViewModel {
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
                     .signin(email: pair.userID, password: pair.password, fcmToken: "")
-                    .trackActivity(indicator)
+                    .trackActivity(tracker)
                     .asDriver { error in
                         let message: String
                         message = "error"
@@ -106,24 +107,35 @@ final class SigninViewModel: ViewModel {
                         .asDriver()
                 }
             }
+        let appleToken = input.appleSignin
+            .map { String(data: $0.identityToken!, encoding: .utf8)! }
+            .map { (type: SocialSigninType.apple, token: $0) }
         
-//        let isSignedUp = oAuthToken.flatMapLatest { token in
-//            
-//        }
+        let kakaoToken = Signal<(type: SocialSigninType, token: String)>.empty()
         
+        let tokens = Signal.merge(appleToken, kakaoToken)
+    
+        let credential = tokens.flatMapLatest { [weak self] pair -> Driver<Credentials> in
+            guard let strongself = self else { return .empty() }
+            return strongself.authUseCase
+                .socialSignin(type: pair.type, token: pair.token)
+                .trackActivity(tracker)
+                .asDriver()
+        }
         
-//        input.appleSignin.flatMapLatest { _ in
-//
-//        }
+        // MARK: - Coordinator Logic
         
+        // handle signin credential
         Task {
-            for await token in oAuthToken.values {
-                Swift.print("☘️ did received kakao token: \(token)")
-                authUseCase.signin(email: <#T##String#>, password: <#T##String#>, fcmToken: <#T##String#>)
+            for await credential in credential.values {
+                let isUserHaveProfile = !(credential.role == "guest")
+                if isUserHaveProfile {
+                    // 메인 화면 이동
+                } else {
+                    coordinator.showProfileSetup(request: SignupRequest())
+                }
             }
         }
-  
-        // MARK: - Coordinator Logic
         
         Task {
             for await _ in input.accountRecovery.values {
