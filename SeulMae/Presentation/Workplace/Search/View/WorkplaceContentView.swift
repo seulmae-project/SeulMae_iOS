@@ -6,16 +6,19 @@
 //
 
 import UIKit
+import Kingfisher
 
 class WorkplaceContentView: UIView, UIContentView {
     
     // MARK: Internal Types
     
     struct Configuration: UIContentConfiguration {
-        var workplaceName: String = ""
-        var workplaceAddress: String = ""
-        var workplaceContact: String = ""
-        var workplaceMananger: String = ""
+        var imageUrl: String = ""
+        var name: String = ""
+        var mainAddress: String = ""
+        var contact: String = ""
+        var manager: String = ""
+        var showsSeparator: Bool = true
         
         func makeContentView() -> UIView & UIContentView {
             return WorkplaceContentView(self)
@@ -26,29 +29,29 @@ class WorkplaceContentView: UIView, UIContentView {
     
     private let imageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 8.0
+        imageView.layer.cornerRadius = 4.0
         imageView.layer.cornerCurve = .continuous
+        imageView.contentMode = .scaleAspectFill
+        imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
         return imageView
     }()
     
     private let nameLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20, weight: .bold)
-
+        label.numberOfLines = 1
         return label
     }()
     
     private let descriptionLabel: UILabel = {
         let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
+        label.numberOfLines = 1
         return label
     }()
     
-    private let managerLabel: UILabel = {
-        let label = UILabel()
-        label.font = .systemFont(ofSize: 20)
-        label.textColor = .secondaryLabel
-        return label
+    private let separatorView: UIView = {
+        let view = UIView()
+        view.backgroundColor = UIColor(hexCode: "EEEEEE")
+        return view
     }()
     
     // MARK: - Properties
@@ -65,37 +68,38 @@ class WorkplaceContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
-        backgroundColor = .lightPrimary
-        layer.cornerRadius = 16
-        layer.cornerCurve = .continuous
-        
-        let contentStack = UIStackView()
-        contentStack.axis = .vertical
-        contentStack.spacing = 4.0
-        
         addSubview(imageView)
-        addSubview(contentStack)
-        addSubview(managerLabel)
+        addSubview(nameLabel)
+        addSubview(descriptionLabel)
+        addSubview(separatorView)
         
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        contentStack.translatesAutoresizingMaskIntoConstraints = false
-        managerLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        descriptionLabel.translatesAutoresizingMaskIntoConstraints = false
+        separatorView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentStack.addArrangedSubview(nameLabel)
-        contentStack.addArrangedSubview(descriptionLabel)
-
+        let inset = CGFloat(20)
         NSLayoutConstraint.activate([
-            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 12),
-            imageView.topAnchor.constraint(equalTo: topAnchor, constant: 12),
-            imageView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -12),
+            // imageView
+            imageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
+            imageView.topAnchor.constraint(equalTo: topAnchor, constant: inset),
             imageView.heightAnchor.constraint(equalToConstant: 56),
-            imageView.widthAnchor.constraint(equalToConstant: 56),
+            imageView.widthAnchor.constraint(equalToConstant: 84),
             
-            contentStack.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: 12),
-            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor),
+            // nameLabel
+            nameLabel.leadingAnchor.constraint(equalTo: imageView.trailingAnchor, constant: inset),
+            nameLabel.topAnchor.constraint(equalTo: imageView.topAnchor),
             
-            managerLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12),
-            managerLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
+            // descriptionLabel
+            descriptionLabel.leadingAnchor.constraint(equalTo: imageView.leadingAnchor),
+            descriptionLabel.topAnchor.constraint(equalTo: imageView.bottomAnchor, constant: 4.0),
+            descriptionLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),
+            
+            // separatorView
+            separatorView.heightAnchor.constraint(equalToConstant: 1.0),
+            separatorView.leadingAnchor.constraint(equalTo: leadingAnchor),
+            separatorView.trailingAnchor.constraint(equalTo: trailingAnchor),
+            separatorView.topAnchor.constraint(equalTo: topAnchor),
         ])
     }
     
@@ -109,12 +113,20 @@ class WorkplaceContentView: UIView, UIContentView {
     
     // MARK: - Configuration Methods
         
-    func apply(config: UIContentConfiguration) {
+    private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        Swift.print(#function)
-        // imageView = config.imageURL
-        nameLabel.text = config.workplaceName
-        descriptionLabel.text = config.workplaceAddress + config.workplaceContact
-        managerLabel.text = config.workplaceMananger
+        if let imageURL = URL(string: config.imageUrl) {
+            imageView.kf.setImage(
+                with: imageURL,
+                options: [
+                   .onFailureImage(UIImage(systemName: "circle.fill")),
+                   .cacheOriginalImage
+               ])
+        }
+        nameLabel.ext
+            .setText(config.name, size: 16, weight: .regular)
+        descriptionLabel.ext
+            .setText(config.mainAddress, size: 14, weight: .regular)
+        separatorView.isHidden = !config.showsSeparator
     }
 }

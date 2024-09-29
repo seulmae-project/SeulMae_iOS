@@ -11,14 +11,14 @@ struct Workplace: Identifiable {
     let id: Int
     let name: String
     let userWorkplaceId: Int?
-    let isManager: Bool
+    let isManager: Bool?
     let address: Address
     let invitationCode: String
     let contact: String
-    let imageURL: [String]
-    let thumbnailURL: [String]
-    let manager: String
+    let imageURLList: [String]
+    let thumbnailURL: String?
+    let manager: String?
     let mainAddress: String
-    let subAddress: String
+    let subAddress: String?
 }
 

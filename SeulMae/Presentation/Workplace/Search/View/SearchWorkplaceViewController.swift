@@ -20,6 +20,14 @@ final class SearchWorkplaceViewController: UIViewController {
         case list
     }
     
+    struct Item: Hashable {
+        let id: Workplace.ID
+        let placeName: String
+        let placeAddress: String
+        let placeTel: String
+        let placeMananger: String
+    }
+    
     // MARK: - UI Properties
     
     private let searchBar = SearchBarView()
@@ -31,17 +39,6 @@ final class SearchWorkplaceViewController: UIViewController {
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
-    }()
-    
-    private let addNewWorkplaceButton: UIButton = {
-        let button = UIButton.common()
-        button.setTitle("근무지 생성", for: .normal)
-        button.setTitleColor(.lightPrimary, for: .normal)
-        button.titleLabel?.font = .systemFont(ofSize: 18, weight: .semibold)
-        button.backgroundColor = .primary
-        button.layer.cornerRadius = 16
-        button.layer.cornerCurve = .continuous
-        return button
     }()
     
     // MARK: - Properties
@@ -75,7 +72,6 @@ final class SearchWorkplaceViewController: UIViewController {
     
     // MARK: - Data Binding
     
-    
     private func bindSubviews() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
@@ -96,59 +92,37 @@ final class SearchWorkplaceViewController: UIViewController {
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                query: .empty(),
+                query: searchBar.queryTextField.rx.text.orEmpty.asDriver(),
                 onSearch: .empty(),
-                selected: selected,
-                addNewPlace: addNewWorkplaceButton.rx.tap.asSignal()
+                selected: selected
             )
         )
-        //
+        
         Task {
             for await item in output.item.values {
-                Swift.print(#line, "\(item.workplaceList.count) items have been applied")
-                let items = item.workplaceList.map {
-                    return Item(
-                        id: $0.id,
-                        placeName: $0.name,
-                        placeAddress: ($0.mainAddress + $0.subAddress),
-                        placeTel: $0.contact,
-                        placeMananger: $0.manager
-                    )
-                }
-                applySnapshot(items: items)
+                applySnapshot(items: item.toListItem())
             }
         }
-    }
-    
-    struct Item: Hashable {
-        let id: Workplace.ID
-        let placeName: String
-        let placeAddress: String
-        let placeTel: String
-        let placeMananger: String
-    }
-    
-
-    private func setupView() {
-        view.backgroundColor = .systemBackground
     }
     
     // MARK: - Nav Item
     
     private func setupNavItem() {
-        navigationItem.title = "근무지 검색" // controller에 설정하면 안됌
+        navigationItem.title = "근무지 검색"
     }
     
     // MARK: - Hierarchy
-    
+
+    private func setupView() {
+        view.backgroundColor = .systemBackground
+    }
+
     private func setupConstraints() {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
-        view.addSubview(addNewWorkplaceButton)
 
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        addNewWorkplaceButton.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
@@ -156,15 +130,10 @@ final class SearchWorkplaceViewController: UIViewController {
             searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             searchBar.heightAnchor.constraint(equalToConstant: 56),
             
-            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            addNewWorkplaceButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            addNewWorkplaceButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            addNewWorkplaceButton.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.5),
-            addNewWorkplaceButton.heightAnchor.constraint(equalToConstant: 56),
         ])
     }
     
@@ -193,10 +162,11 @@ final class SearchWorkplaceViewController: UIViewController {
     private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
             var content = WorkplaceContentView.Configuration()
-            content.workplaceName = item.placeName
-            content.workplaceAddress = item.placeAddress
-            content.workplaceContact = item.placeTel
-            content.workplaceMananger = item.placeMananger
+            content.name = item.placeName
+            content.mainAddress = item.placeAddress
+            content.contact = item.placeTel
+            content.manager = item.placeMananger
+            // content.showsSeparator =
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
@@ -208,23 +178,16 @@ final class SearchWorkplaceViewController: UIViewController {
         let item = NSCollectionLayoutItem(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalHeight(0.25)))
+                heightDimension: .estimated(132)))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: .init(
                 widthDimension: .fractionalWidth(1.0),
-                heightDimension: .fractionalWidth(1.0)),
+                heightDimension: .estimated(132)),
             subitems: [item])
-        group.interItemSpacing = .fixed(8.0)
+        group.interItemSpacing = .fixed(4.0)
         let section = NSCollectionLayoutSection(group: group)
-         section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = .init(top: 8.0, leading: 0, bottom: 8.0, trailing: 0)
         let layout = UICollectionViewCompositionalLayout(section: section)
         return layout
-    }
-}
-
-extension SearchWorkplaceViewController: UISearchResultsUpdating {
-    
-    func updateSearchResults(for searchController: UISearchController) {
-        
     }
 }

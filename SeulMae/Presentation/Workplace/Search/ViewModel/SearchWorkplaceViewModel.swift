@@ -19,7 +19,6 @@ final class SearchWorkplaceViewModel: ViewModel {
         var query: Driver<String>
         var onSearch: Signal<()>
         var selected: Signal<SearchWorkplaceViewController.Item>
-        var addNewPlace: Signal<()>
     }
     
     struct Output {
@@ -50,7 +49,7 @@ final class SearchWorkplaceViewModel: ViewModel {
         
         let onLoad = Signal.merge(.just(()), input.onLoad)
         
-        let item =  onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
+        let fetched =  onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
             guard let strongSelf = self else {
                 return .empty()
             }
@@ -62,18 +61,25 @@ final class SearchWorkplaceViewModel: ViewModel {
                 .asDriver()
         }
         
+        let searched = input.query
+            .withLatestFrom(fetched) { (query: $0, item: $1) }
+            .map { pair in
+                if (pair.query.isEmpty) { return pair.item }
+                let matched = pair.item.workplaceList.filter {
+                    let name = $0.name.lowercased()
+                    let address = $0.mainAddress.lowercased()
+                    return (name + address).contains(pair.query.lowercased())
+                }
+                return Item(workplaceList: matched)
+            }
+        
+        let item = Driver.merge(fetched, searched)
         
         // MARK: - Coordinator Logic
         
         Task {
             for await selected in input.selected.values {
-                // coordinator.showWorkplaceDetails(workplaceID: selected.id)
-            }
-        }
-        
-        Task {
-            for await _ in input.addNewPlace.values {
-                // coordinator.showAddNewWorkplace()
+                coordinator.showWorkplaceDetails(workplaceID: selected.id)
             }
         }
         

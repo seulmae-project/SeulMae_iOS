@@ -14,7 +14,7 @@ final class SearchBarView: UIView {
         return imageView
     }()
     
-    private let queryTextField: UITextField = {
+    let queryTextField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "근무지 검색"
         return textfield

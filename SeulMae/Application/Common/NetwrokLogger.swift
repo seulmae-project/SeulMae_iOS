@@ -63,8 +63,9 @@ final class CustomNetworkLoggerPlugin: PluginType {
             if let json = try? response.mapJSON(),
                let data = try? JSONSerialization.data(withJSONObject: json, options: .prettyPrinted),
                let jsonString = String(data: data, encoding: .utf8) {
-                Swift.print("🛰 Received response: \(jsonString)")
-            } else {
+                let escaped = jsonString.replacingOccurrences(of: "\\", with: "")
+                Swift.print("🛰 Received response: \(escaped)")
+            } else {    
                 Swift.print("🛰 Can't convert response to JSON or serialize it...")
             }
         case .failure(let error):

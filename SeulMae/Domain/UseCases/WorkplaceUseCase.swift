@@ -56,8 +56,8 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
                     address: Address(mainAddress: "", subAddress: ""),
                     invitationCode: "",
                     contact: "",
-                    imageURL: [],
-                    thumbnailURL: [],
+                    imageURLList: [],
+                    thumbnailURL: "",
                     manager: "",
                     mainAddress: "",
                     subAddress: ""

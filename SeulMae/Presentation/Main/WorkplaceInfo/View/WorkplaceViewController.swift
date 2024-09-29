@@ -313,7 +313,6 @@ final class WorkplaceViewController: UIViewController {
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 20
-
         return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider, configuration: config)
     }
 }
