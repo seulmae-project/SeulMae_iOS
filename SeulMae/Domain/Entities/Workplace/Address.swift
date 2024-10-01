@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Address {
+struct Address: Hashable {
     let mainAddress: String
     let subAddress: String
 }

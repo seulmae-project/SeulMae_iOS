@@ -11,11 +11,14 @@ import RxCocoa
 
 final class WorkplaceFinderViewModel: ViewModel {
     struct Input {
-        var search: Signal<()>
-        var create: Signal<()>
+        let onLoad: Signal<()>
+        let onRefresh: Signal<()>
+        let search: Signal<()>
+        let create: Signal<()>
     }
     
     struct Output {
+        let loading: Driver<Bool>
     }
     
     // MARK: - Dependencies
@@ -36,6 +39,11 @@ final class WorkplaceFinderViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
+        
+        
+        
         
         // MARK: - Coordinator Logic
         
@@ -51,7 +59,7 @@ final class WorkplaceFinderViewModel: ViewModel {
             }
         }
         
-        return Output()
+        return Output(loading: loading)
     }
 }
 

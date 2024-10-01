@@ -6,65 +6,109 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
-final class WorkplaceFinderViewController: UIViewController {
+final class WorkplaceFinderViewController: BaseViewController {
     
     // MARK: - Internal Types
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceFinderItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceFinderItem>
+    typealias Item = WorkplaceFinderItem
     
-    enum Section: Int, CaseIterable {
-        case join // 참여하기
-        case pending // 대기중인
-        case active // 참여중인
+    enum Section: Int, CustomStringConvertible, CaseIterable {
+        case finder, sumitState, workplace
+        
+        var title: String {
+            switch self {
+            case .finder:
+                "근무지 참여하기"
+            case .sumitState:
+                "가입 대기중인 근무지"
+            case .workplace:
+                "내 근무지 리스트"
+            }
+        }
+        
+        var description: String {
+            switch self {
+            case .finder:
+                "참여하거나 새로운 근무지를 만들어요"
+            case .sumitState:
+                "승인이되면 알림으로 알려드려요"
+            case .workplace:
+                "내가 가입한 근무지 리스트에요"
+            }
+        }
     }
     
     // MARK: - UI
+    
+    private let refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        return control
+    }()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(
             frame: view.bounds,
             collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.refreshControl = refreshControl
         return collectionView
     }()
-    
-    private let titleLabel: UILabel = .title(title: "참여중인 근무지가 없어요")
-    private let searchWorkplaceButton: UIButton = .common(title: "찾아보기")
-    private let createWorkplaceButton: UIButton = .common(title: "생성하기")
-    private let pendingLabel: UILabel = .title(title: "승인 대기중인 근무지")
     
     // MARK: - Properties
     
     private var viewModel: WorkplaceFinderViewModel
+    private var dataSource: DataSource!
+    private var findRelay = PublishRelay<()>()
+    private var createRelay = PublishRelay<()>()
     
     // MARK: - Life Cycle Methods
     
     init(viewModel: WorkplaceFinderViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
-        setupView()
-        setupConstraints()
-        bindSubviews()
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        setupView()
+        setupConstraints()
+        setupDataSource()
+        bindSubviews()
+    }
+    
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
+            .map { _ in return () }
+            .asSignal()
+        let onRefresh = refreshControl.rx
+            .controlEvent(.valueChanged)
+            .map { _ in }
+            .asSignal()
         let output = viewModel.transform(
             .init(
-                search: searchWorkplaceButton.rx.tap.asSignal(),
-                create: createWorkplaceButton.rx.tap.asSignal()
+                onLoad: onLoad,
+                onRefresh: onRefresh,
+                search: findRelay.asSignal(),
+                create: createRelay.asSignal()
             )
         )
         
         Task {
-            
+            for await loading in output.loading.values {
+                loadingIndicator.ext.isAnimating(loading)
+            }
         }
     }
     
@@ -75,40 +119,104 @@ final class WorkplaceFinderViewController: UIViewController {
     }
     
     private func setupConstraints() {
-        let buttonStack = UIStackView()
-        buttonStack.distribution = .fillEqually
-        buttonStack.spacing = 8.0
-        
-        view.addSubview(titleLabel)
-        view.addSubview(buttonStack)
-        view.addSubview(pendingLabel)
-        
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        buttonStack.translatesAutoresizingMaskIntoConstraints = false
-        pendingLabel.translatesAutoresizingMaskIntoConstraints = false
-        
-        buttonStack.addArrangedSubview(searchWorkplaceButton)
-        buttonStack.addArrangedSubview(createWorkplaceButton)
-        
-        NSLayoutConstraint.activate([
-            titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            titleLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
-            
-            buttonStack.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            buttonStack.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            buttonStack.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-            
-            pendingLabel.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
-            pendingLabel.trailingAnchor.constraint(equalTo: titleLabel.trailingAnchor),
-            pendingLabel.topAnchor.constraint(equalTo: buttonStack.bottomAnchor, constant: 12),
-            
-            // Constraint button height
-            buttonStack.heightAnchor.constraint(equalToConstant: 100),
-        ])
+        view.addSubview(collectionView)
     }
     
+    // MARK: - DataSource
     
+    private func setupDataSource() {
+        let finderCellRegistration = createFinderCellRegistration()
+        let submitStateCellRegistration = createSubmitStateCellRegistration()
+        let workplaceCellRegistration = createWorkplaceCellRegistration()
+        let headerCellRegistration = createHeaderCellRegistration()
+        let footerCellRegistration = createFooterCellRegistration()
+        dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
+            guard let section = Section(rawValue: index.section) else { return nil }
+            switch section {
+            case .finder:
+                return view.dequeueConfiguredReusableCell(using: finderCellRegistration, for: index, item: item)
+            case .sumitState:
+                return view.dequeueConfiguredReusableCell(using: submitStateCellRegistration, for: index, item: item)
+            case .workplace:
+                return view.dequeueConfiguredReusableCell(using: workplaceCellRegistration, for: index, item: item)
+            }
+        }
+        
+        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
+            return (kind == OutlineSupplementaryView.reuseIdentifier)
+            ? view.dequeueConfiguredReusableSupplementary(
+                using: headerCellRegistration, for: indexPath)
+            : view.dequeueConfiguredReusableSupplementary(using: footerCellRegistration, for: indexPath)
+        }
+        
+        applyInitialSnapshot()
+    }
+    
+    // MARK: - Snapshot
+    
+    func applyInitialSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections(Section.allCases)
+        snapshot.appendItems([Item()], toSection: .finder)
+        dataSource?.apply(snapshot)
+    }
+    
+    // MARK: - Cell Registration
+    
+    private func createFinderCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
+        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
+            guard case .finder = item.type else { return }
+            var content = WorkplaceFinderContentView.Configuration()
+            content.onSearch = { [weak self] in
+                self?.findRelay.accept(())
+            }
+            content.onCreate = { [weak self] in
+                self?.createRelay.accept(())
+            }
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        }
+    }
+    
+    private func createSubmitStateCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
+        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
+
+        }
+    }
+    
+    private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
+        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
+            guard case .workplace = item.type else { return }
+            var content = WorkplaceContentView.Configuration()
+            content.name = item.workplace?.name ?? ""
+            content.imageUrl = item.workplace?.thumbnailURL ?? ""
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        }
+    }
+    
+    func createHeaderCellRegistration() -> UICollectionView.SupplementaryRegistration<OutlineSupplementaryView> {
+        return .init(elementKind: OutlineSupplementaryView.reuseIdentifier) { (supplementaryView, string, indexPath) in
+            guard let section = Section(rawValue: indexPath.section) else {
+                Swift.fatalError("Unknown section!")
+            }
+            
+            supplementaryView.titleLabel.ext
+                .setText(section.title, size: 24, weight: .semibold)
+            supplementaryView.descriptionLabel.ext
+                .setText(section.title, size: 16, weight: .regular, color: .secondaryLabel)
+            
+            let showSeparator = !(section == .finder)
+            supplementaryView.showsSeparator = false
+        }
+    }
+    
+    func createFooterCellRegistration() -> UICollectionView.SupplementaryRegistration<SeparatorSupplementaryView> {
+        return UICollectionView.SupplementaryRegistration
+        <SeparatorSupplementaryView>(elementKind: SeparatorSupplementaryView.reuseIdentifier) { supplementaryView, elementKind, indexPath in
+            
+        }
+    }
     
     // MARK: - UICollectionViewLayout
     
@@ -118,9 +226,21 @@ final class WorkplaceFinderViewController: UIViewController {
                 Swift.fatalError("Unknown section!")
             }
             
+            let headerFooterSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(12))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: OutlineSupplementaryView.reuseIdentifier,
+                alignment: .top)
+            let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: SeparatorSupplementaryView.reuseIdentifier,
+                alignment: .bottom)
+            
             let section: NSCollectionLayoutSection
             switch sectionKind {
-            case .join:
+            case .finder:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(
                         widthDimension: .fractionalWidth(1.0),
@@ -132,7 +252,8 @@ final class WorkplaceFinderViewController: UIViewController {
                     subitems: [item])
                 group.interItemSpacing = .fixed(12)
                 section = NSCollectionLayoutSection(group: group)
-            case .pending:
+                section.boundarySupplementaryItems = [sectionHeader, sectionFooter]
+            case .sumitState:
                 let item = NSCollectionLayoutItem(
                     layoutSize: .init(
                         widthDimension: .fractionalWidth(1.0),
@@ -145,24 +266,21 @@ final class WorkplaceFinderViewController: UIViewController {
                 section = NSCollectionLayoutSection(group: group)
                 section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
                 section.interGroupSpacing = 20
-            case .active:
+                section.boundarySupplementaryItems = [sectionHeader, sectionFooter]
+            case .workplace:
                 let item = NSCollectionLayoutItem(
-                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .absolute(100)))
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .absolute(100)))
                 let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
-                                      heightDimension: .absolute(100)),
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .absolute(100)),
                     subitems: [item])
                 section = NSCollectionLayoutSection(group: group)
+                section.boundarySupplementaryItems = [sectionHeader]
             }
-            let headerFooterSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(44))
-            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerFooterSize,
-                elementKind: "section-header-element-kind",
-                alignment: .top, absoluteOffset: .init(x: 0, y: -12))
-            section.boundarySupplementaryItems = [sectionHeader]
+            
             return section
         }
         let config = UICollectionViewCompositionalLayoutConfiguration()

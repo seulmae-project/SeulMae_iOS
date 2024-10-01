@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct Workplace: Identifiable {
+struct Workplace: Identifiable, Hashable {
     let id: Int
     let name: String
     let userWorkplaceId: Int?

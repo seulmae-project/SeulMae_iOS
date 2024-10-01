@@ -1,5 +1,5 @@
 //
-//  BigButton.swift
+//  CardView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 10/1/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-class BigButton: UIView {
+class CardView: UIView {
     
     let iconImageView = UIImageView()
     let titlelabel = UILabel()
@@ -24,6 +24,9 @@ class BigButton: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        
+        layer.cornerRadius = 8.0
+        layer.cornerCurve = .continuous
         
         let labelStack = UIStackView()
         labelStack.axis = .vertical

@@ -9,10 +9,22 @@ import Foundation
 
 struct WorkplaceFinderItem: Hashable {
     enum ItemType {
-        case join
-        case pending
-        case active
+        case finder
+        case sumitState
+        case workplace
     }
     
+    private let identifier = UUID()
     let type: ItemType
+    let workplace: Workplace?
+    
+    init(workplace: Workplace) {
+        self.type = .workplace
+        self.workplace = workplace
+    }
+    
+    init() {
+        self.type = .finder
+        self.workplace = nil
+    }
 }

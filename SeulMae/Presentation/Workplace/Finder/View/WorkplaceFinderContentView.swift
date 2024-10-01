@@ -10,18 +10,19 @@ import UIKit
 final class WorkplaceFinderContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
-        var onFind: (() -> Void)?
+        var onSearch: (() -> Void)?
         var onCreate: (() -> Void)?
         
         func makeContentView() -> UIView & UIContentView {
             return WorkplaceFinderContentView(self)
         }
     }
-        
-    private let _descriptionLabel: UILabel = .common(title: "참여하거나 새로운 근무지를 만들어요", size: 16, weight: .regular, color: .secondaryLabel)
-    private let _titleLabel: UILabel = .common(title: "근무지 참여하기", size: 24, weight: .semibold)
-    private let searchWorkplaceButton: UIView = BigButton()
-    private let createWorkplaceButton: UIView = BigButton()
+    
+    private let searchWorkplaceButton: UIView = CardView(title: "참여할 근무지 검색하기", description: "블라블라", icon: .magnifyingGlass, textColor: .primary, backgroundColor: .lightPrimary)
+    private let createWorkplaceButton: UIView = CardView(title: "근무지 만들기", description: "블라블라", icon: .flag, textColor: .white, backgroundColor: .primary)
+    
+    private var onSearch: (() -> Void)?
+    private var onCreate: (() -> Void)?
             
     var configuration: UIContentConfiguration {
         didSet {
@@ -33,21 +34,17 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
-        let labelStack = UIStackView()
-        labelStack.axis = .vertical
-        labelStack.spacing = 4.0
-        let labels = [_descriptionLabel, _titleLabel]
-        labels.forEach(labelStack.addArrangedSubview(_:))
-        
-        let buttonStack = UIStackView()
-        buttonStack.spacing = 12
-        // let buttons = []
-        // buttons.forEach(buttonStack.addArrangedSubview(_:))
+        searchWorkplaceButton.tag = 0
+        createWorkplaceButton.tag = 1
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
+        searchWorkplaceButton.addGestureRecognizer(tapGesture)
+        createWorkplaceButton.addGestureRecognizer(tapGesture)
+        // self.isUserInteractionEnabled = true
         
         let contentStack = UIStackView()
-        contentStack.axis = .vertical
-        contentStack.spacing = 20
-        let contents = [labelStack, buttonStack]
+        contentStack.axis = .horizontal
+        contentStack.spacing = 12
+        let contents = [searchWorkplaceButton, createWorkplaceButton]
         contents.forEach(contentStack.addArrangedSubview(_:))
         
         addSubview(contentStack)
@@ -56,9 +53,12 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         let inset = CGFloat(20)
         NSLayoutConstraint.activate([
             contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
-            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: inset),
+            contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inset),
             contentStack.topAnchor.constraint(equalTo: topAnchor, constant: inset),
-            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: inset),
+            contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),
+            
+            contentStack.heightAnchor.constraint(equalToConstant: 120),
+            searchWorkplaceButton.widthAnchor.constraint(equalTo: createWorkplaceButton.widthAnchor, multiplier: 3.0 / 2.0),
         ])
     }
     
@@ -72,6 +72,12 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        
+        onSearch = config.onSearch
+        onCreate = config.onCreate
+    }
+    
+    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
+        let isSearch = (gesture.view?.tag == 0)
+        isSearch ? onSearch?() : onCreate?()
     }
 }

@@ -17,6 +17,7 @@ extension Extension where ExtendedType == UILabel {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeightMultiple
         let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: color,
             .font: UIFont.pretendard(size: size, weight: weight),
             .kern: kern,
             .paragraphStyle: paragraphStyle
