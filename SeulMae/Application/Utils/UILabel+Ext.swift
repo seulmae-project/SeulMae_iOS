@@ -11,6 +11,7 @@ extension Extension where ExtendedType == UILabel {
     func setText(_ text: String,
                  size: CGFloat,
                  weight: UIFont.PretendardWeight,
+                 color: UIColor = .label,
                  lineHeightMultiple: CGFloat = 1.2,
                  kern: CGFloat = 1.0) {
         let paragraphStyle = NSMutableParagraphStyle()
@@ -29,7 +30,8 @@ extension Extension where ExtendedType == UILabel {
         let paragraphStyle = NSMutableParagraphStyle()
         paragraphStyle.lineHeightMultiple = lineHeightMultiple
         let attributes: [NSAttributedString.Key: Any] = [
-            .font: type.font,
+            .foregroundColor: type.textColor ?? .label,
+            .font: type.font ?? .pretendard(size: 16, weight: .regular),
             .kern: kern,
             .paragraphStyle: paragraphStyle
         ]

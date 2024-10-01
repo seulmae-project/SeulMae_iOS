@@ -108,10 +108,12 @@ final class WorkplaceFinderViewController: UIViewController {
         ])
     }
     
+    
+    
     // MARK: - UICollectionViewLayout
     
     private func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = { [weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
             guard let sectionKind = Section(rawValue: sectionIndex) else {
                 Swift.fatalError("Unknown section!")
             }

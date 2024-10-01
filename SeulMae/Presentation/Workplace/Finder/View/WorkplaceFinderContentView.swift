@@ -20,8 +20,8 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         
     private let _descriptionLabel: UILabel = .common(title: "참여하거나 새로운 근무지를 만들어요", size: 16, weight: .regular, color: .secondaryLabel)
     private let _titleLabel: UILabel = .common(title: "근무지 참여하기", size: 24, weight: .semibold)
-    // private let searchWorkplaceButton: UIView = BigButton
-    // private let createWorkplaceButton: UIView = BigButton
+    private let searchWorkplaceButton: UIView = BigButton()
+    private let createWorkplaceButton: UIView = BigButton()
             
     var configuration: UIContentConfiguration {
         didSet {
