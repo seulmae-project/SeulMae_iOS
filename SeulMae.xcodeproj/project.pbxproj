@@ -118,6 +118,9 @@
 		865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */; };
 		865AA2012CA9735A00D70B09 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */; };
 		865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */; };
+		865AA2072CABC07A00D70B09 /* WorkplaceFinderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2062CABC07A00D70B09 /* WorkplaceFinderItem.swift */; };
+		865AA2092CABC2F700D70B09 /* WorkplaceFinderContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2082CABC2F700D70B09 /* WorkplaceFinderContentView.swift */; };
+		865AA20B2CABC40C00D70B09 /* BigButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA20A2CABC40C00D70B09 /* BigButton.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -438,6 +441,9 @@
 		865AA1FE2CA94A6600D70B09 /* SearchWorkplaceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceItem.swift; sourceTree = "<group>"; };
 		865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
 		865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsItem.swift; sourceTree = "<group>"; };
+		865AA2062CABC07A00D70B09 /* WorkplaceFinderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderItem.swift; sourceTree = "<group>"; };
+		865AA2082CABC2F700D70B09 /* WorkplaceFinderContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderContentView.swift; sourceTree = "<group>"; };
+		865AA20A2CABC40C00D70B09 /* BigButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigButton.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -1073,6 +1079,8 @@
 			isa = PBXGroup;
 			children = (
 				864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */,
+				865AA20A2CABC40C00D70B09 /* BigButton.swift */,
+				865AA2082CABC2F700D70B09 /* WorkplaceFinderContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1081,6 +1089,7 @@
 			isa = PBXGroup;
 			children = (
 				8644155A2C6D030A00295838 /* WorkplaceFinderViewModel.swift */,
+				865AA2062CABC07A00D70B09 /* WorkplaceFinderItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -2470,6 +2479,7 @@
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
+				865AA20B2CABC40C00D70B09 /* BigButton.swift in Sources */,
 				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */,
@@ -2479,6 +2489,7 @@
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
 				86D309C92C3397C800C08DA8 /* UpdateAnnounceRequest.swift in Sources */,
+				865AA2072CABC07A00D70B09 /* WorkplaceFinderItem.swift in Sources */,
 				8693C4362C22EE6400D7DCD3 /* UIViewController+BottomSheet.swift in Sources */,
 				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */,
@@ -2492,6 +2503,7 @@
 				8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
 				868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */,
+				865AA2092CABC2F700D70B09 /* WorkplaceFinderContentView.swift in Sources */,
 				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
 				86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */,
 				8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */,

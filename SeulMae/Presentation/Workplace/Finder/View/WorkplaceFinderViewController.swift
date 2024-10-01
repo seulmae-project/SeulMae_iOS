@@ -9,7 +9,26 @@ import UIKit
 
 final class WorkplaceFinderViewController: UIViewController {
     
+    // MARK: - Internal Types
+    
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceFinderItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceFinderItem>
+    
+    enum Section: Int, CaseIterable {
+        case join // 참여하기
+        case pending // 대기중인
+        case active // 참여중인
+    }
+    
     // MARK: - UI
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(
+            frame: view.bounds,
+            collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return collectionView
+    }()
     
     private let titleLabel: UILabel = .title(title: "참여중인 근무지가 없어요")
     private let searchWorkplaceButton: UIButton = .common(title: "찾아보기")
@@ -87,5 +106,65 @@ final class WorkplaceFinderViewController: UIViewController {
             // Constraint button height
             buttonStack.heightAnchor.constraint(equalToConstant: 100),
         ])
+    }
+    
+    // MARK: - UICollectionViewLayout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let sectionProvider = { [weak self] (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
+            guard let sectionKind = Section(rawValue: sectionIndex) else {
+                Swift.fatalError("Unknown section!")
+            }
+            
+            let section: NSCollectionLayoutSection
+            switch sectionKind {
+            case .join:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .estimated(200)))
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .estimated(200)),
+                    subitems: [item])
+                group.interItemSpacing = .fixed(12)
+                section = NSCollectionLayoutSection(group: group)
+            case .pending:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(1.0),
+                        heightDimension: .absolute(100)))
+                let group = NSCollectionLayoutGroup.horizontal(
+                    layoutSize: .init(
+                        widthDimension: .fractionalWidth(0.9),
+                        heightDimension: .absolute(100)),
+                    subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
+                section.interGroupSpacing = 20
+            case .active:
+                let item = NSCollectionLayoutItem(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .absolute(100)))
+                let group = NSCollectionLayoutGroup.vertical(
+                    layoutSize: .init(widthDimension: .fractionalWidth(1.0),
+                                      heightDimension: .absolute(100)),
+                    subitems: [item])
+                section = NSCollectionLayoutSection(group: group)
+            }
+            let headerFooterSize = NSCollectionLayoutSize(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44))
+            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+                layoutSize: headerFooterSize,
+                elementKind: "section-header-element-kind",
+                alignment: .top, absoluteOffset: .init(x: 0, y: -12))
+            section.boundarySupplementaryItems = [sectionHeader]
+            return section
+        }
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 20
+        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider, configuration: config)
     }
 }
