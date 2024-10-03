@@ -50,7 +50,7 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    func start() {
+    func start(_ arguments: Any?) {
         showWorkplace()
     }
     

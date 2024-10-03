@@ -100,6 +100,7 @@
 		8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA912CAE716B008A8D22 /* UserModelDataSource.swift */; };
 		8624EA952CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */; };
 		8624EA962CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */; };
+		8624EA982CAEAE56008A8D22 /* UIView+Bubbled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */; };
 		863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */; };
 		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
 		864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */; };
@@ -298,7 +299,7 @@
 		86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E49BD82C4FA85F00429FF9 /* _TextView.swift */; };
 		86EB5F372C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86EB5F362C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift */; };
 		86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */; };
-		86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */; };
+		86FB3CEB2C60DA9800E193EB /* AttendRequestStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FB3CEA2C60DA9800E193EB /* AttendRequestStatusView.swift */; };
 		86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */; };
 		86FD61DC2C8957B0005ED02F /* UserHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */; };
 		86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */; };
@@ -434,6 +435,7 @@
 		8624EA912CAE716B008A8D22 /* UserModelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelDataSource.swift; sourceTree = "<group>"; };
 		8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataClass.swift"; sourceTree = "<group>"; };
 		8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataProperties.swift"; sourceTree = "<group>"; };
+		8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Bubbled.swift"; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
 		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
 		864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderViewController.swift; sourceTree = "<group>"; };
@@ -633,7 +635,7 @@
 		86E49BD82C4FA85F00429FF9 /* _TextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = _TextView.swift; sourceTree = "<group>"; };
 		86EB5F362C9BBDFB00450803 /* WorkScheduleDetailsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = WorkScheduleDetailsViewController.swift; path = SeulMae/Presentation/Main/WorkScheduleDetails/View/WorkScheduleDetailsViewController.swift; sourceTree = SOURCE_ROOT; };
 		86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Separator.swift"; sourceTree = "<group>"; };
-		86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentStatusView.swift; sourceTree = "<group>"; };
+		86FB3CEA2C60DA9800E193EB /* AttendRequestStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequestStatusView.swift; sourceTree = "<group>"; };
 		86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeViewController.swift; sourceTree = "<group>"; };
 		86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewController.swift; sourceTree = "<group>"; };
 		86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -1037,7 +1039,7 @@
 				86AC25F92CA042EC0009D249 /* WorkTimeRecording */,
 				86AC25FE2CA043B70009D249 /* RequestAttendance */,
 				86E299AC2C1721FF00805AD0 /* MainViewController.swift */,
-				86FB3CEA2C60DA9800E193EB /* CurrentStatusView.swift */,
+				86FB3CEA2C60DA9800E193EB /* AttendRequestStatusView.swift */,
 				86B0AF922C2EB22D0006AF00 /* WorkStatusView.swift */,
 				8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */,
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
@@ -1350,6 +1352,7 @@
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 				8697FBEA2C2D19140027A035 /* Rxswift+ */,
 				86FB3CE82C60D86B00E193EB /* UIView+Separator.swift */,
+				8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */,
 				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
 				869C7A772C6F08E6008EB7ED /* Data+String.swift */,
 				86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */,
@@ -2330,7 +2333,7 @@
 				86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */,
 				8624EA3F2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift in Sources */,
 				865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */,
-				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
+				86FB3CEB2C60DA9800E193EB /* AttendRequestStatusView.swift in Sources */,
 				865AA20D2CABE03300D70B09 /* OutlineSupplementaryView.swift in Sources */,
 				86AC25FB2CA0437E0009D249 /* WorkTimeRecordingViewController.swift in Sources */,
 				861B96902C2046B90032C94A /* ModalContentView.swift in Sources */,
@@ -2411,6 +2414,7 @@
 				86AC25F62C9C32360009D249 /* ScheduleReminderViewModel.swift in Sources */,
 				86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */,
 				86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */,
+				8624EA982CAEAE56008A8D22 /* UIView+Bubbled.swift in Sources */,
 				861B96D12C21BBDC0032C94A /* AppDIContainer.swift in Sources */,
 				86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */,
 				86E39F9C2C8EB77C00361E0D /* HomeFlowCoordinator.swift in Sources */,

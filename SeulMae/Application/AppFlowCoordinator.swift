@@ -23,7 +23,7 @@ class AppFlowCoordinator {
         var authCoordinator = authSceneDIContainer.makeAuthFlowCoordinator(navigationController: navigationController)
         let mainCoordinator = makeMainCoordinator()
         authCoordinator.coordinators.append(mainCoordinator)
-        authCoordinator.start()
+        authCoordinator.start(nil)
     }
     
     func makeMainCoordinator() -> MainFlowCoordinator {

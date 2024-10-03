@@ -104,17 +104,17 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
     
     // MARK: - HomeFlowCoordinatorDependencies
     
-    func makeUserHomeViewController(
+    func makeMemberHomeViewController(
         coordinator: any HomeFlowCoordinator) -> UserHomeViewController {
             return .init(viewModel: makeUserHomeViewModel(coordinator: coordinator))
         }
     
-    func makeHomeViewController(
+    func makeManagerHomeViewController(
         coordinator: any HomeFlowCoordinator) -> ManagerHomeViewController {
             return .init(
                 viewModel: makeManagerHomeViewModel(coordinator: coordinator)
             )
-        }
+    }
     
     func makeNotiListViewController(
         coordinator: HomeFlowCoordinator) -> NotiListViewController {

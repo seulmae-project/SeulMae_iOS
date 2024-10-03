@@ -43,7 +43,7 @@ final class UserHomeViewController: UIViewController {
     }()
     
     private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
-    private let currentStatusView = CurrentStatusView()
+    private let currentStatusView = AttendRequestStatusView()
     private let calendarView = CalendarView()
     
     // MARK: - Properties

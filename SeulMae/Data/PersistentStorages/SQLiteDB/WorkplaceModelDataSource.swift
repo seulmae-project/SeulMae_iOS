@@ -39,15 +39,6 @@ class WorkplaceModelDataSource {
         return true
     }
     
-    func load(accountId: String) -> [Workplace] {
-        let request = WorkplaceModel.fetchRequest()
-        request.predicate = NSPredicate(format: "accountId = %@", accountId)
-        let context = persistentContainer.viewContext
-        guard let models = try? context.fetch(request) else { return [] }
-        Swift.print("[DB] accountId: \(accountId), workplaceListCount: \(models.count)" )
-        return models.map(Workplace.init(entity: ))
-    }
-    
     func create(workplaceList: [Workplace], accountId: String) -> Bool {
         workplaceList.forEach { workplace in
             let entity = WorkplaceModel(context: persistentContainer.viewContext)
@@ -63,5 +54,28 @@ class WorkplaceModelDataSource {
             entity.contact = workplace.contact
         }
         return saveContext()
+    }
+    
+    func load(accountId: String) -> [Workplace] {
+        let request = WorkplaceModel.fetchRequest()
+        request.predicate = NSPredicate(format: "accountId = %@", accountId)
+        let context = persistentContainer.viewContext
+        guard let models = try? context.fetch(request) else { return [] }
+        Swift.print("[DB] accountId: \(accountId), workplaceListCount: \(models.count)" )
+        return models.map(Workplace.init(entity: ))
+    }
+    
+    func load(workplaceId: Workplace.ID) -> Workplace {
+        let request = WorkplaceModel.fetchRequest()
+        request.predicate = NSPredicate(format: "id = %d", workplaceId)
+        let context = persistentContainer.viewContext
+        guard let models = try? context.fetch(request),
+              let matched = models.first else {
+            Swift.fatalError()
+        }
+        
+        let entity = Workplace.init(entity: matched)
+        Swift.print("[DB]: matched: \(entity)")
+        return entity
     }
 }

@@ -21,6 +21,8 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         self.storage = storage
     }
     
+    // MARK: - Local DB
+    
     func create(workplaceList: [Workplace], accountId: String) -> Bool {
         return storage2.create(workplaceList: workplaceList, accountId: accountId)
     }
@@ -28,6 +30,12 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     func read(accountId: String) -> [Workplace] {
         return storage2.load(accountId: accountId)
     }
+    
+    func read(workplaceId: Workplace.ID) -> Workplace {
+        return storage2.load(workplaceId: workplaceId)
+    }
+    
+    // MARK: - API
     
     func fetchWorkplaceList(keyword: String) -> RxSwift.Single<[Workplace]> {
         return network.rx
@@ -137,12 +145,13 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { $0.toDomain() }
     }
     
-    func fetchMyInfo(workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
-        return network.rx
-            .request(.myDetails(workplaceId: workplaceId))
-            .map(BaseResponseDTO<MemberProfileDto>.self)
-            .map { $0.toDomain() }
-    }
+    func fetchMyInfo(
+        workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
+            return network.rx
+                .request(.myDetails(workplaceId: workplaceId))
+                .map(BaseResponseDTO<MemberProfileDto>.self)
+                .map { $0.toDomain() }
+        }
     
     func fetchJoinedWorkplaceList() -> RxSwift.Single<[Workplace]> {
         return network.rx

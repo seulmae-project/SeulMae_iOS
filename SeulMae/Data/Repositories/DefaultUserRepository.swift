@@ -26,6 +26,16 @@ final class UserRepository {
         // return UserDefaults.standard.integer(forKey: "currentWorkplaceId")
     }
     
+    func readDefaultWorkplaceId() -> Int {
+        // TODO: - 0이 반환될 경우 처리
+        let defaultWorkplaceId = UserDefaults.standard.integer(forKey: "default-workplace-id")
+        if defaultWorkplaceId == 0 {
+            return 8
+        } else {
+            return defaultWorkplaceId
+        }
+    }
+    
     func fetchMyProfile() -> RxSwift.Single<User> {
         return network.rx
             .request(.fetchMyProfile)

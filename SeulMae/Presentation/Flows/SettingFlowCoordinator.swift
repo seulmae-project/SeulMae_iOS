@@ -35,7 +35,7 @@ final class DefaultSettingFlowCoordinator: SettingFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    func start() {
+    func start(_ arguments: Any?) {
         showSetting()
     }
     

@@ -10,14 +10,18 @@ import RxSwift
 
 protocol UserUseCase {
     func fetchMyProfile() -> RxSwift.Single<User>
+    //
 }
 
 final class DefaultUserUseCase: UserUseCase {
+    
+    
     private var userRepository: UserRepository
     
     init(userRepository: UserRepository) {
         self.userRepository = userRepository
     }
+    
     
     func fetchMyProfile() -> RxSwift.Single<User> {
         return userRepository.fetchMyProfile()

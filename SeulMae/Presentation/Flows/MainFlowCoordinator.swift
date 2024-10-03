@@ -32,10 +32,6 @@ protocol MainFlowCoordinatorDependencies {
 
 protocol MainFlowCoordinator: Coordinator {
     
-    func start()
-    func goBack()
-    func showMain()
-    
     func showWorkplaceFinder()
     func showSearchWorkPlace()
     func showWorkplaceDetails(workplaceID: Workplace.ID)
@@ -70,8 +66,14 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    func start() {
-        showMain()
+    
+    func start(_ arguments: Any?) {
+        guard let isManager = arguments as? Bool else {
+            Swift.fatalError("[Main Flow]: Does not fount arguments")
+            // return
+        }
+        
+        showMain(isManager: isManager)
     }
     
     func goBack() {
@@ -86,8 +88,8 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     //
     // MARK: - Main
     
-    func showMain() {
-        coordinators.forEach { $0.start() }
+    func showMain(isManager: Bool) {
+        coordinators.forEach { $0.start(isManager) }
         let viewControllers = coordinators.map { $0.navigationController }
         let vc = MainTabBarController(viewContollers: viewControllers)
         navigationController.setViewControllers([vc], animated: false)

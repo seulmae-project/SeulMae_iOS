@@ -55,7 +55,7 @@ class MainViewController: UIViewController {
     
     private let announceSliderView = SliderView<AnnounceView>()
     private let _mainTitleLabel = UILabel.title(title: AppText.mainTitle)
-    private let currentStatusView = CurrentStatusView()
+    private let currentStatusView = AttendRequestStatusView()
     private let calendarView = CalendarView()
     
     // MARK: - Properties

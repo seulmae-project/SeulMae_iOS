@@ -9,6 +9,12 @@ import Foundation
 import RxSwift
 
 protocol WorkplaceRepository {
+    // MARK: - Local DB
+    func read(accountId: String) -> [Workplace]
+    func read(workplaceId: Workplace.ID) -> Workplace
+    func create(workplaceList: [Workplace], accountId: String) -> Bool
+    
+    
 //addWorkplace(request: AddNewWorkplaceRequest, data: Data)
     func fetchWorkplaceList(keyword: String) -> Single<[Workplace]>
 //case fetchWorkplaceDetails(workplaceId: Workplace.ID)
@@ -24,8 +30,7 @@ protocol WorkplaceRepository {
 //case promote(requset: PromoteRequset)
 //case leaveWorkplace(workplaceId: Workplace.ID)
     
-    func read(accountId: String) -> [Workplace]
-    func create(workplaceList: [Workplace], accountId: String) -> Bool
+  
     
     
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>

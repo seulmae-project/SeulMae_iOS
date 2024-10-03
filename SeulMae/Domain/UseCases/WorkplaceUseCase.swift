@@ -9,10 +9,17 @@ import Foundation
 import RxSwift
 
 protocol WorkplaceUseCase {
+    // Local DB
+    func readWorkplaceList() -> [Workplace]
+    func readDefaultWorkplace() -> Workplace
+    
+    
     // Search workplace
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
-    func readWorkplaceList() -> [Workplace]
+    
     func fetchWorkplaces() -> Single<[Workplace]>
+    
+   
     
     // Workpalce details
     func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> Single<Workplace>
@@ -44,6 +51,14 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     
     init(workplaceRepository: WorkplaceRepository) {
         self.workplaceRepository = workplaceRepository
+    }
+    
+    // MARK: - Local DB
+    
+    func readDefaultWorkplace() -> Workplace {
+        let defaultWorkplaceId = userRepository.readDefaultWorkplaceId()
+        Swift.print("[Workplace Repo]: defaultWorkplaceId: \(defaultWorkplaceId)")
+        return workplaceRepository.read(workplaceId: defaultWorkplaceId)
     }
     
     func readWorkplaceList() -> [Workplace] {

@@ -33,14 +33,19 @@ protocol AuthFlowCoordinatorDependencies {
 protocol Coordinator {
     var coordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }
-    func start()
+    func start(_ arguments: Any?)
     func goBack()
+}
+
+extension Coordinator {
+    func goBack() {
+        navigationController.popViewController(animated: true)
+    }
 }
 
 protocol AuthFlowCoordinator: Coordinator {
     
-    func start()
-    func startMain()
+    func startMain(isManager: Bool)
     // func showTutorial()
     //
     func showWorkplaceFinder()
@@ -80,20 +85,14 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    func start() {
-        
-        // showSearchWorkplace()
+    func start(_ arguments: Any?) {
         showSingin()
     }
     
-    func goBack() {
-        
-    }
-    
-    func startMain() {
+    func startMain(isManager: Bool) {
         for child in coordinators {
             if child is MainFlowCoordinator {
-                child.start()
+                child.start(isManager)
             }
         }
     }

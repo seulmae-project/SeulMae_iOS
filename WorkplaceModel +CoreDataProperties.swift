@@ -29,6 +29,6 @@ extension WorkplaceModel {
 
 }
 
-extension WorkplaceModel : Identifiable {
+extension WorkplaceModel: Identifiable {
 
 }

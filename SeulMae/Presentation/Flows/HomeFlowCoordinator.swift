@@ -8,7 +8,9 @@
 import UIKit
 
 protocol HomeFlowCoordinatorDependencies {
-    func makeUserHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
+    func makeMemberHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
+    func makeManagerHomeViewController(coordinator: HomeFlowCoordinator) -> ManagerHomeViewController
+    
     func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
     
     // bottom modal
@@ -17,11 +19,9 @@ protocol HomeFlowCoordinatorDependencies {
 }
 
 protocol HomeFlowCoordinator: Coordinator {
-    func start()
-    func goBack()
-    
-    func showUserHome()
+    func showMemberHome()
     func showManagerHome()
+    
     func showNotiList()
     
     func showScheduleReminder()
@@ -47,21 +47,27 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    func start() {
-        showUserHome()
+    func start(_ arguments: Any?) {
+        guard let isManager = arguments as? Bool else {
+            Swift.fatalError("[Home Flow]: Does not fount arguments")
+            // return
+        }
+        
+        if isManager {
+            showManagerHome()
+        } else {
+            showMemberHome()
+        }
     }
     
-    func goBack() {
-        navigationController.popViewController(animated: true)
-    }
-    
-    func showUserHome() {
-        let vc = dependencies.makeUserHomeViewController(coordinator: self)
+    func showMemberHome() {
+        let vc = dependencies.makeMemberHomeViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
     
     func showManagerHome() {
-        
+        let vc = dependencies.makeManagerHomeViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
     }
     
     func showNotiList() {

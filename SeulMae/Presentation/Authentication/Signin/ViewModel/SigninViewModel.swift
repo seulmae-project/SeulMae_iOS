@@ -143,7 +143,10 @@ final class SigninViewModel: ViewModel {
         Task {
             for await hasGroup in hasGroup.values {
                 if hasGroup {
-                    coordinator.startMain()
+                    let workplace = workplaceUseCase.readDefaultWorkplace()
+                    let isManager = workplace.isManager ?? false
+                    Swift.print("[SginIn VM] isManager: \(isManager)")
+                    coordinator.startMain(isManager: isManager)
                 } else {
                     coordinator.showWorkplaceFinder()
                 }
