@@ -11,7 +11,18 @@ import RxCocoa
 
 final class ManagerHomeViewController: BaseViewController {
     
-    // MARK: UI
+    // MARK: - Internal Types
+    
+    typealias Item = ManagerHomeItem
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ListItem>
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ListItem>
+    typealias ListItem = ManagerHomeListItem
+    
+    enum Section: Int, Hashable, CaseIterable {
+        case list
+    }
+    
+    // MARK: - UI
     
     private let refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -34,8 +45,19 @@ final class ManagerHomeViewController: BaseViewController {
     }()
     
     private let attendRequestStatusView = AttendRequestStatusView()
-    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
-    private let calendarView = CalendarView()
+    
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        return collectionView
+    }()
+    
+//    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
+//    private let calendarView = CalendarView()
+    
+    // MARK: - Properties
+    
+    private var dataSource: DataSource!
     
     // MARK: - Dependencies
  
@@ -50,6 +72,7 @@ final class ManagerHomeViewController: BaseViewController {
         setupView()
         setupNavItem()
         setupConstraints()
+        setupDataSource()
         bindSubviews()
     }
     
@@ -63,20 +86,78 @@ final class ManagerHomeViewController: BaseViewController {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
+        let onRefresh = refreshControl.rx
+            .controlEvent(.valueChanged)
+            .asSignal()
         
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                refresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
-                showNotis: notiRightBarButton.rx.tap.asSignal(),
+                onRefresh: onRefresh,
+                showNotis: .empty(),
                 showDetails: .empty()
             )
         )
         
         Task {
+            for await item in output.item.values {
+                switch item.type {
+                case .status:
+                    attendRequestStatusView.completedCountLabel.text = String(item.doneRequestCount!)
+                    attendRequestStatusView.progressCountLabel.text = String(item.leftRequestCount!)
+                case .list:
+                    var snapshot = Snapshot()
+                    snapshot.appendSections(Section.allCases)
+                    snapshot.appendItems([], toSection: .list)
+                    dataSource.apply(snapshot)
+                }
+            }
+        }
+        
+        Task {
             for await loading in output.loading.values {
                 loadingIndicator.ext.isAnimating(loading)
             }
+        }
+    }
+    
+    // MARK: - DataSource
+    
+    private func setupDataSource() {
+        let finderCellRegistration = createFinderCellRegistration()
+        
+        dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
+            guard let section = Section(rawValue: index.section) else {
+                return nil
+            }
+            
+            switch section {
+            case .list:
+                return view.dequeueConfiguredReusableCell(using: finderCellRegistration, for: index, item: item)
+            }
+        }
+        
+//        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
+//            return (kind == OutlineSupplementaryView.reuseIdentifier)
+//            ? view.dequeueConfiguredReusableSupplementary(
+//                using: headerCellRegistration, for: indexPath)
+//            : view.dequeueConfiguredReusableSupplementary(using: footerCellRegistration, for: indexPath)
+//        }
+    }
+    
+    // MARK: - Cell Registration
+    
+    private func createFinderCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, ListItem> {
+        return UICollectionView.CellRegistration<UICollectionViewListCell, ListItem> { cell, index, item in
+            var content = AttendanceRequestContentView.Configuration()
+            content.imageURL = item.userImageUrl
+            content.name = item.name
+            content.isApprove = item.isApprove
+            content.totalWorkTime = item.totalWorkTime
+            content.workStartDate = item.workStartDate
+            content.workEndDate = item.workEndDate
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
         }
     }
     
@@ -87,24 +168,19 @@ final class ManagerHomeViewController: BaseViewController {
     }
     
     private func setupNavItem() {
-        navigationItem.rightBarButtonItem = notiRightBarButton
+        // navigationItem.rightBarButtonItem = notiRightBarButton
     }
     
     private func setupConstraints() {
-        let emptyView = UIView()
         view.addSubview(scrollView)
         scrollView.addSubview(titleLabel)
         scrollView.addSubview(attendRequestStatusView)
-
-//        scrollView.addSubview(calendarView)
-//        scrollView.addSubview(emptyView)
+        scrollView.addSubview(collectionView)
         
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        calendarView.translatesAutoresizingMaskIntoConstraints = false
         attendRequestStatusView.translatesAutoresizingMaskIntoConstraints = false
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
-        
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
         
         let inset = CGFloat(20)
         NSLayoutConstraint.activate([
@@ -119,16 +195,27 @@ final class ManagerHomeViewController: BaseViewController {
             attendRequestStatusView.leadingAnchor.constraint(greaterThanOrEqualTo: titleLabel.trailingAnchor, constant: 12),
             attendRequestStatusView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor, constant: -inset),
             attendRequestStatusView.topAnchor.constraint(equalTo: titleLabel.topAnchor),
-
-//            calendarView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-//            calendarView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-//            calendarView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-            // calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor),
-//            
-//            emptyView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-//            emptyView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 20),
-//            emptyView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-//            emptyView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            
+            collectionView.leadingAnchor.constraint(equalTo: titleLabel.leadingAnchor),
+            collectionView.trailingAnchor.constraint(equalTo: attendRequestStatusView.trailingAnchor),
+            collectionView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 20),
+            collectionView.bottomAnchor.constraint(equalTo: scrollView.frameLayoutGuide.bottomAnchor),
         ])
+    }
+    
+    // MARK: - UICollectionViewLayout
+    
+    private func createLayout() -> UICollectionViewLayout {
+        let item = NSCollectionLayoutItem(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44)))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: .init(
+                widthDimension: .fractionalWidth(1.0),
+                heightDimension: .estimated(44)),
+            subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        return UICollectionViewCompositionalLayout(section: section)
     }
 }

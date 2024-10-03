@@ -12,14 +12,15 @@ final class AttendRequestStatusView: UIView {
     private let _progressLabel: UILabel = {
         let label = UILabel()
         label.text = "미완료"
-        label.font = .pretendard(size: 12, weight: .bold)
-        label.textColor = .white
+        label.font = .pretendard(size: 14, weight: .bold)
+        label.textColor = .primary
         return label
     }()
     
     let progressCountLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 15, weight: .semibold)
+        label.text = "-"
+        label.font = .pretendard(size: 16, weight: .medium)
         return label
     }()
     
@@ -31,7 +32,7 @@ final class AttendRequestStatusView: UIView {
         label.attributedText = NSMutableAttributedString(
             string: "개",
             attributes: [
-                .font: UIFont.pretendard(size: 11, weight: .semibold),
+                .font: UIFont.pretendard(size: 13, weight: .medium),
                 NSAttributedString.Key.kern: -0.05,
                 NSAttributedString.Key.paragraphStyle: paragraphStyle
             ])        
@@ -41,15 +42,15 @@ final class AttendRequestStatusView: UIView {
     private let _completedLabel: UILabel = {
         let label = UILabel()
         label.text = "완료"
-        label.font = .pretendard(size: 12, weight: .bold)
+        label.font = .pretendard(size: 14, weight: .bold)
         label.textColor = .white
         return label
     }()
     
     let completedCountLabel: UILabel = {
         let label = UILabel()
-        label.font = .pretendard(size: 15, weight: .semibold)
-        label.textColor = .primary
+        label.text = "-"
+        label.font = .pretendard(size: 16, weight: .medium)
         return label
     }()
     
@@ -61,7 +62,7 @@ final class AttendRequestStatusView: UIView {
         label.attributedText = NSMutableAttributedString(
             string: "개",
             attributes: [
-                .font: UIFont.pretendard(size: 11, weight: .semibold),
+                .font: UIFont.pretendard(size: 13, weight: .medium),
                 NSAttributedString.Key.kern: -0.05,
                 NSAttributedString.Key.paragraphStyle: paragraphStyle
             ])

@@ -54,11 +54,16 @@ extension AttendnaceAPI {
         case let .attend2(request: request):
             return .requestJSONEncodable(request)
         case let .fetchAttendanceRequsetList2(workplaceId: workplaceId, date: date):
+            // TODO: - 
+            let formatter = DateFormatter()
+            formatter.dateFormat = "yyyy-MM-dd"
+            let formatted = formatter.string(from: date)
             return .requestParameters(
                 parameters: [
                     "workplace": workplaceId,
-                    "localDate": date
-                ], encoding: URLEncoding.queryString)
+                    "localDate": formatted
+                ],
+                encoding: URLEncoding.queryString)
         }
     }
     

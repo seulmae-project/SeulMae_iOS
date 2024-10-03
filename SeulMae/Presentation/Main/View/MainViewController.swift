@@ -179,7 +179,7 @@ class MainViewController: UIViewController {
         }
         
         let attendanceCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, AttendanceListItem> { (cell, indexPath, item) in
-            var content = AttendanceContentView.Configuration()
+            var content = AttendanceRequestContentView.Configuration()
 //            content.imageURL = item.imageURL
 //            content.name = item.name
 //            content.isApprove item.

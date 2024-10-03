@@ -24,13 +24,20 @@ final class AppDIContainer {
             ),
             workplaceNetworking: WorkplaceNetworking(
                 plugins: [CustomNetworkLoggerPlugin()]
+            ),
+            attendanceNetworking: AttendanceNetworking(
+                plugins: [CustomNetworkLoggerPlugin()]
             )
         )
         return MainSceneDIContainer(dependencies: dependencies)
     }
     
     func makeHomeSceneDIContainer() -> HomeSceneDIContainer {
-        let dependencies = HomeSceneDIContainer.Dependencies()
+        let dependencies = HomeSceneDIContainer.Dependencies(
+            attendanceNetworking: AttendanceNetworking(
+                plugins: [CustomNetworkLoggerPlugin()]
+            )
+        )
         return HomeSceneDIContainer(dependencies: dependencies)
     }
     

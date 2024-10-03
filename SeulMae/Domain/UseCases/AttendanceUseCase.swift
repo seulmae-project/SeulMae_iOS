@@ -135,7 +135,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
 //    }
 }
 
-struct AttendanceRequest: Identifiable {
+struct AttendanceRequest: Identifiable, Hashable {
     let id: Int
     let userName: String
     let userImageURL: String

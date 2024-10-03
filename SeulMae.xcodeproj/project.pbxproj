@@ -101,6 +101,8 @@
 		8624EA952CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */; };
 		8624EA962CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */; };
 		8624EA982CAEAE56008A8D22 /* UIView+Bubbled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */; };
+		8624EA9A2CAEBBD7008A8D22 /* MangerHomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */; };
+		8624EA9E2CAEE4B9008A8D22 /* ManagerHomeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */; };
 		863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */; };
 		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
 		864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */; };
@@ -192,7 +194,7 @@
 		869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6D2C6E96D8008EB7ED /* File2.swift */; };
 		869C7A702C6EEF5B008EB7ED /* MemberListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */; };
 		869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */; };
-		869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */; };
+		869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */; };
 		869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */; };
 		869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A772C6F08E6008EB7ED /* Data+String.swift */; };
 		869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */; };
@@ -436,6 +438,8 @@
 		8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataClass.swift"; sourceTree = "<group>"; };
 		8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Bubbled.swift"; sourceTree = "<group>"; };
+		8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangerHomeItem.swift; sourceTree = "<group>"; };
+		8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeListItem.swift; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
 		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
 		864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderViewController.swift; sourceTree = "<group>"; };
@@ -525,7 +529,7 @@
 		869C7A6D2C6E96D8008EB7ED /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
 		869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListItem.swift; sourceTree = "<group>"; };
 		869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceListItem.swift; sourceTree = "<group>"; };
-		869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceContentView.swift; sourceTree = "<group>"; };
+		869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceRequestContentView.swift; sourceTree = "<group>"; };
 		869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUseCase.swift; sourceTree = "<group>"; };
 		869C7A772C6F08E6008EB7ED /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
 		869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplacePlaceListViewController.swift; sourceTree = "<group>"; };
@@ -1045,7 +1049,6 @@
 				86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */,
 				86E296F42C4E4D9D0080A3A2 /* TextCell.swift */,
 				869C7A7B2C6F221C008EB7ED /* WorkplaceListViewModel.swift */,
-				869C7A732C6EF070008EB7ED /* AttendanceContentView.swift */,
 				869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */,
 			);
 			path = View;
@@ -2068,6 +2071,9 @@
 			children = (
 				86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */,
 				86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */,
+				8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */,
+				8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */,
+				869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2341,13 +2347,14 @@
 				86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */,
 				86639B992C9562020029C1F9 /* AppNotification.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
+				8624EA9E2CAEE4B9008A8D22 /* ManagerHomeListItem.swift in Sources */,
 				865AA2012CA9735A00D70B09 /* UILabel+Ext.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
 				86DE556C2C19E9C7009CC520 /* AccountRecoveryViewController.swift in Sources */,
 				8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */,
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
-				869C7A742C6EF070008EB7ED /* AttendanceContentView.swift in Sources */,
+				869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */,
 				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
@@ -2523,6 +2530,7 @@
 				86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
+				8624EA9A2CAEBBD7008A8D22 /* MangerHomeItem.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,

@@ -12,6 +12,7 @@ final class MainSceneDIContainer {
     struct Dependencies {
         let notificationNetworking: NotificationNetworking
         let workplaceNetworking: WorkplaceNetworking
+        let attendanceNetworking: AttendanceNetworking
     }
     
     private let dependencies: Dependencies
@@ -37,7 +38,7 @@ final class MainSceneDIContainer {
     }
     
     private func makeAttendanceRepository() -> AttendanceRepository {
-        return DefaultAttendanceRepository(network: AttendanceNetworking())
+        return DefaultAttendanceRepository(network: dependencies.attendanceNetworking)
     }
     
     // Workplace

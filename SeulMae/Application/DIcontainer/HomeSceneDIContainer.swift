@@ -10,7 +10,8 @@ import UIKit
 final class HomeSceneDIContainer {
     
     struct Dependencies {
-        // let mainNetworking: MainNetworking
+         // let mainNetworking: MainNetworking
+        let attendanceNetworking: AttendanceNetworking
     }
     
     private let dependencies: Dependencies
@@ -33,7 +34,7 @@ final class HomeSceneDIContainer {
     // MARK: - Private Methods
     
     private func makeAttendanceUseCase() -> AttendanceUseCase {
-        DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: AttendanceNetworking()))
+        DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: dependencies.attendanceNetworking))
     }
     
     private func makeAttendanceHistoryUseCase() -> AttendanceHistoryUseCase {

@@ -1,5 +1,5 @@
 //
-//  AttendanceContentView.swift
+//  AttendanceRequestContentView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/16/24.
@@ -8,10 +8,9 @@
 import UIKit
 import Kingfisher
 
-final class AttendanceContentView: UIView, UIContentView {
+final class AttendanceRequestContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
-     
         var imageURL: String = ""
         var name: String = ""
         var isApprove: Bool = false
@@ -20,7 +19,7 @@ final class AttendanceContentView: UIView, UIContentView {
         var workEndDate: Date = Date()
         
         func makeContentView() -> UIView & UIContentView {
-            return AttendanceContentView(self)
+            return AttendanceRequestContentView(self)
         }
     }
     
@@ -101,7 +100,6 @@ final class AttendanceContentView: UIView, UIContentView {
     
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        // memberImageView
         memberNameLabel.text = config.name
         approvalLabel.text = config.isApprove ? "인증" : "미인증"
         let rounded = config.totalWorkTime.rounded()
