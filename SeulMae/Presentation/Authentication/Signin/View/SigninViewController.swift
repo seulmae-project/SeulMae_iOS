@@ -36,11 +36,11 @@ final class SigninViewController: BaseViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: SigninViewModel!
+    private var viewModel: SigninViewModel
     
     // MARK: - Life Cycle
     
-    init(viewModel: SigninViewModel!) {
+    init(viewModel: SigninViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

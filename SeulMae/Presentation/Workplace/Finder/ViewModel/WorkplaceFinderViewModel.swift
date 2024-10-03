@@ -10,6 +10,8 @@ import RxSwift
 import RxCocoa
 
 final class WorkplaceFinderViewModel: ViewModel {
+    typealias Item = WorkplaceFinderItem
+
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
@@ -19,6 +21,7 @@ final class WorkplaceFinderViewModel: ViewModel {
     
     struct Output {
         let loading: Driver<Bool>
+        let items: Driver<[Item]>
     }
     
     // MARK: - Dependencies
@@ -42,8 +45,14 @@ final class WorkplaceFinderViewModel: ViewModel {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
         
-        
-        
+        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
+        let items = onLoad.flatMapLatest { [weak self] _ -> Driver<[Item] >in
+            guard let strongSelf = self else { return .empty() }
+            return strongSelf.workplaceUseCase
+                .fetchJoinedWorkplaceList()
+                .map { $0.map(Item.init(workplace: )) }
+                .asDriver()
+        }
         
         // MARK: - Coordinator Logic
         
@@ -59,7 +68,10 @@ final class WorkplaceFinderViewModel: ViewModel {
             }
         }
         
-        return Output(loading: loading)
+        return Output(
+            loading: loading,
+            items: items
+        )
     }
 }
 

@@ -9,46 +9,27 @@ import Foundation
 import RxSwift
 import Moya
 
-//extension Moya.Response {
-//    var toPrettyPrintedString: String? {
-//        guard let object = try? JSONSerialization.jsonObject(with: self, options: []),
-//              let data = try? JSONSerialization.data(withJSONObject: object, options: [.prettyPrinted]),
-//              let prettyPrintedString = NSString(data: data, encoding: String.Encoding.utf8.rawValue) else { return nil }
-//        return prettyPrintedString as String
-//    }
-//    func mapPrettyString(atKeyPath keyPath: String? = nil) throws -> String {
-//        if let keyPath = keyPath {
-//            guard let jsonDictionary = try mapJSON() as? NSDictionary,
-//                let string = jsonDictionary.value(forKeyPath: keyPath) as? String else {
-//                    throw MoyaError.stringMapping(self)
-//            }
-//            return string
-//        } else {
-//            // Key path was not provided, parse entire response as string
-//            guard let string = String(data: data, encoding: .utf8) else {
-//                throw MoyaError.stringMapping(self)
-//            }
-//            return string
-//        }
-//    }
-//}
 
 final class DefaultWorkplaceRepository: WorkplaceRepository {
- 
     
     private let network: WorkplaceNetworking
     private let storage: WorkplaceStorage
+    private let storage2 = WorkplaceModelDataSource()
     
     init(network: WorkplaceNetworking, storage: WorkplaceStorage) {
         self.network = network
         self.storage = storage
     }
     
-    func saveWorkplaces(_ workplaces: [Workplace], withAccount account: String) -> RxSwift.Single<Bool> {
-        return .just(storage.saveWorkplaces(workplaces: workplaces, withAccount: account))
+    func create(workplaceList: [Workplace], accountId: String) -> Bool {
+        return storage2.create(workplaceList: workplaceList, accountId: accountId)
     }
     
-    func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
+    func read(accountId: String) -> [Workplace] {
+        return storage2.load(accountId: accountId)
+    }
+    
+    func fetchWorkplaceList(keyword: String) -> RxSwift.Single<[Workplace]> {
         return network.rx
             .request(.fetchWorkplaceList(keyword: keyword))
             .map(BaseResponseDTO<[WorkplaceDTO]>.self)
@@ -59,18 +40,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         case some
     }
     
-    func fetchWorkplaces(accountID: String) -> Single<Array<[String: Any]>> {
-        return Single.create { [weak self] single in
-            guard let strongSelf = self else {
-                single(.failure(SomeError.some))
-                return Disposables.create()
-            }
-            
-            let workplaces = strongSelf.storage.fetchWorkplaces(account: accountID)
-            single(.success(workplaces))
-            return Disposables.create()
-        }
-    }
+    
     
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> RxSwift.Single<Bool> {
         return network.rx
@@ -159,6 +129,7 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         })
     }
     
+    
     func fetchMemberInfo(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
         return network.rx
             .request(.memberDetails(userId: memberId))
@@ -172,4 +143,12 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<MemberProfileDto>.self)
             .map { $0.toDomain() }
     }
+    
+    func fetchJoinedWorkplaceList() -> RxSwift.Single<[Workplace]> {
+        return network.rx
+            .request(.fetchJoinedWorkplaceList)
+            .map(BaseResponseDTO<[WorkplaceDTO]>.self)
+            .map { $0.toDomain() }
+    }
+    
 }

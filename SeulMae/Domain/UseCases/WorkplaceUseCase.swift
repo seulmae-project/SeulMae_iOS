@@ -11,7 +11,7 @@ import RxSwift
 protocol WorkplaceUseCase {
     // Search workplace
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
-    func fetchWorkplaces(accountID: String) -> Single<[Workplace]>
+    func readWorkplaceList() -> [Workplace]
     func fetchWorkplaces() -> Single<[Workplace]>
     
     // Workpalce details
@@ -30,6 +30,8 @@ protocol WorkplaceUseCase {
     
     func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
     func fetchMyInfo() -> Single<MemberProfile>
+    func fetchJoinedWorkplaceList() -> Single<[Workplace]>
+
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -44,32 +46,17 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         self.workplaceRepository = workplaceRepository
     }
     
-    func fetchWorkplaces(accountID: String) -> RxSwift.Single<[Workplace]> {
-        let dicArray = workplaceRepository.fetchWorkplaces(accountID: accountID)
-        return dicArray.map { array in
-            return array.map { dic in
-                Workplace(
-                    id: dic["id"] as! Int,
-                    name: dic["name"] as! String,
-                    userWorkplaceId: dic["user_workplace_id"] as! Int,
-                    isManager: dic["is_manager"] as! Bool,
-                    address: Address(mainAddress: "", subAddress: ""),
-                    invitationCode: "",
-                    contact: "",
-                    imageURLList: [],
-                    thumbnailURL: "",
-                    manager: "",
-                    mainAddress: "",
-                    subAddress: ""
-                )
-            }
+    func readWorkplaceList() -> [Workplace] {
+        guard let accountId = UserDefaults.standard.string(forKey: "accountId") else {
+            return []
         }
+        return workplaceRepository.read(accountId: accountId)
     }
     
     // MARK: - Search
     
     func fetchWorkplaces(keyword: String) -> RxSwift.Single<[Workplace]> {
-        workplaceRepository.fetchWorkplaces(keyword: keyword)
+        workplaceRepository.fetchWorkplaceList(keyword: keyword)
     }
     
     // MARK: - Details
@@ -132,5 +119,9 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     func fetchMyInfo() -> RxSwift.Single<MemberProfile> {
         let workplaceId = userRepository.currentWorkplaceId
         return workplaceRepository.fetchMyInfo(workplaceId: workplaceId)
+    }
+    
+    func fetchJoinedWorkplaceList() -> Single<[Workplace]> {
+        return workplaceRepository.fetchJoinedWorkplaceList()
     }
 }

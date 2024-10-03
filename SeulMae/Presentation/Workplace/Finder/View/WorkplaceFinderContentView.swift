@@ -34,11 +34,10 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         self.configuration = configuration
         super.init(frame: .zero)
         
-        searchWorkplaceButton.tag = 0
-        createWorkplaceButton.tag = 1
-        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(handleTap))
-        searchWorkplaceButton.addGestureRecognizer(tapGesture)
-        createWorkplaceButton.addGestureRecognizer(tapGesture)
+        let searchTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleSearchTap))
+        let createTapGesture = UITapGestureRecognizer(target: self, action: #selector(handleCreateTap))
+        searchWorkplaceButton.addGestureRecognizer(searchTapGesture)
+        createWorkplaceButton.addGestureRecognizer(createTapGesture)
         // self.isUserInteractionEnabled = true
         
         let contentStack = UIStackView()
@@ -76,8 +75,11 @@ final class WorkplaceFinderContentView: UIView, UIContentView {
         onCreate = config.onCreate
     }
     
-    @objc private func handleTap(_ gesture: UITapGestureRecognizer) {
-        let isSearch = (gesture.view?.tag == 0)
-        isSearch ? onSearch?() : onCreate?()
+    @objc private func handleSearchTap(_ gesture: UITapGestureRecognizer) {
+        onSearch?()
+    }
+    
+    @objc private func handleCreateTap(_ gesture: UITapGestureRecognizer) {
+        onCreate?()
     }
 }

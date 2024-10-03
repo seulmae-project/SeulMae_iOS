@@ -94,6 +94,12 @@
 		861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CD2C1C13A9007DD6B9 /* ModelType.swift */; };
 		861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */; };
 		8624AC712C2EA895001FF383 /* MainViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624AC702C2EA895001FF383 /* MainViewModel.swift */; };
+		8624EA3D2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA3B2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld */; };
+		8624EA3F2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA3E2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift */; };
+		8624EA882CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA872CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift */; };
+		8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA912CAE716B008A8D22 /* UserModelDataSource.swift */; };
+		8624EA952CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */; };
+		8624EA962CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */; };
 		863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */; };
 		863B68962C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */; };
 		864415572C6D02A300295838 /* WorkplaceFinderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */; };
@@ -123,6 +129,7 @@
 		865AA20B2CABC40C00D70B09 /* CardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA20A2CABC40C00D70B09 /* CardView.swift */; };
 		865AA20D2CABE03300D70B09 /* OutlineSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA20C2CABE03300D70B09 /* OutlineSupplementaryView.swift */; };
 		865AA2112CABE9B700D70B09 /* SeparatorSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2102CABE9B700D70B09 /* SeparatorSupplementaryView.swift */; };
+		865AA2132CAC4BF800D70B09 /* PendingWorkplaceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2122CAC4BF800D70B09 /* PendingWorkplaceContentView.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* AppNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* AppNotification.swift */; };
 		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
@@ -421,6 +428,12 @@
 		861C31CD2C1C13A9007DD6B9 /* ModelType.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ModelType.swift; sourceTree = "<group>"; };
 		861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		8624AC702C2EA895001FF383 /* MainViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewModel.swift; sourceTree = "<group>"; };
+		8624EA3C2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = SeulmaeLocalDB.xcdatamodel; sourceTree = "<group>"; };
+		8624EA3E2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataWorkplaceStroage.swift; sourceTree = "<group>"; };
+		8624EA872CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceModelDataSource.swift; sourceTree = "<group>"; };
+		8624EA912CAE716B008A8D22 /* UserModelDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModelDataSource.swift; sourceTree = "<group>"; };
+		8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataClass.swift"; sourceTree = "<group>"; };
+		8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataProperties.swift"; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetTransitionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionController.swift; sourceTree = "<group>"; };
 		863B68952C23468D00959A61 /* BottomSheetTransitionControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetTransitionControllerDelegate.swift; sourceTree = "<group>"; };
 		864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderViewController.swift; sourceTree = "<group>"; };
@@ -448,6 +461,7 @@
 		865AA20A2CABC40C00D70B09 /* CardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardView.swift; sourceTree = "<group>"; };
 		865AA20C2CABE03300D70B09 /* OutlineSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineSupplementaryView.swift; sourceTree = "<group>"; };
 		865AA2102CABE9B700D70B09 /* SeparatorSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorSupplementaryView.swift; sourceTree = "<group>"; };
+		865AA2122CAC4BF800D70B09 /* PendingWorkplaceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PendingWorkplaceContentView.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* AppNotification.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppNotification.swift; sourceTree = "<group>"; };
 		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
@@ -1085,8 +1099,9 @@
 				864415562C6D02A300295838 /* WorkplaceFinderViewController.swift */,
 				865AA20C2CABE03300D70B09 /* OutlineSupplementaryView.swift */,
 				865AA2102CABE9B700D70B09 /* SeparatorSupplementaryView.swift */,
-				865AA20A2CABC40C00D70B09 /* CardView.swift */,
 				865AA2082CABC2F700D70B09 /* WorkplaceFinderContentView.swift */,
+				865AA20A2CABC40C00D70B09 /* CardView.swift */,
+				865AA2122CAC4BF800D70B09 /* PendingWorkplaceContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1560,7 +1575,10 @@
 		869358BF2C73651700B2436E /* SQLiteDB */ = {
 			isa = PBXGroup;
 			children = (
+				8624EA3B2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld */,
 				869054AC2C60C1C40037B61A /* SQLiteTable.swift */,
+				8624EA872CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift */,
+				8624EA912CAE716B008A8D22 /* UserModelDataSource.swift */,
 				869054AA2C60C1270037B61A /* SQLiteDB.swift */,
 			);
 			path = SQLiteDB;
@@ -1587,6 +1605,7 @@
 			isa = PBXGroup;
 			children = (
 				869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */,
+				8624EA3E2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift */,
 				869054AE2C60C9140037B61A /* WorkplaceTable.swift */,
 			);
 			path = SQLiteDB;
@@ -1914,6 +1933,8 @@
 		86E2999C2C1721FF00805AD0 = {
 			isa = PBXGroup;
 			children = (
+				8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */,
+				8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */,
 				86102E542C621F3F009FF522 /* .gitignore */,
 				86E299A72C1721FF00805AD0 /* SeulMae */,
 				86E299BE2C17220000805AD0 /* SeulMaeTests */,
@@ -2307,6 +2328,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				86FD62102C8D493D005ED02F /* MemberUseCase.swift in Sources */,
+				8624EA3F2CAE656F008A8D22 /* CoreDataWorkplaceStroage.swift in Sources */,
 				865AA1FF2CA94A6600D70B09 /* SearchWorkplaceItem.swift in Sources */,
 				86FB3CEB2C60DA9800E193EB /* CurrentStatusView.swift in Sources */,
 				865AA20D2CABE03300D70B09 /* OutlineSupplementaryView.swift in Sources */,
@@ -2328,6 +2350,7 @@
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */,
 				86FD62062C8D3BCB005ED02F /* WorkScheduleContentView.swift in Sources */,
+				8624EA3D2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld in Sources */,
 				86FD620A2C8D45BF005ED02F /* WorkScheduleUseCase.swift in Sources */,
 				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
@@ -2381,6 +2404,7 @@
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
+				8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */,
 				86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */,
 				86AC25FD2CA043A20009D249 /* WorkTimeRecordingViewModel.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
@@ -2459,6 +2483,8 @@
 				868354812C245F7800F055D2 /* Workplace.swift in Sources */,
 				864A5E702C83454200D7B0EF /* AnnounceListViewController.swift in Sources */,
 				861B969F2C2061650032C94A /* SheetState.swift in Sources */,
+				8624EA952CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift in Sources */,
+				8624EA962CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift in Sources */,
 				8684C5B52C4A06C800EB3D28 /* SliderView.swift in Sources */,
 				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				861B969B2C205A3A0032C94A /* BottomSheetPresentationControllerDelegate.swift in Sources */,
@@ -2479,6 +2505,7 @@
 				869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */,
 				86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
+				865AA2132CAC4BF800D70B09 /* PendingWorkplaceContentView.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
 				864415642C6E217F00295838 /* KPostalViewController.swift in Sources */,
@@ -2563,6 +2590,7 @@
 				86DB32D72C9AAA9A00575A03 /* WeekdaysContentView.swift in Sources */,
 				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
+				8624EA882CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift in Sources */,
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86AC26002CA0440D0009D249 /* RequestAttendanceViewController.swift in Sources */,
 				86FD61EC2C8AC886005ED02F /* UserUseCase.swift in Sources */,
@@ -3037,6 +3065,19 @@
 			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
+
+/* Begin XCVersionGroup section */
+		8624EA3B2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				8624EA3C2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodel */,
+			);
+			currentVersion = 8624EA3C2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodel */;
+			path = SeulmaeLocalDB.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 86E2999D2C1721FF00805AD0 /* Project object */;
 }

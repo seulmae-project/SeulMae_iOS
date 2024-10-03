@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23E214" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="UserModel" representedClassName=".UserModel" syncable="YES">
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="imageURL" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <relationship name="places" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="WorkplaceModel"/>
+    </entity>
+    <entity name="WorkplaceModel" representedClassName=".WorkplaceModel" syncable="YES">
+        <attribute name="accountId" attributeType="String"/>
+        <attribute name="contact" attributeType="String"/>
+        <attribute name="id" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="invitationCode" attributeType="String"/>
+        <attribute name="isManager" attributeType="Boolean" usesScalarValueType="YES"/>
+        <attribute name="mainAddress" attributeType="String"/>
+        <attribute name="manager" attributeType="String"/>
+        <attribute name="name" attributeType="String"/>
+        <attribute name="subAddress" attributeType="String"/>
+        <attribute name="thumbnailURL" attributeType="String"/>
+    </entity>
+</model>

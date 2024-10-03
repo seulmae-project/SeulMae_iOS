@@ -98,7 +98,7 @@ final class MainViewModel: ViewModel {
         let recent = accountID.flatMapLatest { [weak self] accountID -> Driver<MainViewItem> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.workplaceUseCase
-                .fetchWorkplaces(accountID: accountID)
+                .fetchWorkplaces(keyword: "")
                 .compactMap { $0.first(where: { $0.id == 8 }) }
                 .map { MainViewItem(userWorkplaceID: $0.userWorkplaceId, workplaceID: $0.id, navItemTitle: $0.name, isManager: accountID == "yonggipo") }
                 .asDriver()

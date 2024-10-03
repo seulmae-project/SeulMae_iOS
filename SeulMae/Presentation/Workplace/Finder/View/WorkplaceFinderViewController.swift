@@ -110,6 +110,24 @@ final class WorkplaceFinderViewController: BaseViewController {
                 loadingIndicator.ext.isAnimating(loading)
             }
         }
+        
+        Task {
+            for await items in output.items.values {
+                guard let item = items.first else { return }
+                var snapshot = Snapshot()
+                snapshot.appendSections(Section.allCases)
+                snapshot.appendItems([Item()], toSection: .finder)
+                switch item.type {
+                case .finder:
+                    break
+                case .sumitState:
+                    snapshot.appendItems(items, toSection: .sumitState)
+                case .workplace:
+                    snapshot.appendItems(items, toSection: .workplace)
+                }
+                dataSource.apply(snapshot)
+            }
+        }
     }
     
     // MARK: - Hierarchy
@@ -180,7 +198,7 @@ final class WorkplaceFinderViewController: BaseViewController {
     
     private func createSubmitStateCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-
+            
         }
     }
     
@@ -204,7 +222,7 @@ final class WorkplaceFinderViewController: BaseViewController {
             supplementaryView.titleLabel.ext
                 .setText(section.title, size: 24, weight: .semibold)
             supplementaryView.descriptionLabel.ext
-                .setText(section.title, size: 16, weight: .regular, color: .secondaryLabel)
+                .setText(section.description, size: 16, weight: .regular, color: .secondaryLabel)
             
             let showSeparator = !(section == .finder)
             supplementaryView.showsSeparator = false

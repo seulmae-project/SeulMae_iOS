@@ -10,7 +10,7 @@ import RxSwift
 
 protocol AuthUseCase {
     // Signin
-    func signin(email: String, password: String) -> Single<Bool>
+    func signin(accountId: String, password: String) -> Single<Bool>
     func socialSignin(type: SocialSigninType, token: String) -> Single<Credentials>
     
     // Signup
@@ -36,22 +36,20 @@ class DefaultAuthUseCase: AuthUseCase {
         self.workplaceRepository = workplaceRepository
     }
         
-    func signin(email: String, password: String) -> RxSwift.Single<Bool> {
+    func signin(accountId: String, password: String) -> RxSwift.Single<Bool> {
         let fcmToken = ""
-        return authRepository.signin(account: email, password: password, fcmToken: fcmToken)
+        return authRepository.signin(account: accountId, password: password, fcmToken: fcmToken)
             .map { [weak self] response in
                 guard let strongSelf = self else { return false }
-                let _ = strongSelf.workplaceRepository
-                    .saveWorkplaces(response.workplace, withAccount: email)
-                    .do(onSuccess: { isSaved in
-                        Swift.print("isSaved: \(isSaved)")
-                    })
-                // Save acount
-                UserDefaults.standard.setValue(email, forKey: "account")
-                // Save token
+                // save workplace list
+                let isSaved = strongSelf.workplaceRepository
+                    .create(workplaceList: response.workplace, accountId: accountId)
+                // save acount id
+                UserDefaults.standard.setValue(accountId, forKey: "accountId")
+                // save tokens
                 UserDefaults.standard.setValue(response.token.accessToken, forKey: "accessToken")
                 UserDefaults.standard.setValue(response.token.refreshToken, forKey: "refreshToken")
-                return true
+                return isSaved
             }
     }
     

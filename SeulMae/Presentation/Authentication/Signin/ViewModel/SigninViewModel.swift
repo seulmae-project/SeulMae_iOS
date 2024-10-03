@@ -67,19 +67,19 @@ final class SigninViewModel: ViewModel {
             .flatMapLatest { [weak self] pair -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 return strongSelf.authUseCase
-                    .signin(email: pair.userID, password: pair.password)
+                    .signin(accountId: pair.userID, password: pair.password)
                     .trackActivity(tracker)
                     .asDriver()
             }
         
         let hasGroup = signedIn
             .filter { $0 }
-            .flatMapLatest { [weak self] _ -> Driver<Bool> in
-                guard let strongSelf = self else { return .empty() }
-                return strongSelf.workplaceUseCase
-                    .fetchWorkplaces()
-                    .map { !($0.isEmpty) }
-                    .asDriver()
+            .map { [weak self] _ -> Bool in
+                guard let strongSelf = self else { return true }
+                let workplaceList = strongSelf.workplaceUseCase
+                    .readWorkplaceList()
+                Swift.print("[Signin VM] workplaceListCount: \(workplaceList.count)")
+                return !workplaceList.isEmpty
             }
         
         // MARK: - Kakao Signin
@@ -100,11 +100,15 @@ final class SigninViewModel: ViewModel {
                         .asDriver()
                 }
             }
+        
         let appleToken = input.appleSignin
             .map { String(data: $0.identityToken!, encoding: .utf8)! }
             .map { (type: SocialSigninType.apple, token: $0) }
         
-        let kakaoToken = Signal<(type: SocialSigninType, token: String)>.empty()
+        let kakaoToken = oAuthToken.map {
+            return (type: SocialSigninType.kakao, token: ($0.idToken ?? ""))
+        }
+            .asSignal()
         
         let tokens = Signal.merge(appleToken, kakaoToken)
     
