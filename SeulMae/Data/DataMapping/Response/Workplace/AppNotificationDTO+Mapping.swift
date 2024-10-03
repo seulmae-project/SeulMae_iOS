@@ -8,18 +8,20 @@
 import Foundation
 
 struct AppNotificationDTO: ModelType {
-    let id: Int // notificationId
+    let id: Int
     let title: String
     let message: String
-    let type: NotificationType // notificationType
-    let regDate: Date // regDateNotification 2024-07-23T19:24:46.025958
+    let type: AppNotificationType
+    let imageURL: String
+    let regDate: Date? // Date
     
     enum CodingKeys: String, CodingKey {
         case id = "notificationId"
         case title
         case message
         case type = "notificationType"
-        case regDate = "regDateNotification"
+        case imageURL = "imageURL"
+        case regDate = ""// "regDateNotification"
     }
 }
 
@@ -38,7 +40,7 @@ extension AppNotificationDTO {
             title: self.title,
             message: self.message,
             type: self.type,
-            regDate: self.regDate
+            regDate: self.regDate ?? Date()
         )
     }
 }

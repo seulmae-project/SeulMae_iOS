@@ -105,7 +105,7 @@ final class UserHomeViewModel {
         
         Task {
             for await _ in input.showNotis.values {
-                coordinator.showNotiList()
+                // coordinator.showNotiList()
             }
         }
         

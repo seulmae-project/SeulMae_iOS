@@ -8,12 +8,11 @@
 import UIKit
 
 protocol MainFlowCoordinatorDependencies {
+    
+    func makeNotiListViewController(coordinator: MainFlowCoordinator) -> NotiListViewController
     //    func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
     //    func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
     //    func makeWorkplaceListViewController(coordinator: MainFlowCoordinator) -> WorkplacePlaceListViewController
-    // MARK: - Notice Flow Dependencies
-    //    func makeNotiListViewController(workplaceIdentifier: Workplace.ID, coordinator: MainFlowCoordinator) -> NotiListViewController
-    //
     
     // MARK: Workplace Flow Dependencies
     func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController
@@ -32,26 +31,20 @@ protocol MainFlowCoordinatorDependencies {
 
 protocol MainFlowCoordinator: Coordinator {
     
+    func showNotiList()
+    
+    
     func showWorkplaceFinder()
     func showSearchWorkPlace()
     func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
-    
-    //    func showNotiList(workplaceId: Workplace.ID)
-    //
-    //    // Workplace Flow
-    //    // func showTutorial()
-    //    func showWorkplaceFinder()
-    
-    //    // modal
-    //    func showWorkplaceList()
 }
 
 final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     
     var coordinators: [any Coordinator] = []
     
-    // MARK: - Dependency
+    // MARK: - Dependencies
     
     var navigationController: UINavigationController
     private let dependencies: MainFlowCoordinatorDependencies
@@ -66,7 +59,6 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         self.dependencies = dependencies
     }
     
-    
     func start(_ arguments: Any?) {
         guard let isManager = arguments as? Bool else {
             Swift.fatalError("[Main Flow]: Does not fount arguments")
@@ -76,8 +68,28 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         showMain(isManager: isManager)
     }
     
-    func goBack() {
-        navigationController.popViewController(animated: true)
+    func showMain(isManager: Bool) {
+        coordinators.forEach { $0.start(isManager) }
+        let viewControllers = coordinators.map { $0.navigationController }
+        let vc = MainTabBarController(viewContollers: viewControllers, mainCoordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
+    }
+    
+    func showNotiList() {
+        let vc = dependencies.makeNotiListViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+    
+    // MARK: - Workplace Flow
+    
+    func showWorkplaceFinder() {
+        let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
+        navigationController.setViewControllers([vc], animated: false)
+    }
+    
+    func showSearchWorkPlace() {
+        let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
     }
     
     //    func showWorkplaceList() {
@@ -85,41 +97,6 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
     //        let bottomSheetController = BottomSheetController(contentViewController: contentViewController)
     //        navigationController.present(bottomSheetController, animated: true)
     //    }
-    //
-    // MARK: - Main
-    
-    func showMain(isManager: Bool) {
-        coordinators.forEach { $0.start(isManager) }
-        let viewControllers = coordinators.map { $0.navigationController }
-        let vc = MainTabBarController(viewContollers: viewControllers)
-        navigationController.setViewControllers([vc], animated: false)
-    }
-    
-    func showWorkplaceFinder() {
-        let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
-    }
-    
-    //    func showMemberInfo(member: Member) {
-    //        let vc = dependencies.makeMemberInfoViewController(
-    //            member: member,
-    //            coordinator: self)
-    //        navigationController.pushViewController(vc, animated: true)
-    //    }
-    //
-    //    func showNotiList(workplaceIdentifier: Workplace.ID) {
-    //        let vc = dependencies.makeNotiListViewController(
-    //            workplaceIdentifier: workplaceIdentifier,
-    //            coordinator: self)
-    //        navigationController.pushViewController(vc, animated: true)
-    //    }
-    
-    // MARK: - Workplace Flow
-    
-    func showSearchWorkPlace() {
-        let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
     
     func showWorkplaceDetails(workplaceID: Workplace.ID) {
         let vc = dependencies.makeWorkplaceDetailsViewController(coordinator: self, workplaceID: workplaceID)

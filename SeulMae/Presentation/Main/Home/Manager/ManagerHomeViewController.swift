@@ -52,7 +52,6 @@ final class ManagerHomeViewController: BaseViewController {
         return collectionView
     }()
     
-//    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
 //    private let calendarView = CalendarView()
     
     // MARK: - Properties

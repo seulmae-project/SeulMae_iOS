@@ -25,6 +25,6 @@ class DefaultNoticeRepository: NotificationRepository {
         return network.rx
             .request(.fetchNotifications(workplaceId: workplaceId))
             .map(BaseResponseDTO<[AppNotificationDTO]>.self, using: AppNotificationDTO.decoder)
-            .map { try $0.toDomain() }
+            .map { $0.toDomain() }
     }
 }

@@ -120,7 +120,7 @@ final class MainViewModel: ViewModel {
         let appNotis = managerLogic.flatMapLatest { [weak self] item -> Driver<[AppNotification]> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.noticeUseCase
-                .fetchAppNotificationList(workplaceId: item.workplaceID)
+                .fetchAppNotificationList()
                 .asDriver()
         }
         

@@ -11,7 +11,7 @@ protocol HomeFlowCoordinatorDependencies {
     func makeMemberHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
     func makeManagerHomeViewController(coordinator: HomeFlowCoordinator) -> ManagerHomeViewController
     
-    func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
+//    func makeNotiListViewController(coordinator: HomeFlowCoordinator) -> NotiListViewController
     
     // bottom modal
     func makeScheduleReminderViewController(coordinator: HomeFlowCoordinator) -> ScheduleReminderViewController
@@ -22,7 +22,7 @@ protocol HomeFlowCoordinator: Coordinator {
     func showMemberHome()
     func showManagerHome()
     
-    func showNotiList()
+    // func showNotiList()
     
     func showScheduleReminder()
     func startWorkTimeRecord()
@@ -70,11 +70,11 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
         navigationController.setViewControllers([vc], animated: false)
     }
     
-    func showNotiList() {
-        let vc = dependencies.makeNotiListViewController(
-            coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
+//    func showNotiList() {
+//        let vc = dependencies.makeNotiListViewController(
+//            coordinator: self)
+//        navigationController.pushViewController(vc, animated: true)
+//    }
     
     func showScheduleReminder() {
         let vc = dependencies.makeScheduleReminderViewController(coordinator: self)

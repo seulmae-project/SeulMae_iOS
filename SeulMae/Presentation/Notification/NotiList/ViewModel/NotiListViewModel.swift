@@ -21,14 +21,14 @@ final class NotiListViewModel: ViewModel {
     
     // MARK: - Dependency
     
-    private let coordinator: HomeFlowCoordinator
+    private let coordinator: MainFlowCoordinator
     private let noticeUseCase: NoticeUseCase
         
     // MARK: - Life Cycle
     
     init(
         dependency: (
-            coordinator: HomeFlowCoordinator,
+            coordinator: MainFlowCoordinator,
             noticeUseCase: NoticeUseCase
         )
     ) {
@@ -43,12 +43,11 @@ final class NotiListViewModel: ViewModel {
         
         let categories = Driver.just(["JOIN_REQUEST", "some"])
             .map { $0.map(NotiListItem.init(cateogry:)) }
-        
-        // TODO: workplace도 userUseCase에서 가저오기
-//        let notiList = noticeUseCase
-//            .fetchAppNotificationList(workplaceId: workplaceIdentifier)
-//            .map { $0.map(NotiListItem.init(noti:)) }
-//            .asDriver()
+            
+        let notiList = noticeUseCase
+            .fetchAppNotificationList()
+            .map { $0.map(NotiListItem.init(noti:)) }
+            .asDriver()
        
         // MARK: Coordinator Logic
         
@@ -70,7 +69,7 @@ final class NotiListViewModel: ViewModel {
 
         return Output(
             categories: categories,
-            notiList: .empty()
+            notiList: notiList
         )
     }
 }

@@ -22,7 +22,7 @@ extension NotificationAPI {
     var route: Route {
         switch self {
         case .fetchNotifications:
-            return .get("api/notification/v1)")
+            return .get("api/notification/v1/list")
         }
     }
     

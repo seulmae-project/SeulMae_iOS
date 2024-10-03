@@ -23,13 +23,7 @@ final class MainSceneDIContainer {
     
     // Notice
     
-    func makeNoticeUseCase() -> NoticeUseCase {
-        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
-    }
-    
-    private func makeNoticeRepository() -> NotificationRepository {
-        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
-    }
+   
     
     // Attedance
     
@@ -54,6 +48,25 @@ final class MainSceneDIContainer {
         )
     }
     
+    // MARK: - Private Methods
+    
+    private func makeNoticeUseCase() -> NoticeUseCase {
+        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
+    }
+    
+    private func makeNoticeRepository() -> NotificationRepository {
+        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
+    }
+    
+    private func makeNotiListViewModel(
+        coordinator: MainFlowCoordinator) -> NotiListViewModel {
+            return .init(
+                dependency: (
+                    coordinator: coordinator,
+                    noticeUseCase: makeNoticeUseCase()
+                ))
+    }
+    
     // MARK: - Flow Coordinators
     
     func makeMainFlowCoordinator(
@@ -67,6 +80,17 @@ final class MainSceneDIContainer {
 }
 
 extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
+    
+    // MARK: - MainFlowCoordinatorDependencies
+    
+    func makeNotiListViewController(
+        coordinator: any MainFlowCoordinator) -> NotiListViewController {
+            return .init(
+            viewModel: makeNotiListViewModel(coordinator: coordinator)
+        )
+    }
+    
+    
     
     
     // MARK: - Main
@@ -204,32 +228,7 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     }
     
     // MARK: - Noti List
-    
-    //    func makeNotiListViewController(
-    //        workplaceIdentifier: Workplace.ID,
-    //        coordinator: any MainFlowCoordinator
-    //    ) -> NotiListViewController {
-    //        return NotiListViewController(
-    //            viewModel: makeNotiListViewModel(
-    //                workplaceIdentifier: workplaceIdentifier,
-    //                coordinator: coordinator
-    //            )
-    //        )
-    //    }
-    //
-    //    private func makeNotiListViewModel(
-    //        workplaceIdentifier: Workplace.ID,
-    //        coordinator: MainFlowCoordinator
-    //    ) -> NotiListViewModel {
-    //        return NotiListViewModel(
-    //            dependency: (
-    //                workplaceIdentifier: workplaceIdentifier,
-    //                coordinator: coordinator,
-    //                workplaceUseCase: makeWorkplaceUseCase(),
-    //                noticeUseCase: makeNoticeUseCase()
-    //            )
-    //        )
-    //    }
+   
     
     // MARK: - Notice Detail
     
