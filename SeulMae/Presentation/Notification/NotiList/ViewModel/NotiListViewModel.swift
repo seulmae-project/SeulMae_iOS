@@ -11,10 +11,13 @@ import RxCocoa
 
 final class NotiListViewModel: ViewModel {
     struct Input {
+        let onLoad: Signal<()>
+        let onRefresh: Signal<()>
         let onItemTap: Signal<NotiListItem>
     }
     
     struct Output {
+        let loading: Driver<Bool>
         let categories: Driver<[NotiListItem]>
         let notiList: Driver<[NotiListItem]>
     }
@@ -37,10 +40,11 @@ final class NotiListViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
+        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
+
         let categories = Driver.just(["JOIN_REQUEST", "some"])
             .map { $0.map(NotiListItem.init(cateogry:)) }
             
@@ -68,6 +72,7 @@ final class NotiListViewModel: ViewModel {
         }
 
         return Output(
+            loading: loading,
             categories: categories,
             notiList: notiList
         )

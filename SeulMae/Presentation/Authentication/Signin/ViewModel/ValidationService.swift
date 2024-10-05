@@ -6,6 +6,7 @@
 //
 
 import RxSwift
+import RxCocoa
 import Foundation
 
 enum ValidationResult {
@@ -32,6 +33,8 @@ enum SignupState {
 }
 
 protocol ValidationService {
+    func validateWage(_ wage: String) -> Driver<ValidationResult>
+    func validatePayday(_ payday: String) -> Driver<ValidationResult>
     func validatePhoneNumber(_ phoneNumber: String) -> Observable<ValidationResult>
     func validateUserID(_ userID: String) -> RxSwift.Observable<ValidationResult>
     func validateEmail(_ eamil: String) -> Observable<ValidationResult>

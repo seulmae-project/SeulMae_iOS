@@ -18,8 +18,8 @@ enum WorkplaceAPI: SugarTargetType {
     case updateWorkplace(requset: UpdateWorkplaceRequest)
     case deleteWorkplace(workplaceId: Workplace.ID)
     case submitApplication(workplaceId: Workplace.ID)
-    case acceptApplication(workplaceApproveId: String, requset: AcceptApplicationRequset)
-    case denyApplication(workplaceApproveId: String)
+    case acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo)
+    case denyApplication(workplaceApproveId: Int)
     case fetchApplicationList(workplaceId: Workplace.ID)
     case memberList(workplaceId: Workplace.ID)
     
@@ -110,9 +110,9 @@ extension WorkplaceAPI {
             return .requestJSONEncodable([
                 "workplaceId": workplaceId
             ])
-        case let .acceptApplication(workplaceApproveId: workplaceApproveId, requset: requset):
+        case let .acceptApplication(workplaceApproveId: workplaceApproveId, initialUserInfo: initialUserInfo):
             let encoder = JSONEncoder()
-            let json = try? encoder.encode(requset)
+            let json = try? encoder.encode(initialUserInfo)
             return .requestCompositeData(
                 bodyData: json!,
                 urlParameters: [

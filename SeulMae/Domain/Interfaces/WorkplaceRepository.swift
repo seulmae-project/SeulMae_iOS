@@ -21,8 +21,8 @@ protocol WorkplaceRepository {
 //case updateWorkplace(requset: UpdateWorkplaceRequest)
 //case deleteWorkplace(workplaceId: Workplace.ID)
     func submitApplication(workplaceId: Workplace.ID) -> Single<Bool>
-//case acceptApplication(workplaceApproveId: String, requset: AcceptApplicationRequset)
-//case denyApplication(workplaceApproveId: String)
+    func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
+    func denyApplication(workplaceApproveId: Int) -> Single<Bool>
 //case fetchApplicationList(workplaceId: Workplace.ID)
     func fetchMemberList(workplaceId: Workplace.ID) -> Single<[Member]>
 //case memberDetails(userId: Member.ID)
@@ -37,8 +37,6 @@ protocol WorkplaceRepository {
     func fetchWorkplaceDetail(workplaceId: Workplace.ID) -> Single<Workplace>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceId: Workplace.ID) -> Single<Bool>
-    func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
-    func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
     // func fetchMemberList(workplaceId: Workplace.ID) -> Single<[Member]>
     
     

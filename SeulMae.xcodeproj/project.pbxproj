@@ -16,7 +16,7 @@
 		86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */; };
 		86016C5B2C9A611B00EE8A92 /* AttendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */; };
 		86016C5D2C9A620E00EE8A92 /* PromoteRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */; };
-		86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */; };
+		86016C5F2C9A621C00EE8A92 /* InitialUserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5E2C9A621C00EE8A92 /* InitialUserInfo.swift */; };
 		8603CBE02CA2F58E00194A79 /* ScheduleReminderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603CBDF2CA2F58D00194A79 /* ScheduleReminderItem.swift */; };
 		8603CBE22CA5A1C000194A79 /* AuthPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603CBE12CA5A1C000194A79 /* AuthPlugin.swift */; };
 		8603CBE42CA78ACF00194A79 /* WorkTimeRecordingItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8603CBE32CA78ACF00194A79 /* WorkTimeRecordingItem.swift */; };
@@ -175,6 +175,8 @@
 		869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C12C7365EA00B2436E /* WorkplaceStorage.swift */; };
 		869358C52C7367F300B2436E /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C42C7367F300B2436E /* TokenStorage.swift */; };
 		869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */; };
+		86939DF52CAEF80800E03707 /* JoinApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DF42CAEF80800E03707 /* JoinApplicationViewController.swift */; };
+		86939DF72CB0212C00E03707 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DF62CB0212C00E03707 /* String+Ext.swift */; };
 		8693C4202C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */; };
 		8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4222C227B3300D7DCD3 /* Elevatable.swift */; };
 		8693C4252C227C5C00D7DCD3 /* ElevationOverriding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */; };
@@ -187,7 +189,6 @@
 		8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */; };
 		8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBE72C2D18FD0027A035 /* PHPickerViewController+Rx.swift */; };
 		8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBEB2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift */; };
-		8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */; };
 		8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */; };
 		8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */; };
 		869C7A6C2C6E942E008EB7ED /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6B2C6E942E008EB7ED /* File.swift */; };
@@ -357,7 +358,7 @@
 		86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveAttendanceRequest.swift; sourceTree = "<group>"; };
 		86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequest.swift; sourceTree = "<group>"; };
 		86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteRequset.swift; sourceTree = "<group>"; };
-		86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AcceptApplicationRequset.swift; sourceTree = "<group>"; };
+		86016C5E2C9A621C00EE8A92 /* InitialUserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InitialUserInfo.swift; sourceTree = "<group>"; };
 		8603CBDF2CA2F58D00194A79 /* ScheduleReminderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleReminderItem.swift; sourceTree = "<group>"; };
 		8603CBE12CA5A1C000194A79 /* AuthPlugin.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthPlugin.swift; sourceTree = "<group>"; };
 		8603CBE32CA78ACF00194A79 /* WorkTimeRecordingItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkTimeRecordingItem.swift; sourceTree = "<group>"; };
@@ -509,6 +510,8 @@
 		869358C12C7365EA00B2436E /* WorkplaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceStorage.swift; sourceTree = "<group>"; };
 		869358C42C7367F300B2436E /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteWorkplaceStorage.swift; sourceTree = "<group>"; };
+		86939DF42CAEF80800E03707 /* JoinApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplicationViewController.swift; sourceTree = "<group>"; };
+		86939DF62CB0212C00E03707 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		8693C41F2C227AAF00D7DCD3 /* BottomSheetControllerDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetControllerDelegate.swift; sourceTree = "<group>"; };
 		8693C4222C227B3300D7DCD3 /* Elevatable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Elevatable.swift; sourceTree = "<group>"; };
 		8693C4242C227C5C00D7DCD3 /* ElevationOverriding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ElevationOverriding.swift; sourceTree = "<group>"; };
@@ -521,7 +524,6 @@
 		8693C4372C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+MaterialElevationResponding.swift"; sourceTree = "<group>"; };
 		8697FBE72C2D18FD0027A035 /* PHPickerViewController+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "PHPickerViewController+Rx.swift"; sourceTree = "<group>"; };
 		8697FBEB2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RxPHPickerViewControllerDelegateProxy.swift; sourceTree = "<group>"; };
-		8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF02C2D22A20027A035 /* ObservableConvertibleType+Rx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "ObservableConvertibleType+Rx.swift"; sourceTree = "<group>"; };
 		8697FBF22C2D3D2D0027A035 /* ActivityIndicator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityIndicator.swift; sourceTree = "<group>"; };
 		869C7A6A2C6E8A22008EB7ED /* SeulMae.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SeulMae.entitlements; sourceTree = "<group>"; };
@@ -1351,6 +1353,7 @@
 			isa = PBXGroup;
 			children = (
 				86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */,
+				86939DF62CB0212C00E03707 /* String+Ext.swift */,
 				86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */,
 				86766D072C1833F500095010 /* UIColor+Hex.swift */,
 				8697FBEA2C2D19140027A035 /* Rxswift+ */,
@@ -1507,7 +1510,7 @@
 				86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */,
 				86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */,
 				86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */,
-				86016C5E2C9A621C00EE8A92 /* AcceptApplicationRequset.swift */,
+				86016C5E2C9A621C00EE8A92 /* InitialUserInfo.swift */,
 			);
 			path = Request;
 			sourceTree = "<group>";
@@ -1665,7 +1668,6 @@
 		8697FBEA2C2D19140027A035 /* Rxswift+ */ = {
 			isa = PBXGroup;
 			children = (
-				8697FBED2C2D1D240027A035 /* UIButton+Rx.swift */,
 				86DC37732C63355F0012FC02 /* UITextField+Rx.swift */,
 				8697FBEF2C2D1D280027A035 /* RxCocoa+ */,
 			);
@@ -1914,6 +1916,7 @@
 			isa = PBXGroup;
 			children = (
 				864A5E692C83317000D7B0EF /* NotiList */,
+				86939DF42CAEF80800E03707 /* JoinApplicationViewController.swift */,
 			);
 			path = Notification;
 			sourceTree = "<group>";
@@ -2415,7 +2418,7 @@
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */,
-				86016C5F2C9A621C00EE8A92 /* AcceptApplicationRequset.swift in Sources */,
+				86016C5F2C9A621C00EE8A92 /* InitialUserInfo.swift in Sources */,
 				86AC25FD2CA043A20009D249 /* WorkTimeRecordingViewModel.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
 				86AC25F62C9C32360009D249 /* ScheduleReminderViewModel.swift in Sources */,
@@ -2428,6 +2431,7 @@
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
 				869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */,
+				86939DF72CB0212C00E03707 /* String+Ext.swift in Sources */,
 				861BF68A2C27084000702E24 /* NotificationRepository.swift in Sources */,
 				861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */,
 				8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */,
@@ -2457,7 +2461,6 @@
 				861B96DC2C21D6310032C94A /* SheetBehavior.swift in Sources */,
 				86B07D8E2C32D60E0088E1B1 /* Int+CalendarView.swift in Sources */,
 				86FD62192C8D9B3C005ED02F /* WorkScheduleListViewController.swift in Sources */,
-				8697FBEE2C2D1D240027A035 /* UIButton+Rx.swift in Sources */,
 				86E39FA22C8EBB2400361E0D /* HomeSceneDIContainer.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
 				861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */,
@@ -2523,6 +2526,7 @@
 				865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */,
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetTransitionController.swift in Sources */,
+				86939DF52CAEF80800E03707 /* JoinApplicationViewController.swift in Sources */,
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
 				865AA20B2CABC40C00D70B09 /* CardView.swift in Sources */,
 				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,

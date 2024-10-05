@@ -16,7 +16,6 @@ protocol WorkplaceUseCase {
     
     // Search workplace
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
-    
     func fetchWorkplaces() -> Single<[Workplace]>
     
    
@@ -30,8 +29,9 @@ protocol WorkplaceUseCase {
 
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
-    func acceptApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
-    func denyApplication(workplaceApproveId: String, workplaceJoinHistoryId: String) -> Single<Bool>
+    
+    func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
+    func denyApplication(workplaceApproveId: Int) -> Single<Bool>
     
     func fetchMemberList() -> Single<[Member]>
     
@@ -105,23 +105,18 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     }
     
     func acceptApplication(
-        workplaceApproveId: String,
-        workplaceJoinHistoryId: String
+        workplaceApproveId: Int,
+        initialUserInfo: InitialUserInfo
     ) -> RxSwift.Single<Bool> {
-        workplaceRepository.acceptApplication(
+        return workplaceRepository.acceptApplication(
             workplaceApproveId: workplaceApproveId,
-            workplaceJoinHistoryId: workplaceJoinHistoryId
+            initialUserInfo: initialUserInfo
         )
     }
     
     func denyApplication(
-        workplaceApproveId: String,
-        workplaceJoinHistoryId: String
-    ) -> RxSwift.Single<Bool> {
-        workplaceRepository.denyApplication(
-            workplaceApproveId: workplaceApproveId,
-            workplaceJoinHistoryId: workplaceJoinHistoryId
-        )
+        workplaceApproveId: Int) -> RxSwift.Single<Bool> {
+        return workplaceRepository.denyApplication(workplaceApproveId: workplaceApproveId)
     }
     
     func fetchMemberInfo(memberId id: Member.ID) -> RxSwift.Single<MemberProfile> {

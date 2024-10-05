@@ -108,33 +108,20 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
     }
     
     func acceptApplication(
-        workplaceApproveId: String,
-        workplaceJoinHistoryId: String
+        workplaceApproveId: Int,
+        initialUserInfo: InitialUserInfo
     ) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceApproveId: \(workplaceApproveId)\n- workplaceJoinHistoryId: \(workplaceJoinHistoryId)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.acceptApplicationSuccess))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+        return network.rx
+            .request(.acceptApplication(workplaceApproveId: workplaceApproveId, initialUserInfo: initialUserInfo))
+            .map(BaseResponseDTO<Bool>.self)
+            .map { $0.isSuccess }
     }
     
-    func denyApplication(
-        workplaceApproveId: String,
-        workplaceJoinHistoryId: String
-    ) -> RxSwift.Single<Bool> {
-        Swift.print(#fileID, #function, "\n- workplaceApproveId: \(workplaceApproveId)\n- workplaceJoinHistoryId: \(workplaceJoinHistoryId)\n")
-        return Single<BaseResponseDTO<Bool>>.create { observer in
-            observer(.success(MockData.WorkplaceAPI.denyApplicationSuccess))
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func denyApplication(workplaceApproveId: Int) -> RxSwift.Single<Bool> {
+        return network.rx
+            .request(.denyApplication(workplaceApproveId: workplaceApproveId))
+            .map(BaseResponseDTO<Bool>.self)
+            .map { $0.isSuccess }
     }
     
     
