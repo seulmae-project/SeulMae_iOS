@@ -35,10 +35,10 @@ struct UpdateProfileRequest: ModelType {
     let name: String
 }
 
-struct SetupProfileRequest: ModelType {
+struct SupplementaryProfileInfoDTO: ModelType {
     let name: String
     let isMale: Bool
-    let birthday: Date // YYYYMMDD
+    let birthday: String // YYYYMMDD
 }
 
 enum AuthAPI: SugarTargetType {
@@ -51,7 +51,7 @@ enum AuthAPI: SugarTargetType {
     case signout
     case updatePassword(accountId: String, password: String)
     case updateProfile(userId: Member.ID, request: UpdateProfileRequest, file: Data)
-    case setupProfile(request: SetupProfileRequest, file: Data) // in case social login
+    case supplementProfileInfo(request: SupplementaryProfileInfoDTO, file: Data) // in case social login
     case cancelAccoount(userId: Member.ID)
     case updatePhoneNumber(userId: Member.ID, phoneNumber: String)
 }
@@ -81,7 +81,7 @@ extension AuthAPI {
             return .put("api/users/pw")
         case .updateProfile:
             return .put("api/users")
-        case .setupProfile:
+        case .supplementProfileInfo:
             return .put("api/users/extra-profile")
         case .cancelAccoount:
             return .delete("api/users")
@@ -169,7 +169,7 @@ extension AuthAPI {
                         mimeType: "application/json"),
                 ],
                 urlParameters: ["id": userId])
-        case let .setupProfile(request: requset, file: file):
+        case let .supplementProfileInfo(request: requset, file: file):
             let encoder = JSONEncoder()
             let json = try? encoder.encode(requset)
             return .uploadMultipart(
@@ -203,7 +203,7 @@ extension AuthAPI {
         default:
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken"))"
+                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken")!)"
                 //Authorization-refresh
             ]
         }

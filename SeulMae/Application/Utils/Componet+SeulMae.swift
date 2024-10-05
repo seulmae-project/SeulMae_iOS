@@ -40,7 +40,7 @@ extension UILabel {
         let label = UILabel()
         label.text = title
         label.numberOfLines = 2
-        label.font = .systemFont(ofSize: 26, weight: .semibold)
+        label.font = .systemFont(ofSize: 26, weight: .medium)
         return label
     }
     

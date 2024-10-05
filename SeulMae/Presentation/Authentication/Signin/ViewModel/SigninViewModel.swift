@@ -112,7 +112,7 @@ final class SigninViewModel: ViewModel {
         
         let tokens = Signal.merge(appleToken, kakaoToken)
     
-        let credential = tokens.flatMapLatest { [weak self] pair -> Driver<Credentials> in
+        let isGuest = tokens.flatMapLatest { [weak self] pair -> Driver<(Bool, Bool)> in
             guard let strongself = self else { return .empty() }
             return strongself.authUseCase
                 .socialSignin(type: pair.type, token: pair.token)
@@ -120,16 +120,19 @@ final class SigninViewModel: ViewModel {
                 .asDriver()
         }
         
-        // MARK: - Coordinator Logic
+        // MARK: - Coordinator Methods
         
-        // handle signin credential
         Task {
-            for await credential in credential.values {
-                let isUserHaveProfile = !(credential.role == "guest")
-                if isUserHaveProfile {
-                    // 메인 화면 이동
+            for await (isGuest, hasGroup) in isGuest.values {
+                if isGuest {
+                    coordinator.showProfileSetup(request: SignupRequest(), signupType: .social)
                 } else {
-                    coordinator.showProfileSetup(request: SignupRequest())
+                    // 메인 화면 이동
+                    if hasGroup {
+                        coordinator.startMain(isManager: false)
+                    } else {
+                        coordinator.showWorkplaceFinder()
+                    }
                 }
             }
         }

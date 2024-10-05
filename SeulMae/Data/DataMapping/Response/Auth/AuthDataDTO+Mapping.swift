@@ -9,7 +9,7 @@ import Foundation
 
 struct TokenDto: ModelType {
     let accessToken: String
-    let refreshToken: String
+    let refreshToken: String?
     let tokenType: String
 }
 
@@ -51,7 +51,7 @@ extension TokenDto {
     func toDomain() -> Token {
         return Token(
             accessToken: accessToken,
-            refreshToken: refreshToken,
+            refreshToken: refreshToken ?? "",
             tokenType: tokenType
         )
     }   

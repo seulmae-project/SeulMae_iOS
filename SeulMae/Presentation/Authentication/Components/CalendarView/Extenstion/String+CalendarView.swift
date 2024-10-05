@@ -8,7 +8,7 @@
 import Foundation
 
 extension String: Extended {}
-extension Extension where ExtendedType == String {
+extension Ext where ExtendedType == String {
     
     static var dateFormatter: DateFormatter = {
         let formatter = DateFormatter()

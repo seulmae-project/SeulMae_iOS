@@ -27,7 +27,7 @@ protocol AuthFlowCoordinatorDependencies {
     func makeAccountRecoveryViewController(coordinator: AuthFlowCoordinator, item: AccountRecoveryItem) -> AccountRecoveryViewController
     
     // Profile setup
-    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest) -> ProfileSetupViewController
+    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest, signupType: SignupType) -> ProfileSetupViewController
 }
 
 protocol Coordinator {
@@ -60,7 +60,7 @@ protocol AuthFlowCoordinator: Coordinator {
     func showAccountRecoveryOption()
     
     // Sign up
-    func showProfileSetup(request: SignupRequest)
+    func showProfileSetup(request: SignupRequest, signupType: SignupType)
     
     // Account recovery
     func showAccountRecovery(item: AccountRecoveryItem)
@@ -131,8 +131,8 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         navigationController.pushViewController(vc, animated: true)
     }
     
-    func showProfileSetup(request: SignupRequest) {
-        let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request)
+    func showProfileSetup(request: SignupRequest, signupType: SignupType) {
+        let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request, signupType: signupType)
         navigationController.setViewControllers([vc], animated: true)
         // pushViewController
     }

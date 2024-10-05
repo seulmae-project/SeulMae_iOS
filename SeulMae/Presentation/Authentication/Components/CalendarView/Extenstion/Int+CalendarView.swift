@@ -8,7 +8,7 @@
 import Foundation
 
 extension Int: Extended {}
-extension Extension where ExtendedType == Int {
+extension Ext where ExtendedType == Int {
     
     var isLeapYear: Bool {
         assert(type > 0, "Year must be greater than 0")

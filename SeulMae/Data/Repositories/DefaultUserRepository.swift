@@ -26,6 +26,15 @@ final class UserRepository {
         // return UserDefaults.standard.integer(forKey: "currentWorkplaceId")
     }
     
+    var fcmToken: String {
+        return UserDefaults.standard.string(forKey: "fcm-token") ?? ""
+    }
+    
+    func saveToken(_ token: Token) {
+        UserDefaults.standard.setValue(token.accessToken, forKey: "accessToken")
+        UserDefaults.standard.setValue(token.refreshToken, forKey: "refreshToken")
+    }
+    
     func readDefaultWorkplaceId() -> Int {
         // TODO: - 0이 반환될 경우 처리
         let defaultWorkplaceId = UserDefaults.standard.integer(forKey: "default-workplace-id")

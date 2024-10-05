@@ -154,27 +154,31 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     
     func makeProfileSetupViewController(
         coordinator: any AuthFlowCoordinator,
-        request: SignupRequest
+        request: SignupRequest,
+        signupType: SignupType
     ) -> ProfileSetupViewController {
-        return .create(
+        return .init(
             viewModel: makeProfileSetupViewModel(
                 coordinator: coordinator,
-                request: request
+                request: request,
+                signupType: signupType
             )
         )
     }
     
     private func makeProfileSetupViewModel(
         coordinator: AuthFlowCoordinator,
-        request: SignupRequest
+        request: SignupRequest,
+        signupType: SignupType
     ) -> ProfileSetupViewModel {
         return ProfileSetupViewModel(
-            dependency: (
+            dependencies: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
                 validationService: DefaultValidationService.shared,
                 wireframe: DefaultWireframe(),
-                request: request
+                request: request,
+                signupType: signupType
             )
         )
     }

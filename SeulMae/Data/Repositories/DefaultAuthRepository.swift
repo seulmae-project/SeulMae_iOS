@@ -103,4 +103,14 @@ class DefaultAuthRepository: AuthRepository {
             .map(BaseResponseDTO<String?>.self)
             .map { $0.isSuccess }
     }
+    
+    func supplementProfileInfo(
+        profileInfoDTO: SupplementaryProfileInfoDTO,
+        userImageData: Data) -> Single<Bool> {
+            return network.rx
+                .request(.supplementProfileInfo(request: profileInfoDTO, file: userImageData))
+                .map(BaseResponseDTO<String>.self)
+                .map { $0.isSuccess }
+            
+        }
 }

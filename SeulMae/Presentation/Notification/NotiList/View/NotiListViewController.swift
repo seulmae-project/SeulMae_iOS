@@ -23,6 +23,11 @@ final class NotiListViewController: UIViewController {
     
     // MARK: - UI
     
+    private let refreshControl: UIRefreshControl = {
+        let refreshControl = UIRefreshControl()
+        return refreshControl
+    }()
+    
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
         collectionView.backgroundColor = .systemBackground
@@ -64,6 +69,12 @@ final class NotiListViewController: UIViewController {
     // MARK: - Data Binding
     
     private func bindSubviews() {
+        let onLoad = rx.methodInvoked(#selector(viewWillAppear))
+            .map { _ in }
+            .asSignal()
+        let onRefresh = refreshControl.rx
+            .controlEvent(.valueChanged)
+            .asSignal()
         let onItemTap = collectionView.rx
             .itemSelected
             .compactMap { [unowned self] index in
@@ -73,6 +84,8 @@ final class NotiListViewController: UIViewController {
         
         let output = viewModel.transform(
             .init(
+                onLoad: onLoad,
+                onRefresh: onRefresh,
                 onItemTap: onItemTap
             )
         )

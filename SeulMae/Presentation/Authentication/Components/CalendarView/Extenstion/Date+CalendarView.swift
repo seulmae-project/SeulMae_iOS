@@ -8,7 +8,7 @@
 import Foundation
 
 extension Date: Extended {}
-extension Extension where ExtendedType == Date {
+extension Ext where ExtendedType == Date {
 
     static var now: Date {
         Date()

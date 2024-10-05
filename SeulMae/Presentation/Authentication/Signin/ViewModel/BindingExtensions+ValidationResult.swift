@@ -52,7 +52,7 @@ extension Reactive where Base: UILabel {
 }
 
 extension UILabel: Extended {}
-extension Extension where ExtendedType == UILabel {
+extension Ext where ExtendedType == UILabel {
     func setResult(_ result: ValidationResult) {
         type.textColor = result.textColor
         type.text = result.description
@@ -60,7 +60,7 @@ extension Extension where ExtendedType == UILabel {
 }
 
 extension UIButton: Extended {}
-extension Extension where ExtendedType == UIButton {
+extension Ext where ExtendedType == UIButton {
     func setEnabled(_ isEnabled: Bool) {
         type.isEnabled = isEnabled
         type.backgroundColor = isEnabled ? .primary : .cloudy

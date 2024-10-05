@@ -12,14 +12,6 @@ import PhotosUI
 
 final class ProfileSetupViewController: UIViewController {
     
-    // MARK: - Flow
-    
-    static func create(viewModel: ProfileSetupViewModel) -> ProfileSetupViewController {
-        let view = ProfileSetupViewController()
-        view.viewModel = viewModel
-        return view
-    }
-    
     // MARK: - Dependency
     
     private var viewModel: ProfileSetupViewModel!
@@ -31,6 +23,12 @@ final class ProfileSetupViewController: UIViewController {
     private let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.image = .userProfile
+        imageView.layer.cornerRadius = 44
+        imageView.layer.cornerCurve = .continuous
+        imageView.layer.borderWidth = 1.0
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.masksToBounds = true
+        // TODO: image 없으면 안돼며 성별버튼 한번 클릭해야함 > 기본값 제공
         return imageView
     }()
     
@@ -122,7 +120,16 @@ final class ProfileSetupViewController: UIViewController {
     }()
     
     // MARK: - Life Cycle
-
+    
+    init(viewModel: ProfileSetupViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         

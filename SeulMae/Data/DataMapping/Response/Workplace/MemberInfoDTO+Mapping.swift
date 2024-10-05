@@ -9,7 +9,8 @@ import Foundation
 
 struct MemberProfileDto: ModelType {
     let name: String
-    let phoneNumber: String
+    // TODO: - Kakao 로 로그인한 경우 휴대폰번호가 없음
+    let phoneNumber: String?
     let imageURL: String?
     let joinDate: Date
     let workScheduleList: [WorkScheduleDTO]?
@@ -41,7 +42,7 @@ extension MemberProfileDto {
     func toDomain() -> MemberProfile {
         return .init(
             name: name,
-            phoneNumber: phoneNumber,
+            phoneNumber: phoneNumber ?? "",
             imageURL: imageURL,
             joinDate: joinDate,
             workScheduleList: workScheduleList?.map { $0.toDomain() } ?? [],

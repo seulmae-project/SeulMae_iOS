@@ -59,12 +59,7 @@ class DefaultMemberRepository: MemberRepository {
     func fetchMemberProfile(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
         return network.rx
             .request(.fetchUserProfile(userId: memberId))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
             .map(BaseResponseDTO<MemberProfileDto>.self)
-            .map { try $0.toDomain() }
+            .map { $0.toDomain() }
     }
 }

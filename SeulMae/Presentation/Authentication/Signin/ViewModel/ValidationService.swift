@@ -45,7 +45,7 @@ protocol ValidationService {
 }
 
 extension CharacterSet: Extended {}
-extension Extension where ExtendedType == CharacterSet {
+extension Ext where ExtendedType == CharacterSet {
 
     static let emailAllowed: CharacterSet = {
         var allowed = CharacterSet.alphanumerics
@@ -59,6 +59,14 @@ extension Extension where ExtendedType == CharacterSet {
 }
 
 class DefaultValidationService: ValidationService {
+    func validateWage(_ wage: String) -> RxCocoa.Driver<ValidationResult> {
+        return .empty()
+    }
+    
+    func validatePayday(_ payday: String) -> RxCocoa.Driver<ValidationResult> {
+        return .empty()
+    }
+    
     
     static let shared = DefaultValidationService()
     

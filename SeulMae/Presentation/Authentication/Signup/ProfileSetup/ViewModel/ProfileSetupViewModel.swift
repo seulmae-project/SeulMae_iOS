@@ -28,31 +28,30 @@ final class ProfileSetupViewModel: ViewModel {
     // MARK: - Dependency
     
     private let coordinator: AuthFlowCoordinator
-    
     private let authUseCase: AuthUseCase
-    
     private let validationService: ValidationService
-    
     private let wireframe: Wireframe
-    
     private var request: SignupRequest
+    private var signupType: SignupType
     
-    // MARK: - Life Cycle
+    // MARK: - Life Cycle Methods
     
     init(
-        dependency: (
+        dependencies: (
             coordinator: AuthFlowCoordinator,
             authUseCase: AuthUseCase,
             validationService: ValidationService,
             wireframe: Wireframe,
-            request: SignupRequest
+            request: SignupRequest,
+            signupType: SignupType
         )
     ) {
-        self.coordinator = dependency.coordinator
-        self.authUseCase = dependency.authUseCase
-        self.validationService = dependency.validationService
-        self.wireframe = dependency.wireframe
-        self.request = dependency.request
+        self.coordinator = dependencies.coordinator
+        self.authUseCase = dependencies.authUseCase
+        self.validationService = dependencies.validationService
+        self.wireframe = dependencies.wireframe
+        self.request = dependencies.request
+        self.signupType = dependencies.signupType
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -92,14 +91,23 @@ final class ProfileSetupViewModel: ViewModel {
       
         let signedUp = input.nextStep.withLatestFrom(request)
             .flatMapLatest { [weak self] data, gender, name, birthday -> Driver<Bool> in
-                guard let strongSelf = self else { return .empty() }
-                strongSelf.request
-                    .updateProfile(name: name, isMale: gender, birthday: birthday)
-                Swift.print("request: \(strongSelf.request)")
-                return strongSelf.authUseCase
-                    .signup(request: strongSelf.request, file: data)
-                    .trackActivity(indicator)
-                    .asDriver(onErrorJustReturn: false)
+                if (self?.signupType == .default) {
+                    guard let strongSelf = self else { return .empty() }
+                    strongSelf.request
+                        .updateProfile(name: name, isMale: gender, birthday: birthday)
+                    return strongSelf.authUseCase
+                        .signup(request: strongSelf.request, file: data)
+                        .trackActivity(indicator)
+                        .asDriver(onErrorJustReturn: false)
+                } else {
+                    let dto = SupplementaryProfileInfoDTO(
+                        name: name,
+                        isMale: gender,
+                        birthday: birthday)
+                    return self?.authUseCase
+                        .setupProfile(request: dto, file: data)
+                        .asDriver() ?? .empty()
+                }
             }
         
         let signedUpAndUsername = Driver.combineLatest(signedUp, input.username) { (signedup: $0, username: $1) }
@@ -108,7 +116,11 @@ final class ProfileSetupViewModel: ViewModel {
         
         Task {
             for await (signedUp, username) in signedUpAndUsername.values {
-                coordinator.showCompletion(item: .signup(username: username))
+                if signedUp {
+                    coordinator.showCompletion(item: .signup(username: username))
+                } else {
+                    coordinator.showCompletion(item: .signup(username: username))
+                }
             }
         }
         

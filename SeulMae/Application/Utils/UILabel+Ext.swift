@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension Extension where ExtendedType == UILabel {
+extension Ext where ExtendedType == UILabel {
     func setText(_ text: String,
                  size: CGFloat,
                  weight: UIFont.PretendardWeight,

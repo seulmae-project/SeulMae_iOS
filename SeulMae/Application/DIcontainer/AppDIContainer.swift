@@ -8,50 +8,53 @@
 import Foundation
 
 final class AppDIContainer {
-
+    
+    let loggerPlugin = CustomNetworkLoggerPlugin()
+    lazy var authNetworking = AuthNetworking(plugins: [loggerPlugin])
+    lazy var notificationNetworking = NotificationNetworking(plugins: [loggerPlugin])
+    lazy var workplaceNetworking = WorkplaceNetworking(plugins: [loggerPlugin])
+    lazy var attendanceNetworking = AttendanceNetworking(plugins: [loggerPlugin])
+    lazy var workScheduleNetworking = WorkScheduleNetworking(plugins: [loggerPlugin])
+    lazy var announceNetworking = AnnounceNetworking(plugins: [loggerPlugin])
+    lazy var userNetworking = UserNetworking(plugins: [loggerPlugin])
+    
     func makeAuthSceneDIContainer() -> AuthSceneDIContainer {
-        let dependencies = AuthSceneDIContainer.Dependencies(
-            authNetworking: AuthNetworking(
-                session: .custom,
-                plugins: [CustomNetworkLoggerPlugin()]))
-        return AuthSceneDIContainer(dependencies: dependencies)
+        return .init(
+            dependencies: .init(
+                authNetworking: authNetworking
+            ))
     }
     
     func makeMainSceneDIContainer() -> MainSceneDIContainer {
-        let dependencies = MainSceneDIContainer.Dependencies(
-            notificationNetworking: NotificationNetworking(
-                plugins: [CustomNetworkLoggerPlugin()]
-            ),
-            workplaceNetworking: WorkplaceNetworking(
-                plugins: [CustomNetworkLoggerPlugin()]
-            ),
-            attendanceNetworking: AttendanceNetworking(
-                plugins: [CustomNetworkLoggerPlugin()]
-            )
-        )
-        return MainSceneDIContainer(dependencies: dependencies)
+        return .init(
+            dependencies: .init(
+                notificationNetworking: notificationNetworking,
+                workplaceNetworking: workplaceNetworking,
+                attendanceNetworking: attendanceNetworking
+            ))
     }
     
     func makeHomeSceneDIContainer() -> HomeSceneDIContainer {
-        let dependencies = HomeSceneDIContainer.Dependencies(
-            attendanceNetworking: AttendanceNetworking(
-                plugins: [CustomNetworkLoggerPlugin()]
-            )
-        )
-        return HomeSceneDIContainer(dependencies: dependencies)
+        return .init(
+            dependencies: .init(
+                attendanceNetworking: attendanceNetworking,
+                workplaceNetworking: workplaceNetworking
+            ))
     }
     
     func makeWorkplaceSceneDIContainer() -> WorkplaceSceneDIContainer {
-        let dependencies = WorkplaceSceneDIContainer.Dependencies(
-            workScheduleNetworking: WorkScheduleNetworking(session: .custom, plugins: [CustomNetworkLoggerPlugin()]),
-            mainNetworking: AnnounceNetworking(session: .custom, plugins: [CustomNetworkLoggerPlugin()]),
-            memberNetworking: UserNetworking(session: .custom, plugins: [CustomNetworkLoggerPlugin()]))
-        return WorkplaceSceneDIContainer(dependencies: dependencies)
+        return .init(
+            dependencies: .init(
+                workScheduleNetworking: workScheduleNetworking,
+                announceNetworking: announceNetworking,
+                memberNetworking: userNetworking
+            ))
     }
     
     func makeSettingSceneDIContainer() -> SettingSceneDIContainer {
-        let dependencies = SettingSceneDIContainer.Dependencies(
-            userNetworking: UserNetworking(session: .custom, plugins: [CustomNetworkLoggerPlugin()]))
-        return SettingSceneDIContainer(dependencies: dependencies)
+        return .init(
+            dependencies: .init(
+                userNetworking: userNetworking
+            ))
     }
 }

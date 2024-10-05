@@ -11,7 +11,7 @@ final class WorkplaceSceneDIContainer {
     
     struct Dependencies {
         let workScheduleNetworking: WorkScheduleNetworking
-        let mainNetworking: AnnounceNetworking
+        let announceNetworking: AnnounceNetworking
         let memberNetworking: UserNetworking
     }
     
@@ -39,7 +39,7 @@ final class WorkplaceSceneDIContainer {
     }
     
     private func makeAnnounceRepository() -> AnnounceRepository {
-        DefaultAnnounceRepository(network: dependencies.mainNetworking)
+        DefaultAnnounceRepository(network: dependencies.announceNetworking)
     }
     
     private func makeWorkScheduleRepository() -> WorkScheduleRepository {

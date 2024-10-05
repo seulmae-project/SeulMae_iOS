@@ -12,6 +12,7 @@ final class HomeSceneDIContainer {
     struct Dependencies {
          // let mainNetworking: MainNetworking
         let attendanceNetworking: AttendanceNetworking
+        let workplaceNetworking: WorkplaceNetworking
     }
     
     private let dependencies: Dependencies
@@ -42,7 +43,7 @@ final class HomeSceneDIContainer {
     }
     
     private func makeWorkplaceUseCase() -> WorkplaceUseCase {
-        return DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository(network: WorkplaceNetworking(), storage: SQLiteWorkplaceStorage()))
+        return DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository(network: dependencies.workplaceNetworking, storage: SQLiteWorkplaceStorage()))
     }
     
     private func makeNotiUseCase() -> NoticeUseCase {
@@ -137,4 +138,9 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
                 viewModel: makeWorkTimeRecordingViewModel(coordinator: coordinator)
             )
         }
+    
+    func makeWorkLogSummaryViewController(
+        coordinator: any HomeFlowCoordinator) -> WorkLogViewController {
+            return .init()
+    }
 }

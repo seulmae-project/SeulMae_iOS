@@ -96,10 +96,14 @@ final class ScheduleReminderViewController: UIViewController {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
+        let onRefresh = refreshControl.rx
+            .controlEvent(.valueChanged)
+            .asSignal()
         
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
+                onRefresh: onRefresh,
                 onWorkStart: workStartButton.rx.tap.asSignal(),
                 onRegister: registerAttendnaceButton.rx.tap.asSignal()
             )

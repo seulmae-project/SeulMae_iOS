@@ -16,6 +16,7 @@ protocol HomeFlowCoordinatorDependencies {
     // bottom modal
     func makeScheduleReminderViewController(coordinator: HomeFlowCoordinator) -> ScheduleReminderViewController
     func makeWorkTimeRecordingViewController(coordinator: HomeFlowCoordinator) -> WorkTimeRecordingViewController
+    func makeWorkLogSummaryViewController(coordinator: HomeFlowCoordinator) -> WorkLogViewController
 }
 
 protocol HomeFlowCoordinator: Coordinator {
@@ -24,8 +25,10 @@ protocol HomeFlowCoordinator: Coordinator {
     
     // func showNotiList()
     
+    // bottom modal
     func showScheduleReminder()
     func startWorkTimeRecord()
+    func showWorkLogSummary()
 }
 
 final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
@@ -84,6 +87,16 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     func startWorkTimeRecord() {
         let vc = dependencies.makeWorkTimeRecordingViewController(coordinator: self)
+        guard let parentVC = navigationController.topViewController?.presentedViewController as? BottomSheetController else {
+            return
+        }
+        parentVC.addChild(vc)
+        parentVC.view.addSubview(vc.view)
+        vc.didMove(toParent: parentVC)
+    }
+    
+    func showWorkLogSummary() {
+        let vc = dependencies.makeWorkLogSummaryViewController(coordinator: self)
         guard let parentVC = navigationController.topViewController?.presentedViewController as? BottomSheetController else {
             return
         }

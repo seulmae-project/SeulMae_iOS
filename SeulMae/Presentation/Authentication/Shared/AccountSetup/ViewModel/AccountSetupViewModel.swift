@@ -129,7 +129,7 @@ final class AccountSetupViewModel: ViewModel {
             for await nextStep in nextStep.values {
                 request.accountId = nextStep.account
                 request.password = nextStep.password
-                coordinator.showProfileSetup(request: request)
+                coordinator.showProfileSetup(request: request, signupType: .default)
             }
         }
         

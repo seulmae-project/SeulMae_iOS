@@ -26,7 +26,7 @@ class BaseViewController: UIViewController {
 }
 
 extension UIActivityIndicatorView: Extended {}
-extension Extension where ExtendedType == UIActivityIndicatorView {
+extension Ext where ExtendedType == UIActivityIndicatorView {
     func isAnimating(_ active: Bool) {
         if active {
             type.superview?.bringSubviewToFront(type)

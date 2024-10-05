@@ -15,6 +15,7 @@ final class ScheduleReminderViewModel {
     
     struct Input {
         let onLoad: Signal<()>
+        let onRefresh: Signal<()>
         let onWorkStart: Signal<()>
         let onRegister: Signal<()>
     }
@@ -42,15 +43,16 @@ final class ScheduleReminderViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        let indicator = ActivityIndicator()
-        let loading = indicator.asDriver()
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
             
-        let onLoad = Signal.merge(.just(()), input.onLoad)
+        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
+        
         let item = onLoad.flatMapLatest { [weak self] _ -> Driver<Item> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.workplaceUseCase
                 .fetchMyInfo()
-                .trackActivity(indicator)
+                .trackActivity(tracker)
                 .map(\.workScheduleList)
                 .map(Item.init(workScheduleList:))
                 .asDriver()
@@ -66,7 +68,7 @@ final class ScheduleReminderViewModel {
         
         Task {
             for await _ in input.onRegister.values {
-                
+                coordinator.showWorkLogSummary()
             }
         }
       

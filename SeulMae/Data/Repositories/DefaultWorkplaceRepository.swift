@@ -132,13 +132,16 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map { $0.toDomain() }
     }
     
-    func fetchMyInfo(
-        workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
-            return network.rx
-                .request(.myDetails(workplaceId: workplaceId))
-                .map(BaseResponseDTO<MemberProfileDto>.self)
-                .map { $0.toDomain() }
-        }
+    func fetchMyInfo(workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
+        let decoder = JSONDecoder()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd"
+        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        return network.rx
+            .request(.myDetails(workplaceId: workplaceId))
+            .map(BaseResponseDTO<MemberProfileDto>.self, using: decoder)
+            .map { $0.toDomain() }
+    }
     
     func fetchJoinedWorkplaceList() -> RxSwift.Single<[Workplace]> {
         return network.rx
@@ -146,5 +149,4 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<[WorkplaceDTO]>.self)
             .map { $0.toDomain() }
     }
-    
 }
