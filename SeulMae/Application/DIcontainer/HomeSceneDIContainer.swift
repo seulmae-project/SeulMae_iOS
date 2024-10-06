@@ -141,6 +141,9 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
     
     func makeWorkLogSummaryViewController(
         coordinator: any HomeFlowCoordinator) -> WorkLogViewController {
-            return .init()
+            return .init(
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                attendanceUseCase: makeAttendanceUseCase())
     }
 }

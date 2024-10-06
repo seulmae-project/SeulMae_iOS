@@ -41,10 +41,10 @@ final class SettingViewModel: ViewModel {
         let indicator = ActivityIndicator()
         let loading = indicator.asDriver()
         
-        let item = userUseCase.fetchMyProfile()
-            .trackActivity(indicator)
-            .map(SettingItem.init(user:))
-            .asDriver()
+//        let item = userUseCase.fetchMyProfile()
+//            .trackActivity(indicator)
+//            .map(SettingItem.init(user:))
+//            .asDriver()
         
         Task {
             for await _ in input.showProfile.values {
@@ -60,7 +60,7 @@ final class SettingViewModel: ViewModel {
         
         return .init(
             loading: loading,
-            item: item
+            item: .empty()
         )
     }
 }

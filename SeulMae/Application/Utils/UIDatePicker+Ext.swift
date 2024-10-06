@@ -21,4 +21,10 @@ extension Ext where ExtendedType == UIDatePicker {
         picker.datePickerMode = .time
         return picker
     }
+    
+    static var dateAndTime: UIDatePicker {
+        let picker = UIDatePicker()
+        picker.datePickerMode = .dateAndTime
+        return picker
+    }
 }

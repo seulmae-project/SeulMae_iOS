@@ -19,9 +19,9 @@ struct ScheduleReminderItem {
         dateFormatter.timeZone = TimeZone.current
         
         let matched = inToday.filter {
-            let startDate = dateFormatter.date(from: $0.startTime)
-            let endDate = dateFormatter.date(from: $0.endTime)
-            return (Date.ext.now < startDate!)
+            let startDate = dateFormatter.date(from: $0.startTime) ?? Date()
+            let endDate = dateFormatter.date(from: $0.endTime) ?? Date()
+            return (Date.ext.now < startDate)
         }
         
         guard let first = matched.first else {

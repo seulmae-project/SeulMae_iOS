@@ -37,9 +37,9 @@ class WorkLogSummaryView: UIView {
         let inset = CGFloat(16)
         NSLayoutConstraint.activate([
             b.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
-            b.trailingAnchor.constraint(equalTo: trailingAnchor, constant: inset),
+            b.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -inset),
             b.topAnchor.constraint(equalTo: topAnchor, constant: inset),
-            b.bottomAnchor.constraint(equalTo: bottomAnchor, constant: inset),
+            b.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -inset),
         ])
     }
     
