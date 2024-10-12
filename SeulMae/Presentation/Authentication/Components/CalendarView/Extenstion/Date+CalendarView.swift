@@ -10,21 +10,30 @@ import Foundation
 extension Date: Extended {}
 extension Ext where ExtendedType == Date {
 
-    static var now: Date {
-        Date()
-    }
+    static var now: Date { Date() }
     
     var weekday: Int {
         Calendar.current.component(.weekday, from: type)
     }
     
     var firstDayOfMonth: Date {
-        Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: type))!
+        let calendar = Calendar.current
+        let componets = calendar.dateComponents([.year, .month], from: type)
+        return calendar.date(from: componets) ?? Ext.now
+    }
+    
+    var month: Int {
+        Calendar.current.component(.month, from: firstDayOfMonth)
+    }
+    
+    var days: Int {
+        return Calendar.current
+            .range(of: .day, in: .month, for: firstDayOfMonth)?
+            .count ?? 0
     }
     
     var firstWeekDay: Int {
-        return ExtendedType.ext.now
-            .ext.firstDayOfMonth
+        return firstDayOfMonth
             .ext.weekday
     }
 }

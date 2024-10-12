@@ -1,31 +1,31 @@
 //
-//  DayContentView.swift
+//  CalendarContentView.swift
 //  SeulMae
 //
-//  Created by 조기열 on 7/1/24.
+//  Created by 조기열 on 10/12/24.
 //
 
 import UIKit
 
-class DayContentView: UIView, UIContentView {
+class CalendarContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
-        var day: Int? = nil
-        var status: CalendarItem.DayState = .normal
+        var date: Date?
         
         func makeContentView() -> UIView & UIContentView {
-            return DayContentView(self)
+            return CalendarContentView(self)
         }
     }
     
     let dayLabel: UILabel = {
-        let label = UILabel()
-        label.font = .pretendard(size: 14, weight: .semibold)
-        label.layer.cornerRadius = 9.0
-        label.layer.cornerCurve = .continuous
-        label.clipsToBounds = true
-        label.textAlignment = .center
-        return label
+        let l = UILabel()
+        l.font = .systemFont(ofSize: 18, weight: .semibold)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        l.layer.cornerRadius = 8.0
+        l.layer.cornerCurve = .continuous
+        l.clipsToBounds = true
+        l.textAlignment = .center
+        return l
     }()
     
     var configuration: UIContentConfiguration {
@@ -39,7 +39,6 @@ class DayContentView: UIView, UIContentView {
         super.init(frame: .zero)
                 
         self.addSubview(dayLabel)
-        dayLabel.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             dayLabel.leadingAnchor.constraint(equalTo: leadingAnchor),
@@ -55,24 +54,12 @@ class DayContentView: UIView, UIContentView {
     }
     
     override var intrinsicContentSize: CGSize {
-        CGSize(width: 0, height: 32)
+        CGSize(width: 0, height: 44)
     }
         
     func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        dayLabel.text = config.day?.description ?? ""
-        switch config.status {
-        case .normal:
-            dayLabel.isHidden = false
-            dayLabel.textColor = UIColor(hexCode: "D9DBE9")
-            dayLabel.backgroundColor = UIColor(hexCode: "F2F3FD")
-        case .highlight:
-            dayLabel.isHidden = false
-            dayLabel.textColor = .white
-            dayLabel.backgroundColor = UIColor(hexCode: "4C71F5")
-        case .none:
-            dayLabel.isHidden = true
-        }
+
     }
 }
 

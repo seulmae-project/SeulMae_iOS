@@ -201,6 +201,8 @@
 		86A03A8A2C623E5B00EA99DD /* Credentials.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A03A892C623E5B00EA99DD /* Credentials.swift */; };
 		86A416742CBA3D02008394BE /* DailyWorkView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A416732CBA3D02008394BE /* DailyWorkView.swift */; };
 		86A416762CBA701C008394BE /* YearAndMonthPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A416752CBA701C008394BE /* YearAndMonthPickerView.swift */; };
+		86A416782CBA9859008394BE /* CalendarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A416772CBA9859008394BE /* CalendarContentView.swift */; };
+		86A4167A2CBABA29008394BE /* CalendarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86A416792CBABA29008394BE /* CalendarItem.swift */; };
 		86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */; };
 		86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */; };
 		86AC25F42C9C2FE40009D249 /* ScheduleReminderViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */; };
@@ -537,6 +539,8 @@
 		86A03A892C623E5B00EA99DD /* Credentials.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Credentials.swift; sourceTree = "<group>"; };
 		86A416732CBA3D02008394BE /* DailyWorkView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyWorkView.swift; sourceTree = "<group>"; };
 		86A416752CBA701C008394BE /* YearAndMonthPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YearAndMonthPickerView.swift; sourceTree = "<group>"; };
+		86A416772CBA9859008394BE /* CalendarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarContentView.swift; sourceTree = "<group>"; };
+		86A416792CBABA29008394BE /* CalendarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarItem.swift; sourceTree = "<group>"; };
 		86AC25EE2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryUseCase.swift; sourceTree = "<group>"; };
 		86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistorySummary.swift; sourceTree = "<group>"; };
 		86AC25F32C9C2FE40009D249 /* ScheduleReminderViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleReminderViewController.swift; sourceTree = "<group>"; };
@@ -708,6 +712,8 @@
 			children = (
 				8606F67D2C3315DF00FFC68E /* Extenstion */,
 				86B07D842C3295320088E1B1 /* CalendarView.swift */,
+				86A416792CBABA29008394BE /* CalendarItem.swift */,
+				86A416772CBA9859008394BE /* CalendarContentView.swift */,
 				86B07D862C32A05D0088E1B1 /* CalendarControl.swift */,
 				86B07D802C3293CD0088E1B1 /* DayContentView.swift */,
 				86A416752CBA701C008394BE /* YearAndMonthPickerView.swift */,
@@ -2366,6 +2372,7 @@
 				8697FBEC2C2D19280027A035 /* RxPHPickerViewControllerDelegateProxy.swift in Sources */,
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
+				86A416782CBA9859008394BE /* CalendarContentView.swift in Sources */,
 				869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */,
 				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
@@ -2500,6 +2507,7 @@
 				86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */,
 				86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */,
 				86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */,
+				86A4167A2CBABA29008394BE /* CalendarItem.swift in Sources */,
 				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
 				861BF6842C27065800702E24 /* MainSceneDIContainer.swift in Sources */,
 				86E39FA02C8EB79900361E0D /* SettingFlowCoordinator.swift in Sources */,
