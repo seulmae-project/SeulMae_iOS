@@ -10,77 +10,21 @@ import WebKit
 
 class BottomSheetPresentationController: UIPresentationController {
     
+    // MARK: - UI Properties
+    
     private var sheetView: SheetContainerView?
-    
     private var dimmingView: UIView?
-    
     weak var trackingScrollView: UIScrollView?
-    
-    var simulateScrollViewBounce: Bool = true
-    
-    var dismissOnBackgroundTap: Bool = true
-    
-    var shouldPropagateSafeAreaInsetsToPresentedViewController: Bool = false
-    
-    var preferredSheetHeight: CGFloat = 0 {
-        didSet {
-            updatePreferredSheetHeight()
-        }
-    }
-    
-    var adjustHeightForSafeAreaInsets: Bool = true {
-        didSet {
-            sheetView?.adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets
-        }
-    }
-    
-    var ignoreKeyboardHeight: Bool = false {
-        didSet {
-            sheetView?.ignoreKeyboardHeight = ignoreKeyboardHeight
-        }
-    }
-    
-    var dismissOnDraggingDownSheet: Bool = true {
-        didSet {
-            sheetView?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
-        }
-    }
-    
-    var traitCollectionDidChangeBlock: ((BottomSheetPresentationController, UITraitCollection?) -> Void)?
-    
-    // MARK: - Scrim Properties
 
-    var scrimColor: UIColor? {
-        didSet {
-            dimmingView?.backgroundColor = scrimColor
-        }
-    }
-    
-    var isScrimAccessibilityElement: Bool = false {
-        didSet {
-            dimmingView?.isAccessibilityElement = isScrimAccessibilityElement
-        }
-    }
-    
-    var scrimAccessibilityLabel: String? {
-        didSet {
-            dimmingView?.accessibilityLabel = scrimAccessibilityLabel
-        }
-    }
-    
-    var scrimAccessibilityHint: String? {
-        didSet {
-            dimmingView?.accessibilityHint = scrimAccessibilityHint
-        }
-    }
-    
-    var scrimAccessibilityTraits: UIAccessibilityTraits = [] {
-        didSet {
-            dimmingView?.accessibilityTraits = scrimAccessibilityTraits
-        }
-    }
-    
-    // MARK: - Life Cycle
+    // MARK: - Properties
+   
+    private var shouldPropagateSafeAreaInsets: Bool = false
+    var simulateScrollViewBounce: Bool = true
+    var dismissOnBackgroundTap: Bool = true
+    var dismissOnDraggingDownSheet: Bool = true
+    var preferredSheetHeight: CGFloat = 0
+
+    // MARK: - Life Cycle Methods
     
     override init(presentedViewController: UIViewController, presenting presentingViewController: UIViewController?) {
         super.init(presentedViewController: presentedViewController, presenting: presentingViewController)
@@ -88,29 +32,6 @@ class BottomSheetPresentationController: UIPresentationController {
     
     override var presentedView: UIView? {
         return sheetView
-    }
-    
-    override var frameOfPresentedViewInContainerView: CGRect {
-        guard let containerView = containerView else {
-            return CGRect.zero
-        }
-        
-        let containerSize = containerView.frame.size
-        let preferredSize = presentedViewController.preferredContentSize
-        
-        if preferredSize.width > 0 &&
-            preferredSize.width < containerSize.width {
-            let width = preferredSize.width
-            let leftPad = (containerSize.width - width) / 2
-            return CGRect(x: leftPad, y: 0, width: width, height: containerSize.height)
-        } else {
-            return super.frameOfPresentedViewInContainerView
-        }
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        traitCollectionDidChangeBlock?(self, previousTraitCollection)
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -125,41 +46,24 @@ class BottomSheetPresentationController: UIPresentationController {
     // MARK: - Presentation Transition
     
     override func presentationTransitionWillBegin() {
-        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            strongDelegate.prepareForBottomSheetPresentation(self)
-        }
-        
         guard let containerView else { return }
         
-        dimmingView = UIView(frame: containerView.bounds)
-        dimmingView?.backgroundColor = scrimColor ?? UIColor(white: 0, alpha: 0.4)
-        dimmingView?.translatesAutoresizingMaskIntoConstraints = false
-        dimmingView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        dimmingView?.accessibilityTraits.insert(.button)
-        dimmingView?.isAccessibilityElement = isScrimAccessibilityElement
-        dimmingView?.accessibilityTraits = scrimAccessibilityTraits
-        dimmingView?.accessibilityLabel = scrimAccessibilityLabel
-        dimmingView?.accessibilityHint = scrimAccessibilityHint
-        
-        // _dismissOnDraggingDownSheet = YES;
-        
-        var scrollView = trackingScrollView
-        if (scrollView == nil) {
-            scrollView = bottomSheetGetPrimaryScrollView(viewController: presentedViewController)
-        }
-
-        let sheetFrame = frameOfPresentedViewInContainerView
-        if shouldPropagateSafeAreaInsetsToPresentedViewController {
+        if shouldPropagateSafeAreaInsets {
             presentedViewController.additionalSafeAreaInsets = presentingViewController.view.safeAreaInsets
         }
         
-        sheetView = SheetContainerView(frame: sheetFrame, contentView: presentedViewController.view, scrollView: scrollView, simulateScrollViewBounce: simulateScrollViewBounce)
-        sheetView?.delegate = self
-        sheetView?.autoresizingMask = .flexibleHeight
-        sheetView?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
-        sheetView?.adjustHeightForSafeAreaInsets = adjustHeightForSafeAreaInsets
-        sheetView?.ignoreKeyboardHeight = ignoreKeyboardHeight
+        dimmingView = UIView(frame: containerView.bounds)
+        dimmingView?.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        dimmingView?.translatesAutoresizingMaskIntoConstraints = false
+        dimmingView?.backgroundColor = UIColor(white: 0, alpha: 0.4)
         
+        sheetView = SheetContainerView(
+            frame: frameOfPresentedViewInContainerView,
+            contentView: presentedViewController.view,
+            scrollView: trackingScrollView,
+            simulateScrollViewBounce: simulateScrollViewBounce)
+        sheetView?.autoresizingMask = .flexibleHeight
+                
         containerView.addSubview(dimmingView!)
         containerView.addSubview(sheetView!)
         
@@ -168,8 +72,6 @@ class BottomSheetPresentationController: UIPresentationController {
         // Add tap handler to dismiss the sheet.
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(dismissPresentedControllerIfNecessary(_:)))
         tapGesture.cancelsTouchesInView = false
-        // TODO: 아마 여기서 뷰 뒤의 컨텐츠를 사용자가 선택할 수 있도록 커스텀 가능할 듯..?
-        // 제스처를 전달할 지 여부
         containerView.isUserInteractionEnabled = true
         containerView.addGestureRecognizer(tapGesture)
         
@@ -210,94 +112,35 @@ class BottomSheetPresentationController: UIPresentationController {
         updatePreferredSheetHeight()
     }
     
-    // MARK: - Private
-    
-    private func bottomSheetGetPrimaryScrollView(viewController: UIViewController) -> UIScrollView? {
-        var viewController = viewController
-        var scrollView: UIScrollView? = nil
-        
-        if !viewController.isViewLoaded {
-            _ = viewController.view
-        }
-        
-        if let bottomSheetController = viewController as? BottomSheetController {
-            viewController = bottomSheetController.contentViewController
-        }
-        
-        if let view = viewController.view as? UIScrollView {
-            scrollView = view
-        } else if let webView = viewController.view as? WKWebView {
-            scrollView = webView.scrollView
-        } else if let collectionViewController = viewController as? UICollectionViewController {
-            scrollView = collectionViewController.collectionView
-        }
-        return scrollView
-    }
+    // MARK: - Private Methods
     
     private func updatePreferredSheetHeight() {
-        // If |preferredSheetHeight| has not been specified, use half of the current height.
-        var preferredSheetHeight: CGFloat
-        if self.preferredSheetHeight > 0 {
-            preferredSheetHeight = self.preferredSheetHeight
-        } else {
-            preferredSheetHeight = self.presentedViewController.preferredContentSize.height
+        var _preferredSheetHeight: CGFloat = preferredSheetHeight
+        if (preferredSheetHeight < 0) {
+            _preferredSheetHeight = self.presentedViewController.preferredContentSize.height;
+         }
+        
+        if (_preferredSheetHeight == 0) {
+            _preferredSheetHeight = round((sheetView?.frame.height ?? 0) / 2)
         }
         
-        if preferredSheetHeight == 0 {
-            preferredSheetHeight = round((self.sheetView?.frame.height ?? 0) / 2)
-        }
-        
-        self.sheetView?.preferredSheetHeight = preferredSheetHeight
+        self.sheetView?.preferredSheetHeight = _preferredSheetHeight
     }
     
     @objc private func dismissPresentedControllerIfNecessary(_ tapRecognizer: UITapGestureRecognizer) {
         guard dismissOnBackgroundTap else { return }
         
         // Only dismiss if the tap is outside of the presented view.
-        guard let contentView = presentedViewController.view else { 
+        guard let contentView = presentedViewController.view else {
             return
         }
         
-        // content view == dimming view
         let pointInContentView = tapRecognizer.location(in: contentView)
         if contentView.point(inside: pointInContentView, with: nil) {
             return
         }
         
         sheetView?.willBeDismissed = true
-        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            presentingViewController.dismiss(animated: true) {
-                strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(self)
-            }
-            
-            strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(self)
-        }
-    }
-}
-
-extension BottomSheetPresentationController: SheetContainerViewDelegate {
-    
-    // MARK: - SheetContainerViewDelegate
-
-    func sheetContainerViewDidHide(_ containerView: SheetContainerView) {
-        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            presentingViewController.dismiss(animated: true) {
-                strongDelegate.bottomSheetPresentationControllerDismissalAnimationCompleted(self)
-            }
-            
-            strongDelegate.bottomSheetPresentationControllerDidDismissBottomSheet(self)
-        }
-    }
-
-    func sheetContainerViewWillChangeState(_ containerView: SheetContainerView, sheetState: SheetState) {
-        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            strongDelegate.bottomSheetWillChangeState(self, sheetState: sheetState)
-        }
-    }
-
-    func sheetContainerViewDidChangeYOffset(_ containerView: SheetContainerView, yOffset: CGFloat) {
-        if let strongDelegate = delegate as? BottomSheetPresentationControllerDelegate {
-            strongDelegate.bottomSheetDidChangeYOffset(self, yOffset: yOffset)
-        }
+        presentingViewController.dismiss(animated: true)
     }
 }

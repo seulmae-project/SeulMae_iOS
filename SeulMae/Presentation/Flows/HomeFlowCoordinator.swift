@@ -81,7 +81,8 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     func showScheduleReminder() {
         let vc = dependencies.makeScheduleReminderViewController(coordinator: self)
-        let bottomSheet =  BottomSheetController(contentViewController: vc)
+        let bottomSheet = BottomSheetController(contentViewController: vc)
+        bottomSheet.trackingScrollView = vc.scrollView
         navigationController.present(bottomSheet, animated: true)
     }
     

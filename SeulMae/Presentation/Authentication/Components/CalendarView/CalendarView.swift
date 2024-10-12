@@ -50,12 +50,12 @@ class CalendarView: UIView {
     
     private var calendarControl = CalendarControl()
     
-    private lazy var calendarCollectionView: UICollectionView = {
-        let cv = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
-        cv.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        cv.showsHorizontalScrollIndicator = false
-        cv.showsVerticalScrollIndicator = false
-        return cv
+    private lazy var collectionView: UICollectionView = {
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        collectionView.showsHorizontalScrollIndicator = false
+        collectionView.showsVerticalScrollIndicator = false
+        return collectionView
     }()
     
     // MARK: - Properties
@@ -84,7 +84,7 @@ class CalendarView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-                
+        
         let now = Date.ext.now
         currentYear = Calendar.current.component(.year, from: now)
         currentMonth = Calendar.current.component(.month, from: now)
@@ -92,15 +92,19 @@ class CalendarView: UIView {
         firstWeekDay = now.ext.firstWeekDay
         
         calendarControl.onChange = { [weak self] month in
-            guard let self else { return }
-            // currentYear = year
-            // TODO: - 년도 수정 및 날짜 정확하지 않음..
-            currentMonth = month
-            applySnapshot()
+            guard let strongSelf = self else { return }
+            strongSelf.currentMonth = month
+            strongSelf.applySnapshot()
         }
         
-        setHierarchy()
+        addSubview(calendarControl)
+        addSubview(collectionView)
+        
         setDataSource()
+    }
+    
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: 320, height: 300)
     }
     
     required init?(coder: NSCoder) {
@@ -111,14 +115,13 @@ class CalendarView: UIView {
         super.layoutSubviews()
         // TODO: - collectionview header 로 변경 &
         calendarControl.frame = CGRect(origin: .zero, size: CGSize(width: 94, height: 24))
-        calendarCollectionView.frame = CGRect(x: 0, y: 40, width: frame.width, height: frame.height - 24)
+        collectionView.frame = CGRect(x: 0, y: 40, width: frame.width, height: frame.height - 24)
     }
     
     // MARK: - Hierarchy
     
     private func setHierarchy() {
-        addSubview(calendarControl)
-        addSubview(calendarCollectionView)
+        
     }
     
     // MARK: - DataSource
@@ -127,7 +130,7 @@ class CalendarView: UIView {
         let weekdayCellRegistration = createWeekdayCellRegistration()
         let dateCellRegistration = createDateCellRegistration()
         
-        dataSource = DataSource(collectionView: calendarCollectionView) { (view, index, item) in
+        dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
             guard let section = Section(rawValue: index.section) else { return nil }
             switch section {
             case .weekday:
@@ -144,54 +147,66 @@ class CalendarView: UIView {
     
     private func applySnapshot() {
         var snapshot = Snapshot()
-        let sections = Section.allCases
-        snapshot.appendSections(sections)
-        let weekdayItems = createWeekdayItem()
-        snapshot.appendItems(weekdayItems, toSection: .weekday)
-        let dayItems = createDayItem()
-        snapshot.appendItems(dayItems, toSection: .day)
+        snapshot.appendSections(Section.allCases)
+        let weekdays = createWeekdayItems()
+        snapshot.appendItems(weekdays, toSection: .weekday)
+        let days = createDayItems()
+        snapshot.appendItems(days, toSection: .day)
         dataSource.apply(snapshot)
     }
     
-    private func createDayItem() -> [Item] {
+    private func createDayItems() -> [Item] {
+        let showOnlyCurrentMonthDates = true
+        
         var currentDayCount = numOfDaysInMonth[currentMonth - 1]
+        NSLog("currentMonth: \(currentMonth), currentDayCount: \(currentDayCount)")
+        
         ForLeapYears: if currentYear.ext.isLeapYear && currentMonth == 2 {
             currentDayCount += 1
         }
         
         var totalDayCount = currentDayCount
         
-        /// Tag: add previous month day
+        // fill the remaining space in the current month's calendar with dates from the previous or next month
         let previousDayCount = (firstWeekDay - 1)
         totalDayCount += previousDayCount
-        
-        /// Tag: add next month day
-        totalDayCount = totalDayCount % 7 == 0 ? totalDayCount : totalDayCount + 7 - (totalDayCount % 7)
+
+        let nextMonthDayCount = 7 - (totalDayCount % 7)
+        totalDayCount = (totalDayCount % 7) == 0 ? totalDayCount : totalDayCount + nextMonthDayCount
                 
         return (1...totalDayCount).map {
-            if $0 <= previousDayCount {
-                /// Tag: previous month day
-                let previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1
-                var previousMonthCount = numOfDaysInMonth[previousMonth - 1]
-                ForLeapYears: if currentYear.ext.isLeapYear && previousMonth == 2 {
-                    previousMonthCount += 1
-                }
-                
-                let day = previousMonthCount - (firstWeekDay - 2)
-                return Item(day: day, status: .normal)
-            } else if $0 > (currentDayCount + previousDayCount) {
-                /// Tag: next month day
-                let day = $0 - (currentDayCount + previousDayCount)
+            let currentMonthRange = firstWeekDay...(currentDayCount + previousDayCount)
+            if currentMonthRange.contains($0) {
+                // Current month
+                let day = ($0 - previousDayCount)
                 return Item(day: day, status: .normal)
             } else {
-                /// Tag: current month day
-                let day = ($0 - (firstWeekDay - 1))
-                return Item(day: day, status: .normal)
+                // Other month
+                if showOnlyCurrentMonthDates {
+                    // Show empty view
+                    return Item(day: $0, status: .normal)
+                } else {
+                    // Show previous and next month dates
+                    let isPreviousMonth = ($0 < firstWeekDay)
+                    if isPreviousMonth {
+                        let previousMonth = (currentMonth == 1) ? 12 : currentMonth - 1
+                        var previousMonthCount = numOfDaysInMonth[previousMonth - 1]
+                        if currentYear.ext.isLeapYear && previousMonth == 2 {
+                            previousMonthCount += 1
+                        }
+                        
+                        let day = previousMonthCount - (firstWeekDay - 2)
+                        return Item(day: day, status: .normal)
+                    } else {
+                        let day = $0 - (currentDayCount + previousDayCount)
+                        return Item(day: day, status: .normal)
+                    }
+                }
             }
         }
     }
     
-    private func createWeekdayItem() -> [Item] {
+    private func createWeekdayItems() -> [Item] {
         let items = weekdays.map(Item.init(weekday:))
         return items
     }

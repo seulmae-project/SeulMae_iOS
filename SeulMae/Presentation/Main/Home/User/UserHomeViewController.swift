@@ -9,20 +9,14 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class UserHomeViewController: UIViewController {
+final class UserHomeViewController: BaseViewController {
     
     // MARK: UI
     
-    private let loadingIndicator: UIActivityIndicatorView = {
-        let activity = UIActivityIndicatorView(style: .medium)
-        activity.hidesWhenStopped = true
-        activity.stopAnimating()
-        return activity
-    }()
+    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     
     private let refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
-        
         return control
     }()
     
@@ -30,20 +24,10 @@ final class UserHomeViewController: UIViewController {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.refreshControl = refreshControl
-        scrollView.directionalLayoutMargins = .init(top: 0, leading: 20, bottom: 0, trailing: 20)
         return scrollView
     }()
     
-    private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "이번달의\n출퇴근 기록을 확인해 보세요"
-        label.numberOfLines = 2
-        label.font = .pretendard(size: 24, weight: .medium)
-        return label
-    }()
-    
-    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
-    private let currentStatusView = AttendRequestStatusView()
+    private let dailyWorkView = DailyWorkView()
     private let calendarView = CalendarView()
     
     // MARK: - Properties
@@ -103,52 +87,37 @@ final class UserHomeViewController: UIViewController {
     }
     
     private func setupNavItem() {
-        navigationItem.rightBarButtonItem = notiRightBarButton
+        // navigationItem.rightBarButtonItem = notiRightBarButton
     }
     
     private func setupConstraints() {
-        // TODO: handle scrollview layout problem
         
-        let emptyView = UIView()
         view.addSubview(scrollView)
-        view.addSubview(loadingIndicator)
-
-        scrollView.addSubview(titleLabel)
-//        scrollView.addSubview(calendarView)
-//        scrollView.addSubview(currentStatusView)
-//        scrollView.addSubview(emptyView)
-        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        loadingIndicator.translatesAutoresizingMaskIntoConstraints = false
-
-        titleLabel.translatesAutoresizingMaskIntoConstraints = false
-        calendarView.translatesAutoresizingMaskIntoConstraints = false
-        currentStatusView.translatesAutoresizingMaskIntoConstraints = false
-        emptyView.translatesAutoresizingMaskIntoConstraints = false
         
+        [dailyWorkView, calendarView]
+            .forEach {
+                scrollView.addSubview($0)
+                $0.translatesAutoresizingMaskIntoConstraints = false
+            }
+        
+        let inset = CGFloat(20)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor),
-            
-            loadingIndicator.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            loadingIndicator.centerYAnchor.constraint(equalTo: view.centerYAnchor),
     
-            titleLabel.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
-            titleLabel.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            titleLabel.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
-            // titleLabel.heightAnchor.constraint(equalToConstant: 300),
-
-//            calendarView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 12),
-//            calendarView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-//            calendarView.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor),
-//            // calendarView.heightAnchor.constraint(equalTo: calendarView.widthAnchor),
-//            
-//            emptyView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-//            emptyView.topAnchor.constraint(equalTo: calendarView.bottomAnchor, constant: 20),
-//            emptyView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-//            emptyView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            scrollView.contentLayoutGuide.widthAnchor.constraint(equalTo: view.widthAnchor),
+            
+            dailyWorkView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: inset),
+            dailyWorkView.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -inset),
+            dailyWorkView.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            dailyWorkView.heightAnchor.constraint(equalToConstant: 143),
+            
+            calendarView.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: inset),
+            calendarView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -inset),
+            calendarView.topAnchor.constraint(equalTo: dailyWorkView.bottomAnchor, constant: 52),
         ])
     }
 }

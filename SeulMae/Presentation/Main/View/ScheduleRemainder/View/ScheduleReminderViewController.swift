@@ -16,7 +16,7 @@ final class ScheduleReminderViewController: UIViewController {
         return control
     }()
     
-    private lazy var scrollView: UIScrollView = {
+    private(set) lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.refreshControl = refreshControl
@@ -146,10 +146,9 @@ final class ScheduleReminderViewController: UIViewController {
         contentStack.addArrangedSubview(scheduleListStack)
         contentStack.addArrangedSubview(buttonStack)
         
-        let spacer = UIView()
-        spacer.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
-        spacer.setContentCompressionResistancePriority(.defaultHigh, for: .vertical)
-        contentStack.addArrangedSubview(spacer)
+        // let spacer = UIView()
+        // spacer.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
+        // contentStack.addArrangedSubview(spacer)
         
         view.addSubview(scrollView)
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -157,18 +156,26 @@ final class ScheduleReminderViewController: UIViewController {
         scrollView.addSubview(contentStack)
         contentStack.translatesAutoresizingMaskIntoConstraints = false
       
+        let inset = CGFloat(20)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            contentStack.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            contentStack.topAnchor.constraint(equalTo: scrollView.frameLayoutGuide.topAnchor, constant: 20),
-            contentStack.bottomAnchor.constraint(equalTo: scrollView.frameLayoutGuide.bottomAnchor, constant: -20),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor, constant: inset),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor, constant: -inset),
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor, constant: inset),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor, constant: -inset),
             
+            contentStack.widthAnchor.constraint(equalTo: scrollView.frameLayoutGuide.widthAnchor, constant: -(2 * inset)),
+
             buttonStack.heightAnchor.constraint(equalToConstant: 56),
         ])
+    }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        Swift.print("-- scrollView contentSize: \(scrollView.contentSize)")
     }
 }

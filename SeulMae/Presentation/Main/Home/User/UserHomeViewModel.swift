@@ -81,7 +81,7 @@ final class UserHomeViewModel {
         
         input.onLoad
             .emit(onNext: { _ in
-                self.coordinator.showScheduleReminder()
+               // self.coordinator.showScheduleReminder()
                 
             })
             .disposed(by: disposeBag)

@@ -11,7 +11,9 @@ class DayContentView: UIView, UIContentView {
     
     struct Configuration: UIContentConfiguration {
         enum Status {
-            case normal, highlighted, disabled
+            case normal
+            case highlighted
+            case disabled
         }
         
         var day: Int? = nil

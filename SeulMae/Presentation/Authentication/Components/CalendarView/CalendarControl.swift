@@ -8,51 +8,39 @@
 import UIKit
 
 final class CalendarControl: UIView {
-        
-    // MARK: - UI
     
-    private lazy var previousMonthButton: UIButton = {
-        let b = UIButton()
-        b.setImage(.caretLeft, for: .normal)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.addTarget(self, action: #selector(didButtonSelected(_:)), for: .touchUpInside)
-        return b
+    lazy var selectDateButton: UIButton = {
+        let button = UIButton()
+        button.setImage(.caretDown, for: .normal)
+        button.semanticContentAttribute = .forceRightToLeft
+        button.addTarget(self, action: #selector(didButtonSelected(_:)), for: .touchUpInside)
+        return button
     }()
     
-    private lazy var monthLabel: UILabel = {
-        let l = UILabel()
-        l.text = monthsArr[currentMonth - 1]
-        l.textColor = .graphite
-        l.textAlignment = .center
-        l.font = .boldSystemFont(ofSize: 24)
-        l.translatesAutoresizingMaskIntoConstraints = false
-        return l
-    }()
-    
-    private lazy var nextMonthButton: UIButton = {
-        let b = UIButton()
-        b.setImage(.caretRight, for: .normal)
-        b.translatesAutoresizingMaskIntoConstraints = false
-        b.addTarget(self, action: #selector(didButtonSelected(_:)), for: .touchUpInside)
-        return b
+    lazy var datePicker: UIDatePicker = {
+        let datePicker = UIDatePicker()
+        if #available(iOS 17.4, *) {
+            datePicker.datePickerMode = .yearAndMonth
+        } else {
+            datePicker.datePickerMode = .date
+        }
+        var dateComponents = DateComponents()
+        dateComponents.year = 2000
+        let calendar = Calendar.current
+        datePicker.minimumDate = calendar.date(from: dateComponents)!
+        datePicker.maximumDate = .ext.now
+        datePicker.setDate(.ext.now, animated: false)
+        datePicker.locale = Locale(identifier: "ko_KR")
+        datePicker.addTarget(self, action: #selector(didDateChanged), for: .valueChanged)
+        return datePicker
     }()
     
     // MARK: - Properties
     
     var currentYear = 0
+    var currentMonth = 0
     
-    var currentMonth = 0 {
-        didSet {
-            monthLabel.text = monthsArr[currentMonth - 1]
-            onChange?(currentMonth)
-        }
-    }
-    
-    private var monthsArr = [
-        "1월", "2월", "3월", "4월", "5월", "6월", "7월", "8월", "9월", "10월", "11월", "12월"
-    ]
-    
-    var onChange: ((_ month: Int) -> ())?
+    var onChange: ((_ date: Date) -> ())?
     
     // MARK: - Life Cycle Methods
     
@@ -60,31 +48,17 @@ final class CalendarControl: UIView {
         super.init(frame: frame)
         
         let now = Date.ext.now
-        currentYear = Calendar.current.component(.year, from: now)
-        currentMonth = Calendar.current.component(.month, from: now)
+        setButtonTitle(for: now)
         
-        self.addSubview(previousMonthButton)
-        self.addSubview(monthLabel)
-        self.addSubview(nextMonthButton)
+        addSubview(selectDateButton)
+        selectDateButton.translatesAutoresizingMaskIntoConstraints = false
                 
-        let inset: CGFloat = 8.0
+        let inset = CGFloat(8.0)
         NSLayoutConstraint.activate([
-            previousMonthButton.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
-            previousMonthButton.topAnchor.constraint(lessThanOrEqualTo: topAnchor),
-            previousMonthButton.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor),
-            previousMonthButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-
-            monthLabel.leadingAnchor.constraint(equalTo: previousMonthButton.trailingAnchor, constant: inset),
-            monthLabel.topAnchor.constraint(lessThanOrEqualTo: topAnchor),
-            monthLabel.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor),
-            monthLabel.centerYAnchor.constraint(equalTo: centerYAnchor),
-            monthLabel.widthAnchor.constraint(equalToConstant: 48),
-        
-            nextMonthButton.leadingAnchor.constraint(equalTo: monthLabel.trailingAnchor, constant: inset),
-            nextMonthButton.topAnchor.constraint(lessThanOrEqualTo: topAnchor),
-            nextMonthButton.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor),
-            nextMonthButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            nextMonthButton.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor)
+            selectDateButton.leadingAnchor.constraint(equalTo: leadingAnchor, constant: inset),
+            selectDateButton.topAnchor.constraint(lessThanOrEqualTo: topAnchor),
+            selectDateButton.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor),
+            selectDateButton.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
     
@@ -92,17 +66,47 @@ final class CalendarControl: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    private func setButtonTitle(for date: Date) {
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+
+        let title = "\(year)년 \(month)월"
+        let attributedString = NSMutableAttributedString(string: title)
+        
+        let boldFont = UIFont.pretendard(size: 20, weight: .bold)
+        let regularFont = UIFont.pretendard(size: 15, weight: .regular)
+
+        let yearRange = (title as NSString).range(of: "\(year)")
+        attributedString.addAttribute(.font, value: boldFont, range: yearRange)
+        let monthRange = (title as NSString).range(of: "\(month)")
+        attributedString.addAttribute(.font, value: boldFont, range: monthRange)
+
+        let yearLabelRange = (title as NSString).range(of: "년")
+        attributedString.addAttribute(.font, value: regularFont, range: yearLabelRange)
+        let monthLabelRange = (title as NSString).range(of: "월")
+        attributedString.addAttribute(.font, value: regularFont, range: monthLabelRange)
+
+        selectDateButton.setAttributedTitle(attributedString, for: .normal)
+    }
+    
     // MARK: - Handler Methods
     
     @objc func didButtonSelected(_ sender: UIButton) {
-        if (currentMonth == 12 && sender == nextMonthButton) {
-            currentMonth = 1
-            currentYear += 1
-        } else if (currentMonth == 1 && sender == previousMonthButton) {
-            currentMonth = 12
-            currentYear -= 1
-        } else {
-            currentMonth += (sender == nextMonthButton) ? 1 : -1
-        }
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        let ok = UIAlertAction(title: "완료", style: .default, handler: nil)
+        let cancel = UIAlertAction(title: "취소", style: .cancel, handler: nil)
+        alert.addAction(ok)
+        alert.addAction(cancel)
+        let vc = UIViewController()
+        vc.view = datePicker
+        alert.setValue(vc, forKey: "contentViewController")
+        let rootViewController = UIApplication.shared.keyWindow!.rootViewController! as! UINavigationController
+        rootViewController.topViewController!.present(alert, animated: true)
+    }
+    
+    @objc func didDateChanged(_ sender: UIDatePicker) {
+        NSLog("Date: \(sender.date)")
+        onChange?(sender.date)
     }
 }

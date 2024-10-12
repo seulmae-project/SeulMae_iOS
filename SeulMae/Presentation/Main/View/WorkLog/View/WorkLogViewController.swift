@@ -73,7 +73,7 @@ final class WorkLogViewController: BaseViewController {
             .forEach(startStack.addArrangedSubview(_:))
         
         let endStack = UIStackView()
-        startStack.alignment = .center
+        endStack.alignment = .center
         endStack.distribution = .equalCentering
         [_workEndDateLabel, workEndDatePicker]
             .forEach(endStack.addArrangedSubview(_:))
@@ -110,13 +110,22 @@ final class WorkLogViewController: BaseViewController {
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
             
-            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: inset),
-            contentStack.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: inset),
-            contentStack.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-            contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -inset),
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: scrollView.contentLayoutGuide.topAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.contentLayoutGuide.bottomAnchor),
+            
+            contentStack.widthAnchor.constraint(equalTo: view.widthAnchor),
+            
+            workEndDatePicker.widthAnchor.constraint(equalToConstant: 200),
+            workStartDatePicker.widthAnchor.constraint(equalToConstant: 200),
+            
+            workLogSummeryView.heightAnchor.constraint(equalToConstant: 70),
             
             messageTextView.heightAnchor.constraint(equalToConstant: 100),
             memoTextView.heightAnchor.constraint(equalToConstant: 100),
+            
+            requestAttendanceButton.heightAnchor.constraint(equalToConstant: 60),
         ])
         
         let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
@@ -191,7 +200,7 @@ final class WorkLogViewController: BaseViewController {
             }
         
         Task {
-            for await isSaved in isSaved.values {
+            for await _ in isSaved.values {
                 coordinator.goBack()
             }
         }

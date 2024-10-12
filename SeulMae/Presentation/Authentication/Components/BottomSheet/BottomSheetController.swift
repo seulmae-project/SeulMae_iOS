@@ -12,87 +12,22 @@ class BottomSheetController: UIViewController {
     /// The view controller being presented as a bottom sheet.
     private(set) var contentViewController: UIViewController
     
-    var shouldFlashScrollIndicatorsOnAppearance: Bool = false
+    weak var trackingScrollView: UIScrollView?
     
-    var traitCollectionDidChangeBlock: ((BottomSheetController, UITraitCollection?) -> Void)?
+    var simulateScrollViewBounce: Bool = true
     
-    weak var delegate: BottomSheetControllerDelegate?
-        
-    // private var kElevationSpreadMaskAffordance: CGFloat = 50.0
+    var dismissOnBackgroundTap: Bool = true
     
-    private(set) var state: SheetState
+    var dismissOnDraggingDownSheet: Bool = true
     
-    // MARK: - TransitionController Properties
+    var preferredSheetHeight: CGFloat = 0
     
-    private let transitionController: BottomSheetTransitionController
-    
-    lazy var trackingScrollView: UIScrollView? = transitionController.trackingScrollView
-    
-    lazy var adjustHeightForSafeAreaInsets: Bool = transitionController.adjustHeightForSafeAreaInsets
-    
-    lazy var dismissOnBackgroundTap: Bool = transitionController.dismissOnBackgroundTap {
-        didSet {
-            bottomSheetPresentationController?.dismissOnBackgroundTap = dismissOnBackgroundTap
-        }
-    }
-    
-    lazy var dismissOnDraggingDownSheet: Bool = transitionController.dismissOnDraggingDownSheet {
-        didSet {
-            bottomSheetPresentationController?.dismissOnDraggingDownSheet = dismissOnDraggingDownSheet
-        }
-    }
-    
-    lazy var ignoreKeyboardHeight: Bool = transitionController.ignoreKeyboardHeight {
-        didSet {
-            bottomSheetPresentationController?.ignoreKeyboardHeight = ignoreKeyboardHeight
-        }
-    }
-    
-    // MARK: - Scrim Properties
-    
-    /// The color applied to the sheet's background.
-    var scrimColor: UIColor? {
-        didSet {
-            transitionController.scrimColor = scrimColor
-        }
-    }
-    
-    /// If true, the dimmed scrim view will act as an accessibility element for dismissing the bottom sheet.
-    var isScrimAccessibilityElement: Bool = false {
-        didSet {
-            transitionController.isScrimAccessibilityElement = isScrimAccessibilityElement
-        }
-    }
-    
-    /// The accessibility label of the dimmed scrim view.
-    var scrimAccessibilityLabel: String? {
-        didSet {
-            transitionController.scrimAccessibilityLabel = scrimAccessibilityLabel
-        }
-    }
-    
-    /// The accessibility hint of the dimmed scrim view.
-    var scrimAccessibilityHint: String? {
-        didSet {
-            transitionController.scrimAccessibilityHint = scrimAccessibilityHint
-        }
-    }
-    
-    /// The accessibility traits of the dimmed scrim view.
-    var scrimAccessibilityTraits: UIAccessibilityTraits = [] {
-        didSet {
-            transitionController.scrimAccessibilityTraits = scrimAccessibilityTraits
-        }
-    }
-    
-    // MARK: - Life Cycle
+    // MARK: - Life Cycle Methods
 
     init(contentViewController: UIViewController) {
         self.contentViewController = contentViewController
-        self.transitionController = BottomSheetTransitionController()
-        self.state = UIAccessibility.isVoiceOverRunning ? .extended : .preferred
         super.init(nibName: nil, bundle: nil)
-        super.transitioningDelegate = transitionController
+        super.transitioningDelegate = self
         super.modalPresentationStyle = .custom
     }
     
@@ -102,24 +37,6 @@ class BottomSheetController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-            
-        let offset = CGFloat(6)
-        let width = CGFloat(36)
-        let height = CGFloat(5)
-        let frame = CGRect(
-            x: ((contentViewController.view.bounds.width / 2) - width / 2),
-            y: offset,
-            width: width,
-            height: height)
-        let detent = UIView(frame: frame)
-        detent.backgroundColor = .init(hexCode: "7F7F7F").withAlphaComponent(0.4)
-        // 3D3D3D 50
-        contentViewController.view.addSubview(detent)
-        // round shape
-        contentViewController.view.layer.cornerCurve = .continuous
-        contentViewController.view.layer.cornerRadius = 14
-        
-        
         view.preservesSuperviewLayoutMargins = true
         contentViewController.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         contentViewController.view.frame = view.bounds
@@ -131,10 +48,6 @@ class BottomSheetController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        bottomSheetPresentationController?.delegate = self
-        bottomSheetPresentationController?.dismissOnBackgroundTap = transitionController.dismissOnBackgroundTap
-        bottomSheetPresentationController?.dismissOnDraggingDownSheet = transitionController.dismissOnDraggingDownSheet
-        
         contentViewController.view.frame = view.bounds
         contentViewController.view.layoutIfNeeded()
     }
@@ -142,63 +55,28 @@ class BottomSheetController: UIViewController {
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        if shouldFlashScrollIndicatorsOnAppearance {
-            trackingScrollView?.flashScrollIndicators()
-        }
-    }
-    
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        return contentViewController.supportedInterfaceOrientations
-    }
-    
-    override var preferredContentSize: CGSize {
-        get {
-            return contentViewController.preferredContentSize
-        }
-        set {
-            contentViewController.preferredContentSize = newValue
-        }
-    }
-
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        traitCollectionDidChangeBlock?(self, previousTraitCollection)
-    }
-    
-    override func accessibilityPerformEscape() -> Bool {
-        guard self.dismissOnBackgroundTap else {
-            return false
-        }
-        
-        self.dismiss(animated: true) { [weak self] in
-            if let strongSelf = self {
-                strongSelf.delegate?
-                    .bottomSheetControllerDidDismissBottomSheet(strongSelf)
-            }
-        }
-        return true
-    }
-    
-    override func preferredContentSizeDidChange(forChildContentContainer container: UIContentContainer) {
-        super.preferredContentSizeDidChange(forChildContentContainer: container)
-        self.presentationController?.preferredContentSizeDidChange(forChildContentContainer: self)
+        trackingScrollView?.flashScrollIndicators()
     }
 }
 
-extension BottomSheetController: BottomSheetPresentationControllerDelegate {
+extension BottomSheetController: UIViewControllerTransitioningDelegate {
     
-    // MARK: - BottomSheetPresentationControllerDelegate
+    // MARK: - UIViewControllerTransitioningDelegate
     
-    func bottomSheetPresentationControllerDidDismissBottomSheet(_ bottomSheet: BottomSheetPresentationController) {
-        delegate?.bottomSheetControllerDidDismissBottomSheet(self)
+    func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
+        let presentationController = BottomSheetPresentationController(presentedViewController: presented, presenting: presenting)
+        presentationController.trackingScrollView = trackingScrollView
+        presentationController.dismissOnBackgroundTap = dismissOnBackgroundTap
+        presentationController.preferredSheetHeight = preferredSheetHeight
+     
+        return presentationController
     }
     
-    func bottomSheetWillChangeState(_ bottomSheet: BottomSheetPresentationController, sheetState: SheetState) {
-        state = sheetState
-        delegate?.bottomSheetControllerStateChanged(self, state: sheetState)
+    func animationController(forPresented presented: UIViewController, presenting: UIViewController, source: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return BottomSheetAnimationTransition()
     }
     
-    func bottomSheetDidChangeYOffset(_ bottomSheet: BottomSheetPresentationController, yOffset: CGFloat) {
-        delegate?.bottomSheetControllerDidChangeYOffset(self, yOffset: yOffset)
+    func animationController(forDismissed dismissed: UIViewController) -> UIViewControllerAnimatedTransitioning? {
+        return BottomSheetAnimationTransition()
     }
 }

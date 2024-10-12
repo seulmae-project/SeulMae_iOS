@@ -85,7 +85,7 @@ extension UILabel {
     static func common(title: String = "", size: CGFloat = 15, weight: UIFont.PretendardWeight = .regular, color: UIColor = .label, numOfLines: Int = 0) -> UILabel {
         let label = UILabel()
         label.text = title
-        label.numberOfLines = numOfLines
+        // label.numberOfLines = numOfLines
         label.font = .pretendard(size: size, weight: weight)
         label.textColor = color
         return label
@@ -155,15 +155,18 @@ extension UIButton {
         size: CGFloat = 15,
         weight: UIFont.PretendardWeight = .regular,
         color: UIColor = .white,
-        backgroundColor: UIColor? = .primary
+        backgroundColor: UIColor? = .primary,
+        cornerRadius: CGFloat = 8.0,
+        layoutMargins: UIEdgeInsets = .zero
     ) -> UIButton {
         let button = UIButton()
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = .pretendard(size: size, weight: weight)
         button.setTitleColor(color, for: .normal)
         button.backgroundColor = backgroundColor
-        button.layer.cornerRadius = 8.0
+        button.layer.cornerRadius = cornerRadius
         button.layer.cornerCurve = .continuous
+        button.contentEdgeInsets = layoutMargins
         return button
     }
     
