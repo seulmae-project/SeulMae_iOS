@@ -159,6 +159,7 @@
 		8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B62C4A079800EB3D28 /* PageControl.swift */; };
 		8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */; };
 		8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */; };
+		8687094C2CBBE6250073EF65 /* WorkplaceListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687094B2CBBE6250073EF65 /* WorkplaceListView.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -496,6 +497,7 @@
 		8684C5B62C4A079800EB3D28 /* PageControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PageControl.swift; sourceTree = "<group>"; };
 		8684C5B82C4A0CB700EB3D28 /* AnnounceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceView.swift; sourceTree = "<group>"; };
 		8684C5BA2C4A12E000EB3D28 /* FrameCalculator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FrameCalculator.swift; sourceTree = "<group>"; };
+		8687094B2CBBE6250073EF65 /* WorkplaceListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceListView.swift; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -2098,6 +2100,7 @@
 			isa = PBXGroup;
 			children = (
 				86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */,
+				8687094B2CBBE6250073EF65 /* WorkplaceListView.swift */,
 				86A416732CBA3D02008394BE /* DailyWorkView.swift */,
 				86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */,
 			);
@@ -2592,6 +2595,7 @@
 				86A03A8A2C623E5B00EA99DD /* Credentials.swift in Sources */,
 				869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */,
 				864A5E7B2C83491D00D7B0EF /* AnnounceViewModel.swift in Sources */,
+				8687094C2CBBE6250073EF65 /* WorkplaceListView.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
 				86016C512C94641400EE8A92 /* WorkInfo.swift in Sources */,

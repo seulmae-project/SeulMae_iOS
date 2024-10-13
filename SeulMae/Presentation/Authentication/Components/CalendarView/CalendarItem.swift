@@ -23,6 +23,7 @@ struct CalendarItem: Hashable, Identifiable {
     let weekday: String?
     let day: Int?
     let dayState: DayState?
+    let date: Date?
     
     init(weekday: String) {
         self.id = UUID().uuidString
@@ -30,13 +31,15 @@ struct CalendarItem: Hashable, Identifiable {
         self.weekday = weekday
         self.day = nil
         self.dayState = nil
+        self.date = nil
     }
     
-    init(day: Int, state: DayState) {
+    init(date: Date, day: Int, state: DayState) {
         self.id = UUID().uuidString
         self.itemType = .day
         self.day = day
         self.dayState = state
         self.weekday = nil
+        self.date = date
     }
 }

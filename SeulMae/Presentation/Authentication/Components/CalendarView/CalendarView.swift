@@ -39,26 +39,27 @@ class CalendarView: UIView {
     var onTap: ((_ date: Date) -> Void)?
     var dataSource: DataSource!
     var currentDate: Date = .ext.now
-//    var currentYear: Int = 0
-//    var currentMonth: Int = 0
-//    var currentDay: Int = 0
-//    
-//    private var firstWeekDay: Int = 0
-//    
-//    private var numOfDaysInMonth = [
-//        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
-//    ]
-
+    var startPreload: Bool = false
+    //    var currentYear: Int = 0
+    //    var currentMonth: Int = 0
+    //    var currentDay: Int = 0
+    //
+    //    private var firstWeekDay: Int = 0
+    //
+    //    private var numOfDaysInMonth = [
+    //        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
+    //    ]
+    
     // MARK: - Life Cycle
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         
-//        let now = Date.ext.now
-//        currentYear = Calendar.current.component(.year, from: now)
-//        currentMonth = Calendar.current.component(.month, from: now)
-//        currentDay = Calendar.current.component(.day, from: now)
-//        firstWeekDay = now.ext.firstWeekDay
+        //        let now = Date.ext.now
+        //        currentYear = Calendar.current.component(.year, from: now)
+        //        currentMonth = Calendar.current.component(.month, from: now)
+        //        currentDay = Calendar.current.component(.day, from: now)
+        //        firstWeekDay = now.ext.firstWeekDay
         
         calendarControl.onChange = { [weak self] date in
             self?.currentDate = date
@@ -101,7 +102,22 @@ class CalendarView: UIView {
                 return view.dequeueConfiguredReusableCell(using: dateCellRegistration, for: index, item: item)
             }
         }
-        
+
+//      let supplementaryRegistration = UICollectionView.SupplementaryRegistration
+//      <TitleSupplementaryView>(elementKind: ConferenceVideoSessionsViewController.titleElementKind) {
+//        (supplementaryView, string, indexPath) in
+//        if let snapshot = self.currentSnapshot {
+//          // Populate the view with our section's description.
+//          let videoCategory = snapshot.sectionIdentifiers[indexPath.section]
+//          supplementaryView.label.text = videoCategory.title
+//        }
+//      }
+//
+//      dataSource.supplementaryViewProvider = { (view, kind, index) in
+//        return self.collectionView.dequeueConfiguredReusableSupplementary(
+//          using: supplementaryRegistration, for: index)
+//      }
+
         applyInitialSnapshot()
     }
     
@@ -120,7 +136,8 @@ class CalendarView: UIView {
         let previousMonthDays = createDayItems(previousMonth!)
         let thisMonthDays = createDayItems(currentDate)
         let nextMonthDays = createDayItems(nextMonth!)
-        let days = previousMonthDays + thisMonthDays + nextMonthDays
+
+        let days =  previousMonthDays + thisMonthDays + nextMonthDays
         snapshot.appendItems(days, toSection: .day)
         
         dataSource.apply(snapshot) { [weak self] in
@@ -128,6 +145,25 @@ class CalendarView: UIView {
                   let thisMonthItem = thisMonthDays.first,
                   let indexPath = strongSelf.dataSource.indexPath(for: thisMonthItem) else { return }
             strongSelf.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+            strongSelf.startPreload = true
+        }
+    }
+    
+    func some(page: Int) {
+        if (!startPreload) { return }
+        
+        let snapshot = dataSource.snapshot()
+        let items = snapshot.itemIdentifiers(inSection: .day)
+        let pageCounts = (items.count / 42)
+        let lastPageIndex = (pageCounts - 1)
+        if (page == 0) {
+            print("need previos month")
+            // month 확인
+            
+        } else if (lastPageIndex == page) {
+            print("need next month")
+            // month 확인
+            
         }
     }
     
@@ -149,12 +185,12 @@ class CalendarView: UIView {
             if currentMonthRange.contains($0) {
                 // Current month
                 let day = ($0 - previousMonthDayCountInThisMonth)
-                return CalendarItem(day: day, state: .normal)
+                return CalendarItem(date: date, day: day, state: .normal)
             } else {
                 // Other month
                 if showOnlyCurrentMonthDates {
                     // Show empty view
-                    return CalendarItem(day: $0, state: .none)
+                    return CalendarItem(date: date, day: $0, state: .none)
                 } else {
                     // Show previous and next month dates
                     let isPreviousMonth = ($0 < firstWeekDay)
@@ -162,10 +198,11 @@ class CalendarView: UIView {
                         let previousMonthDate = calendar.date(byAdding: .month, value: -1, to: date)
                         let previousMonthDayCount = previousMonthDate!.ext.days
                         let day = previousMonthDayCount - (previousMonthDayCountInThisMonth - $0)
-                        return CalendarItem(day: day, state: .none)
+                        return CalendarItem(date: previousMonthDate!, day: day, state: .none)
                     } else {
+                        let nextMonthDate = calendar.date(byAdding: .month, value: +1, to: date)
                         let day = $0 - (currentMonthDayCount + previousMonthDayCountInThisMonth)
-                        return CalendarItem(day: day, state: .none)
+                        return CalendarItem(date: nextMonthDate!, day: day, state: .none)
                     }
                 }
             }
@@ -195,17 +232,29 @@ class CalendarView: UIView {
     
     private func visibleItemsWillDisplay(
         _ items: [any NSCollectionLayoutVisibleItem],
-        scrollOffset: CGPoint,
+        offset: CGPoint,
         environment: NSCollectionLayoutEnvironment) {
-            print("items: \(items.count), scrollOffset: \(scrollOffset)")
+//          items.forEach { item in
+//              let frame = item.frame
+//              let rect = CGRect(x: offset.x, y: offset.y, width: environment.container.contentSize.width, height: frame.height)
+//              let inter = rect.intersection(frame)
+//              let percent: CGFloat = inter.width / frame.width
+//              let scale = 0.8 + (0.2 * percent)
+//              item.transform = CGAffineTransform(scaleX: 0.98, y: scale)
+//          }
+            let contentSize = environment.container.contentSize.width
+            let page = Int(max(.zero, round(offset.x / contentSize)))
+            some(page: page)
         }
     
     // MARK: - UICollectionViewLayout
     
     private func createLayout() -> UICollectionViewLayout {
         return UICollectionViewCompositionalLayout { sectionIndex, layoutEnvironment in
+            guard let sectionKind = Section(rawValue: sectionIndex) else {
+                Swift.fatalError("Unknown section")
+            }
             
-            guard let sectionKind = Section(rawValue: sectionIndex) else { Swift.fatalError("Unknown section") }
             let item = NSCollectionLayoutItem(
                 layoutSize: .init(
                     widthDimension: .absolute(32),
@@ -230,7 +279,7 @@ class CalendarView: UIView {
                 section = NSCollectionLayoutSection(group: calendarGroup)
                 section.orthogonalScrollingBehavior = .groupPagingCentered
                 section.interGroupSpacing = 32
-                section.visibleItemsInvalidationHandler = self.visibleItemsWillDisplay(_:scrollOffset:environment:)
+                section.visibleItemsInvalidationHandler = self.visibleItemsWillDisplay(_:offset:environment:)
             }
             
             section.contentInsets = .init(top: 4.0, leading: 16, bottom: 4.0, trailing: 16)
