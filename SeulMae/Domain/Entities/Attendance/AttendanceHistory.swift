@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AttendanceHistory: Identifiable {
+struct AttendanceHistory: Identifiable, Hashable {
     let id: Int // idAttendanceRequestHistory
     let workDate: Date
     let workStartTime: Date

@@ -38,7 +38,8 @@ protocol WorkplaceUseCase {
     func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
     func fetchMyInfo() -> Single<MemberProfile>
     func fetchJoinedWorkplaceList() -> Single<[Workplace]>
-
+    
+    func homeOverView() -> Observable<UserHomeItem>
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -125,7 +126,18 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
                 print("error: \(error)")
             })
     }
-    
+
+    func homeOverView() -> Observable<UserHomeItem> {
+        let workplaceId = userRepository.currentWorkplaceId
+        let myInfo = workplaceRepository.fetchMyInfo(workplaceId: workplaceId)
+            .asObservable()
+        let workplaceInfo = workplaceRepository.fetchWorkplaceDetail(workplaceId: workplaceId)
+            .asObservable()
+        return .combineLatest(myInfo, workplaceInfo) {
+            UserHomeItem(workplace: $1, profile: $0)
+        }
+    }
+
     func fetchMyInfo() -> RxSwift.Single<MemberProfile> {
         let workplaceId = userRepository.currentWorkplaceId
         return workplaceRepository.fetchMyInfo(workplaceId: workplaceId)
@@ -133,5 +145,39 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     
     func fetchJoinedWorkplaceList() -> Single<[Workplace]> {
         return workplaceRepository.fetchJoinedWorkplaceList()
+    }
+
+    // MARK: - Left Time Progress
+
+    func getProgress(from workStartTime: String) -> Double {
+        guard let targetDate = getStartDate(from: workStartTime) else { return 0 }
+        let progress = getProgress(targetDate: targetDate)
+        Swift.print("남은 시간 진행률: \(progress)")
+        return progress
+    }
+
+    private func getStartDate(from startTime: String) -> Date? {
+        let now = Date.ext.now
+        let calendar = Calendar.current
+        let midnight = calendar.startOfDay(for: now)
+        let timeComponents = startTime.split(separator: ":").map { Int($0) }
+        var components = calendar.dateComponents([.year, .month, .day], from: midnight)
+        guard let hour = timeComponents[0],
+              let minute = timeComponents[1],
+              let second = timeComponents[2] else { return nil }
+        components.hour = hour
+        components.minute = minute
+        components.second = second
+        return calendar.date(from: components)
+    }
+
+    private func getProgress(targetDate: Date) -> Double {
+        let now = Date.ext.now
+        if now >= targetDate { return 1.0 }
+
+        let timeInterval = targetDate.timeIntervalSince(now)
+        let oneDay: TimeInterval = 24 * 60 * 60
+        let progress = max(0, min(1, 1 - (timeInterval / oneDay)))
+        return progress
     }
 }

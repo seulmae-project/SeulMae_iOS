@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class WorkTimeCalculator: SharedSequenceConvertibleType {
+final class AttendanceService: SharedSequenceConvertibleType {
 
     typealias Element = WorkTimeRecordingItem
     typealias SharingStrategy = DriverSharingStrategy
@@ -27,7 +27,24 @@ final class WorkTimeCalculator: SharedSequenceConvertibleType {
         item = relay.asDriver()
             .distinctUntilChanged()
     }
-    
+
+    static func start() -> Bool {
+        let userDefaults = UserDefaults.standard
+        if let saved = userDefaults.object(forKey: "onAttendance") as? Date {
+            return false
+        } else {
+            let now = Date.ext.now
+            userDefaults.set(now, forKey: "onAttendance")
+            return true
+        }
+    }
+
+//        "workplaceId": 1,
+//            "workDate": "2024-07-01",
+//            "workStartTime": "2024-07-01T14:26:07.328938",
+//            "workEndTime": "2024-07-01T20:00:00",
+//            "unconfirmedWage": 55000,
+//            "totalWorkTime": 5.5
     func start(workSchedule: WorkSchedule) {
         self.workSchedule = workSchedule
         timer = Timer.scheduledTimer(

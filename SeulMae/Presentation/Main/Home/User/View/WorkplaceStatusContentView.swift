@@ -1,5 +1,5 @@
 //
-//  WorkplaceListView.swift
+//  WorkplaceStatusContentView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 10/13/24.
@@ -7,7 +7,18 @@
 
 import UIKit
 
-class WorkplaceListView: UIView {
+final class WorkplaceStatusContentView: UIView, UIContentView {
+
+    struct Configuration: UIContentConfiguration {
+        var name: String? = ""
+        var workTime: String? = ""
+        var message: String? = ""
+        // var messageStatus:
+
+        func makeContentView() -> UIView & UIContentView {
+            return WorkplaceStatusContentView(self)
+        }
+    }
 
     let progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .default)
@@ -25,8 +36,19 @@ class WorkplaceListView: UIView {
 
     let messageIconImageView: UIImageView = .common(image: ._1)
 
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    var configuration: UIContentConfiguration {
+        didSet {
+            apply(config: configuration)
+        }
+    }
+
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: 0, height: 44)
+    }
+
+    init(_ configuration: UIContentConfiguration) {
+        self.configuration = configuration
+        super.init(frame: .zero)
 
         backgroundColor = UIColor(hexCode: "F6F8FF")
 
@@ -68,8 +90,13 @@ class WorkplaceListView: UIView {
             bubbled.heightAnchor.constraint(equalToConstant: 7.0),
         ])
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+
+    private func apply(config: UIContentConfiguration) {
+        guard let config = config as? Configuration else { return }
+        
     }
 }

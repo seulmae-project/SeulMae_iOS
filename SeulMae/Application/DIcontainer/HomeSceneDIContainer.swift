@@ -59,6 +59,7 @@ final class HomeSceneDIContainer {
             return .init(
                 dependencies: (
                     coordinator: coordinator,
+                    workplaceUseCase: makeWorkplaceUseCase(),
                     attendanceUseCase: makeAttendanceUseCase(),
                     attendanceHistoryUseCase: makeAttendanceHistoryUseCase()
                 ))
@@ -96,7 +97,7 @@ final class HomeSceneDIContainer {
                     coordinator: coordinator,
                     workplaceUseCase: makeWorkplaceUseCase(),
                     atendanceHistoryUseCase: makeAttendanceHistoryUseCase(),
-                    workTimeCalculator: WorkTimeCalculator()
+                    workTimeCalculator: AttendanceService()
                 )
             )
         }

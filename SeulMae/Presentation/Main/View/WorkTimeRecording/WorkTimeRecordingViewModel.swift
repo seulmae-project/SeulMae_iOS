@@ -26,7 +26,7 @@ final class WorkTimeRecordingViewModel {
     private let coordinator: HomeFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let atendanceHistoryUseCase: AttendanceHistoryUseCase
-    private let workTimeCalculator: WorkTimeCalculator
+    private let workTimeCalculator: AttendanceService
     
     // MARK: - Life Cycle
     
@@ -35,7 +35,7 @@ final class WorkTimeRecordingViewModel {
             coordinator: HomeFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             atendanceHistoryUseCase :AttendanceHistoryUseCase,
-            workTimeCalculator: WorkTimeCalculator
+            workTimeCalculator: AttendanceService
         )
     ) {
         self.coordinator = dependencies.coordinator

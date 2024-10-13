@@ -131,7 +131,9 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<MemberProfileDto>.self)
             .map { $0.toDomain() }
     }
+
     
+
     func fetchMyInfo(workplaceId: Workplace.ID) -> RxSwift.Single<MemberProfile> {
         let decoder = JSONDecoder()
         let dateFormatter = DateFormatter()
