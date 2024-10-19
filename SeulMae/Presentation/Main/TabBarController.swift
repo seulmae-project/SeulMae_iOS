@@ -1,5 +1,5 @@
 //
-//  MainTabBarController.swift
+//  TabBarController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/5/24.
@@ -7,7 +7,7 @@
 
 import UIKit
 
-final class MainTabBarController: UITabBarController {
+final class TabBarController: UITabBarController {
     
     override var viewControllers: [UIViewController]? {
         didSet {

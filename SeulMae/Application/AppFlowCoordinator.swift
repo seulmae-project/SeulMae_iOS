@@ -21,7 +21,7 @@ class AppFlowCoordinator {
     func start() {
         var authCoordinator = makeAuthCoordinator()
         let mainCoordinator = makeMainCoordinator()
-        authCoordinator.coordinators.append(mainCoordinator)
+        authCoordinator.childCoordinators.append(mainCoordinator)
         authCoordinator.start(nil)
     }
 
@@ -33,7 +33,7 @@ class AppFlowCoordinator {
     }
 
     func makeMainCoordinator() -> TabBarFlowCoordinator {
-        let mainSceneDIContainer = appDIContainer.makeMainSceneDIContainer()
+        let mainSceneDIContainer = appDIContainer.makeTabBarSceneDIContainer()
         var mainCoordinator = mainSceneDIContainer.makeMainFlowCoordinator(navigationController: navigationController)
         
         let homeSceneDIContainer = appDIContainer.makeHomeSceneDIContainer()
@@ -44,9 +44,15 @@ class AppFlowCoordinator {
         
         let settingSceneDIContainer = appDIContainer.makeSettingSceneDIContainer()
         let settingCoordinator = settingSceneDIContainer.makeSettingFlowCoordinator()
-        
-        mainCoordinator.coordinators = [
-            homeCoordinator, workplaceCoordinator, settingCoordinator
+
+        let finderSceneDIContainer = appDIContainer.makeFinderSceneDIContainer()
+        let finderCoordinator = finderSceneDIContainer.makeFinderFlowCoordinator()
+
+        let commonSceneDIContainer = appDIContainer.makeCommonSceneDIContainer()
+        let commonCoordinator = commonSceneDIContainer.makeCommonFlowCoordinator()
+
+        mainCoordinator.childCoordinators = [
+            finderCoordinator, homeCoordinator, workplaceCoordinator, settingCoordinator, commonCoordinator
         ]
         return mainCoordinator
     }

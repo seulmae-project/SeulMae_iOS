@@ -63,13 +63,13 @@ final class WorkplaceFinderViewController: BaseViewController {
         
         configureNavItem()
         configureHierarchy()
-        setupDataSource()
-        bindSubviews()
+        configureDataSource()
+        bindInternalSubviews()
     }
     
     // MARK: - Data Binding
     
-    private func bindSubviews() {
+    private func bindInternalSubviews() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
             .map { _ in return () }
             .asSignal()
@@ -77,6 +77,8 @@ final class WorkplaceFinderViewController: BaseViewController {
             .init(
                 onLoad: onLoad,
                 onRefresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
+                showMenu: leftMenuBarButton.rx.tap.asSignal(),
+                showReminders: rightBellBarButton.rx.tap.asSignal(),
                 search: findRelay.asSignal(),
                 create: createRelay.asSignal()
             )
@@ -124,7 +126,7 @@ final class WorkplaceFinderViewController: BaseViewController {
     
     // MARK: - DataSource
     
-    private func setupDataSource() {
+    private func configureDataSource() {
         let reminderCellRegistration = createReminderCellRegistiration()
         let cardCellRegistration = createCardCellRegistiration()
         let workplaceCellRegistration = createWorkplaceCellRegistration()

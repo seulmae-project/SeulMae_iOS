@@ -19,7 +19,7 @@ protocol SettingFlowCoordinator: Coordinator {
 final class DefaultSettingFlowCoordinator: SettingFlowCoordinator {
     
     lazy var navigationController = UINavigationController()
-    var coordinators: [any Coordinator] = []
+    var childCoordinators: [any Coordinator] = []
     
     // MARK: - Dependencies
     

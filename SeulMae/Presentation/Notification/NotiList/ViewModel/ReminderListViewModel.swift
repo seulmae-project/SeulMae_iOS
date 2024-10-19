@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class NotiListViewModel: ViewModel {
+final class ReminderListViewModel: ViewModel {
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
@@ -24,14 +24,14 @@ final class NotiListViewModel: ViewModel {
     
     // MARK: - Dependency
     
-    private let coordinator: HomeFlowCoordinator
+    private let coordinator: CommonFlowCoordinator
     private let noticeUseCase: NotificationUseCase
         
     // MARK: - Life Cycle
     
     init(
         dependency: (
-            coordinator: HomeFlowCoordinator,
+            coordinator: CommonFlowCoordinator,
             noticeUseCase: NotificationUseCase
         )
     ) {

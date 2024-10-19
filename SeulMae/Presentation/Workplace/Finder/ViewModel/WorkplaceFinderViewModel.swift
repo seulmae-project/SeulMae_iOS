@@ -13,6 +13,8 @@ final class WorkplaceFinderViewModel: ViewModel {
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
+        let showMenu: Signal<()>
+        let showReminders: Signal<()>
         let search: Signal<()>
         let create: Signal<()>
     }
@@ -24,7 +26,7 @@ final class WorkplaceFinderViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: TabBarFlowCoordinator
+    private let coordinator: FinderFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let notificationUseCase: NotificationUseCase
 
@@ -32,7 +34,7 @@ final class WorkplaceFinderViewModel: ViewModel {
     
     init(
         dependencies: (
-            coordinator: TabBarFlowCoordinator,
+            coordinator: FinderFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             notificationUseCase: NotificationUseCase
         )
@@ -84,6 +86,17 @@ final class WorkplaceFinderViewModel: ViewModel {
         let items = Driver.merge(reminders, workplaces, submitted)
 
         // MARK: - Coordinator Logic
+        Task {
+            for await _ in input.showMenu.values {
+                
+            }
+        }
+
+        Task {
+            for await _ in input.showReminders.values {
+                coordinator.showReminderList()
+            }
+        }
 
         Task {
             for await _ in input.search.values {

@@ -34,7 +34,7 @@ protocol WorkplaceFlowCoordinator: Coordinator {
 final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     
     lazy var navigationController = UINavigationController()
-    var coordinators: [any Coordinator] = []
+    var childCoordinators: [any Coordinator] = []
     
     // MARK: - Dependencies
     

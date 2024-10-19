@@ -29,7 +29,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: TabBarFlowCoordinator
+    private let coordinator: FinderFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let validationService: ValidationService
     private let wireframe: Wireframe
@@ -38,7 +38,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
 
     init(
         dependencies: (
-            coordinator: TabBarFlowCoordinator,
+            coordinator: FinderFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             validationService: ValidationService,
             wireframe: Wireframe

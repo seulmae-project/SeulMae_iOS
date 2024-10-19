@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class NotiListViewController: UIViewController {
+final class ReminderListViewController: UIViewController {
     
     // MARK: - Internal Types
     
@@ -43,11 +43,11 @@ final class NotiListViewController: UIViewController {
     
     // MARK: - Dependencies
     
-    private var viewModel: NotiListViewModel!
+    private var viewModel: ReminderListViewModel!
     
     // MARK: - Life Cycle
     
-    init(viewModel: NotiListViewModel) {
+    init(viewModel: ReminderListViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -121,7 +121,7 @@ final class NotiListViewController: UIViewController {
         }
         
         let notiCellRegistration = UICollectionView.CellRegistration<UICollectionViewListCell, NotiListItem> { (cell, indexPath, item) in
-            var content = NotiContentView.Configuration()
+            var content = ReminderListContentView.Configuration()
             guard let noti = item.noti else { return }
             content.type = noti.type.rawValue
             content.date = noti.regDate

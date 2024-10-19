@@ -89,15 +89,6 @@ final class HomeSceneDIContainer {
             ))
     }
 
-    private func makeNotificationListViewModel(
-        coordinator: HomeFlowCoordinator) -> NotiListViewModel {
-            return .init(
-                dependency: (
-                    coordinator: coordinator,
-                    noticeUseCase: makeNotificationUseCase()
-                ))
-    }
-
     private func makeScheduleReminderViewModel(
         coordinator: any HomeFlowCoordinator) -> ScheduleReminderViewModel {
             return .init(
@@ -134,13 +125,6 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
             return .init(
                 viewModel: makeManagerHomeViewModel(coordinator: coordinator)
             )
-    }
-    
-    func makeNotiListViewController(
-        coordinator: any HomeFlowCoordinator) -> NotiListViewController {
-            return .init(
-            viewModel: makeNotificationListViewModel(coordinator: coordinator)
-        )
     }
 
     func makeScheduleReminderViewController(

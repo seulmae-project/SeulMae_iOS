@@ -63,69 +63,6 @@ final class TabBarSceneDIContainer {
         )
     }
 
-    private func makeWorkplaceFinderViewModel(
-        coordinator:  any TabBarFlowCoordinator
-    ) -> WorkplaceFinderViewModel {
-        return .init(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                notificationUseCase: makeNotificationUseCase()
-            )
-        )
-    }
-
-    private func makeWorkplaceListViewModel(
-        coordinator: TabBarFlowCoordinator
-    ) -> WorkplaceListViewModel {
-        return .init(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase()
-            )
-        )
-    }
-
-    private func makeSearchWorkplaceViewModel(
-        coordinator: any TabBarFlowCoordinator
-    ) -> SearchWorkplaceViewModel {
-        return SearchWorkplaceViewModel(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase()
-                //                validationService: any ValidationService,
-                //                wireframe: any Wireframe
-            )
-        )
-    }
-
-    private func makeWorkplaceDetailsViewModel(
-        coordinator: TabBarFlowCoordinator,
-        workplaceId: Workplace.ID
-    ) -> WorkplaceDetailsViewModel {
-        return .init(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                wireframe: DefaultWireframe.shared,
-                workplaceId: workplaceId
-            )
-        )
-    }
-
-    private func makeAddNewWorkplaceViewModel(
-        coordinator: TabBarFlowCoordinator
-    ) -> AddNewWorkplaceViewModel {
-        return AddNewWorkplaceViewModel(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                validationService: DefaultValidationService.shared,
-                wireframe: DefaultWireframe.shared
-            )
-        )
-    }
-
     // MARK: - Flow Coordinators
 
     func makeMainFlowCoordinator(
@@ -149,49 +86,6 @@ extension TabBarSceneDIContainer: TabBarFlowCoordinatorDependencies {
             viewModel: makeMainViewModel(
                 coordinator: coordinator
             ))
-    }
-
-    func makeWorkplaceListViewController(
-        coordinator: TabBarFlowCoordinator
-    ) -> WorkplacePlaceListViewController {
-        return .init(
-            viewModel: makeWorkplaceListViewModel(
-                coordinator: coordinator
-            ))
-    }
-
-    func makeWorkplaceFinderViewController(
-        coordinator: any TabBarFlowCoordinator
-    ) -> WorkplaceFinderViewController {
-        return .init(
-            viewModel: makeWorkplaceFinderViewModel(
-                coordinator: coordinator
-            ))
-    }
-
-    func makeSearchWorkplaceViewController(
-        coordinator: any TabBarFlowCoordinator
-    ) -> SearchWorkplaceViewController {
-        return SearchWorkplaceViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
-    }
-
-    func makeAddNewWorkplaceViewController(
-        coordinator: any TabBarFlowCoordinator
-    ) -> AddNewWorkplaceViewController {
-        return AddNewWorkplaceViewController(
-            viewModel: makeAddNewWorkplaceViewModel(
-                coordinator: coordinator
-            ))
-    }
-
-    func makeWorkplaceDetailsViewController(
-        coordinator: any TabBarFlowCoordinator,
-        workplaceID: Workplace.ID
-    ) -> WorkplaceDetailsViewController {
-        return .init(viewModel: makeWorkplaceDetailsViewModel(
-            coordinator: coordinator,
-            workplaceId: workplaceID
-        ))
     }
 
     // MARK: - Member Info

@@ -10,24 +10,20 @@ import UIKit
 // MARK: - Dependencies
 
 protocol TabBarFlowCoordinatorDependencies {
-    func makeWorkplaceFinderViewController(coordinator: TabBarFlowCoordinator) -> WorkplaceFinderViewController
-    func makeSearchWorkplaceViewController(coordinator: TabBarFlowCoordinator) -> SearchWorkplaceViewController
-    func makeWorkplaceDetailsViewController(coordinator: TabBarFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
-    func makeAddNewWorkplaceViewController(coordinator: TabBarFlowCoordinator) -> AddNewWorkplaceViewController
+
 }
 
 // MARK: - Coordinator
 
 protocol TabBarFlowCoordinator: Coordinator {
-    func showWorkplaceFinder()
-    func showSearchWorkPlace()
-    func showWorkplaceDetails(workplaceID: Workplace.ID)
-    func showAddNewWorkplace()
+    func showHome(isManager: Bool)
+    func showFinder()
+    func showReminderList()
 }
 
 final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     
-    var coordinators: [any Coordinator] = []
+    var childCoordinators: [any Coordinator] = []
     var navigationController: UINavigationController
     private let dependencies: TabBarFlowCoordinatorDependencies
     
@@ -44,43 +40,33 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     func start(_ arguments: Any?) {
         guard let isManager = arguments as? Bool else {
             Swift.fatalError("[Main Flow]: Does not fount arguments")
-            // return
         }
         
         // showMain(isManager: isManager)
-        showWorkplaceFinder()
+        showFinder()
     }
     
-    func showMain(isManager: Bool) {
-        coordinators.forEach { $0.start(isManager) }
-        let viewControllers = coordinators.map { $0.navigationController }
-        let vc = MainTabBarController(viewContollers: viewControllers, mainCoordinator: self)
+    func showHome(isManager: Bool) {
+        childCoordinators.forEach { $0.start(isManager) }
+        let viewControllers = childCoordinators
+            .filter { !($0 is FinderFlowCoordinator) }
+            .map { $0.navigationController }
+        let vc = TabBarController(viewContollers: viewControllers, mainCoordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
 
-    func showWorkplaceFinder() {
-        let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+    func showFinder() {
+        let coordinator = childCoordinators
+            .filter { ($0 is FinderFlowCoordinator) }
+            .first
+        (coordinator as? DefaultFinderFlowCoordinator)?.parentCoordinator = self
+        coordinator?.start(navigationController)
     }
-    
-    func showSearchWorkPlace() {
-        let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    //    func showWorkplaceList() {
-    //        let contentViewController = dependencies.makeWorkplaceListViewController(coordinator: self)
-    //        let bottomSheetController = BottomSheetController(contentViewController: contentViewController)
-    //        navigationController.present(bottomSheetController, animated: true)
-    //    }
-    
-    func showWorkplaceDetails(workplaceID: Workplace.ID) {
-        let vc = dependencies.makeWorkplaceDetailsViewController(coordinator: self, workplaceID: workplaceID)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
-    func showAddNewWorkplace() {
-        let vc = dependencies.makeAddNewWorkplaceViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+
+    func showReminderList() {
+        let coordinator = childCoordinators
+            .filter { ($0 is CommonFlowCoordinator) }
+            .first
+        coordinator?.start(navigationController)
     }
 }

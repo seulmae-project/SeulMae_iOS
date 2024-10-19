@@ -38,9 +38,13 @@
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
 		860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */; };
 		860EB2B52C74CFF100310985 /* AppNotificationDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */; };
-		860EB2B72C74E47E00310985 /* NotiContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860EB2B62C74E47E00310985 /* NotiContentView.swift */; };
+		860EB2B72C74E47E00310985 /* ReminderListContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860EB2B62C74E47E00310985 /* ReminderListContentView.swift */; };
 		860F20B92CC3FA2B00E27D34 /* EmptyContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20B82CC3FA2B00E27D34 /* EmptyContentView.swift */; };
 		860F20BB2CC3FE3600E27D34 /* ApplicationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20BA2CC3FE3600E27D34 /* ApplicationContentView.swift */; };
+		860F20BD2CC40E8900E27D34 /* FinderFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20BC2CC40E8900E27D34 /* FinderFlowCoordinator.swift */; };
+		860F20BF2CC40F0C00E27D34 /* FinderSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20BE2CC40F0C00E27D34 /* FinderSceneDIContainer.swift */; };
+		860F20C12CC41CAB00E27D34 /* CommonSceneDIContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20C02CC41CAB00E27D34 /* CommonSceneDIContainer.swift */; };
+		860F20C32CC41D1000E27D34 /* CommonFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860F20C22CC41D1000E27D34 /* CommonFlowCoordinator.swift */; };
 		86102E532C621F05009FF522 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 86102E522C621F05009FF522 /* Secrets.xcconfig */; };
 		86102E552C621F3F009FF522 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 86102E542C621F3F009FF522 /* .gitignore */; };
 		86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86102E562C6220DE009FF522 /* Bundle+Secrets.swift */; };
@@ -277,8 +281,8 @@
 		86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */; };
 		86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */; };
 		86E296F52C4E4D9D0080A3A2 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F42C4E4D9D0080A3A2 /* TextCell.swift */; };
-		86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */; };
-		86E296FA2C4E82850080A3A2 /* NotiListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F92C4E82850080A3A2 /* NotiListViewModel.swift */; };
+		86E296F82C4E81EC0080A3A2 /* ReminderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F72C4E81EC0080A3A2 /* ReminderListViewController.swift */; };
+		86E296FA2C4E82850080A3A2 /* ReminderListViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F92C4E82850080A3A2 /* ReminderListViewModel.swift */; };
 		86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296FB2C4E844E0080A3A2 /* AnnounceContentView.swift */; };
 		86E296FE2C4E890A0080A3A2 /* NotiListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296FD2C4E890A0080A3A2 /* NotiListItem.swift */; };
 		86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E299A82C1721FF00805AD0 /* AppDelegate.swift */; };
@@ -316,7 +320,7 @@
 		86FD61DC2C8957B0005ED02F /* UserHomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */; };
 		86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */; };
 		86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E12C8959CE005ED02F /* SettingViewController.swift */; };
-		86FD61E42C895A07005ED02F /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E32C895A07005ED02F /* MainTabBarController.swift */; };
+		86FD61E42C895A07005ED02F /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E32C895A07005ED02F /* TabBarController.swift */; };
 		86FD61E62C8A986F005ED02F /* SettingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E52C8A986F005ED02F /* SettingViewModel.swift */; };
 		86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E72C8AA01E005ED02F /* SettingListItem.swift */; };
 		86FD61EA2C8AA25F005ED02F /* TitleSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */; };
@@ -387,9 +391,13 @@
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppNotificationDTO+Mapping.swift"; sourceTree = "<group>"; };
-		860EB2B62C74E47E00310985 /* NotiContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiContentView.swift; sourceTree = "<group>"; };
+		860EB2B62C74E47E00310985 /* ReminderListContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListContentView.swift; sourceTree = "<group>"; };
 		860F20B82CC3FA2B00E27D34 /* EmptyContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyContentView.swift; sourceTree = "<group>"; };
 		860F20BA2CC3FE3600E27D34 /* ApplicationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationContentView.swift; sourceTree = "<group>"; };
+		860F20BC2CC40E8900E27D34 /* FinderFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderFlowCoordinator.swift; sourceTree = "<group>"; };
+		860F20BE2CC40F0C00E27D34 /* FinderSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinderSceneDIContainer.swift; sourceTree = "<group>"; };
+		860F20C02CC41CAB00E27D34 /* CommonSceneDIContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonSceneDIContainer.swift; sourceTree = "<group>"; };
+		860F20C22CC41D1000E27D34 /* CommonFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonFlowCoordinator.swift; sourceTree = "<group>"; };
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		86102E542C621F3F009FF522 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		86102E562C6220DE009FF522 /* Bundle+Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Secrets.swift"; sourceTree = "<group>"; };
@@ -622,8 +630,8 @@
 		86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryViewModel.swift; sourceTree = "<group>"; };
 		86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkControlModalViewController.swift; sourceTree = "<group>"; };
 		86E296F42C4E4D9D0080A3A2 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
-		86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiListViewController.swift; sourceTree = "<group>"; };
-		86E296F92C4E82850080A3A2 /* NotiListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiListViewModel.swift; sourceTree = "<group>"; };
+		86E296F72C4E81EC0080A3A2 /* ReminderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListViewController.swift; sourceTree = "<group>"; };
+		86E296F92C4E82850080A3A2 /* ReminderListViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListViewModel.swift; sourceTree = "<group>"; };
 		86E296FB2C4E844E0080A3A2 /* AnnounceContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceContentView.swift; sourceTree = "<group>"; };
 		86E296FD2C4E890A0080A3A2 /* NotiListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotiListItem.swift; sourceTree = "<group>"; };
 		86E299A52C1721FF00805AD0 /* SeulMae.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SeulMae.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -664,7 +672,7 @@
 		86FD61DB2C8957B0005ED02F /* UserHomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewController.swift; sourceTree = "<group>"; };
 		86FD61DE2C89596E005ED02F /* WorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceViewController.swift; sourceTree = "<group>"; };
 		86FD61E12C8959CE005ED02F /* SettingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewController.swift; sourceTree = "<group>"; };
-		86FD61E32C895A07005ED02F /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
+		86FD61E32C895A07005ED02F /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		86FD61E52C8A986F005ED02F /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		86FD61E72C8AA01E005ED02F /* SettingListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingListItem.swift; sourceTree = "<group>"; };
 		86FD61E92C8AA25F005ED02F /* TitleSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TitleSupplementaryView.swift; sourceTree = "<group>"; };
@@ -935,9 +943,11 @@
 				861B96D02C21BBDC0032C94A /* AppDIContainer.swift */,
 				861B96D22C21BCA70032C94A /* AuthSceneDIContainer.swift */,
 				861BF6832C27065800702E24 /* TabBarSceneDIContainer.swift */,
+				860F20BE2CC40F0C00E27D34 /* FinderSceneDIContainer.swift */,
 				86E39FA12C8EBB2400361E0D /* HomeSceneDIContainer.swift */,
 				86E39FA32C8EBB3000361E0D /* WorkplaceSceneDIContainer.swift */,
 				86E39FA52C8EBB3B00361E0D /* SettingSceneDIContainer.swift */,
+				860F20C02CC41CAB00E27D34 /* CommonSceneDIContainer.swift */,
 			);
 			path = DIcontainer;
 			sourceTree = "<group>";
@@ -1420,9 +1430,11 @@
 			children = (
 				86766D152C183E5600095010 /* AuthFlowCoordinator.swift */,
 				861BF6812C27044600702E24 /* TabBarFlowCoordinator.swift */,
+				860F20BC2CC40E8900E27D34 /* FinderFlowCoordinator.swift */,
 				86E39F9B2C8EB77C00361E0D /* HomeFlowCoordinator.swift */,
 				86E39F9D2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift */,
 				86E39F9F2C8EB79900361E0D /* SettingFlowCoordinator.swift */,
+				860F20C22CC41D1000E27D34 /* CommonFlowCoordinator.swift */,
 			);
 			path = Flows;
 			sourceTree = "<group>";
@@ -1974,7 +1986,7 @@
 		86E296FF2C4E89700080A3A2 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				86E296F92C4E82850080A3A2 /* NotiListViewModel.swift */,
+				86E296F92C4E82850080A3A2 /* ReminderListViewModel.swift */,
 				86E296FD2C4E890A0080A3A2 /* NotiListItem.swift */,
 			);
 			path = ViewModel;
@@ -1983,8 +1995,8 @@
 		86E297002C4E897B0080A3A2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				86E296F72C4E81EC0080A3A2 /* NotiListViewController.swift */,
-				860EB2B62C74E47E00310985 /* NotiContentView.swift */,
+				86E296F72C4E81EC0080A3A2 /* ReminderListViewController.swift */,
+				860EB2B62C74E47E00310985 /* ReminderListContentView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2090,7 +2102,7 @@
 		86E299E22C17230E00805AD0 /* Main */ = {
 			isa = PBXGroup;
 			children = (
-				86FD61E32C895A07005ED02F /* MainTabBarController.swift */,
+				86FD61E32C895A07005ED02F /* TabBarController.swift */,
 				86FD61D62C89575B005ED02F /* Home */,
 				86FD61DD2C895925005ED02F /* WorkplaceInfo */,
 				86FD61E02C89598F005ED02F /* Setting */,
@@ -2412,6 +2424,7 @@
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
 				86A416782CBA9859008394BE /* CalendarContentView.swift in Sources */,
 				869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */,
+				860F20C32CC41D1000E27D34 /* CommonFlowCoordinator.swift in Sources */,
 				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
 				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
@@ -2426,7 +2439,7 @@
 				86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
 				86DB32E52C9BB39000575A03 /* UserHomeViewModel.swift in Sources */,
-				86E296FA2C4E82850080A3A2 /* NotiListViewModel.swift in Sources */,
+				86E296FA2C4E82850080A3A2 /* ReminderListViewModel.swift in Sources */,
 				86FACA012CC3D27200898CFE /* ApplicationDTO+Mapping.swift in Sources */,
 				8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */,
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
@@ -2435,15 +2448,16 @@
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
-				86FD61E42C895A07005ED02F /* MainTabBarController.swift in Sources */,
+				86FD61E42C895A07005ED02F /* TabBarController.swift in Sources */,
 				869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */,
 				869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
 				869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
+				860F20BF2CC40F0C00E27D34 /* FinderSceneDIContainer.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				86E39F9E2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift in Sources */,
-				860EB2B72C74E47E00310985 /* NotiContentView.swift in Sources */,
+				860EB2B72C74E47E00310985 /* ReminderListContentView.swift in Sources */,
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				86B07D872C32A05D0088E1B1 /* CalendarControl.swift in Sources */,
 				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
@@ -2472,6 +2486,7 @@
 				86FD620E2C8D470C005ED02F /* DefaultAnnounceRepository.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
+				860F20BD2CC40E8900E27D34 /* FinderFlowCoordinator.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				86FAC9FF2CC3B7C100898CFE /* CardContentView.swift in Sources */,
@@ -2578,6 +2593,7 @@
 				869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */,
 				86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */,
 				860F20BB2CC3FE3600E27D34 /* ApplicationContentView.swift in Sources */,
+				860F20C12CC41CAB00E27D34 /* CommonSceneDIContainer.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
@@ -2627,7 +2643,7 @@
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
 				86FD62082C8D4569005ED02F /* AnnounceUseCase.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
-				86E296F82C4E81EC0080A3A2 /* NotiListViewController.swift in Sources */,
+				86E296F82C4E81EC0080A3A2 /* ReminderListViewController.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,

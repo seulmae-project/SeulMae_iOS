@@ -31,7 +31,7 @@ protocol AuthFlowCoordinatorDependencies {
 }
 
 protocol Coordinator {
-    var coordinators: [Coordinator] { get set }
+    var childCoordinators: [Coordinator] { get set }
     var navigationController: UINavigationController { get set }
     func start(_ arguments: Any?)
     func goBack()
@@ -69,9 +69,8 @@ protocol AuthFlowCoordinator: Coordinator {
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Dependencies
-    
     var navigationController: UINavigationController
-    var coordinators: [Coordinator] = []
+    var childCoordinators: [any Coordinator] = []
 
     private let dependencies: AuthFlowCoordinatorDependencies
     
@@ -90,7 +89,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func startMain(isManager: Bool) {
-        for child in coordinators {
+        for child in childCoordinators {
             if child is TabBarFlowCoordinator {
                 child.start(isManager)
             }
@@ -98,9 +97,9 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     }
     
     func showWorkplaceFinder() {
-        for child in coordinators {
+        for child in childCoordinators {
             if let main = child as? TabBarFlowCoordinator {
-                main.showWorkplaceFinder()
+                main.showFinder()
             }
         }
     }

@@ -26,7 +26,7 @@ final class AppDIContainer {
             ))
     }
     
-    func makeMainSceneDIContainer() -> TabBarSceneDIContainer {
+    func makeTabBarSceneDIContainer() -> TabBarSceneDIContainer {
         return .init(
             dependencies: .init(
                 notificationNetworking: notificationNetworking,
@@ -34,7 +34,16 @@ final class AppDIContainer {
                 attendanceNetworking: attendanceNetworking
             ))
     }
-    
+
+    func makeFinderSceneDIContainer() -> FinderSceneDIContainer {
+        return .init(
+            dependencies: .init(
+                notificationNetworking: notificationNetworking,
+                workplaceNetworking: workplaceNetworking,
+                attendanceNetworking: attendanceNetworking
+            ))
+    }
+
     func makeHomeSceneDIContainer() -> HomeSceneDIContainer {
         return .init(
             dependencies: .init(
@@ -58,6 +67,13 @@ final class AppDIContainer {
         return .init(
             dependencies: .init(
                 userNetworking: userNetworking
+            ))
+    }
+
+    func makeCommonSceneDIContainer() -> CommonSceneDIContainer {
+        return .init(
+            dependencies: .init(
+                notificationNetworking: notificationNetworking
             ))
     }
 }

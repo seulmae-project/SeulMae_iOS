@@ -1,5 +1,5 @@
 //
-//  NotiContentView.swift
+//  ReminderListContentView.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/20/24.
@@ -7,8 +7,7 @@
 
 import UIKit
 
-final class NotiContentView: UIView, UIContentView {
-    
+final class ReminderListContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
         var type: String = ""
         var title: String = ""
@@ -16,7 +15,7 @@ final class NotiContentView: UIView, UIContentView {
         var date: Date = Date()
         
         func makeContentView() -> UIView & UIContentView {
-            return NotiContentView(self)
+            return ReminderListContentView(self)
         }
     }
     
