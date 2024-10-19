@@ -85,6 +85,15 @@ final class WorkplaceFinderViewController: BaseViewController {
         output.items
             .drive(with: self, onNext: { (self, items) in
                 guard let item = items.first else { return }
+                if (item.section == .reminder) && (item.notifications?.isEmpty ?? true) {
+                    var snapshot = self.dataSource.snapshot()
+                    let items = snapshot.itemIdentifiers(inSection: .reminder)
+                    if !(items.isEmpty) {
+                        snapshot.deleteItems(items)
+                        self.dataSource.apply(snapshot)
+                    }
+                    return
+                }
                 var snapshot = self.dataSource.snapshot()
                 let applied = snapshot.itemIdentifiers(inSection: item.section!)
                 snapshot.deleteItems(applied)
@@ -166,7 +175,7 @@ final class WorkplaceFinderViewController: BaseViewController {
         return .init { cell, indexPath, item in
             guard case .reminder = item.section else { return }
             var content = ReminderCountContentView.Configuration()
-            content.remiderCount = item.reminders?.count
+            content.remiderCount = item.notifications?.count
             cell.contentConfiguration = content
             var backgroundConfig = UIBackgroundConfiguration.clear()
             backgroundConfig.backgroundColor = .white
@@ -268,11 +277,12 @@ final class WorkplaceFinderViewController: BaseViewController {
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .fractionalWidth(0.16))
+            heightDimension: .fractionalWidth(0.18))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        let insets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = insets
         return section
     }
 
@@ -288,7 +298,8 @@ final class WorkplaceFinderViewController: BaseViewController {
             layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(12)
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = insets
         return section
     }
 
@@ -303,7 +314,8 @@ final class WorkplaceFinderViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = insets
         return section
     }
 
@@ -318,7 +330,8 @@ final class WorkplaceFinderViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = insets
         return section
     }
 }

@@ -1,5 +1,5 @@
 //
-//  NoticeUseCase.swift
+//  NotificationUseCase.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/22/24.
@@ -8,11 +8,11 @@
 import Foundation
 import RxSwift
 
-protocol NoticeUseCase {
+protocol NotificationUseCase {
     func fetchAppNotificationList() -> Single<[AppNotification]>
 }
 
-class DefaultNoticeUseCase: NoticeUseCase {
+class DefaultNotificationUseCase: NotificationUseCase {
     
     private let noticeRepository: NotificationRepository
     private let userRepository = UserRepository(network: UserNetworking())

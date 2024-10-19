@@ -26,17 +26,20 @@ final class WorkplaceFinderViewModel: ViewModel {
     
     private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
-    
+    private let notificationUseCase: NotificationUseCase
+
     // MARK: - Life Cycle
     
     init(
         dependencies: (
             coordinator: TabBarFlowCoordinator,
-            workplaceUseCase: WorkplaceUseCase
+            workplaceUseCase: WorkplaceUseCase,
+            notificationUseCase: NotificationUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator
         self.workplaceUseCase = dependencies.workplaceUseCase
+        self.notificationUseCase = dependencies.notificationUseCase
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -44,9 +47,16 @@ final class WorkplaceFinderViewModel: ViewModel {
         let loading = tracker.asDriver()
         
         let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
-        
-        let submitted = onLoad
-            .withUnretained(self)
+
+        let reminders = onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
+                return self.notificationUseCase.fetchAppNotificationList()
+                    .map(WorkplaceFinderItem.reminder(_:))
+                    .map { [$0] }
+                    .asDriver()
+            }
+
+        let submitted = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
                return self.workplaceUseCase
                     .fetchSubmittedApplications()
@@ -59,8 +69,7 @@ final class WorkplaceFinderViewModel: ViewModel {
                     .asDriver()
             }
 
-        let workplaces = onLoad
-            .withUnretained(self)
+        let workplaces = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
                 self.workplaceUseCase.fetchJoinedWorkplaceList()
                     .flatMap { workplaces -> Single<[WorkplaceFinderItem]> in
@@ -72,7 +81,7 @@ final class WorkplaceFinderViewModel: ViewModel {
                     .asDriver()
                 }
 
-        let items = Driver.merge(workplaces, submitted)
+        let items = Driver.merge(reminders, workplaces, submitted)
 
         // MARK: - Coordinator Logic
 

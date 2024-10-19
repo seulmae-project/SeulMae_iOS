@@ -42,12 +42,12 @@ final class TabBarSceneDIContainer {
         return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
     }
 
-    private func makeNoticeRepository() -> NotificationRepository {
+    private func makeNotificationRepository() -> NotificationRepository {
         return DefaultNoticeRepository(network: dependencies.notificationNetworking)
     }
 
-    private func makeNoticeUseCase() -> NoticeUseCase {
-        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
+    private func makeNotificationUseCase() -> NotificationUseCase {
+        return DefaultNotificationUseCase(noticeRepository: makeNotificationRepository())
     }
 
     private func makeMainViewModel(
@@ -58,7 +58,7 @@ final class TabBarSceneDIContainer {
                 coordinator: coordinator,
                 attendanceUseCase: makeAttendanceUseCase(),
                 workplaceUseCase: makeWorkplaceUseCase(),
-                noticeUseCase: makeNoticeUseCase()
+                noticeUseCase: makeNotificationUseCase()
             )
         )
     }
@@ -69,7 +69,8 @@ final class TabBarSceneDIContainer {
         return .init(
             dependencies: (
                 coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase()
+                workplaceUseCase: makeWorkplaceUseCase(),
+                notificationUseCase: makeNotificationUseCase()
             )
         )
     }

@@ -17,10 +17,10 @@ final class ReminderCountContentView: UIView, UIContentView {
         }
     }
 
-    let iconImageView = UIImageView()
-    let titlelabel: UILabel = .common(size: 14, weight: .semibold)
-    let descriptionLabel: UILabel = .common(size: 14, weight: .semibold, color: UIColor(hexCode: "BDBEC0"))
-    let iconsImageView = UIImageView()
+    let leadingIconImageView: UIImageView = .common(image: .starCircle)
+    let titlelabel: UILabel = .common(title: "읽지 않은 알람이 있어요", size: 14, weight: .semibold)
+    let countLabel: UILabel = .common(size: 14, weight: .semibold, color: UIColor(hexCode: "BDBEC0"))
+    let trailingImageView: UIImageView = .common(image: .caretRight)
 
     var configuration: UIContentConfiguration {
         didSet {
@@ -36,11 +36,14 @@ final class ReminderCountContentView: UIView, UIContentView {
         layer.cornerCurve = .continuous
 
         let contentStack = UIStackView()
-        contentStack.axis = .vertical
         contentStack.alignment = .center
+        contentStack.spacing = 8.0
 
-        [iconImageView, titlelabel]
+        [leadingIconImageView, titlelabel, countLabel, trailingImageView]
             .forEach(contentStack.addArrangedSubview(_:))
+
+        countLabel.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
+        countLabel.textAlignment = .right
 
         addSubview(contentStack)
         contentStack.translatesAutoresizingMaskIntoConstraints = false
@@ -64,6 +67,6 @@ final class ReminderCountContentView: UIView, UIContentView {
 
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        descriptionLabel.text =  "\(config.remiderCount ?? 0)건"
+        countLabel.text =  "\(config.remiderCount ?? 0)건"
     }
 }

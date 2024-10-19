@@ -20,12 +20,12 @@ final class AnnounceViewModel: ViewModel {
     }
     
     private let coordinator: TabBarFlowCoordinator
-    private let noticeUseCase: NoticeUseCase
+    private let noticeUseCase: NotificationUseCase
     
     init(
         dependencies: (
             coordinator: TabBarFlowCoordinator,
-            noticeUseCase: NoticeUseCase
+            noticeUseCase: NotificationUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator

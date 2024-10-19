@@ -66,8 +66,8 @@ final class HomeSceneDIContainer {
         return DefaultNoticeRepository(network: dependencies.notificationNetworking)
     }
 
-    private func makeNotificationUseCase() -> NoticeUseCase {
-        return DefaultNoticeUseCase(noticeRepository: self.makeNotificationRepository())
+    private func makeNotificationUseCase() -> NotificationUseCase {
+        return DefaultNotificationUseCase(noticeRepository: self.makeNotificationRepository())
     }
 
     private func makeUserHomeViewModel(

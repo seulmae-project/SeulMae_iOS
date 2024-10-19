@@ -39,7 +39,7 @@ final class MainViewModel: ViewModel {
     private let coordinator: TabBarFlowCoordinator
     private let attendanceUseCase: AttendanceUseCase
     private let workplaceUseCase: WorkplaceUseCase
-    private let noticeUseCase: NoticeUseCase
+    private let noticeUseCase: NotificationUseCase
     
     // TODO: workplace 변경시 변경되어야 함 userInfo?
     // private var workplaceID: Workplace.ID
@@ -56,7 +56,7 @@ final class MainViewModel: ViewModel {
             coordinator: TabBarFlowCoordinator,
             attendanceUseCase: AttendanceUseCase,
             workplaceUseCase: WorkplaceUseCase,
-            noticeUseCase: NoticeUseCase
+            noticeUseCase: NotificationUseCase
 //            validationService: ValidationService,
 //            wireframe: Wireframe
         )

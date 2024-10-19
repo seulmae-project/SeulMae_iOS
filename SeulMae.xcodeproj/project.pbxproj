@@ -75,7 +75,7 @@
 		861BF6862C27070C00702E24 /* AttendnaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6852C27070C00702E24 /* AttendnaceAPI.swift */; };
 		861BF6882C27082600702E24 /* DefaultNoticeRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */; };
 		861BF68A2C27084000702E24 /* NotificationRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6892C27084000702E24 /* NotificationRepository.swift */; };
-		861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF68B2C2708D300702E24 /* NoticeUseCase.swift */; };
+		861BF68C2C2708D300702E24 /* NotificationUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF68B2C2708D300702E24 /* NotificationUseCase.swift */; };
 		861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6912C2723C800702E24 /* RemainingTimer.swift */; };
 		861BF6952C273FC100702E24 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6942C273FC100702E24 /* ToastView.swift */; };
 		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
@@ -424,7 +424,7 @@
 		861BF6852C27070C00702E24 /* AttendnaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendnaceAPI.swift; sourceTree = "<group>"; };
 		861BF6872C27082600702E24 /* DefaultNoticeRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultNoticeRepository.swift; sourceTree = "<group>"; };
 		861BF6892C27084000702E24 /* NotificationRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRepository.swift; sourceTree = "<group>"; };
-		861BF68B2C2708D300702E24 /* NoticeUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NoticeUseCase.swift; sourceTree = "<group>"; };
+		861BF68B2C2708D300702E24 /* NotificationUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationUseCase.swift; sourceTree = "<group>"; };
 		861BF6912C2723C800702E24 /* RemainingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimer.swift; sourceTree = "<group>"; };
 		861BF6942C273FC100702E24 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
@@ -853,7 +853,7 @@
 				869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */,
 				8684C5AD2C49F95900EB3D28 /* WorkplaceUseCase.swift */,
 				86FD620F2C8D493D005ED02F /* MemberUseCase.swift */,
-				861BF68B2C2708D300702E24 /* NoticeUseCase.swift */,
+				861BF68B2C2708D300702E24 /* NotificationUseCase.swift */,
 				86FD62072C8D4569005ED02F /* AnnounceUseCase.swift */,
 				86FD62092C8D45BF005ED02F /* WorkScheduleUseCase.swift */,
 				86FD61EB2C8AC886005ED02F /* UserUseCase.swift */,
@@ -2523,7 +2523,7 @@
 				86FD62192C8D9B3C005ED02F /* WorkScheduleListViewController.swift in Sources */,
 				86E39FA22C8EBB2400361E0D /* HomeSceneDIContainer.swift in Sources */,
 				861B96A42C20634C0032C94A /* DraggableView.swift in Sources */,
-				861BF68C2C2708D300702E24 /* NoticeUseCase.swift in Sources */,
+				861BF68C2C2708D300702E24 /* NotificationUseCase.swift in Sources */,
 				86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */,

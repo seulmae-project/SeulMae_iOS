@@ -15,8 +15,8 @@ struct WorkplaceFinderItem: Hashable {
     var workplace: Workplace?
     var memberList: [Member]?
     var application: SubmittedApplication?
-    var reminders: [Int]?
     var isEmpty: Bool = false
+    var notifications: [AppNotification]?
 
     var message: String {
         if section == .application {
@@ -36,6 +36,13 @@ struct WorkplaceFinderItem: Hashable {
         } else {
             return UIImage()
         }
+    }
+
+    static func reminder(_ notifications: [AppNotification]) -> WorkplaceFinderItem {
+        var item = WorkplaceFinderItem()
+        item.section = .reminder
+        item.notifications = notifications
+        return item
     }
 
     static func application(_ application: SubmittedApplication, workplace: Workplace) -> WorkplaceFinderItem {
