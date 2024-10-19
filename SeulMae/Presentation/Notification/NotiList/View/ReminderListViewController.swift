@@ -132,7 +132,7 @@ final class ReminderListViewController: BaseViewController {
         return .init { cell, indexPath, item in
             guard case .category = item.section else { return }
             cell.label.text = item.category
-            cell.label.font = .pretendard(size: 15, weight: .regular)
+            cell.label.font = .pretendard(size: 16, weight: .regular)
             cell.label.textAlignment = .center
             cell.layer.cornerRadius = 8.0
             cell.layer.cornerCurve = .circular
@@ -142,11 +142,12 @@ final class ReminderListViewController: BaseViewController {
         }
     }
 
-    private func createReminderCellRegistiration() -> UICollectionView.CellRegistration<TextCell, ReminderListItem> {
+    private func createReminderCellRegistiration() -> UICollectionView.CellRegistration<UICollectionViewListCell, ReminderListItem> {
         return .init { cell, indexPath, item in
             guard case .list = item.section else { return }
             var content = ReminderListContentView.Configuration()
-            content.type = item.reminder?.type.rawValue
+            content.typeIcon = item.reminder?.type.icon
+            content.type = item.reminder?.type.category
             content.title = item.reminder?.title
             content.message = item.reminder?.message
             content.date = item.reminder?.regDate
@@ -214,7 +215,7 @@ final class ReminderListViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 12
+        section.interGroupSpacing = 20
         let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
         section.contentInsets = insets
         return section

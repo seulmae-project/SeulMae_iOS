@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import UIKit.UIImage
 
 struct Reminder: Hashable, Identifiable {
     let id: Int
@@ -39,9 +40,25 @@ enum AppNotificationType: String, Codable {
 
     var category: String {
         switch self {
-        case .attendanceResponse, .attendanceRequest: return "가입"
-        case .joinResponse, .joinRequset: return "승인"
-        default: return ""
+        case .attendanceResponse: return "승인"
+        case .attendanceRequest: return "승인"
+        case .joinResponse: return "가입"
+        case .joinRequset: return "가입"
+        case .system: return "시스템"
+        case .notice: return "공지"
+        case .event: return "이벤트"
+        }
+    }
+
+    var icon: UIImage {
+        switch self {
+        case .attendanceResponse: return .heart
+        case .attendanceRequest: return .heart
+        case .joinResponse: return .listFill
+        case .joinRequset: return .listFill
+        case .system: return .volume
+        case .notice: return .volume
+        case .event: return .volume
         }
     }
 }
