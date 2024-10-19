@@ -12,16 +12,17 @@ protocol WorkplaceUseCase {
     // Local DB
     func readWorkplaceList() -> [Workplace]
     func readDefaultWorkplace() -> Workplace
-    
-    
+
     // Search workplace
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
     func fetchWorkplaces() -> Single<[Workplace]>
     
-   
-    
     // Workpalce details
+    func fetchMyWorkplaceDetail() -> RxSwift.Single<Workplace>
     func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> Single<Workplace>
+
+
+    // Workpalce details
     func submitApplication(workplaceID id: Workplace.ID) -> Single<Bool>
 
     // Add new workplace
@@ -38,8 +39,6 @@ protocol WorkplaceUseCase {
     func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
     func fetchMyInfo() -> Single<MemberProfile>
     func fetchJoinedWorkplaceList() -> Single<[Workplace]>
-    
-    func homeOverView() -> Observable<UserHomeItem>
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -76,9 +75,14 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     }
     
     // MARK: - Details
-    
-    func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> RxSwift.Single<Workplace> {
-        workplaceRepository.fetchWorkplaceDetail(workplaceId: id)
+
+    func fetchMyWorkplaceDetail() -> RxSwift.Single<Workplace> {
+        let workplaceId = userRepository.currentWorkplaceId
+        return fetchWorkplaceDetail(workplaceId: workplaceId)
+    }
+
+    func fetchWorkplaceDetail(workplaceId: Workplace.ID) -> RxSwift.Single<Workplace> {
+        return workplaceRepository.fetchWorkplaceDetail(workplaceId: workplaceId)
     }
 
     func submitApplication(workplaceID id: Workplace.ID) -> RxSwift.Single<Bool> {
@@ -126,18 +130,7 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
                 print("error: \(error)")
             })
     }
-
-    func homeOverView() -> Observable<UserHomeItem> {
-        let workplaceId = userRepository.currentWorkplaceId
-        let myInfo = workplaceRepository.fetchMyInfo(workplaceId: workplaceId)
-            .asObservable()
-        let workplaceInfo = workplaceRepository.fetchWorkplaceDetail(workplaceId: workplaceId)
-            .asObservable()
-        return .combineLatest(myInfo, workplaceInfo) {
-            UserHomeItem(workplace: $1, profile: $0)
-        }
-    }
-
+    
     func fetchMyInfo() -> RxSwift.Single<MemberProfile> {
         let workplaceId = userRepository.currentWorkplaceId
         return workplaceRepository.fetchMyInfo(workplaceId: workplaceId)

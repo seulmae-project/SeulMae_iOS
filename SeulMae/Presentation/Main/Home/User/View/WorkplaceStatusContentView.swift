@@ -23,7 +23,8 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
     let progressView: UIProgressView = {
         let view = UIProgressView(progressViewStyle: .default)
         view.progressTintColor = UIColor(hexCode: "4C71F5")
-        // view.trackTintColor = .white
+        view.trackTintColor = .white
+        view.backgroundColor = .white
         view.progress = 0.5
         return view
     }()
@@ -67,16 +68,20 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
             .forEach(messageStack.addArrangedSubview(_:))
 
         let bubbled = progressView.bubbled(
-            color: .white, horizontal: 2.0, vertical: 2.0)
-        bubbled.transform = CGAffineTransform(rotationAngle: .pi / -2)
+            color: .white, horizontal: 2.0, vertical: 2.0, cornerRadius: 3.5)
+         bubbled.transform = CGAffineTransform(rotationAngle: .pi / -2)
 
         let contentStack = UIStackView()
-        contentStack.spacing = 9.0
+        contentStack.spacing = 8.0
         contentStack.alignment = .center
         [bubbled, nameAndTimeStack, messageStack]
             .forEach(contentStack.addArrangedSubview(_:))
+        contentStack.directionalLayoutMargins = .init(top: 12, leading: 12, bottom: 12, trailing: 12)
+        contentStack.isLayoutMarginsRelativeArrangement = true
 
         messageLabel.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
+        // TODO: textAlignment 로 처리하는 게 맞을지?
+        messageLabel.textAlignment = .right
 
         addSubview(contentStack)
         contentStack.translatesAutoresizingMaskIntoConstraints = false
@@ -87,7 +92,11 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
             contentStack.topAnchor.constraint(equalTo: topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            bubbled.heightAnchor.constraint(equalToConstant: 7.0),
+            progressView.heightAnchor.constraint(equalToConstant: 3.0),
+            progressView.widthAnchor.constraint(equalToConstant: 40),
+
+            bubbled.widthAnchor.constraint(equalToConstant: 7.0),
+            // TODO: progress View 커스텀 해야함
         ])
     }
 
@@ -97,6 +106,8 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
 
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        
+        nameLabel.text = config.name
+        workTimeLabel.text = config.workTime
+        messageLabel.text = config.message
     }
 }

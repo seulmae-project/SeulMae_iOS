@@ -119,6 +119,40 @@
                                     </label>
                                 </subviews>
                             </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Bsx-bW-G2A">
+                                <rect key="frame" x="64" y="198" width="81.333333333333314" height="4"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" ambiguous="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OQt-CA-mTt">
+                                        <rect key="frame" x="0.0" y="0.0" width="41.333333333333336" height="4"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <nil key="textColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                    <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zty-Gp-Lfl">
+                                        <rect key="frame" x="41.333333333333336" y="0.0" width="40.000000000000007" height="4"/>
+                                        <subviews>
+                                            <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" ambiguous="YES" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="jWJ-aR-7cZ">
+                                                <rect key="frame" x="0.0" y="0.0" width="40" height="4"/>
+                                                <constraints>
+                                                    <constraint firstAttribute="width" constant="40" id="6D4-jU-Koo"/>
+                                                </constraints>
+                                            </progressView>
+                                        </subviews>
+                                    </stackView>
+                                </subviews>
+                            </stackView>
+                            <stackView opaque="NO" contentMode="scaleToFill" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="S6R-qc-jiX">
+                                <rect key="frame" x="25" y="387" width="50" height="50"/>
+                                <subviews>
+                                    <progressView opaque="NO" contentMode="scaleToFill" verticalHuggingPriority="750" progress="0.5" translatesAutoresizingMaskIntoConstraints="NO" id="Aih-9I-G7E">
+                                        <rect key="frame" x="0.0" y="0.0" width="50" height="50"/>
+                                    </progressView>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="7Ds-2l-wxO"/>
+                                    <constraint firstAttribute="width" constant="50" id="IPJ-Hv-b2Z"/>
+                                </constraints>
+                            </stackView>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1dl-TV-Vdy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>

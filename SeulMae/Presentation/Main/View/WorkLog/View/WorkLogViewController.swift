@@ -184,8 +184,7 @@ final class WorkLogViewController: BaseViewController {
         let workLog = Driver.combineLatest(
             startDate, endDate, message, memo, baseWage
         ) { startDate, endDate, message, memo, baseWage in
-            let calculator = AttendanceService()
-            return calculator.calculate(
+            return AttendanceService.calculate(
                 start: startDate, end: endDate, wage: baseWage)
         }
         

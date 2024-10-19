@@ -61,8 +61,8 @@ final class WorkTimeRecordingViewModel {
                 .asDriver()
                 .flatMapLatest { profile in
                     let item = strongSelf.workTimeCalculator
-                    item.start(workSchedule: profile.workScheduleList.first!)
-                    return item.asDriver()
+                    // item.start(workSchedule: profile.workScheduleList.first!)
+                    return .empty()
                 }
         }
         

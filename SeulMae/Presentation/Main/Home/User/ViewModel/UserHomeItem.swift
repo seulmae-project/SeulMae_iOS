@@ -7,28 +7,31 @@
 
 import Foundation
 
-struct UserHomeItem: Hashable {
+struct UserHomeItem: Identifiable, Hashable {
+    let id: String = UUID().uuidString
     let section: UserHomeViewController.Section
+    let profile: MemberProfile?
+    let workplace: Workplace?
     let histories: [AttendanceHistory]?
-    let placeList: [Workplace]?
 
-    // let workplaceStatus
-
-    init(workplace: Workplace, profile: MemberProfile) {
+    init(profile: MemberProfile, workplace: Workplace) {
         self.section = .status
+        self.profile = profile
+        self.workplace = workplace
         self.histories = nil
-        self.placeList = nil
     }
 
     init(histories: [AttendanceHistory]) {
         self.section = .calendar
+        self.profile = nil
+        self.workplace = nil
         self.histories = histories
-        self.placeList = nil
     }
 
-    init(placeList: [Workplace]) {
+    init(workplace: Workplace) {
         self.section = .list
+        self.profile = nil
+        self.workplace = workplace
         self.histories = nil
-        self.placeList = placeList
     }
 }

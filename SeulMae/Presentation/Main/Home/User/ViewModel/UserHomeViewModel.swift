@@ -10,19 +10,23 @@ import RxSwift
 import RxCocoa
 
 final class UserHomeViewModel {
+    
+    // MARK: - Internal Types
+
     struct Input {
         let onLoad: Signal<()>
         let refresh: Signal<()>
-        let showNotis: Signal<()>
-        let showDetails: Signal<()>
-        let onAttendance: Signal<()>
-        let add: Signal<AttendRequest>
+        let showAlarmList: Signal<()>
+        let showAttendanceDetails: Signal<()>
+        let onStartRecording: Signal<()>
+        let onSaveRecording: Signal<()>
     }
     
     struct Output {
         let loading: Driver<Bool>
-        let item: Driver<UserHomeItem>
-        let isAttendance: Driver<Bool>
+        let items: Driver<[UserHomeItem]>
+        let isStartRecording: Driver<Bool>
+        let isSaveRecording: Driver<Bool>
     }
     
     // MARK: - Dependencies
@@ -31,41 +35,29 @@ final class UserHomeViewModel {
     private let workplaceUseCase: WorkplaceUseCase
     private let attendanceUseCase: AttendanceUseCase
     private let attendanceHistoryUseCase: AttendanceHistoryUseCase
-    private let attendanceService: AttendanceService
-    private var disposeBag = DisposeBag()
 
-    // MARK: - Life Cycle
-    
+    // MARK: - Life Cycle Methods
+
     init(
         dependencies: (
             coordinator: HomeFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             attendanceUseCase: AttendanceUseCase,
-            attendanceHistoryUseCase: AttendanceHistoryUseCase,
-            attendanceService: AttendanceService
+            attendanceHistoryUseCase: AttendanceHistoryUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator
         self.workplaceUseCase = dependencies.workplaceUseCase
         self.attendanceUseCase = dependencies.attendanceUseCase
         self.attendanceHistoryUseCase = dependencies.attendanceHistoryUseCase
-        self.attendanceService = dependencies.attendanceService
     }
     
-    @MainActor func transform(_ input: Input) -> Output {
+    func transform(_ input: Input) -> Output {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
+        let onLoad = Signal.merge(input.onLoad, input.refresh)
 
-        let onLoad = Signal.merge(.just(()), input.onLoad, input.refresh)
-        
-        let item = onLoad.withUnretained(self)
-            .flatMapLatest { (self, _) -> Driver<UserHomeItem> in
-                self.workplaceUseCase.homeOverView()
-                    .trackActivity(tracker)
-                    .asDriver()
-            }
-
-
+        // Fetch my profile info
         let myProfile = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<MemberProfile> in
             return self.workplaceUseCase.fetchMyInfo()
@@ -73,81 +65,76 @@ final class UserHomeViewModel {
                 .asDriver()
         }
 
-        let isAttendance = input.onAttendance
-            .map { AttendanceService.start() }
+        let workplace = onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<Workplace> in
+                return self.workplaceUseCase
+                    .fetchMyWorkplaceDetail()
+                    .trackActivity(tracker)
+                    .asDriver()
+            }
+
+
+        let workplaces = onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[UserHomeItem]> in
+                return self.workplaceUseCase
+                    .fetchJoinedWorkplaceList()
+                    .trackActivity(tracker)
+                    .map { $0.map(UserHomeItem.init(workplace:)) }
+                    .asDriver(onErrorJustReturn: [])
+            }
+
+        let overview = Driver.combineLatest(myProfile, workplace) {
+            (profile: $0, workplace: $1) }
+            .map(UserHomeItem.init(profile:workplace:))
+            .map { [$0] }
+
+        // Start recording the time for attendance
+        let isStartRecording = input.onStartRecording
+            .withUnretained(self)
+            .map { (self, _) in self.attendanceUseCase.attend() }
+            .trackActivity(tracker)
             .asDriver()
 
+        let _ = myProfile.map(\.baseWage)
 
+        // Fetch this month attendance histories
+        let thisMonthHistories = onLoad.map { _ in Date.ext.now }
+            .withUnretained(self)
+            .flatMapLatest { (self, now) -> Driver<[AttendanceHistory]> in
+                self.attendanceHistoryUseCase
+                    .fetchAttendanceCalendar(date: now)
+                    .trackActivity(tracker)
+                    .asDriver()
+            }
 
-//            .flatMapLatest { profile in
-//                let item = strongSelf.workTimeCalculator
-//                item.start(workSchedule: profile.workScheduleList.first!)
-//                return item.asDriver()
-//            }
+        // Merge attendance histories
+        let histories = thisMonthHistories
+            .map(UserHomeItem.init(histories:))
+            .map { [$0] }
 
-        let histories = onLoad.flatMapLatest { [weak self] _ -> Driver<[AttendanceHistory]> in
-            guard let strongSelf = self else { return .empty() }
-            let currentDate = Date()
-            let year = Calendar.current.component(.year, from: currentDate)
-            let month = Calendar.current.component(.month, from: currentDate)
-            return strongSelf.attendanceHistoryUseCase
-                .fetchAttendanceCalendar(year: year, month: month)
-                .trackActivity(tracker)
-                .asDriver()
-        }
-    
-//        let isAttend = input.onAttendance
-//            .flatMapLatest { [weak self] request -> Driver<Bool> in
-//                guard let strongSelf = self else { return .empty() }
-//                return strongSelf.attendanceUseCase
-//                    .attend(request: request)
-//                    .trackActivity(tracker)
-//                    .asDriver()
-//            }
-//        
-        
+        let items = Driver.merge(overview, histories, workplaces)
+
+        // MARK: - Coordinator Methods
+
 //        Task {
-//            for await _ in isAttend.values {
-//                
+//            for await _ in input.showAlarmList.values {
+//                // coordinator.showNotiList()
 //            }
 //        }
-        
-        input.onLoad
-            .emit(onNext: { _ in
-               // self.coordinator.showScheduleReminder()
-                
-            })
-            .disposed(by: disposeBag)
-        
-        Task {
-            for await _ in input.onLoad.values {
-              // TODO: viewDidLoad dispose issue
-            }
-        }
-        
-    
-        
-        
-        // MARK: - Coordinator
-        
-        Task {
-            for await id in input.showDetails.values {
-                // coordinator.
-            }
-        }
-        
-        Task {
-            for await _ in input.showNotis.values {
-                // coordinator.showNotiList()
-            }
-        }
+////
+//        Task {
+//            for await id in input.showAttendanceDetails.values {
+//                // coordinator.
+//            }
+//        }
 
 
 
         return Output(
             loading: loading,
-            item: item,
-            isAttendance: isAttendance
+            items: items,
+            isStartRecording: isStartRecording,
+            isSaveRecording: .empty()
         )
     }
 }

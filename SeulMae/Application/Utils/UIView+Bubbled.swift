@@ -11,7 +11,8 @@ extension UIView {
     func bubbled(
         color: UIColor,
         horizontal h: CGFloat = 8.0,
-        vertical v: CGFloat = 4.0
+        vertical v: CGFloat = 4.0,
+        cornerRadius: CGFloat = 8.0
     ) -> UIView {
         let bubble = UIStackView()
         bubble.backgroundColor = color
@@ -19,7 +20,7 @@ extension UIView {
         let insets = NSDirectionalEdgeInsets(top: v, leading: h, bottom: v, trailing: h)
         bubble.directionalLayoutMargins = insets
         bubble.isLayoutMarginsRelativeArrangement = true
-        bubble.layer.cornerRadius = 8.0
+        bubble.layer.cornerRadius = cornerRadius
         bubble.layer.cornerCurve = .continuous
         return bubble
     }

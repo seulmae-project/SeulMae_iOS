@@ -85,6 +85,8 @@ final class DefaultAttendanceRepository: AttendanceRepository {
 }
 
 protocol AttendanceUseCase {
+    func attend() -> Bool
+    func leaveWork(wage: Int) -> Single<Bool>
     
     func attend(request: AttendRequest) -> Single<Bool>  // 출퇴근 승인 요청
     func approveAttendance(request: ApproveAttendanceRequest) -> Single<Bool> // 출퇴근 승인 요청 승인
@@ -102,7 +104,29 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
     init(repository: AttendanceRepository) {
         self.repository = repository
     }
-    
+
+    func attend() -> Bool {
+        let userDefaults = UserDefaults.standard
+        if let saved = userDefaults.object(forKey: "onAttendance") as? Date {
+            return false
+        } else {
+            let now = Date.ext.now
+            userDefaults.set(now, forKey: "onAttendance")
+            return true
+        }
+    }
+
+    func leaveWork(wage: Int) -> Single<Bool> {
+        let saved = UserDefaults.standard.object(forKey: "onAttendance")
+        guard let start = saved as? Date else {
+            return .just(false)
+        }
+
+        let end = Date.ext.now
+        let attendance = AttendanceService.calculate(start: start, end: end, wage: wage)
+        return repository.attend(request: attendance)
+    }
+
     func attend(request: AttendRequest) -> RxSwift.Single<Bool> {
         return repository.attend(request: request)
     }

@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol AttendanceHistoryUseCase {
-    func fetchAttendanceCalendar(year: Int, month: Int) -> Single<[AttendanceHistory]>
+    func fetchAttendanceCalendar(date: Date) -> Single<[AttendanceHistory]>
     func fetchWorkInfo() -> Single<WorkInfo>
     func fetchMonthlyAttendanceSummery(year: Int, month: Int) -> Single<MonthlyAttenanceSummary>
     func fetchAttendanceHistories(year: Int, month: Int, page: Int, size: Int) -> Single<[AttendanceHistory]>
@@ -26,9 +26,12 @@ final class DefaultAttendanceHistoryUseCase: AttendanceHistoryUseCase {
         self.attendanceHistoryRepository = attendanceHistoryRepository
     }
     
-    func fetchAttendanceCalendar(year: Int, month: Int) -> RxSwift.Single<[AttendanceHistory]> {
-        var currentWorkplaceId = userRepository.currentWorkplaceId
-        return attendanceHistoryRepository.fetchAttendanceCalendar(workplaceId: currentWorkplaceId, year: year, month: month)
+    func fetchAttendanceCalendar(date: Date) -> RxSwift.Single<[AttendanceHistory]> {
+        let workplaceId = userRepository.currentWorkplaceId
+        let calendar = Calendar.current
+        let year = calendar.component(.year, from: date)
+        let month = calendar.component(.month, from: date)
+        return attendanceHistoryRepository.fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month)
     }
 
     func fetchWorkInfo() -> RxSwift.Single<WorkInfo> {

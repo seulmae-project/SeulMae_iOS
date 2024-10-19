@@ -94,7 +94,10 @@ final class CustomNetworkLoggerPlugin: PluginType {
                 Swift.print("🛰 Can't convert response to JSON or serialize it...")
             }
         case .failure(let error):
-            Swift.print("🛰 Request failed with error: \(error)")
+            Swift.print("""
+            🛰 Request failed with error: \(error)
+            target \(target.baseURL), \(target.path)
+            """)
         }
     }
 }

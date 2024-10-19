@@ -24,7 +24,7 @@ final class UserHomeViewController: BaseViewController {
     
     // MARK: - UI Properties
     
-    private let notiRightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
+    private let rightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     
     private let refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
@@ -39,19 +39,17 @@ final class UserHomeViewController: BaseViewController {
         collectionView.refreshControl = refreshControl
         return collectionView
     }()
-    
-    // private let calendarView = CalendarView()
-    
+        
     // MARK: - Properties
     
     private var dataSource: DataSource!
-    private let attendanceRelay = PublishRelay<()>()
-    private let addRelay = PublishRelay<AttendRequest>()
-    
+    private let startRecordRelay = PublishRelay<()>()
+    private let saveRecordRelay = PublishRelay<()>()
+
     // MARK: - Dependencies
     
     private var viewModel: UserHomeViewModel
-    
+
     // MARK: - Life Cycle Methods
     
     init(viewModel: UserHomeViewModel) {
@@ -74,34 +72,56 @@ final class UserHomeViewController: BaseViewController {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
             .map { _ in return () }
             .asSignal()
-        
+
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
                 refresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
-                showNotis: notiRightBarButton.rx.tap.asSignal(),
-                showDetails: .empty(),
-                onAttendance: attendanceRelay.asSignal(),
-                add: addRelay.asSignal()
+                showAlarmList: rightBarButton.rx.tap.asSignal(),
+                showAttendanceDetails: .empty(),
+                onStartRecording: startRecordRelay.asSignal(),
+                onSaveRecording: saveRecordRelay.asSignal()
             )
         )
-        
-        Task {
-            for await item in output.item.values {
-                var snapshot = Snapshot()
-                snapshot.appendSections(Section.allCases)
-                snapshot.appendItems([item], toSection: .status)
-                dataSource.apply(snapshot)
-            }
-        }
-        
-        Task {
-            for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
-            }
-        }
+
+//        output.workplaces
+//            .drive(onNext: { [weak self] (items) in
+//                self?.applySnapshot(items: items)
+//            })
+//            .disposed(by: disposeBag)
+
+        output.items
+            .drive(onNext: { [weak self] items in
+                self?.applySnapshot(items: items)
+            })
+            .disposed(by: disposeBag)
+
+//        Task {
+//            for await item in output.isStartRecording.values {
+//
+//            }
+//        }
+//
+//        Task {
+//            for await item in output.isSaveRecording.values {
+//                
+//            }
+//        }
+        // Handle loading animations
+        output.loading
+            .drive(loadingIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
-    
+
+    func applySnapshot(items: [UserHomeItem]) {
+        guard let item = items.first else { return }
+        var snapshot = dataSource.snapshot()
+        let applied = snapshot.itemIdentifiers(inSection: item.section)
+        snapshot.deleteItems(applied)
+        snapshot.appendItems(items, toSection: item.section)
+        dataSource.apply(snapshot, animatingDifferences: true)
+    }
+
     // MARK: - Hierarchy
     
     private func configureHierarchy() {
@@ -116,7 +136,7 @@ final class UserHomeViewController: BaseViewController {
     // MARK: - DataSource Methods
     
     private func configureDataSource() {
-        let StateCellRegistration = createStateCellRegistration()
+        let stateCellRegistration = createStateCellRegistration()
         let calendarCellRegistration = createCalendarCellRegistration()
         let listCellRegistration = createListCellRegistration()
         
@@ -127,28 +147,37 @@ final class UserHomeViewController: BaseViewController {
             
             switch section {
             case .status:
-                return view.dequeueConfiguredReusableCell(using: StateCellRegistration, for: index, item: item)
+                return view.dequeueConfiguredReusableCell(using: stateCellRegistration, for: index, item: item)
             case .calendar:
                 return view.dequeueConfiguredReusableCell(using: calendarCellRegistration, for: index, item: item)
             case .list:
                 return view.dequeueConfiguredReusableCell(using: listCellRegistration, for: index, item: item)
             }
         }
+
+        applyInitialSnapshot()
     }
     
     // MARK: - Snapshot Methods
     
-    
-    
+    private func applyInitialSnapshot() {
+        var snapshot = Snapshot()
+        snapshot.appendSections(Section.allCases)
+        dataSource.apply(snapshot)
+    }
+
     // MARK: - Cell Registrations
     
     private func createStateCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> { cell, index, item in
             var content = WorkplaceOverviewContentView.Configuration()
-            content.name = "테스트테스트"
-            content.joinDate = Date()
-            content.onAttendance = { [weak self] in
-                self?.attendanceRelay.accept(())
+            content.name = item.workplace?.name
+            content.joinDate = item.profile?.joinDate
+            content.onStartRecording = { [weak self] in
+                self?.startRecordRelay.accept(())
+            }
+            content.onSaveRecording = { [weak self] in
+                self?.saveRecordRelay.accept(())
             }
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
@@ -157,8 +186,8 @@ final class UserHomeViewController: BaseViewController {
     
     private func createCalendarCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> { cell, index, item in
-            var content = AttendanceRequestContentView.Configuration()
-
+            print("histories: \(item.histories)")
+            var content = UserHomeCalendarContentView.Configuration()
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
@@ -167,9 +196,9 @@ final class UserHomeViewController: BaseViewController {
     private func createListCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> { cell, index, item in
             var content = WorkplaceStatusContentView.Configuration()
-            content.name = 
-            content.workTime
-            content.message
+            content.name = item.workplace?.name
+            content.workTime = "09:00 - 10:00"
+            content.message = "1시간 승인 완료"
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
@@ -178,11 +207,11 @@ final class UserHomeViewController: BaseViewController {
     // MARK: - UICollectionViewLayout
     
     func createLayout() -> UICollectionViewLayout {
-        return UICollectionViewCompositionalLayout {  sectionIndex, _ in
+        return UICollectionViewCompositionalLayout { sectionIndex, _ in
             guard let section = Section(rawValue: sectionIndex) else {
                 Swift.fatalError("Unknown section!")
             }
-            
+
             switch section {
             case .status:
                 return UserHomeViewController.createStateSection()
@@ -195,32 +224,32 @@ final class UserHomeViewController: BaseViewController {
     }
     
     static func createStateSection() -> NSCollectionLayoutSection {
-        //        let itemSize = NSCollectionLayoutSize(widthDimension: .estimated(350), heightDimension: .estimated(144))
-        //        let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        //        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(350), heightDimension: .estimated(144))
         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .estimated(350), heightDimension: .estimated(144))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.4))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         return section
     }
     
     static func createCalendarSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(1.0))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         return section
     }
     
     static func createListSection() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+         let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalHeight(1.0))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .fractionalWidth(0.2))
         let group = NSCollectionLayoutGroup.vertical(layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
         return section
     }
 }

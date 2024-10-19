@@ -7,18 +7,24 @@
 
 import UIKit
 
+typealias Callback = (Bool) -> Void
+
 final class WorkplaceOverviewContentView: UIView, UIContentView {
 
     struct Configuration: UIContentConfiguration {
+
         var name: String?
         var joinDate: Date?
-        var onAttendance: (() -> Void)?
+        var onStartRecording: (() -> Void)?
+        var onSaveRecording: (() -> Void)?
         var userState: UserState? = .leave
 
         func makeContentView() -> UIView & UIContentView {
             return WorkplaceOverviewContentView(self)
         }
     }
+
+    static weak var attendanceButton: UIButton?
 
     /// 근무일 D+234
     var dayCountLabel: UILabel = .common(title: "D+234", size:12, weight: .bold, color: .white)
@@ -46,6 +52,9 @@ final class WorkplaceOverviewContentView: UIView, UIContentView {
         layoutMargins: .init(top: 7, left: 31.5, bottom: 7, right: 31.5)
     )
 
+    var onStartRecording: (() -> Void)?
+    var onSaveRecording: (() -> Void)?
+
     var configuration: UIContentConfiguration {
         didSet {
             apply(config: configuration)
@@ -64,6 +73,19 @@ final class WorkplaceOverviewContentView: UIView, UIContentView {
 
         layer.cornerRadius = 16
         layer.cornerCurve = .continuous
+
+        let onTap = UIAction(handler: { [weak self] action in
+            guard let button = action.sender as? UIButton else { return }
+            let title = button.title(for: .normal)
+            if (title == "출근하기") {
+                self?.onStartRecording?()
+                button.setTitle("퇴근하기", for: .normal)
+            } else {
+                self?.onSaveRecording?()
+                button.setTitle("출근하기", for: .normal)
+            }
+        })
+        attendanceButton.addAction(onTap, for: .touchUpInside)
 
         let bubbled = dayCountLabel.bubbled(color: UIColor(hexCode: "7298F8"), horizontal: 10, vertical: 1.0)
 
