@@ -34,7 +34,7 @@ final class AttendanceService {// : SharedSequenceConvertibleType {
 //    }
 
     static func calculate(start: Date, end: Date, wage: Int) -> AttendRequest {
-        let day = Calendar.current.component(.day, from: start)
+        let day = Calendar.current.component(.weekday, from: start)
         let diff = Calendar.current
             .dateComponents([.hour, .minute], from: start, to: end)
         let totalHours = Double(diff.hour ?? 0) + (Double(diff.minute ?? 0) / 60)
@@ -46,7 +46,7 @@ final class AttendanceService {// : SharedSequenceConvertibleType {
             unconfirmedWage: Double(wage) * totalHours,
             totalWorkTime: totalHours,
             deliveryMessage: "",
-            day: day
+            day: (day - 1)
         )
     }
 

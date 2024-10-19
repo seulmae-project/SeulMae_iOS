@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class UserHomeViewModel {
+final class UserHomeViewModel: ViewModel {
     
     // MARK: - Internal Types
 
@@ -64,7 +64,8 @@ final class UserHomeViewModel {
                 .trackActivity(tracker)
                 .asDriver()
         }
-
+        
+        // Fetch workplace details
         let workplace = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<Workplace> in
                 return self.workplaceUseCase
@@ -72,8 +73,8 @@ final class UserHomeViewModel {
                     .trackActivity(tracker)
                     .asDriver()
             }
-
-
+        
+        // Fetch joined workplace list
         let workplaces = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<[UserHomeItem]> in
                 return self.workplaceUseCase
@@ -83,6 +84,7 @@ final class UserHomeViewModel {
                     .asDriver(onErrorJustReturn: [])
             }
 
+        // Convert to collection view item
         let overview = Driver.combineLatest(myProfile, workplace) {
             (profile: $0, workplace: $1) }
             .map(UserHomeItem.init(profile:workplace:))
@@ -95,7 +97,14 @@ final class UserHomeViewModel {
             .trackActivity(tracker)
             .asDriver()
 
-        let _ = myProfile.map(\.baseWage)
+        // Save record with fetched wage
+        let wage = myProfile.map(\.baseWage)
+        let isEndRecording = input.onSaveRecording.withLatestFrom(wage)
+            .withUnretained(self)
+            .flatMapLatest { (self, wage) in
+                return self.attendanceUseCase.leaveWork(wage: wage)
+                    .asDriver()
+            }
 
         // Fetch this month attendance histories
         let thisMonthHistories = onLoad.map { _ in Date.ext.now }
@@ -116,25 +125,14 @@ final class UserHomeViewModel {
 
         // MARK: - Coordinator Methods
 
-//        Task {
-//            for await _ in input.showAlarmList.values {
-//                // coordinator.showNotiList()
-//            }
-//        }
-////
-//        Task {
-//            for await id in input.showAttendanceDetails.values {
-//                // coordinator.
-//            }
-//        }
-
-
+//        / input.showAlarmList.emit(with: self, onNext: { (self,
+        //                // coordinator.showNotiList()
 
         return Output(
             loading: loading,
             items: items,
             isStartRecording: isStartRecording,
-            isSaveRecording: .empty()
+            isSaveRecording: isEndRecording
         )
     }
 }

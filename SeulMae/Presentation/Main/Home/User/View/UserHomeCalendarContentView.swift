@@ -10,6 +10,7 @@ import UIKit
 final class UserHomeCalendarContentView: UIView, UIContentView {
 
     struct Configuration: UIContentConfiguration {
+        var histories: [AttendanceHistory]? = []
 
         func makeContentView() -> UIView & UIContentView {
             return UserHomeCalendarContentView(self)

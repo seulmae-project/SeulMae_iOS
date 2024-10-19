@@ -36,4 +36,10 @@ extension Ext where ExtendedType == Date {
         return firstDayOfMonth
             .ext.weekday
     }
+
+    var short: String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        return formatter.string(from: type)
+    }
 }

@@ -11,7 +11,7 @@ import Moya
 typealias AttendanceHistoryNetworking = MoyaProvider<AttendanceHistoryAPI>
 
 enum AttendanceHistoryAPI: SugarTargetType {
-    case fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int)
+    case fetchAttendanceCalendar(workplaceId: Workplace.ID, date: Date)
     case fetchWorkeInfo(workplaceId: Workplace.ID)
     case fetchMonthlyAttendanceSummery(workplaceId: Workplace.ID, year: Int, month: Int)
     case fetchAttendanceHistories(workplaceId: Workplace.ID, year: Int, month: Int, page: Int, size: Int)
@@ -27,7 +27,7 @@ extension AttendanceHistoryAPI {
     var route: Route {
         switch self {
         case .fetchAttendanceCalendar:
-            return .get("api/attendance/request-history/calender")
+            return .get("api/attendance/request-history/calendar-employee")
         case .fetchWorkeInfo:
             return .get("api/attendance/request-history/status")
         case .fetchMonthlyAttendanceSummery:
@@ -43,12 +43,11 @@ extension AttendanceHistoryAPI {
     
     var task: Task {
         switch self {
-        case let .fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month):
+        case let .fetchAttendanceCalendar(workplaceId: workplaceId, date: date):
             return .requestParameters(
                 parameters: [
                     "workplaceId": workplaceId,
-                    "year": year,
-                    "month": month
+                    "todayDate": date.ext.short,
                 ],
                 encoding: URLEncoding.queryString)
         case let .fetchWorkeInfo(workplaceId: workplaceId):

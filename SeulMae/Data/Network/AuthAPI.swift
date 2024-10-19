@@ -203,7 +203,7 @@ extension AuthAPI {
         default:
             return [
                 "Content-Type": "application/json",
-                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken")!)"
+//                "Authorization": "Bearer \(UserDefaults.standard.string(forKey: "accessToken")!)"
                 //Authorization-refresh
             ]
         }

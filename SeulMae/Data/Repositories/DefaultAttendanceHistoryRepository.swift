@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol AttendanceHistoryRepository {
-    func fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<[AttendanceHistory]>
+    func fetchAttendanceCalendar(workplaceId: Workplace.ID, date: Date) -> Single<[AttendanceHistory]>
     func fetchWorkInfo(workplaceId: Workplace.ID) -> Single<WorkInfo>
     func fetchMonthlyAttendanceSummery(workplaceId: Workplace.ID, year: Int, month: Int) -> Single<MonthlyAttenanceSummary>
     func fetchAttendanceHistories(workplaceId: Workplace.ID, year: Int, month: Int, page: Int, size: Int) -> Single<[AttendanceHistory]>
@@ -29,10 +29,10 @@ class DefaultAttendanceHistoryRepository: AttendanceHistoryRepository {
         self.network = network
     }
     
-    func fetchAttendanceCalendar(workplaceId: Workplace.ID, year: Int, month: Int) -> RxSwift.Single<[AttendanceHistory]> {
+    func fetchAttendanceCalendar(workplaceId: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceHistory]> {
         return network.rx
-            .request(.fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month))
-            .map(BaseResponseDTO<[AttendanceHistoryDTO]>.self)
+            .request(.fetchAttendanceCalendar(workplaceId: workplaceId, date: date))
+            .map(BaseResponseDTO<[AttendanceHistoryDTO]>.self, using: BaseResponseDTO<[AttendanceHistoryDTO]>.decoder)
             .map { $0.toDomain() }
     }
     

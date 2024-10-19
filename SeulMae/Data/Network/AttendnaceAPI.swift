@@ -9,9 +9,9 @@ import Foundation
 import Moya
 
 typealias AttendanceNetworking = MoyaProvider<AttendnaceAPI>
-// 추후 attendnaceAPI
+
 enum AttendnaceAPI: SugarTargetType {
-    case attend(request: AttendRequest)  // 출퇴근 승인 요청
+    case attend(request: AttendRequest) // 출퇴근 승인 요청
     case approveAttendance(request: ApproveAttendanceRequest) // 출퇴근 승인 요청 승인
     case disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) // 거절
     case fetchAttendanceRequsetList(workplaceId: Workplace.ID) // 응답하지 않은 요청
@@ -38,7 +38,11 @@ extension AttendnaceAPI {
     var task: Task {
         switch self {
         case let .attend(request: request):
-            return .requestJSONEncodable(request)
+            let encorder = JSONEncoder()
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd'T'HH:mm:ss"
+            encorder.dateEncodingStrategy = .formatted(dateFormatter)
+            return .requestCustomJSONEncodable(request, encoder: encorder)
         case let .approveAttendance(request: request):
             return .requestJSONEncodable(request)
         case let .disapproveAttendance(attendanceHistoryId: attendanceHistoryId):

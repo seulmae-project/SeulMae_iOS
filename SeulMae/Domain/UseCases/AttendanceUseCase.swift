@@ -123,7 +123,9 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         }
 
         let end = Date.ext.now
-        let attendance = AttendanceService.calculate(start: start, end: end, wage: wage)
+        var attendance = AttendanceService.calculate(start: start, end: end, wage: wage)
+        let workplaceId = userRepository.currentWorkplaceId
+        attendance.workplaceId = workplaceId
         return repository.attend(request: attendance)
     }
 

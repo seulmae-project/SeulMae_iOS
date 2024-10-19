@@ -17,7 +17,8 @@ final class AppDIContainer {
     lazy var workScheduleNetworking = WorkScheduleNetworking(plugins: [loggerPlugin])
     lazy var announceNetworking = AnnounceNetworking(plugins: [loggerPlugin])
     lazy var userNetworking = UserNetworking(plugins: [loggerPlugin])
-    
+    lazy var attendanceHistoryNetworking = AttendanceHistoryNetworking(plugins: [loggerPlugin])
+
     func makeAuthSceneDIContainer() -> AuthSceneDIContainer {
         return .init(
             dependencies: .init(
@@ -39,7 +40,8 @@ final class AppDIContainer {
             dependencies: .init(
                 attendanceNetworking: attendanceNetworking,
                 workplaceNetworking: workplaceNetworking,
-                notificationNetworking: notificationNetworking
+                notificationNetworking: notificationNetworking, 
+                attendanceHistoryNetworking: attendanceHistoryNetworking
             ))
     }
     

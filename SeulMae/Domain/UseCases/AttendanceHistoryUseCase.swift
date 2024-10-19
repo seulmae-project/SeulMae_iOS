@@ -28,17 +28,14 @@ final class DefaultAttendanceHistoryUseCase: AttendanceHistoryUseCase {
     
     func fetchAttendanceCalendar(date: Date) -> RxSwift.Single<[AttendanceHistory]> {
         let workplaceId = userRepository.currentWorkplaceId
-        let calendar = Calendar.current
-        let year = calendar.component(.year, from: date)
-        let month = calendar.component(.month, from: date)
-        return attendanceHistoryRepository.fetchAttendanceCalendar(workplaceId: workplaceId, year: year, month: month)
+        return attendanceHistoryRepository.fetchAttendanceCalendar(workplaceId: workplaceId, date: date)
     }
 
     func fetchWorkInfo() -> RxSwift.Single<WorkInfo> {
-        var currentWorkplaceId = userRepository.currentWorkplaceId
+        let currentWorkplaceId = userRepository.currentWorkplaceId
         return attendanceHistoryRepository.fetchWorkInfo(workplaceId: currentWorkplaceId)
     }
-    
+
     func fetchMonthlyAttendanceSummery(year: Int, month: Int) -> RxSwift.Single<MonthlyAttenanceSummary> {
         var currentWorkplaceId = userRepository.currentWorkplaceId
         return attendanceHistoryRepository.fetchMonthlyAttendanceSummery(workplaceId: currentWorkplaceId, year: year, month: month)

@@ -10,10 +10,10 @@ import UIKit
 final class HomeSceneDIContainer {
     
     struct Dependencies {
-         // let mainNetworking: MainNetworking
         let attendanceNetworking: AttendanceNetworking
         let workplaceNetworking: WorkplaceNetworking
         let notificationNetworking: NotificationNetworking
+        let attendanceHistoryNetworking: AttendanceHistoryNetworking
     }
     
     private let dependencies: Dependencies
@@ -34,35 +34,50 @@ final class HomeSceneDIContainer {
     }
     
     // MARK: - Private Methods
-    
+
+    private func makeAttendanceRepository() -> AttendanceRepository {
+        return DefaultAttendanceRepository(network: dependencies.attendanceNetworking)
+    }
+
     private func makeAttendanceUseCase() -> AttendanceUseCase {
-        DefaultAttendanceUseCase(repository: DefaultAttendanceRepository(network: dependencies.attendanceNetworking))
+        DefaultAttendanceUseCase(repository: self.makeAttendanceRepository())
     }
-    
+
+    private func makeAttendanceHistoryRepository() -> AttendanceHistoryRepository {
+        return DefaultAttendanceHistoryRepository(network: dependencies.attendanceHistoryNetworking)
+    }
+
     private func makeAttendanceHistoryUseCase() -> AttendanceHistoryUseCase {
-        return DefaultAttendanceHistoryUseCase(attendanceHistoryRepository: DefaultAttendanceHistoryRepository(network: AttendanceHistoryNetworking()))
+        return DefaultAttendanceHistoryUseCase(attendanceHistoryRepository: self.makeAttendanceHistoryRepository())
     }
-    
+
+    private func makeWorkplaceRepository() -> WorkplaceRepository {
+        return DefaultWorkplaceRepository(
+            network: dependencies.workplaceNetworking,
+            storage: SQLiteWorkplaceStorage()
+        )
+    }
+
     private func makeWorkplaceUseCase() -> WorkplaceUseCase {
-        return DefaultWorkplaceUseCase(workplaceRepository: DefaultWorkplaceRepository(network: dependencies.workplaceNetworking, storage: SQLiteWorkplaceStorage()))
+        return DefaultWorkplaceUseCase(workplaceRepository: self.makeWorkplaceRepository())
     }
-    
-    private func makeNotiUseCase() -> NoticeUseCase {
-        return DefaultNoticeUseCase(noticeRepository: makeNotiRepository())
+
+    private func makeNotificationRepository() -> NotificationRepository {
+        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
     }
-    
-    private func makeNotiRepository() -> NotificationRepository {
-        return DefaultNoticeRepository(network: NotificationNetworking())
+
+    private func makeNotificationUseCase() -> NoticeUseCase {
+        return DefaultNoticeUseCase(noticeRepository: self.makeNotificationRepository())
     }
-    
+
     private func makeUserHomeViewModel(
         coordinator: any HomeFlowCoordinator) -> UserHomeViewModel {
             return .init(
                 dependencies: (
                     coordinator: coordinator,
-                    workplaceUseCase: makeWorkplaceUseCase(),
-                    attendanceUseCase: makeAttendanceUseCase(),
-                    attendanceHistoryUseCase: makeAttendanceHistoryUseCase()
+                    workplaceUseCase: self.makeWorkplaceUseCase(),
+                    attendanceUseCase: self.makeAttendanceUseCase(),
+                    attendanceHistoryUseCase: self.makeAttendanceHistoryUseCase()
                 ))
         }
     
@@ -70,25 +85,16 @@ final class HomeSceneDIContainer {
         return .init(
             dependencies: (
                 coordinator: coordinator,
-                attendnaceUseCase: makeAttendanceUseCase()))
+                attendnaceUseCase: self.makeAttendanceUseCase()
+            ))
     }
 
-    // MARK: - Notification Private Methods
-
-    private func makeNoticeRepository() -> NotificationRepository {
-        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
-    }
-
-    private func makeNoticeUseCase() -> NoticeUseCase {
-        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
-    }
-
-    private func makeNotiListViewModel(
+    private func makeNotificationListViewModel(
         coordinator: HomeFlowCoordinator) -> NotiListViewModel {
             return .init(
                 dependency: (
                     coordinator: coordinator,
-                    noticeUseCase: makeNoticeUseCase()
+                    noticeUseCase: makeNotificationUseCase()
                 ))
     }
 
@@ -100,7 +106,6 @@ final class HomeSceneDIContainer {
                     workplaceUseCase: makeWorkplaceUseCase()
                 ))
         }
-    
     
     private func makeWorkTimeRecordingViewModel(
         coordinator: any HomeFlowCoordinator) -> WorkTimeRecordingViewModel {
@@ -134,7 +139,7 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
     func makeNotiListViewController(
         coordinator: any HomeFlowCoordinator) -> NotiListViewController {
             return .init(
-            viewModel: makeNotiListViewModel(coordinator: coordinator)
+            viewModel: makeNotificationListViewModel(coordinator: coordinator)
         )
     }
 

@@ -79,13 +79,12 @@ final class WorkplaceOverviewContentView: UIView, UIContentView {
             let title = button.title(for: .normal)
             if (title == "출근하기") {
                 self?.onStartRecording?()
-                button.setTitle("퇴근하기", for: .normal)
             } else {
                 self?.onSaveRecording?()
-                button.setTitle("출근하기", for: .normal)
             }
         })
         attendanceButton.addAction(onTap, for: .touchUpInside)
+        Self.attendanceButton = attendanceButton
 
         let bubbled = dayCountLabel.bubbled(color: UIColor(hexCode: "7298F8"), horizontal: 10, vertical: 1.0)
 
@@ -131,6 +130,8 @@ final class WorkplaceOverviewContentView: UIView, UIContentView {
         nameLabel.text = config.name
         dayCountLabel.text = "D + \(daysUntilToday(from: config.joinDate))"
         todayLabel.text = formattedDate(.ext.now)
+        onStartRecording = config.onStartRecording
+        onSaveRecording = config.onSaveRecording
     }
 
     private func formattedDate(_ date: Date) -> String {

@@ -83,30 +83,32 @@ final class UserHomeViewController: BaseViewController {
                 onSaveRecording: saveRecordRelay.asSignal()
             )
         )
-
-//        output.workplaces
-//            .drive(onNext: { [weak self] (items) in
-//                self?.applySnapshot(items: items)
-//            })
-//            .disposed(by: disposeBag)
-
+        
+        // Handle collectionView items
         output.items
             .drive(onNext: { [weak self] items in
                 self?.applySnapshot(items: items)
             })
             .disposed(by: disposeBag)
 
-//        Task {
-//            for await item in output.isStartRecording.values {
-//
-//            }
-//        }
-//
-//        Task {
-//            for await item in output.isSaveRecording.values {
-//                
-//            }
-//        }
+        // Handle attendance start
+        output.isStartRecording
+            .drive(onNext: { isStart in
+                if isStart {
+                    WorkplaceOverviewContentView.attendanceButton?.setTitle("퇴근하기", for: .normal)
+                }
+            })
+            .disposed(by: disposeBag)
+
+        // Handle attendance start
+        output.isSaveRecording
+            .drive(onNext: { isSave in
+                if isSave {
+                    WorkplaceOverviewContentView.attendanceButton?.setTitle("출근하기", for: .normal)
+                }        
+            })
+            .disposed(by: disposeBag)
+
         // Handle loading animations
         output.loading
             .drive(loadingIndicator.rx.isAnimating)
@@ -130,7 +132,7 @@ final class UserHomeViewController: BaseViewController {
     }
     
     private func configureNavItem() {
-        // navigationItem.rightBarButtonItem = notiRightBarButton
+         navigationItem.rightBarButtonItem = rightBarButton
     }
     
     // MARK: - DataSource Methods
@@ -186,8 +188,8 @@ final class UserHomeViewController: BaseViewController {
     
     private func createCalendarCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> {
         return UICollectionView.CellRegistration<UICollectionViewListCell, UserHomeItem> { cell, index, item in
-            print("histories: \(item.histories)")
             var content = UserHomeCalendarContentView.Configuration()
+            content.histories = item.histories
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }
