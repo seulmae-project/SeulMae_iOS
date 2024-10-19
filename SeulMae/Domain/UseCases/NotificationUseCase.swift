@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol NotificationUseCase {
-    func fetchAppNotificationList() -> Single<[AppNotification]>
+    func fetchAppNotificationList() -> Single<[Reminder]>
 }
 
 class DefaultNotificationUseCase: NotificationUseCase {
@@ -21,7 +21,7 @@ class DefaultNotificationUseCase: NotificationUseCase {
         self.noticeRepository = noticeRepository
     }
     
-    func fetchAppNotificationList() -> RxSwift.Single<[AppNotification]> {
+    func fetchAppNotificationList() -> RxSwift.Single<[Reminder]> {
         let workplaceId = userRepository.currentWorkplaceId
         return noticeRepository.fetchAppNotificationList(workplaceId: workplaceId)
     }

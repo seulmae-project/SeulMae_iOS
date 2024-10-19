@@ -46,10 +46,10 @@ final class JoinApplicationViewController: BaseViewController {
     private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let validationService: ValidationService
-    private let appNoti: AppNotification
+    private let appNoti: Reminder
     
     init(coordinator: TabBarFlowCoordinator, 
-         appNoti: AppNotification,
+         appNoti: Reminder,
          workplaceUseCase: WorkplaceUseCase,
          validationService: ValidationService
     ) {

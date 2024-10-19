@@ -21,7 +21,7 @@ class DefaultNoticeRepository: NotificationRepository {
         self.network = network
     }
     
-    func fetchAppNotificationList(workplaceId: Workplace.ID) -> RxSwift.Single<[AppNotification]> {
+    func fetchAppNotificationList(workplaceId: Workplace.ID) -> RxSwift.Single<[Reminder]> {
         return network.rx
             .request(.fetchNotifications(workplaceId: workplaceId))
             .map(BaseResponseDTO<[AppNotificationDTO]>.self, using: AppNotificationDTO.decoder)

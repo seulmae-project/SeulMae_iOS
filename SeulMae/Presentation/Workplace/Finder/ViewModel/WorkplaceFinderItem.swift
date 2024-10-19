@@ -16,7 +16,7 @@ struct WorkplaceFinderItem: Hashable {
     var memberList: [Member]?
     var application: SubmittedApplication?
     var isEmpty: Bool = false
-    var notifications: [AppNotification]?
+    var notifications: [Reminder]?
 
     var message: String {
         if section == .application {
@@ -38,7 +38,7 @@ struct WorkplaceFinderItem: Hashable {
         }
     }
 
-    static func reminder(_ notifications: [AppNotification]) -> WorkplaceFinderItem {
+    static func reminder(_ notifications: [Reminder]) -> WorkplaceFinderItem {
         var item = WorkplaceFinderItem()
         item.section = .reminder
         item.notifications = notifications

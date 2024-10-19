@@ -9,5 +9,5 @@ import Foundation
 import RxSwift
 
 protocol NotificationRepository {
-    func fetchAppNotificationList(workplaceId: Workplace.ID) -> Single<[AppNotification]>
+    func fetchAppNotificationList(workplaceId: Workplace.ID) -> Single<[Reminder]>
 }

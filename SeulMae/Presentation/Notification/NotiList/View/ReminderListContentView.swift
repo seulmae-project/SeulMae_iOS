@@ -9,10 +9,10 @@ import UIKit
 
 final class ReminderListContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
-        var type: String = ""
-        var title: String = ""
-        var message: String = ""
-        var date: Date = Date()
+        var type: String?
+        var title: String?
+        var message: String?
+        var date: Date?
         
         func makeContentView() -> UIView & UIContentView {
             return ReminderListContentView(self)
@@ -51,12 +51,7 @@ final class ReminderListContentView: UIView, UIContentView {
         contentStack.addArrangedSubview(messageLabel)
         contentStack.setCustomSpacing(8.0, after: headerStack)
         
-        let insets = NSDirectionalEdgeInsets(top: 12, leading: 20, bottom: 12, trailing: 20)
-        contentStack.directionalLayoutMargins = insets
-        contentStack.isLayoutMarginsRelativeArrangement = true
-        
         self.addSubview(contentStack)
-        
         contentStack.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
@@ -76,7 +71,7 @@ final class ReminderListContentView: UIView, UIContentView {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy년 M월 d일"
         typeLabel.text = config.type
-        dateLabel.text = dateFormatter.string(from: config.date)
+        dateLabel.text = dateFormatter.string(from: config.date ?? Date())
         titleLabel.text = config.title
         messageLabel.text = config.message
     }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct AppNotification: Hashable, Identifiable {
+struct Reminder: Hashable, Identifiable {
     let id: Int
     let title: String
     let message: String
@@ -36,6 +36,14 @@ enum AppNotificationType: String, Codable {
     
     // 이벤트(사용자가 설정한 일정이나 이벤트의 시작 시간을 알리는 알림, 출근시간인 경우, 알바생에게 월급을 지급해야 하는 경우 등)
     case event = "EVENT"
+
+    var category: String {
+        switch self {
+        case .attendanceResponse, .attendanceRequest: return "가입"
+        case .joinResponse, .joinRequset: return "승인"
+        default: return ""
+        }
+    }
 }
 
 

@@ -13,13 +13,12 @@ final class ReminderListViewModel: ViewModel {
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
-        let onItemTap: Signal<NotiListItem>
+        let onItemTap: Signal<ReminderListItem>
     }
     
     struct Output {
         let loading: Driver<Bool>
-        let categories: Driver<[NotiListItem]>
-        let notiList: Driver<[NotiListItem]>
+        let items: Driver<[ReminderListItem]>
     }
     
     // MARK: - Dependency
@@ -45,27 +44,39 @@ final class ReminderListViewModel: ViewModel {
         
         let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
 
-        let categories = Driver.just(["JOIN_REQUEST", "some"])
-            .map { $0.map(NotiListItem.init(cateogry:)) }
-            
-        let notiList = noticeUseCase
-            .fetchAppNotificationList()
-            .map { $0.map(NotiListItem.init(noti:)) }
+        let fetched = onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[ReminderListItem]> in
+                self.noticeUseCase
+                    .fetchAppNotificationList()
+                    .map { $0.map(ReminderListItem.reminder(_:)) }
+                    .asDriver()
+            }
+
+        let filtered = input.onItemTap
+            .filter { $0.section == .category }
             .asDriver()
-       
+            .withLatestFrom(fetched) { (category: $0, items: $1) }
+            .map { pair in
+                if (pair.category.category == "전체") {
+                    return pair.items
+                } else {
+                    return pair.items.filter { $0.reminder!.type.category == pair.category.category! }
+                }
+            }
+
+        let items = Driver.merge(fetched, filtered)
+
         // MARK: Coordinator Logic
         
         Task {
             for await item in input.onItemTap.values {
-                if case .category = item.type,
+                if case .category = item.section,
                    let category = item.category {
                     Swift.print("Did tap noti category: \(category)")
                 }
                 
-                if case .noti = item.type,
-                   let notiId = item.noti?.id {
-                    // TODO: 화면 이동 로직 고민..?
-                    // category 리스트에 따라? 고민해보자 혹은 url 식으로 연결
+                if case .list = item.section,
+                   let notiId = item.reminder?.id {
                     Swift.print("Did tap noti: \(notiId)")
                 }
             }
@@ -73,8 +84,7 @@ final class ReminderListViewModel: ViewModel {
 
         return Output(
             loading: loading,
-            categories: categories,
-            notiList: notiList
+            items: items
         )
     }
 }

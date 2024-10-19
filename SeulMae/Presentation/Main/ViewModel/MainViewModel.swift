@@ -31,7 +31,7 @@ final class MainViewModel: ViewModel {
         let members: Driver<[Member]>
         let attendanceListItems: Driver<[AttendanceListItem]>
         let announceList: Driver<[Announce]>
-        let appNotis: Driver<[AppNotification]>
+        let appNotis: Driver<[Reminder]>
     }
     
     // MARK: - Dependencies
@@ -117,7 +117,7 @@ final class MainViewModel: ViewModel {
 //                .asDriver()
 //        }
 //        
-        let appNotis = managerLogic.flatMapLatest { [weak self] item -> Driver<[AppNotification]> in
+        let appNotis = managerLogic.flatMapLatest { [weak self] item -> Driver<[Reminder]> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.noticeUseCase
                 .fetchAppNotificationList()
