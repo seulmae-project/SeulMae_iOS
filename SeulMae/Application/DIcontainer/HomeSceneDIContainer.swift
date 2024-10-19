@@ -13,6 +13,7 @@ final class HomeSceneDIContainer {
          // let mainNetworking: MainNetworking
         let attendanceNetworking: AttendanceNetworking
         let workplaceNetworking: WorkplaceNetworking
+        let notificationNetworking: NotificationNetworking
     }
     
     private let dependencies: Dependencies
@@ -71,15 +72,26 @@ final class HomeSceneDIContainer {
                 coordinator: coordinator,
                 attendnaceUseCase: makeAttendanceUseCase()))
     }
-    
-//    private func makeNotiListViewModel(
-//        coordinator: any HomeFlowCoordinator) -> NotiListViewModel {
-//            .init(
-//                dependency: (
-//                    coordinator: coordinator,
-//                    noticeUseCase: makeNotiUseCase()))
-//        }
-    
+
+    // MARK: - Notification Private Methods
+
+    private func makeNoticeRepository() -> NotificationRepository {
+        return DefaultNoticeRepository(network: dependencies.notificationNetworking)
+    }
+
+    private func makeNoticeUseCase() -> NoticeUseCase {
+        return DefaultNoticeUseCase(noticeRepository: makeNoticeRepository())
+    }
+
+    private func makeNotiListViewModel(
+        coordinator: HomeFlowCoordinator) -> NotiListViewModel {
+            return .init(
+                dependency: (
+                    coordinator: coordinator,
+                    noticeUseCase: makeNoticeUseCase()
+                ))
+    }
+
     private func makeScheduleReminderViewModel(
         coordinator: any HomeFlowCoordinator) -> ScheduleReminderViewModel {
             return .init(
@@ -119,13 +131,13 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
             )
     }
     
-//    func makeNotiListViewController(
-//        coordinator: HomeFlowCoordinator) -> NotiListViewController {
-//            return .init(
-//                viewModel: makeNotiListViewModel(coordinator: coordinator)
-//            )
-//        }
-//    
+    func makeNotiListViewController(
+        coordinator: any HomeFlowCoordinator) -> NotiListViewController {
+            return .init(
+            viewModel: makeNotiListViewModel(coordinator: coordinator)
+        )
+    }
+
     func makeScheduleReminderViewController(
         coordinator: any HomeFlowCoordinator) -> ScheduleReminderViewController {
             return ScheduleReminderViewController(

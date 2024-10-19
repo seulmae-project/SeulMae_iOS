@@ -38,7 +38,8 @@ final class AppDIContainer {
         return .init(
             dependencies: .init(
                 attendanceNetworking: attendanceNetworking,
-                workplaceNetworking: workplaceNetworking
+                workplaceNetworking: workplaceNetworking,
+                notificationNetworking: notificationNetworking
             ))
     }
     

@@ -24,14 +24,14 @@ final class NotiListViewModel: ViewModel {
     
     // MARK: - Dependency
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: HomeFlowCoordinator
     private let noticeUseCase: NoticeUseCase
         
     // MARK: - Life Cycle
     
     init(
         dependency: (
-            coordinator: MainFlowCoordinator,
+            coordinator: HomeFlowCoordinator,
             noticeUseCase: NoticeUseCase
         )
     ) {

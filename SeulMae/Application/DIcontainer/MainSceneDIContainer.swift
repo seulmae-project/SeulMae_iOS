@@ -59,7 +59,7 @@ final class MainSceneDIContainer {
     }
     
     private func makeNotiListViewModel(
-        coordinator: MainFlowCoordinator) -> NotiListViewModel {
+        coordinator: HomeFlowCoordinator) -> NotiListViewModel {
             return .init(
                 dependency: (
                     coordinator: coordinator,
@@ -83,12 +83,6 @@ extension MainSceneDIContainer: MainFlowCoordinatorDependencies {
     
     // MARK: - MainFlowCoordinatorDependencies
     
-    func makeNotiListViewController(
-        coordinator: any MainFlowCoordinator) -> NotiListViewController {
-            return .init(
-            viewModel: makeNotiListViewModel(coordinator: coordinator)
-        )
-    }
     
     
     

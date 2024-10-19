@@ -29,15 +29,6 @@ final class MainTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        let rightNotiBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
-        navigationItem.rightBarButtonItem = rightNotiBarButton
-        
-        let showNotis = rightNotiBarButton.rx.tap.asSignal()
-        Task {
-            for await _ in showNotis.values {
-                mainCoordinator.showNotiList()
-            }
-        }
     }
     
     private func setupTabBar() {

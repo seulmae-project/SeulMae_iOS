@@ -9,7 +9,7 @@ import UIKit
 
 protocol MainFlowCoordinatorDependencies {
     
-    func makeNotiListViewController(coordinator: MainFlowCoordinator) -> NotiListViewController
+  
     //    func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
     //    func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
     //    func makeWorkplaceListViewController(coordinator: MainFlowCoordinator) -> WorkplacePlaceListViewController
@@ -31,7 +31,7 @@ protocol MainFlowCoordinatorDependencies {
 
 protocol MainFlowCoordinator: Coordinator {
     
-    func showNotiList()
+    
     
     
     func showWorkplaceFinder()
@@ -75,10 +75,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         navigationController.setViewControllers([vc], animated: false)
     }
     
-    func showNotiList() {
-        let vc = dependencies.makeNotiListViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
-    }
+
     
     // MARK: - Workplace Flow
     
