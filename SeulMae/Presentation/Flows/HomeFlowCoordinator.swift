@@ -7,6 +7,8 @@
 
 import UIKit
 
+// MARK: - Dependencies
+
 protocol HomeFlowCoordinatorDependencies {
     func makeMemberHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
     func makeManagerHomeViewController(coordinator: HomeFlowCoordinator) -> ManagerHomeViewController
@@ -33,9 +35,6 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     var coordinators = [any Coordinator]()
     lazy var navigationController = UINavigationController()
-    
-    // MARK: - Dependency
-    
     private let dependencies: HomeFlowCoordinatorDependencies
     
     // MARK: - Life Cycle Methods
@@ -51,14 +50,9 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     func start(_ arguments: Any?) {
         guard let isManager = arguments as? Bool else {
             Swift.fatalError("[Home Flow]: Does not fount arguments")
-            // return
         }
         
-        if isManager {
-            showManagerHome()
-        } else {
-            showMemberHome()
-        }
+        isManager ? showManagerHome() : showMemberHome()
     }
     
     func showMemberHome() {

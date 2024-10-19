@@ -19,14 +19,20 @@ class AppFlowCoordinator {
     }
     
     func start() {
-        let authSceneDIContainer = appDIContainer.makeAuthSceneDIContainer()
-        var authCoordinator = authSceneDIContainer.makeAuthFlowCoordinator(navigationController: navigationController)
+        var authCoordinator = makeAuthCoordinator()
         let mainCoordinator = makeMainCoordinator()
         authCoordinator.coordinators.append(mainCoordinator)
         authCoordinator.start(nil)
     }
-    
-    func makeMainCoordinator() -> MainFlowCoordinator {
+
+    func makeAuthCoordinator() -> AuthFlowCoordinator {
+        let authSceneDIContainer = appDIContainer.makeAuthSceneDIContainer()
+        var authCoordinator = authSceneDIContainer.makeAuthFlowCoordinator(
+            navigationController: navigationController)
+        return authCoordinator
+    }
+
+    func makeMainCoordinator() -> TabBarFlowCoordinator {
         let mainSceneDIContainer = appDIContainer.makeMainSceneDIContainer()
         var mainCoordinator = mainSceneDIContainer.makeMainFlowCoordinator(navigationController: navigationController)
         

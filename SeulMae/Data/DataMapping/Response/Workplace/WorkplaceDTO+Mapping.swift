@@ -8,7 +8,6 @@
 import Foundation
 
 struct WorkplaceDTO: ModelType {
-    
     let id: Int
     let invitationCode: String?
     let name: String
@@ -18,6 +17,7 @@ struct WorkplaceDTO: ModelType {
     let manager: String?
     let mainAddress: String?
     let subAddress: String?
+    let address: AddressDTO?
     let userWorkplaceId: Int?
     let isManager: Bool?
     
@@ -31,6 +31,7 @@ struct WorkplaceDTO: ModelType {
         case manager = "workplaceManagerName"
         case mainAddress
         case subAddress
+        case address
         case userWorkplaceId
         case isManager = "isManger"
     }
@@ -63,7 +64,8 @@ extension WorkplaceDTO {
             thumbnailURL: self.thumbnailURL,
             manager: self.manager ?? "",
             mainAddress: self.mainAddress ?? "",
-            subAddress: self.subAddress ?? ""
+            subAddress: self.subAddress ?? "",
+            address: self.address?.toDomain() 
         )
     }
 }

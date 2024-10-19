@@ -151,10 +151,10 @@ final class SearchWorkplaceViewController: UIViewController {
         return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
             var content = WorkplaceContentView.Configuration()
             content.name = item.placeName
-            content.mainAddress = item.placeAddress
-            content.contact = item.placeTel
-            content.manager = item.placeMananger
-            content.imageUrl = item.imageUrl
+            content.address = item.placeAddress
+            // content.contact = item.placeTel
+            // content.manager = item.placeMananger
+            // content.imageUrl = item.imageUrl
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
         }

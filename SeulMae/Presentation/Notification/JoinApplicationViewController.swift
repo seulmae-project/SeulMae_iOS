@@ -43,12 +43,12 @@ final class JoinApplicationViewController: BaseViewController {
     private let okButton: UIButton = .half(title: "OK")
     private let noButton: UIButton = .half(title: "NO")
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let validationService: ValidationService
     private let appNoti: AppNotification
     
-    init(coordinator: MainFlowCoordinator, 
+    init(coordinator: TabBarFlowCoordinator, 
          appNoti: AppNotification,
          workplaceUseCase: WorkplaceUseCase,
          validationService: ValidationService

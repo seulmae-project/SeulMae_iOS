@@ -123,7 +123,9 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<Bool>.self)
             .map { $0.isSuccess }
     }
-    
+
+
+
     
     func fetchMemberInfo(memberId: Member.ID) -> RxSwift.Single<MemberProfile> {
         return network.rx
@@ -149,6 +151,13 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
         return network.rx
             .request(.fetchJoinedWorkplaceList)
             .map(BaseResponseDTO<[WorkplaceDTO]>.self)
+            .map { $0.toDomain() }
+    }
+
+    func fetchSubmittedApplications() -> RxSwift.Single<[SubmittedApplication]> {
+        return network.rx
+            .request(.fetchSubmittedApplicationList)
+            .map(BaseResponseDTO<[ApplicationDTO]>.self, using: BaseResponseDTO<[ApplicationDTO]>.decoder)
             .map { $0.toDomain() }
     }
 }

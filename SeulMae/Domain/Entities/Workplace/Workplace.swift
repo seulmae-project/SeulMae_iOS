@@ -19,8 +19,9 @@ struct Workplace: Identifiable, Hashable {
     let manager: String?
     let mainAddress: String
     let subAddress: String?
-    
-    init(id: Int, name: String, userWorkplaceId: Int?, isManager: Bool?, invitationCode: String, contact: String, imageURLList: [String], thumbnailURL: String?, manager: String?, mainAddress: String, subAddress: String?) {
+    let address: Address?
+
+    init(id: Int, name: String, userWorkplaceId: Int?, isManager: Bool?, invitationCode: String, contact: String, imageURLList: [String], thumbnailURL: String?, manager: String?, mainAddress: String, subAddress: String?, address: Address?) {
         self.id = id
         self.name = name
         self.userWorkplaceId = userWorkplaceId
@@ -32,6 +33,7 @@ struct Workplace: Identifiable, Hashable {
         self.manager = manager
         self.mainAddress = mainAddress
         self.subAddress = subAddress
+        self.address = address
     }
     
     init(entity: WorkplaceModel) {
@@ -46,6 +48,7 @@ struct Workplace: Identifiable, Hashable {
         self.manager = entity.manager
         self.mainAddress = entity.mainAddress ?? ""
         self.subAddress = entity.subAddress
+        self.address = nil
     }
 }
 

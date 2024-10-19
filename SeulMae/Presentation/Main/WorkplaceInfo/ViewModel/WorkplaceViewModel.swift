@@ -54,7 +54,7 @@ final class WorkplaceViewModel: ViewModel {
         let loading = indicator.asDriver()
         
         let members = workplaceUseCase
-            .fetchMemberList()
+            .fetchCurrentWorkplaceMemberList()
             .map { $0.map(WorkplaceListItem.init(member:)) }
             .asDriver()
         

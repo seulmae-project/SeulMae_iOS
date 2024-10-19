@@ -26,7 +26,7 @@ final class AppDIContainer {
             ))
     }
     
-    func makeMainSceneDIContainer() -> MainSceneDIContainer {
+    func makeMainSceneDIContainer() -> TabBarSceneDIContainer {
         return .init(
             dependencies: .init(
                 notificationNetworking: notificationNetworking,

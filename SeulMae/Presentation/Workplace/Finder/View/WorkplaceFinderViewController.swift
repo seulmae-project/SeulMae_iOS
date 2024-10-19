@@ -15,36 +15,16 @@ final class WorkplaceFinderViewController: BaseViewController {
     
     typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceFinderItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceFinderItem>
-    typealias Item = WorkplaceFinderItem
-    
-    enum Section: Int, CustomStringConvertible, CaseIterable {
-        case finder, sumitState, workplace
-        
-        var title: String {
-            switch self {
-            case .finder:
-                "근무지 참여하기"
-            case .sumitState:
-                "가입 대기중인 근무지"
-            case .workplace:
-                "내 근무지 리스트"
-            }
-        }
-        
-        var description: String {
-            switch self {
-            case .finder:
-                "참여하거나 새로운 근무지를 만들어요"
-            case .sumitState:
-                "승인이되면 알림으로 알려드려요"
-            case .workplace:
-                "내가 가입한 근무지 리스트에요"
-            }
-        }
+
+    enum Section: Int, CaseIterable {
+        case reminder, card, workplace, application
     }
     
-    // MARK: - UI
-    
+    // MARK: - UI Properties
+
+    private var leftMenuBarButton: UIBarButtonItem = .init(image: .menu, style: .plain, target: nil, action: nil)
+    private var rightBellBarButton: UIBarButtonItem = .init(image: .bell, style: .plain, target: nil, action: nil)
+
     private let refreshControl: UIRefreshControl = {
         let control = UIRefreshControl()
         return control
@@ -56,9 +36,10 @@ final class WorkplaceFinderViewController: BaseViewController {
             collectionViewLayout: createLayout())
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.refreshControl = refreshControl
+        collectionView.backgroundColor = UIColor(hexCode: "F2F3F5")
         return collectionView
     }()
-    
+
     // MARK: - Properties
     
     private var viewModel: WorkplaceFinderViewModel
@@ -80,8 +61,8 @@ final class WorkplaceFinderViewController: BaseViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupView()
-        setupConstraints()
+        configureNavItem()
+        configureHierarchy()
         setupDataSource()
         bindSubviews()
     }
@@ -92,217 +73,252 @@ final class WorkplaceFinderViewController: BaseViewController {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
             .map { _ in return () }
             .asSignal()
-        let onRefresh = refreshControl.rx
-            .controlEvent(.valueChanged)
-            .map { _ in }
-            .asSignal()
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                onRefresh: onRefresh,
+                onRefresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
                 search: findRelay.asSignal(),
                 create: createRelay.asSignal()
             )
         )
-        
-        Task {
-            for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
-            }
-        }
-        
-        Task {
-            for await items in output.items.values {
+
+        output.items
+            .drive(with: self, onNext: { (self, items) in
                 guard let item = items.first else { return }
-                var snapshot = Snapshot()
-                snapshot.appendSections(Section.allCases)
-                snapshot.appendItems([Item()], toSection: .finder)
-                switch item.type {
-                case .finder:
-                    break
-                case .sumitState:
-                    snapshot.appendItems(items, toSection: .sumitState)
-                case .workplace:
-                    snapshot.appendItems(items, toSection: .workplace)
-                }
-                dataSource.apply(snapshot)
-            }
-        }
+                var snapshot = self.dataSource.snapshot()
+                let applied = snapshot.itemIdentifiers(inSection: item.section!)
+                snapshot.deleteItems(applied)
+                snapshot.appendItems(items, toSection: item.section!)
+                self.dataSource.apply(snapshot)
+            })
+            .disposed(by: disposeBag)
+
+        output.loading
+            .drive(loadingIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Hierarchy
-    
-    private func setupView() {
-        view.backgroundColor = .systemBackground
+
+    private func configureNavItem() {
+        navigationItem.rightBarButtonItem = rightBellBarButton
+        navigationItem.leftBarButtonItem = leftMenuBarButton
+        let iconImageView: UIImageView = .common(image: .seulmae)
+        // TODO: add action to icon image view
+        navigationItem.titleView = iconImageView
     }
-    
-    private func setupConstraints() {
+
+    private func configureHierarchy() {
+        view.backgroundColor = .systemBackground
         view.addSubview(collectionView)
     }
     
     // MARK: - DataSource
     
     private func setupDataSource() {
-        let finderCellRegistration = createFinderCellRegistration()
-        let submitStateCellRegistration = createSubmitStateCellRegistration()
+        let reminderCellRegistration = createReminderCellRegistiration()
+        let cardCellRegistration = createCardCellRegistiration()
         let workplaceCellRegistration = createWorkplaceCellRegistration()
-        let headerCellRegistration = createHeaderCellRegistration()
-        let footerCellRegistration = createFooterCellRegistration()
+        let submitStateCellRegistration = createApplicationCellRegistration()
+
         dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
-            guard let section = Section(rawValue: index.section) else { return nil }
+            guard let section = Section(rawValue: index.section) else {
+                Swift.fatalError("Unknown section!")
+            }
+
             switch section {
-            case .finder:
-                return view.dequeueConfiguredReusableCell(using: finderCellRegistration, for: index, item: item)
-            case .sumitState:
-                return view.dequeueConfiguredReusableCell(using: submitStateCellRegistration, for: index, item: item)
+            case .reminder:
+                return view.dequeueConfiguredReusableCell(using: reminderCellRegistration, for: index, item: item)
+            case .card:
+                return view.dequeueConfiguredReusableCell(using: cardCellRegistration, for: index, item: item)
             case .workplace:
                 return view.dequeueConfiguredReusableCell(using: workplaceCellRegistration, for: index, item: item)
+            case .application:
+                return view.dequeueConfiguredReusableCell(using: submitStateCellRegistration, for: index, item: item)
             }
         }
         
-        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
-            return (kind == OutlineSupplementaryView.reuseIdentifier)
-            ? view.dequeueConfiguredReusableSupplementary(
-                using: headerCellRegistration, for: indexPath)
-            : view.dequeueConfiguredReusableSupplementary(using: footerCellRegistration, for: indexPath)
-        }
+//        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
+//            return (kind == OutlineSupplementaryView.reuseIdentifier)
+//            ? view.dequeueConfiguredReusableSupplementary(
+//                using: headerCellRegistration, for: indexPath)
+//            : view.dequeueConfiguredReusableSupplementary(using: footerCellRegistration, for: indexPath)
+//        }
         
         applyInitialSnapshot()
     }
     
     // MARK: - Snapshot
     
-    func applyInitialSnapshot() {
+    private func applyInitialSnapshot() {
         var snapshot = Snapshot()
         snapshot.appendSections(Section.allCases)
-        snapshot.appendItems([Item()], toSection: .finder)
+        snapshot.appendItems(WorkplaceFinderItem.cards, toSection: .card)
+        snapshot.appendItems([.empty(section: .workplace)], toSection: .workplace)
+        snapshot.appendItems([.empty(section: .application)], toSection: .application)
+        // TODO: Empty view
         dataSource?.apply(snapshot)
     }
     
     // MARK: - Cell Registration
-    
-    private func createFinderCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-            guard case .finder = item.type else { return }
-            var content = WorkplaceFinderContentView.Configuration()
-            content.onSearch = { [weak self] in
-                self?.findRelay.accept(())
-            }
-            content.onCreate = { [weak self] in
-                self?.createRelay.accept(())
-            }
+
+    private func createReminderCellRegistiration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
+        return .init { cell, indexPath, item in
+            guard case .reminder = item.section else { return }
+            var content = ReminderCountContentView.Configuration()
+            content.remiderCount = item.reminders?.count
             cell.contentConfiguration = content
-            cell.backgroundConfiguration = .clear()
+            var backgroundConfig = UIBackgroundConfiguration.clear()
+            backgroundConfig.backgroundColor = .white
+            backgroundConfig.cornerRadius = 8.0
+            cell.backgroundConfiguration = backgroundConfig
         }
     }
-    
-    private func createSubmitStateCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-            
-        }
-    }
-    
-    private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-            guard case .workplace = item.type else { return }
-            var content = WorkplaceContentView.Configuration()
-            content.name = item.workplace?.name ?? ""
-            content.imageUrl = item.workplace?.thumbnailURL ?? ""
+
+    private func createCardCellRegistiration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
+        return .init { cell, indexPath, item in
+            guard case .card = item.section else { return }
+            var content = CardContentView.Configuration()
+            content.title = item.title
+            content.icon = item.icon
             cell.contentConfiguration = content
-            cell.backgroundConfiguration = .clear()
+            var backgroundConfig = UIBackgroundConfiguration.clear()
+            backgroundConfig.backgroundColor = .white
+            backgroundConfig.cornerRadius = 8.0
+            cell.backgroundConfiguration = backgroundConfig
         }
     }
-    
-    func createHeaderCellRegistration() -> UICollectionView.SupplementaryRegistration<OutlineSupplementaryView> {
-        return .init(elementKind: OutlineSupplementaryView.reuseIdentifier) { (supplementaryView, string, indexPath) in
-            guard let section = Section(rawValue: indexPath.section) else {
-                Swift.fatalError("Unknown section!")
+
+    private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
+        return .init { cell, indexPath, item in
+            guard case .workplace = item.section else { return }
+            if item.isEmpty {
+                var content = EmptyContentView.Configuration()
+                content.image = item.image
+                content.message = item.message
+                cell.contentConfiguration = content
+            } else {
+                var content = WorkplaceContentView.Configuration()
+                // content.imageURL = item.workplace.
+                // content. // 영업 중
+                // content.workTime // 8:00 - 11:00
+                content.name = item.workplace?.name
+                content.address = item.workplace?.address?.mainAddress
+                content.subAdress = item.workplace?.address?.subAddress
+                // content. // 오전 A팀 근무 중
+                content.memberList = item.memberList
+                cell.contentConfiguration = content
             }
-            
-            supplementaryView.titleLabel.ext
-                .setText(section.title, size: 24, weight: .semibold)
-            supplementaryView.descriptionLabel.ext
-                .setText(section.description, size: 16, weight: .regular, color: .secondaryLabel)
-            
-            let showSeparator = !(section == .finder)
-            supplementaryView.showsSeparator = false
+            var backgroundConfig = UIBackgroundConfiguration.clear()
+            backgroundConfig.backgroundColor = .white
+            backgroundConfig.cornerRadius = 8.0
+            cell.backgroundConfiguration = backgroundConfig
         }
     }
-    
-    func createFooterCellRegistration() -> UICollectionView.SupplementaryRegistration<SeparatorSupplementaryView> {
-        return UICollectionView.SupplementaryRegistration
-        <SeparatorSupplementaryView>(elementKind: SeparatorSupplementaryView.reuseIdentifier) { supplementaryView, elementKind, indexPath in
-            
+
+    private func createApplicationCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
+        return .init { cell, indexPath, item in
+            guard case .application = item.section else { return }
+            if item.isEmpty {
+                var content = EmptyContentView.Configuration()
+                content.image = item.image
+                content.message = item.message
+                cell.contentConfiguration = content
+            } else {
+                var content = ApplicationContentView.Configuration()
+                content.name = item.workplace?.name
+                content.address = item.workplace?.mainAddress
+                content.subAdress = item.workplace?.subAddress
+                cell.contentConfiguration = content
+            }
+            var backgroundConfig = UIBackgroundConfiguration.clear()
+            backgroundConfig.backgroundColor = .white
+            backgroundConfig.cornerRadius = 8.0
+            cell.backgroundConfiguration = backgroundConfig
         }
     }
-    
+
     // MARK: - UICollectionViewLayout
-    
-    private func createLayout() -> UICollectionViewLayout {
-        let sectionProvider = { (sectionIndex: Int, layoutEnvironment: NSCollectionLayoutEnvironment) -> NSCollectionLayoutSection? in
-            guard let sectionKind = Section(rawValue: sectionIndex) else {
+
+    func createLayout() -> UICollectionViewLayout {
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 12
+        return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
+            guard let section = Section(rawValue: sectionIndex) else {
                 Swift.fatalError("Unknown section!")
             }
-            
-            let headerFooterSize = NSCollectionLayoutSize(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(12))
-            let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerFooterSize,
-                elementKind: OutlineSupplementaryView.reuseIdentifier,
-                alignment: .top)
-            let sectionFooter = NSCollectionLayoutBoundarySupplementaryItem(
-                layoutSize: headerFooterSize,
-                elementKind: SeparatorSupplementaryView.reuseIdentifier,
-                alignment: .bottom)
-            
-            let section: NSCollectionLayoutSection
-            switch sectionKind {
-            case .finder:
-                let item = NSCollectionLayoutItem(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .estimated(200)))
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .estimated(200)),
-                    subitems: [item])
-                group.interItemSpacing = .fixed(12)
-                section = NSCollectionLayoutSection(group: group)
-                section.boundarySupplementaryItems = [sectionHeader, sectionFooter]
-            case .sumitState:
-                let item = NSCollectionLayoutItem(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(100)))
-                let group = NSCollectionLayoutGroup.horizontal(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(0.9),
-                        heightDimension: .absolute(100)),
-                    subitems: [item])
-                section = NSCollectionLayoutSection(group: group)
-                section.orthogonalScrollingBehavior = .continuousGroupLeadingBoundary
-                section.interGroupSpacing = 20
-                section.boundarySupplementaryItems = [sectionHeader, sectionFooter]
+
+            switch section {
+            case .reminder:
+                return Self.makeReminderSectionLayout()
+            case .card:
+                return Self.makeCardSectionLayout()
             case .workplace:
-                let item = NSCollectionLayoutItem(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(100)))
-                let group = NSCollectionLayoutGroup.vertical(
-                    layoutSize: .init(
-                        widthDimension: .fractionalWidth(1.0),
-                        heightDimension: .absolute(100)),
-                    subitems: [item])
-                section = NSCollectionLayoutSection(group: group)
-                section.boundarySupplementaryItems = [sectionHeader]
+                return Self.makeWorkplaceSectionLayout()
+            case .application:
+                return Self.makeApplicationSectionLayout()
             }
-            
-            return section
-        }
-        let config = UICollectionViewCompositionalLayoutConfiguration()
-        config.interSectionSpacing = 20
-        return UICollectionViewCompositionalLayout(sectionProvider: sectionProvider, configuration: config)
+        }, configuration: config)
+    }
+
+    static func makeReminderSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalWidth(0.16))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        return section
+    }
+
+    static func makeCardSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(0.5),
+            heightDimension: .estimated(80))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(80))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize, subitems: [item])
+        group.interItemSpacing = .fixed(12)
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        return section
+    }
+
+    static func makeWorkplaceSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(230))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(230))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        return section
+    }
+
+    static func makeApplicationSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(56))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(56))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        return section
     }
 }

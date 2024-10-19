@@ -116,7 +116,10 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     }
     
     private func makeWorkplaceRepository() -> WorkplaceRepository {
-        return DefaultWorkplaceRepository(network: WorkplaceNetworking(), storage: SQLiteWorkplaceStorage())
+        return DefaultWorkplaceRepository(
+            network: WorkplaceNetworking(),
+            storage: SQLiteWorkplaceStorage()
+        )
     }
     
     // MARK: - Signup Flow
@@ -183,7 +186,9 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         )
     }
     
-    func makeAccountRecoveryOptionViewController(coordinator: any AuthFlowCoordinator) -> CredentialRecoveryOptionsViewController {
+    func makeAccountRecoveryOptionViewController(
+        coordinator: any AuthFlowCoordinator
+    ) -> CredentialRecoveryOptionsViewController {
         return .init()
     }
     

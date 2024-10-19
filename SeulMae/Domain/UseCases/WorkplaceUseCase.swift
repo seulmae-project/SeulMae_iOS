@@ -13,32 +13,24 @@ protocol WorkplaceUseCase {
     func readWorkplaceList() -> [Workplace]
     func readDefaultWorkplace() -> Workplace
 
-    // Search workplace
+    // API
     func fetchWorkplaces(keyword: String) -> Single<[Workplace]>
     func fetchWorkplaces() -> Single<[Workplace]>
-    
-    // Workpalce details
     func fetchMyWorkplaceDetail() -> RxSwift.Single<Workplace>
     func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> Single<Workplace>
-
-
-    // Workpalce details
     func submitApplication(workplaceID id: Workplace.ID) -> Single<Bool>
-
-    // Add new workplace
     func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>
-
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
-    
     func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
     func denyApplication(workplaceApproveId: Int) -> Single<Bool>
-    
-    func fetchMemberList() -> Single<[Member]>
-    
+    func fetchCurrentWorkplaceMemberList() -> Single<[Member]>
+    func fetchMemberList(workplaceId: Workplace.ID) -> Single<[Member]>
+
     func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
     func fetchMyInfo() -> Single<MemberProfile>
     func fetchJoinedWorkplaceList() -> Single<[Workplace]>
+    func fetchSubmittedApplications() -> Single<[SubmittedApplication]>
 }
 
 final class DefaultWorkplaceUseCase: WorkplaceUseCase {
@@ -95,12 +87,15 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         workplaceRepository.addNewWorkplace(request: request)
     }
     
-    func fetchMemberList() -> RxSwift.Single<[Member]> {
+    func fetchCurrentWorkplaceMemberList() -> RxSwift.Single<[Member]> {
         let currentWorkplaceId = userRepository.currentWorkplaceId
         return workplaceRepository.fetchMemberList(workplaceId: currentWorkplaceId)
     }
-    
-    
+
+    func fetchMemberList(workplaceId: Workplace.ID) -> RxSwift.Single<[Member]> {
+        return workplaceRepository.fetchMemberList(workplaceId: workplaceId)
+    }
+
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         workplaceRepository.updateWorkplace(request)
     }
@@ -119,11 +114,12 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         )
     }
     
-    func denyApplication(
-        workplaceApproveId: Int) -> RxSwift.Single<Bool> {
+    func denyApplication(workplaceApproveId: Int) -> RxSwift.Single<Bool> {
         return workplaceRepository.denyApplication(workplaceApproveId: workplaceApproveId)
     }
-    
+
+
+
     func fetchMemberInfo(memberId id: Member.ID) -> RxSwift.Single<MemberProfile> {
         return workplaceRepository.fetchMemberInfo(memberId: id)
             .do(onError: { error in
@@ -138,6 +134,10 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     
     func fetchJoinedWorkplaceList() -> Single<[Workplace]> {
         return workplaceRepository.fetchJoinedWorkplaceList()
+    }
+
+    func fetchSubmittedApplications() -> Single<[SubmittedApplication]> {
+        return workplaceRepository.fetchSubmittedApplications()
     }
 
     // MARK: - Left Time Progress
@@ -173,4 +173,5 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
         let progress = max(0, min(1, 1 - (timeInterval / oneDay)))
         return progress
     }
+    
 }

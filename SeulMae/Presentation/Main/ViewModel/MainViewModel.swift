@@ -36,7 +36,7 @@ final class MainViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let attendanceUseCase: AttendanceUseCase
     private let workplaceUseCase: WorkplaceUseCase
     private let noticeUseCase: NoticeUseCase
@@ -53,7 +53,7 @@ final class MainViewModel: ViewModel {
     
     init(
         dependency: (
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             attendanceUseCase: AttendanceUseCase,
             workplaceUseCase: WorkplaceUseCase,
             noticeUseCase: NoticeUseCase

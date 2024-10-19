@@ -1,5 +1,5 @@
 //
-//  MainFlowCoordinator.swift
+//  TabBarFlowCoordinator.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/22/24.
@@ -7,53 +7,35 @@
 
 import UIKit
 
-protocol MainFlowCoordinatorDependencies {
-    
-  
-    //    func makeMainViewController(coordinator: MainFlowCoordinator) -> MainViewController
-    //    func makeMemberInfoViewController(member: Member, coordinator: MainFlowCoordinator) -> MemberInfoViewController
-    //    func makeWorkplaceListViewController(coordinator: MainFlowCoordinator) -> WorkplacePlaceListViewController
-    
-    // MARK: Workplace Flow Dependencies
-    func makeWorkplaceFinderViewController(coordinator: MainFlowCoordinator) -> WorkplaceFinderViewController
-    func makeSearchWorkplaceViewController(coordinator: MainFlowCoordinator) -> SearchWorkplaceViewController
-    func makeWorkplaceDetailsViewController(coordinator: MainFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
-    func makeAddNewWorkplaceViewController(coordinator: MainFlowCoordinator) -> AddNewWorkplaceViewController
-    
-    // MARK: - Announce Flow Dependencies
-    //    func makeAnnounceViewController(coordinator: MainFlowCoordinator) -> AnnounceViewController
-    //    func makeAnnounceDetailViewController(coordinator: MainFlowCoordinator, announceId: Announce.ID?) -> AnnounceDetailViewController
-    
-    // MARK: - Setting
-    //    func makeWorkplaceViewController(coordinator: MainFlowCoordinator) -> WorkplaceViewController
-    //    func makeSettingViewController(coordinator: MainFlowCoordinator) -> SettingViewController
+// MARK: - Dependencies
+
+protocol TabBarFlowCoordinatorDependencies {
+    func makeWorkplaceFinderViewController(coordinator: TabBarFlowCoordinator) -> WorkplaceFinderViewController
+    func makeSearchWorkplaceViewController(coordinator: TabBarFlowCoordinator) -> SearchWorkplaceViewController
+    func makeWorkplaceDetailsViewController(coordinator: TabBarFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
+    func makeAddNewWorkplaceViewController(coordinator: TabBarFlowCoordinator) -> AddNewWorkplaceViewController
 }
 
-protocol MainFlowCoordinator: Coordinator {
-    
-    
-    
-    
+// MARK: - Coordinator
+
+protocol TabBarFlowCoordinator: Coordinator {
     func showWorkplaceFinder()
     func showSearchWorkPlace()
     func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
 }
 
-final class DefaultMainFlowCoordinator: MainFlowCoordinator {
+final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     
     var coordinators: [any Coordinator] = []
-    
-    // MARK: - Dependencies
-    
     var navigationController: UINavigationController
-    private let dependencies: MainFlowCoordinatorDependencies
+    private let dependencies: TabBarFlowCoordinatorDependencies
     
     // MARK: - Life Cycle Methods
     
     init(
         navigationController: UINavigationController,
-        dependencies: MainFlowCoordinatorDependencies
+        dependencies: TabBarFlowCoordinatorDependencies
     ) {
         self.navigationController = navigationController
         self.dependencies = dependencies
@@ -65,7 +47,8 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
             // return
         }
         
-        showMain(isManager: isManager)
+        // showMain(isManager: isManager)
+        showWorkplaceFinder()
     }
     
     func showMain(isManager: Bool) {
@@ -74,11 +57,7 @@ final class DefaultMainFlowCoordinator: MainFlowCoordinator {
         let vc = MainTabBarController(viewContollers: viewControllers, mainCoordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
-    
 
-    
-    // MARK: - Workplace Flow
-    
     func showWorkplaceFinder() {
         let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
         navigationController.setViewControllers([vc], animated: false)

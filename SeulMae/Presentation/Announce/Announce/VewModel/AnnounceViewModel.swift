@@ -19,12 +19,12 @@ final class AnnounceViewModel: ViewModel {
         let items: Driver<[AnnounceItem]>
     }
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let noticeUseCase: NoticeUseCase
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             noticeUseCase: NoticeUseCase
         )
     ) {

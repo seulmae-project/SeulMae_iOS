@@ -23,7 +23,7 @@ final class MemberInfoViewModel: ViewModel {
     
     private let member: Member
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     
     private let workplaceIdentifier: Int = 0
     private let memberIdentifier: Member.ID = 0
@@ -36,7 +36,7 @@ final class MemberInfoViewModel: ViewModel {
     init(
         dependency: (
             member: Member,
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase
             //            validationService: ValidationService,
             //            wireframe: Wireframe

@@ -91,7 +91,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     func startMain(isManager: Bool) {
         for child in coordinators {
-            if child is MainFlowCoordinator {
+            if child is TabBarFlowCoordinator {
                 child.start(isManager)
             }
         }
@@ -99,7 +99,7 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     func showWorkplaceFinder() {
         for child in coordinators {
-            if let main = child as? MainFlowCoordinator {
+            if let main = child as? TabBarFlowCoordinator {
                 main.showWorkplaceFinder()
             }
         }
@@ -134,7 +134,6 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     func showProfileSetup(request: SignupRequest, signupType: SignupType) {
         let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request, signupType: signupType)
         navigationController.setViewControllers([vc], animated: true)
-        // pushViewController
     }
     
     // MARK: - Account Option

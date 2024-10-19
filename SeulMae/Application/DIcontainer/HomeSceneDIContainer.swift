@@ -80,7 +80,7 @@ final class HomeSceneDIContainer {
                     attendanceHistoryUseCase: self.makeAttendanceHistoryUseCase()
                 ))
         }
-    
+
     private func makeManagerHomeViewModel(coordinator: any HomeFlowCoordinator) -> ManagerHomeViewModel {
         return .init(
             dependencies: (

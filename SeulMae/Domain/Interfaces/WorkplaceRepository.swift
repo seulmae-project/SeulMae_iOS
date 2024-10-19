@@ -23,13 +23,12 @@ protocol WorkplaceRepository {
     func submitApplication(workplaceId: Workplace.ID) -> Single<Bool>
     func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
     func denyApplication(workplaceApproveId: Int) -> Single<Bool>
-//case fetchApplicationList(workplaceId: Workplace.ID)
     func fetchMemberList(workplaceId: Workplace.ID) -> Single<[Member]>
 //case memberDetails(userId: Member.ID)
     func fetchJoinedWorkplaceList() -> Single<[Workplace]>
 //case promote(requset: PromoteRequset)
 //case leaveWorkplace(workplaceId: Workplace.ID)
-    
+    func fetchSubmittedApplications() -> Single<[SubmittedApplication]>
   
     
     
@@ -42,6 +41,6 @@ protocol WorkplaceRepository {
     
     func fetchMemberInfo(memberId: Member.ID) -> Single<MemberProfile>
     func fetchMyInfo(workplaceId: Workplace.ID) -> Single<MemberProfile>
-    
+
     
 }

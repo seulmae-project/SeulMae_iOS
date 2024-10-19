@@ -16,12 +16,14 @@ extension UIImageView {
         return imageView
     }
     
-    static func user() -> UIImageView {
+    static func user(image: UIImage = .userProfile) -> UIImageView {
         let imageView = UIImageView()
-        imageView.image = .userProfile
+        imageView.image = image
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 20
         imageView.layer.cornerCurve = .continuous
+        imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return imageView
     }
 }

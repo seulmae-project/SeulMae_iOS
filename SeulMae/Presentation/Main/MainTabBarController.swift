@@ -15,9 +15,9 @@ final class MainTabBarController: UITabBarController {
         }
     }
     
-    private let mainCoordinator: MainFlowCoordinator
+    private let mainCoordinator: TabBarFlowCoordinator
     
-    init(viewContollers: [UIViewController], mainCoordinator: MainFlowCoordinator) {
+    init(viewContollers: [UIViewController], mainCoordinator: TabBarFlowCoordinator) {
         self.mainCoordinator = mainCoordinator
         super.init(nibName: nil, bundle: nil)
         self.viewControllers = viewContollers

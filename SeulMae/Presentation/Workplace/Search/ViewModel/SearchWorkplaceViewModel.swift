@@ -28,14 +28,14 @@ final class SearchWorkplaceViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     
     // MARK: - Life Cycle
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase
         )
     ) {

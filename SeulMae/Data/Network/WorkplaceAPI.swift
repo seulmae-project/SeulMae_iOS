@@ -22,13 +22,12 @@ enum WorkplaceAPI: SugarTargetType {
     case denyApplication(workplaceApproveId: Int)
     case fetchApplicationList(workplaceId: Workplace.ID)
     case memberList(workplaceId: Workplace.ID)
-    
     case memberDetails(userId: Member.ID)
     case myDetails(workplaceId: Workplace.ID)
-    
     case fetchJoinedWorkplaceList
     case promote(requset: PromoteRequset)
     case leaveWorkplace(workplaceId: Workplace.ID)
+    case fetchSubmittedApplicationList
 }
 
 extension WorkplaceAPI {
@@ -53,6 +52,7 @@ extension WorkplaceAPI {
         case .fetchJoinedWorkplaceList: return .get("api/workplace/v1/info/join")
         case .promote: return .post("api/workplace/user/v1/manager/delegate")
         case .leaveWorkplace: return .delete("api/workplace/user/v1/list")
+        case .fetchSubmittedApplicationList: return .get("api/workplace/join/v1/request/history/list")
         }
     }
     
@@ -159,6 +159,8 @@ extension WorkplaceAPI {
                     "workplaceId": workplaceId
                 ],
                 encoding: URLEncoding.queryString)
+        case .fetchSubmittedApplicationList:
+            return .requestPlain
         }
     }
     

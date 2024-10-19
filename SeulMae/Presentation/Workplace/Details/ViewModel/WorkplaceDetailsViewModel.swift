@@ -23,7 +23,7 @@ final class WorkplaceDetailsViewModel: ViewModel {
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let wireframe: Wireframe
     private let workplaceId: Workplace.ID
@@ -32,7 +32,7 @@ final class WorkplaceDetailsViewModel: ViewModel {
 
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase,
             wireframe: Wireframe,
             workplaceId: Workplace.ID

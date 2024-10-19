@@ -10,8 +10,6 @@ import RxSwift
 import RxCocoa
 
 final class WorkplaceFinderViewModel: ViewModel {
-    typealias Item = WorkplaceFinderItem
-
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
@@ -21,19 +19,19 @@ final class WorkplaceFinderViewModel: ViewModel {
     
     struct Output {
         let loading: Driver<Bool>
-        let items: Driver<[Item]>
+        let items: Driver<[WorkplaceFinderItem]>
     }
     
     // MARK: - Dependencies
     
-    private let coordinator: MainFlowCoordinator
+    private let coordinator: TabBarFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     
     // MARK: - Life Cycle
     
     init(
         dependencies: (
-            coordinator: MainFlowCoordinator,
+            coordinator: TabBarFlowCoordinator,
             workplaceUseCase: WorkplaceUseCase
         )
     ) {
@@ -46,16 +44,38 @@ final class WorkplaceFinderViewModel: ViewModel {
         let loading = tracker.asDriver()
         
         let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
-        let items = onLoad.flatMapLatest { [weak self] _ -> Driver<[Item] >in
-            guard let strongSelf = self else { return .empty() }
-            return strongSelf.workplaceUseCase
-                .fetchJoinedWorkplaceList()
-                .map { $0.map(Item.init(workplace: )) }
-                .asDriver()
-        }
         
+        let submitted = onLoad
+            .withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
+               return self.workplaceUseCase
+                    .fetchSubmittedApplications()
+                    .flatMap { applications -> Single<[WorkplaceFinderItem]> in
+                        Single.zip(applications.map { application in
+                            self.workplaceUseCase.fetchWorkplaceDetail(workplaceId: application.workplaceId)
+                                .map { WorkplaceFinderItem.application(application, workplace: $0) }
+                        })
+                    }
+                    .asDriver()
+            }
+
+        let workplaces = onLoad
+            .withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
+                self.workplaceUseCase.fetchJoinedWorkplaceList()
+                    .flatMap { workplaces -> Single<[WorkplaceFinderItem]> in
+                        Single.zip(workplaces.map { workplace in
+                            self.workplaceUseCase.fetchMemberList(workplaceId: workplace.id)
+                                .map { WorkplaceFinderItem.workplace(workplace, memberList: $0) }
+                        })
+                    }
+                    .asDriver()
+                }
+
+        let items = Driver.merge(workplaces, submitted)
+
         // MARK: - Coordinator Logic
-        
+
         Task {
             for await _ in input.search.values {
                 coordinator.showSearchWorkPlace()
