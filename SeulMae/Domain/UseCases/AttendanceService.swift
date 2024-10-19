@@ -22,8 +22,13 @@ final class AttendanceService: SharedSequenceConvertibleType {
     private var workSchedule: WorkSchedule?
     private let item: SharedSequence<SharingStrategy, Element>
     private let relay = PublishRelay<Element>()
-    
-    public init() {
+
+    private let workplaceRepository: WorkplaceRepository
+    static var wage: Int?
+    public init(
+        workplaceRepository: WorkplaceRepository
+    ) {
+        self.workplaceRepository = workplaceRepository
         item = relay.asDriver()
             .distinctUntilChanged()
     }
@@ -38,13 +43,40 @@ final class AttendanceService: SharedSequenceConvertibleType {
             return true
         }
     }
+    
+    @MainActor func fetchBaseWage() {
+        let wage = workplaceRepository.fetchMyInfo(workplaceId: 8)
+            .asDriver().values
+        Task {
+            for await wage in wage {
+                Self.wage = wage.baseWage
+            }
+        }
+    }
 
-//        "workplaceId": 1,
-//            "workDate": "2024-07-01",
-//            "workStartTime": "2024-07-01T14:26:07.328938",
-//            "workEndTime": "2024-07-01T20:00:00",
-//            "unconfirmedWage": 55000,
-//            "totalWorkTime": 5.5
+    static func end(wage: Int) -> (Bool, AttendRequest?) {
+        let userDefaults = UserDefaults.standard
+        if let saved = userDefaults.object(forKey: "onAttendance") as? Date,
+           let day = Calendar.current.dateComponents([.day], from: saved).day {
+            let endDate = Date.ext.now
+            let diff = Calendar.current
+                .dateComponents([.hour, .minute], from: saved, to: endDate)
+            let totalHours = Double(diff.hour ?? 0) + (Double(diff.minute ?? 0) / 60)
+            let request = AttendRequest(
+                workDate: saved,
+                workStartTime: saved,
+                workEndTime: endDate,
+                confirmedWage: 0,// totalHours * Double(wage),
+                unconfirmedWage: totalHours * Double(wage),
+                totalWorkTime: totalHours,
+                deliveryMessage: "",
+                day: day)
+            return (true, request)
+        } else {
+            return (false, nil)
+        }
+    }
+
     func start(workSchedule: WorkSchedule) {
         self.workSchedule = workSchedule
         timer = Timer.scheduledTimer(
