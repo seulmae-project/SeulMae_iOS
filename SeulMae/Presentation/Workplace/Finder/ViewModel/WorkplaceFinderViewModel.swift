@@ -15,6 +15,7 @@ final class WorkplaceFinderViewModel: ViewModel {
         let onRefresh: Signal<()>
         let showMenu: Signal<()>
         let showReminders: Signal<()>
+        let onCardTap: Signal<Int>
         let search: Signal<()>
         let create: Signal<()>
     }
@@ -86,6 +87,7 @@ final class WorkplaceFinderViewModel: ViewModel {
         let items = Driver.merge(reminders, workplaces, submitted)
 
         // MARK: - Coordinator Logic
+        
         Task {
             for await _ in input.showMenu.values {
                 
@@ -95,6 +97,16 @@ final class WorkplaceFinderViewModel: ViewModel {
         Task {
             for await _ in input.showReminders.values {
                 coordinator.showReminderList()
+            }
+        }
+
+        Task {
+            for await indexPath in input.onCardTap.values {
+                if (indexPath == 0) {
+                    coordinator.showSearchWorkPlace()
+                } else {
+                    coordinator.showAddNewWorkplace()
+                }
             }
         }
 

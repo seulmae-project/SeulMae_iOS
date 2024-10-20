@@ -73,12 +73,19 @@ final class WorkplaceFinderViewController: BaseViewController {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
             .map { _ in return () }
             .asSignal()
+        let onItemTap = collectionView.rx
+            .itemSelected
+            .filter { $0.section == 1 }
+            .map { $0.item }
+            .asSignal()
+
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
                 onRefresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
                 showMenu: leftMenuBarButton.rx.tap.asSignal(),
                 showReminders: rightBellBarButton.rx.tap.asSignal(),
+                onCardTap: onItemTap,
                 search: findRelay.asSignal(),
                 create: createRelay.asSignal()
             )

@@ -8,20 +8,28 @@
 import Foundation
 
 struct SearchWorkplaceItem: Hashable {
-    
-    let id: Workplace.ID
-    let placeName: String
-    let placeAddress: String
-    let placeTel: String
-    let placeMananger: String
-    let imageUrl: String
-    
-    init(workplace: Workplace) {
-        self.id = workplace.id
-        self.placeName = workplace.name
-        self.placeAddress = (workplace.mainAddress + (workplace.subAddress ?? ""))
-        self.placeTel = workplace.contact
-        self.placeMananger = workplace.manager ?? ""
-        self.imageUrl = workplace.thumbnailURL ?? ""
+    static func category(_ category: String) -> SearchWorkplaceItem {
+        var item = SearchWorkplaceItem()
+        item.section = .category
+        item.category = category
+        return item
+    }
+
+    static func query(_ query: String) -> SearchWorkplaceItem {
+        var item = SearchWorkplaceItem()
+        item.section = .list
+        item.query = query
+        return item
+    }
+
+    let id: String = UUID().uuidString
+    var section: SearchWorkplaceViewController.Section?
+    var category: String?
+    var query: String?
+
+    static var categories: [Self] {
+        return [
+            .category("최근 검색")
+        ]
     }
 }

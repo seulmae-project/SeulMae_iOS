@@ -21,13 +21,12 @@ class TextCell: UICollectionViewCell {
         label.font = UIFont.preferredFont(forTextStyle: .caption1)
         
         contentView.addSubview(label)
-        
-
+        let insets = CGFloat(16)
         NSLayoutConstraint.activate([
-            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -12)
+            label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: insets),
+            label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -insets),
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: (insets/2)),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -(insets/2))
         ])
     }
     

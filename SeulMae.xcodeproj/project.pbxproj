@@ -165,6 +165,7 @@
 		8687094E2CBC0D0A0073EF65 /* UserHomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687094D2CBC0D0A0073EF65 /* UserHomeItem.swift */; };
 		868709502CBC1AF10073EF65 /* WorkplaceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687094F2CBC1AF10073EF65 /* WorkplaceState.swift */; };
 		868709522CBC1E400073EF65 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868709512CBC1E400073EF65 /* UserState.swift */; };
+		868E68142CC4E50000CEC0F3 /* SearchedQueryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68132CC4E50000CEC0F3 /* SearchedQueryContentView.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -513,6 +514,7 @@
 		8687094D2CBC0D0A0073EF65 /* UserHomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeItem.swift; sourceTree = "<group>"; };
 		8687094F2CBC1AF10073EF65 /* WorkplaceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceState.swift; sourceTree = "<group>"; };
 		868709512CBC1E400073EF65 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
+		868E68132CC4E50000CEC0F3 /* SearchedQueryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedQueryContentView.swift; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -757,6 +759,7 @@
 			isa = PBXGroup;
 			children = (
 				866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */,
+				868E68132CC4E50000CEC0F3 /* SearchedQueryContentView.swift */,
 				8644155C2C6D0FAC00295838 /* SearchBarView.swift */,
 			);
 			path = View;
@@ -2438,6 +2441,7 @@
 				860F20B92CC3FA2B00E27D34 /* EmptyContentView.swift in Sources */,
 				86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
+				868E68142CC4E50000CEC0F3 /* SearchedQueryContentView.swift in Sources */,
 				86DB32E52C9BB39000575A03 /* UserHomeViewModel.swift in Sources */,
 				86E296FA2C4E82850080A3A2 /* ReminderListViewModel.swift in Sources */,
 				86FACA012CC3D27200898CFE /* ApplicationDTO+Mapping.swift in Sources */,

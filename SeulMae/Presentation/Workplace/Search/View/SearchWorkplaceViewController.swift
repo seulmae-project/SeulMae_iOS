@@ -9,15 +9,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SearchWorkplaceViewController: UIViewController {
-        
+final class SearchWorkplaceViewController: BaseViewController {
+
     // MARK: - Internal Types
-    
-    typealias Item = SearchWorkplaceItem
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
-    
+
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, SearchWorkplaceItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SearchWorkplaceItem>
+
     enum Section: Int, Hashable, CaseIterable {
+        case category
         case list
     }
     
@@ -40,7 +40,7 @@ final class SearchWorkplaceViewController: UIViewController {
     
     // MARK: - Dependencies
 
-    private var viewModel: SearchWorkplaceViewModel!
+    private var viewModel: SearchWorkplaceViewModel
     
     // MARK: - Life Cycle Methods
     
@@ -55,127 +55,180 @@ final class SearchWorkplaceViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        setupView()
-        setupNavItem()
-        setupConstraints()
-        setupDataSource()
-        bindSubviews()
+
+        configureNavItem()
+        configureHierarchy()
+        configureDataSource()
+        bindInternalSubviews()
     }
     
     // MARK: - Data Binding
     
-    private func bindSubviews() {
+    private func bindInternalSubviews() {
         let onLoad = rx.methodInvoked(#selector(viewWillAppear))
             .map { _ in }
             .asSignal()
-        
+
         let selected = collectionView.rx
             .itemSelected
             .compactMap { [weak self] index in
                 self?.dataSource?.itemIdentifier(for: index)
             }
             .asSignal()
-        
+
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                query: searchBar.queryTextField.rx.text.orEmpty.asDriver(),
+                query: searchBar.textField.rx.text.orEmpty.asDriver(),
                 onSearch: .empty(),
                 selected: selected
             )
         )
-        
-        Task {
-            for await items in output.items.values {
-                applySnapshot(items: items)
-            }
-        }
+
+        output.items
+            .drive(with: self, onNext: { (self, items) in
+                // self.applySnapshot(items: items)
+            })
+            .disposed(by: disposeBag)
+
+        output.loading
+            .drive(loadingIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
     
     // MARK: - Nav Item
     
-    private func setupNavItem() {
+    private func configureNavItem() {
         navigationItem.title = "근무지 검색"
     }
     
     // MARK: - Hierarchy
 
-    private func setupView() {
+    private func configureHierarchy() {
         view.backgroundColor = .systemBackground
-    }
 
-    private func setupConstraints() {
         view.addSubview(searchBar)
         view.addSubview(collectionView)
 
         searchBar.translatesAutoresizingMaskIntoConstraints = false
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        
+
+        let insets = CGFloat(20)
         NSLayoutConstraint.activate([
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: insets),
             searchBar.heightAnchor.constraint(equalToConstant: 56),
-            
+
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: insets),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
-    
+
     // MARK: - DataSource
     
-    private func setupDataSource() {
-        let workplaceCellRegistration = createWorkplaceCellRegistration()
-        
+    private func configureDataSource() {
+        let categoryCellRegistration = createCategoryCellRegistration()
+        let queryCellRegistration = createQueryCellRegistration()
+
         dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
-            view.dequeueConfiguredReusableCell(using: workplaceCellRegistration, for: index, item: item)
+            guard let section = Section(rawValue: index.section) else { Swift.fatalError("Unknown section") }
+            switch section {
+            case .category:
+                return view.dequeueConfiguredReusableCell(using: categoryCellRegistration, for: index, item: item)
+            case .list:
+                return view.dequeueConfiguredReusableCell(using: queryCellRegistration, for: index, item: item)
+            }
         }
+
+        applyInitialSnapshot()
     }
     
     // MARK: - Snapshot
     
-    private func applySnapshot(items: [Item]) {
+    private func applyInitialSnapshot() {
         var snapshot = Snapshot()
         let sections = Section.allCases
         snapshot.appendSections(sections)
-        snapshot.appendItems(items, toSection: .list)
         dataSource.apply(snapshot)
     }
     
     // MARK: - Cell Registration
     
-    private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
-        return UICollectionView.CellRegistration<UICollectionViewListCell, Item> { cell, index, item in
-            var content = WorkplaceContentView.Configuration()
-            content.name = item.placeName
-            content.address = item.placeAddress
-            // content.contact = item.placeTel
-            // content.manager = item.placeMananger
-            // content.imageUrl = item.imageUrl
+    private func createCategoryCellRegistration() -> UICollectionView.CellRegistration<TextCell, SearchWorkplaceItem> {
+        return .init(handler: { cell, indexPath, item in
+            cell.label.text = item.category
+            cell.label.font = .pretendard(size: 13, weight: .medium)
+            cell.label.textAlignment = .center
+            var backgroundConfig = UIBackgroundConfiguration.clear()
+            backgroundConfig.backgroundColor = UIColor(hexCode: "4C71F5")
+            backgroundConfig.cornerRadius = 12
+            cell.backgroundConfiguration = .clear()
+        })
+    }
+
+    private func createQueryCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, SearchWorkplaceItem> {
+        return .init(handler: { cell, indexPath, item in
+            var content = SearchedQueryContentView.Configuration()
+            content.query = item.query
             cell.contentConfiguration = content
             cell.backgroundConfiguration = .clear()
-        }
+        })
     }
-    
+
     // MARK: - UICollectionViewLayout
-    
+
     func createLayout() -> UICollectionViewLayout {
-        let item = NSCollectionLayoutItem(
-            layoutSize: .init(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(132)))
-        let group = NSCollectionLayoutGroup.vertical(
-            layoutSize: .init(
-                widthDimension: .fractionalWidth(1.0),
-                heightDimension: .estimated(132)),
-            subitems: [item])
-        group.interItemSpacing = .fixed(4.0)
+        let config = UICollectionViewCompositionalLayoutConfiguration()
+        config.interSectionSpacing = 12
+        return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
+            guard let section = Section(rawValue: sectionIndex) else {
+                Swift.fatalError("Unknown section!")
+            }
+
+            switch section {
+            case .category:
+                return Self.makeCategorySectionLayout()
+            case .list:
+                return Self.makeListSectionLayout()
+            }
+        }, configuration: config)
+    }
+
+    static func makeCategorySectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(56),
+            heightDimension: .estimated(40))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .estimated(56),
+            heightDimension: .estimated(40))
+        let group = NSCollectionLayoutGroup.horizontal(
+            layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.contentInsets = .init(top: 8.0, leading: 0, bottom: 8.0, trailing: 0)
-        let layout = UICollectionViewCompositionalLayout(section: section)
-        return layout
+        section.orthogonalScrollingBehavior = .continuous
+        let insets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20)
+        section.contentInsets = insets
+        section.interGroupSpacing = 12
+        return section
+    }
+
+    static func makeListSectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(52))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .estimated(52))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        section.interGroupSpacing = 20
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = insets
+        return section
     }
 }

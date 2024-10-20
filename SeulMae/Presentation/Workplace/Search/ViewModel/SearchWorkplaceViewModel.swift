@@ -6,8 +6,6 @@
 //
 
 import Foundation
-
-import Foundation
 import RxSwift
 import RxCocoa
 
@@ -18,7 +16,7 @@ final class SearchWorkplaceViewModel: ViewModel {
         var onLoad: Signal<()>
         var query: Driver<String>
         var onSearch: Signal<()>
-        var selected: Signal<SearchWorkplaceViewController.Item>
+        var selected: Signal<SearchWorkplaceItem>
     }
     
     struct Output {
