@@ -5,26 +5,24 @@
 //  Created by 조기열 on 8/13/24.
 //
 
-import Foundation
+import UIKit.UIImage
 import RxSwift
 import RxCocoa
 
 final class AddNewWorkplaceViewModel: ViewModel {
     struct Input {
-        let mainImage: Signal<Data>
+        let image: Driver<UIImage>
         let name: Driver<String>
         let contact: Driver<String>
-        let detailAddress: Driver<String>
-        let searchAddress: Signal<()>
-        let addNew: Signal<()>
+        let address: Driver<String>
+        let subAddress: Driver<String>
+        let onCreate: Signal<()>
     }
     
     struct Output {
         let loading: Driver<Bool>
         let validationResult: Driver<AddNewWorkplaceValidationResult>
-        let viewState: Driver<AddNewWorkplaceViewController.ViewState>
-        let data: Driver<[String: Any]>
-        let AddNewEnabled: Driver<Bool>
+        let createEnabled: Driver<Bool>
     }
     
     // MARK: - Dependencies
@@ -51,9 +49,9 @@ final class AddNewWorkplaceViewModel: ViewModel {
     }
     
     @MainActor func transform(_ input: Input) -> Output {
-        let indicator = ActivityIndicator()
-        let loading = indicator.asDriver()
-        
+        let tracker = ActivityIndicator()
+        let loading = tracker.asDriver()
+
         let validatedName = input.name.flatMapLatest { name -> Driver<AddNewWorkplaceValidationResult> in
             let trimmed = name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             if trimmed.isEmpty {
@@ -73,19 +71,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
         }
         
         let validationResult = Driver.merge(validatedName, validatedContact)
-        
-        let data = input.searchAddress.flatMapLatest { _ -> Driver<[String: Any]> in
-            self.wireframe.searchAddress()
-                .asDriver()
-        }
-        
-        let viewState = Driver.combineLatest(
-            input.detailAddress, data) { address, data -> AddNewWorkplaceViewController.ViewState in
-                return (address.isEmpty &&
-                        data.isEmpty) ? .initial : .detailAdress
-        }
-            .startWith(.initial) // 있는 것과 없는 것의 차이 확인
-        
+
         let AddNewEnabled = Driver.combineLatest(
             validatedName, validatedContact, loading) { name, contact, loading in
                 name.result.isValid &&
@@ -93,49 +79,34 @@ final class AddNewWorkplaceViewModel: ViewModel {
                 !loading
             }
             .distinctUntilChanged()
-        
-        let image = input.mainImage.asDriver()
-            .startWith(Data())
-        
-        let combined = Driver.combineLatest(
-            image, input.name, input.contact, input.detailAddress, data) { (image: $0, name: $1, contact: $2, detailAddress: $3, address: $4["address"]) }
-        
-        let isAdded = input.addNew.withLatestFrom(combined)
-            .flatMapLatest { [weak self] combined -> Driver<Bool> in
-                Swift.print("😡😡😡😡😡add😡😡😡😡😡")
-                guard let strongSelf = self else { return .empty() }
-                let request = AddNewWorkplaceRequest(
-                    workplaceName: combined.name,
-                    mainAddress: (combined.address as! String),
-                    subAddress: combined.detailAddress,
-                    workplaceTel: combined.contact)
-                return strongSelf.workplaceUseCase
-                    .addNewWorkplace(request: request)
+
+
+        let inputs = Driver.combineLatest(input.image, input.name, input.contact, input.address, input.subAddress) { (image: $0, name: $1, contact: $2, address: $3, subAddress: $4) }
+
+        let isCreate = input.onCreate
+            .withLatestFrom(inputs)
+            .withUnretained(self) { (self, inputs) in
+                self.workplaceUseCase
+                    .addNewWorkplace(image: inputs.image, name: inputs.name, contact: inputs.contact, address: inputs.address, subAddress: inputs.subAddress)
+                    .trackActivity(tracker)
                     .asDriver()
-                // TODO: - API Error 핸들링 필요
             }
-        
+
+        // TODO: 알림 처리
+
         Task {
-            for await isAdded in isAdded.values {
-                Swift.print(#line, "isAdded: \(isAdded)")
+            for await isCreate in isCreate.values {
+
             }
         }
-    
-        
+
+
         // MARK: Coordinator
-        
-        
-      
-        
-        
-        // MARK: Output
-        
+
         return Output(
             loading: loading,
             validationResult: validationResult,
-            viewState: viewState,
-            data: data,
-            AddNewEnabled: AddNewEnabled
+            createEnabled: AddNewEnabled
         )
     }
 }

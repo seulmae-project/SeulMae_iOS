@@ -10,16 +10,16 @@ import MapKit
 
 final class WorkplaceDetailsViewController: BaseViewController {
     
-    // MARK: - UI
-    
+    // MARK: - UI Properties
+
     private let refreshControl = UIRefreshControl()
    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false
         scrollView.refreshControl = refreshControl
-        let inset = CGFloat(20)
-        scrollView.directionalLayoutMargins = .init(top: 0, leading: inset, bottom: 0, trailing: inset)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        scrollView.directionalLayoutMargins = insets
         return scrollView
     }()
     
@@ -31,11 +31,11 @@ final class WorkplaceDetailsViewController: BaseViewController {
     
     private let mainImageView: UIImageView = {
         let imageView = UIImageView()
-        imageView.layer.cornerRadius = 125
+        imageView.layer.cornerRadius = 68
         imageView.layer.cornerCurve = .continuous
         // imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.borderWidth = 8.0
+        imageView.layer.borderWidth = 10
         imageView.layer.shadowColor = UIColor.black.cgColor
         imageView.layer.shadowOpacity = 0.5
         imageView.layer.shadowRadius = 7.0

@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import UIKit.UIImage
 
 protocol WorkplaceUseCase {
     // Local DB
@@ -19,7 +20,7 @@ protocol WorkplaceUseCase {
     func fetchMyWorkplaceDetail() -> RxSwift.Single<Workplace>
     func fetchWorkplaceDetail(workplaceId id: Workplace.ID) -> Single<Workplace>
     func submitApplication(workplaceID id: Workplace.ID) -> Single<Bool>
-    func addNewWorkplace(request: AddNewWorkplaceRequest) -> Single<Bool>
+    func addNewWorkplace(image: UIImage?, name: String, contact: String, address: String, subAddress: String) -> Single<Bool>
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> Single<Bool>
     func deleteWorkplace(workplaceIdentifier id: Workplace.ID) -> Single<Bool>
     func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
@@ -83,8 +84,12 @@ final class DefaultWorkplaceUseCase: WorkplaceUseCase {
     
     // MARK: - Add New
     
-    func addNewWorkplace(request: AddNewWorkplaceRequest) -> RxSwift.Single<Bool> {
-        workplaceRepository.addNewWorkplace(request: request)
+    func addNewWorkplace(image: UIImage?, name: String, contact: String, address: String, subAddress: String) -> RxSwift.Single<Bool> {
+        // TODO: ImageData
+        let imageData = image?.jpegData(compressionQuality: 0.75) ?? Data()
+        let request = AddNewWorkplaceRequest(workplaceName: name, mainAddress: address, subAddress: subAddress, workplaceTel: contact)
+        //request
+        return workplaceRepository.addNewWorkplace(request: request)
     }
     
     func fetchCurrentWorkplaceMemberList() -> RxSwift.Single<[Member]> {

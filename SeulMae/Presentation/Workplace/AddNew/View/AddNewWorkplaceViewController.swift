@@ -6,22 +6,21 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 import PhotosUI
 import MapKit
 
-final class AddNewWorkplaceViewController: UIViewController {
-    
-    enum ViewState {
-        case initial
-        case detailAdress
-    }
-    
-    private let phPickerViewController: PHPickerViewController = {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .images
-        let pickerViewController = PHPickerViewController(configuration: configuration)
-        return pickerViewController
+final class AddNewWorkplaceViewController: BaseViewController {
+
+    private let refreshControl = UIRefreshControl()
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.showsVerticalScrollIndicator = false
+        scrollView.refreshControl = refreshControl
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        scrollView.directionalLayoutMargins = insets
+        return scrollView
     }()
     
     private lazy var mapView: MKMapView = {
@@ -30,160 +29,172 @@ final class AddNewWorkplaceViewController: UIViewController {
         return mapView
     }()
 
-    private let mainImageView: UIImageView = {
-        // TODO: - 기본 이미지 그림자 추가해야함
-        let imageView = UIImageView()
-        let rect = CGRect(x: 0, y: 0, width: 250, height: 250)
-        let circularPath = UIBezierPath(ovalIn: rect)
-        
-        let maskLayer = CAShapeLayer()
-        maskLayer.path = circularPath.cgPath
-        imageView.layer.mask = maskLayer
-        
-        let shadowLayer = CAShapeLayer()
-        shadowLayer.path = circularPath.cgPath
-        shadowLayer.fillColor = UIColor.clear.cgColor
-        shadowLayer.strokeColor = UIColor.clear.cgColor
-        shadowLayer.shadowColor = UIColor.black.cgColor
-        shadowLayer.shadowOffset = CGSize(width: 0, height: 3)
-        shadowLayer.shadowRadius = 7.0
-        shadowLayer.shadowOpacity = 0.5
-        imageView.layer.addSublayer(shadowLayer)
-        
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = circularPath.cgPath
-        borderLayer.fillColor = UIColor.clear.cgColor
-        borderLayer.strokeColor = UIColor.white.cgColor
-        borderLayer.lineWidth = 8.0
-        imageView.layer.addSublayer(borderLayer)
+    private let phPickerViewController: PHPickerViewController = {
+        var configuration = PHPickerConfiguration()
+        configuration.selectionLimit = 1
+        configuration.filter = .images
+        let pickerViewController = PHPickerViewController(configuration: configuration)
+        return pickerViewController
+    }()
 
+    private let mainImageView: UIImageView = {
+        let imageView = UIImageView.common(image: .store)
+        imageView.layer.cornerRadius = 72
+        imageView.layer.cornerCurve = .continuous
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderColor = UIColor.white.cgColor
+        imageView.layer.borderWidth = 8.0
+        imageView.layer.shadowOffset = CGSize(width: 0, height: 3)
         imageView.contentMode = .scaleAspectFill
-        imageView.image = .empty
+        imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
         return imageView
     }()
-    
-    private let scrollView = UIScrollView()
-    
-    private let nameLabel: UILabel = .headline(title: "이름")
-    private let nameTextField: UITextField = .common(placeholder: "근무지 이름 입력")
-    private let nameValidationResultLabel: UILabel = .footnote()
-    
-    private let contactLabel: UILabel = .headline(title: "연락처")
-    private let contactTextField: UITextField = .common(placeholder: "근무지 연락처 입력")
-    private let contactValidationResultLabel: UILabel = .footnote()
-    
-    private let addressLabel: UILabel = .headline(title: "주소 등록을 위해, 아래에서 주소를 검색해 주세요")
-    private let searchedAddressLabel: UILabel = .body()
-    private let searchAddressButton: UIButton = .common(title: "주소 검색")
-    private let resesarchAddressButton: UIButton = .callout(title: "재검색")
-    
-    private let detailAddressLabel: UILabel = .headline(title: "상세 주소")
-    private let detailAddresssTextField: UITextField =  .common(placeholder: "상세 주소(건물명 / 호)")
-    private let detailAddressValidationResultLabel: UILabel = .footnote()
+
+    private let nameInputFormView = TextInputFormView(title: "근무지 이름", placeholder: "상가명을 입력해주세요")
+    private let contactInputFormView = TextInputFormView(title: "점포 연락처", placeholder: "점포 전화번호를 입력해주세요")
+    private let addressInputFormView = AddressInputFormView()
     
     private let addNewButton: UIButton = .common(title: "생성하기")
- 
+
+    // MARK: - Properties
+
+    private let addressRelay = PublishRelay<String>()
+
+    // MARK: - Dependencies
+
     private var viewModel: AddNewWorkplaceViewModel
-    
+
+    // MARK: - Life Cycle Methods
+
     init(viewModel: AddNewWorkplaceViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
         
-        setupView()
-        setupNavItem()
-        setupConstraints()
-        bindSubviews()
+        configureNavItem()
+        configureHierarchy()
+        bindInternalSubviews()
         moveMapView(title: "구미시", lat: 36.119485, lng: 128.3445734)
     }
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    private func bindSubviews() {
-        let pickedImage = phPickerViewController.rx.picked.asSignal()
-        // Handle picked image
-        Task {
-            for await image in pickedImage.values {
-                mainImageView.image = image
-            }
+
+    // MARK: - Binding Data
+
+    private func bindInternalSubviews() {
+        let tapGesture = UITapGestureRecognizer()
+        mainImageView.addGestureRecognizer(tapGesture)
+        mainImageView.isUserInteractionEnabled = true
+        tapGesture.rx.event.asSignal()
+            .withUnretained(self)
+            .emit(onNext: { (self, _) in
+                self.present(self.phPickerViewController, animated: true)
+            })
+            .disposed(by: disposeBag)
+
+        let pickedImage = phPickerViewController.rx.picked.asDriver()
+        pickedImage
+            .drive(mainImageView.rx.image)
+            .disposed(by: disposeBag)
+
+        addressInputFormView.onChange = { [weak self] lat, lng, roadAdress in
+            self?.moveMapView(lat: Double(lat)!, lng: Double(lng)!)
+            self?.addressRelay.accept(roadAdress)
         }
-        
+
         let output = viewModel.transform(
             .init(
-                mainImage: pickedImage.map { $0.jpegData(compressionQuality: 0.75) ?? Data() },
-                name: nameTextField.rx.text.orEmpty.asDriver(),
-                contact: contactTextField.rx.text.orEmpty.asDriver(),
-                detailAddress: detailAddresssTextField.rx.text.orEmpty.asDriver(),
-                searchAddress: searchAddressButton.rx.tap.asSignal(),
-                addNew: addNewButton.rx.tap.asSignal()
+                image: pickedImage,
+                name: nameInputFormView.textField.rx.text.orEmpty.asDriver(),
+                contact: contactInputFormView.textField.rx.text.orEmpty.asDriver(),
+                address: addressRelay.asDriver(),
+                subAddress: addressInputFormView.subAddresssTextField.rx.text.orEmpty.asDriver(),
+                onCreate: addNewButton.rx.tap.asSignal()
             )
         )
-        // Handle Button enabled
-        Task {
-            for await isEnabled in output.AddNewEnabled.values {
-                addNewButton.ext.setEnabled(isEnabled)
-            }
-        }
-        // Handle validation results
-        Task {
-            for await result in output.validationResult.values {
+
+        output.createEnabled
+            .drive(with: self, onNext: { (self, isEnabled) in
+                self.addNewButton.ext.setEnabled(isEnabled)
+            })
+            .disposed(by: disposeBag)
+
+        output.validationResult
+            .drive(with: self, onNext: { (self, result) in
                 switch result {
                 case let .name(result):
-                    nameValidationResultLabel.ext.setResult(result)
+                    self.nameInputFormView.validationResultsLabel.ext.setResult(result)
                 case let .contact(result):
-                    contactValidationResultLabel.ext.setResult(result)
+                    self.contactInputFormView.validationResultsLabel.ext.setResult(result)
                 case let .address(result):
-                    detailAddressValidationResultLabel.ext.setResult(result)
+                    self.addressInputFormView.subAddressValidationResultsLabel.ext.setResult(result)
                 }
-            }
-        }
-        
-        Task {
-            for await state in output.viewState.values {
-                Swift.print(#line, "viewState: \(state)")
-                switch state {
-                case .initial:
-                    // 주소를 검색하기 전
-                    addressLabel.text = "주소 등록을 위해, 아래에서 주소를 검색해 주세요"
-                    searchAddressButton.isHidden = true
-                    searchAddressButton.isHidden = false
-                    resesarchAddressButton.isHidden = true
-                    detailAddressLabel.isHidden = true
-                    detailAddresssTextField.isHidden = true
-                    detailAddressValidationResultLabel.isHidden = true
-                    // TODO: 나중에 하나로 합치기..
-                case .detailAdress:
-                    // 주소가 있는 경우
-                    addressLabel.text = "주소"
-                    searchAddressButton.isHidden = false
-                    searchAddressButton.isHidden = true
-                    resesarchAddressButton.isHidden = false
-                    detailAddressLabel.isHidden = false
-                    detailAddresssTextField.isHidden = false
-                    detailAddressValidationResultLabel.isHidden = false
-                }
-            }
-        }
-        
-        
-        // Handle Button enabled
-        Task {
-            for await data in output.data.values {
-                Swift.print(#line, "searched: \(data)")
-                if let lat = data["kakaoLat"] as? String,
-                   let lng = data["kakaoLng"] as? String {
-                    moveMapView(lat: Double(lat)!, lng: Double(lng)!)
-                } else {
-                    Swift.print(#function)
-                }
-                let address = data["address"] as? String
-                searchedAddressLabel.text = address
-            }
-        }
+            })
+            .disposed(by: disposeBag)
+
+        output.loading
+            .drive(loadingIndicator.rx.isAnimating)
+            .disposed(by: disposeBag)
     }
+
+    private func configureNavItem() {
+        navigationItem.title = "새 근무지 등록"
+    }
+
+    // MARK: - Configure Hierarchy
+
+    private func configureHierarchy() {
+        view.backgroundColor = .systemBackground
+
+        let contentStack = UIStackView()
+        contentStack.axis = .vertical
+        contentStack.spacing = 20
+        let margins = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        contentStack.directionalLayoutMargins = margins
+        contentStack.isLayoutMarginsRelativeArrangement = true
+
+        [addressInputFormView, nameInputFormView, contactInputFormView, addNewButton]
+            .forEach(contentStack.addArrangedSubview(_:))
+
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        
+        let views = [mapView, mainImageView, contentStack]
+        views.forEach {
+            scrollView.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
+        
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
     
-    func moveMapView(title: String = "", lat: Double, lng: Double) {
+            mapView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            mapView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            mapView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            mapView.heightAnchor.constraint(equalToConstant: 300),
+
+            mainImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -76),
+            mainImageView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
+            mainImageView.widthAnchor.constraint(equalToConstant: 144),
+            mainImageView.heightAnchor.constraint(equalToConstant: 144),
+
+            contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
+            contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
+            contentStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor),
+            contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentStack.widthAnchor.constraint(equalTo: view.widthAnchor),
+
+            addNewButton.heightAnchor.constraint(equalToConstant: 56),
+        ])
+    }
+
+    // MARK: - Private Map Methods
+
+    private func moveMapView(title: String = "", lat: Double, lng: Double) {
         Swift.print(#function)
         // Remove existing annotations
         let existing = mapView.annotations
@@ -196,91 +207,5 @@ final class AddNewWorkplaceViewController: UIViewController {
         annotation.coordinate = location
         mapView.addAnnotation(annotation)
         mapView.setRegion(region, animated: true)
-    }
-    
-    private func setupView() {
-         view.backgroundColor = .systemBackground
-    }
-    
-    private func setupNavItem() {
-        navigationItem.title = "새 근무지 등록"
-    }
-    
-    private func setupConstraints() {
-        let contentStack = UIStackView()
-        contentStack.axis = .vertical
-        contentStack.spacing = 8.0
-        
-        scrollView.showsVerticalScrollIndicator = false
-
-        view.addSubview(scrollView)
-            
-        scrollView.addSubview(mapView)
-        scrollView.addSubview(mainImageView)
-        scrollView.addSubview(contentStack)
-        
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        mapView.translatesAutoresizingMaskIntoConstraints = false
-        mainImageView.translatesAutoresizingMaskIntoConstraints = false
-        contentStack.translatesAutoresizingMaskIntoConstraints = false
-        
-        contentStack.addArrangedSubview(nameLabel)
-        contentStack.addArrangedSubview(nameTextField)
-        contentStack.addArrangedSubview(nameValidationResultLabel)
-
-        contentStack.addArrangedSubview(contactLabel)
-        contentStack.addArrangedSubview(contactTextField)
-        contentStack.addArrangedSubview(contactValidationResultLabel)
-
-        contentStack.addArrangedSubview(addressLabel) //
-        contentStack.addArrangedSubview(searchedAddressLabel) // h
-        contentStack.addArrangedSubview(searchAddressButton) //
-        contentStack.addArrangedSubview(resesarchAddressButton) // h
-        contentStack.addArrangedSubview(detailAddressLabel) // h
-        contentStack.addArrangedSubview(detailAddresssTextField) // h
-        contentStack.addArrangedSubview(detailAddressValidationResultLabel) // h
-        contentStack.addArrangedSubview(addNewButton) //
-
-        // contentStack.setCustomSpacing(16, after: addressLabel)
-        // contentStack.setCustomSpacing(16, after: searchAddressButton)
-        
-        NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-    
-            mapView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
-            mapView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            mapView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
-            mapView.heightAnchor.constraint(equalToConstant: 300),
-            
-            mainImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -130),
-            mainImageView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-            mainImageView.widthAnchor.constraint(equalToConstant: 250),
-            mainImageView.heightAnchor.constraint(equalToConstant: 250),
-            
-            contentStack.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor, constant: 20),
-            contentStack.topAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: 20),
-            contentStack.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-            contentStack.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-            
-            // Constarint validation result message
-            nameValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            nameValidationResultLabel.topAnchor.constraint(equalTo: nameTextField.bottomAnchor, constant: 8.0),
-            contactValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            contactValidationResultLabel.topAnchor.constraint(equalTo: contactTextField.bottomAnchor, constant: 8.0),
-            detailAddressValidationResultLabel.leadingAnchor.constraint(equalTo: contentStack.leadingAnchor),
-            detailAddressValidationResultLabel.topAnchor.constraint(equalTo: detailAddresssTextField.bottomAnchor, constant: 8.0),
-            
-            // Constraint buttons height
-            searchAddressButton.heightAnchor.constraint(equalToConstant: 56),
-            addNewButton.heightAnchor.constraint(equalToConstant: 56),
-            
-            // Constraint textFields height
-            nameTextField.heightAnchor.constraint(equalToConstant: 48),
-            contactTextField.heightAnchor.constraint(equalToConstant: 48),
-            detailAddresssTextField.heightAnchor.constraint(equalToConstant: 48),
-        ])
     }
 }

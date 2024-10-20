@@ -195,7 +195,7 @@ extension UIButton {
 // MARK: - UITextField
 
 extension UITextField {
-    static func common(placeholder: String) -> UITextField {
+    static func common(placeholder: String, size: CGFloat = 15, weight: UIFont.PretendardWeight = .regular, backgroundColor: UIColor = UIColor(hexCode: "F4F7FC")) -> UITextField {
         let tf = UITextField()
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 20, height: 0))
         tf.leftView = paddingView
@@ -213,7 +213,7 @@ extension UITextField {
         tf.autocapitalizationType = .none // 대문자
         tf.spellCheckingType = .no // 맞춤법
         tf.autocorrectionType = .no // 자동 수정
-        tf.backgroundColor = UIColor(hexCode: "F4F7FC")
+        tf.backgroundColor = backgroundColor
         return tf
     }
     

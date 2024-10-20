@@ -321,15 +321,4 @@ final class SMSVerificationViewController: UIViewController {
 
 // MARK: - UITextField Extension
 
-extension UITextField: Extended {}
-extension Ext where ExtendedType == UITextField {
-    func setEditing(_ isEditing: Bool) {
-        if isEditing {
-            type.layer.borderColor = UIColor.graphite.cgColor
-            type.layer.borderWidth = 1.0
-        } else {
-            type.layer.borderColor = nil
-            type.layer.borderWidth = 0
-        }
-    }
-}
+

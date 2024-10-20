@@ -166,6 +166,10 @@
 		868709502CBC1AF10073EF65 /* WorkplaceState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8687094F2CBC1AF10073EF65 /* WorkplaceState.swift */; };
 		868709522CBC1E400073EF65 /* UserState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868709512CBC1E400073EF65 /* UserState.swift */; };
 		868E68142CC4E50000CEC0F3 /* SearchedQueryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68132CC4E50000CEC0F3 /* SearchedQueryContentView.swift */; };
+		868E68182CC5195500CEC0F3 /* TextInputFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68172CC5195500CEC0F3 /* TextInputFormView.swift */; };
+		868E681A2CC51D7200CEC0F3 /* AddressInputFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68192CC51D7200CEC0F3 /* AddressInputFormView.swift */; };
+		868E681C2CC51F1000CEC0F3 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */; };
+		868E68222CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -515,6 +519,10 @@
 		8687094F2CBC1AF10073EF65 /* WorkplaceState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceState.swift; sourceTree = "<group>"; };
 		868709512CBC1E400073EF65 /* UserState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserState.swift; sourceTree = "<group>"; };
 		868E68132CC4E50000CEC0F3 /* SearchedQueryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchedQueryContentView.swift; sourceTree = "<group>"; };
+		868E68172CC5195500CEC0F3 /* TextInputFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputFormView.swift; sourceTree = "<group>"; };
+		868E68192CC51D7200CEC0F3 /* AddressInputFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInputFormView.swift; sourceTree = "<group>"; };
+		868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Ext.swift"; sourceTree = "<group>"; };
+		868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Ext.swift"; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -796,7 +804,6 @@
 			isa = PBXGroup;
 			children = (
 				860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */,
-				864415632C6E217F00295838 /* KPostalViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1040,7 +1047,6 @@
 			children = (
 				861C31CD2C1C13A9007DD6B9 /* ModelType.swift */,
 				861C31CE2C1C13A9007DD6B9 /* ViewModel.swift */,
-				861C31CC2C1C13A9007DD6B9 /* Extended.swift */,
 			);
 			path = Protocols;
 			sourceTree = "<group>";
@@ -1292,6 +1298,8 @@
 				860BCE692C6B543900DCC532 /* Search */,
 				860BCE702C6C9A4800DCC532 /* Details */,
 				860BCE662C6B539C00DCC532 /* AddNew */,
+				868E681F2CC521F200CEC0F3 /* Address */,
+				868E68172CC5195500CEC0F3 /* TextInputFormView.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1384,6 +1392,7 @@
 				86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */,
 				865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */,
 				86939E032CB42ABB00E03707 /* UIColor+Ext.swift */,
+				868E681D2CC51F1800CEC0F3 /* Ext+ */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -1614,6 +1623,41 @@
 				8687094D2CBC0D0A0073EF65 /* UserHomeItem.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		868E681D2CC51F1800CEC0F3 /* Ext+ */ = {
+			isa = PBXGroup;
+			children = (
+				861C31CC2C1C13A9007DD6B9 /* Extended.swift */,
+				868E68202CC532F700CEC0F3 /* Utils */,
+				868E681E2CC51F3700CEC0F3 /* View */,
+			);
+			path = "Ext+";
+			sourceTree = "<group>";
+		};
+		868E681E2CC51F3700CEC0F3 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		868E681F2CC521F200CEC0F3 /* Address */ = {
+			isa = PBXGroup;
+			children = (
+				864415632C6E217F00295838 /* KPostalViewController.swift */,
+				868E68192CC51D7200CEC0F3 /* AddressInputFormView.swift */,
+			);
+			path = Address;
+			sourceTree = "<group>";
+		};
+		868E68202CC532F700CEC0F3 /* Utils */ = {
+			isa = PBXGroup;
+			children = (
+				868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */,
+			);
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		869358BE2C7364F000B2436E /* PersistentStorages */ = {
@@ -2451,6 +2495,7 @@
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
+				868E68222CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				86FD61E42C895A07005ED02F /* TabBarController.swift in Sources */,
 				869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */,
@@ -2523,6 +2568,7 @@
 				86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
+				868E681C2CC51F1000CEC0F3 /* UITextField+Ext.swift in Sources */,
 				869054AF2C60C9140037B61A /* WorkplaceTable.swift in Sources */,
 				86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */,
 				86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */,
@@ -2571,6 +2617,7 @@
 				86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */,
 				86A4167A2CBABA29008394BE /* CalendarItem.swift in Sources */,
 				866577B72C340E300048A111 /* SearchWorkplaceViewModel.swift in Sources */,
+				868E681A2CC51D7200CEC0F3 /* AddressInputFormView.swift in Sources */,
 				861BF6842C27065800702E24 /* TabBarSceneDIContainer.swift in Sources */,
 				86E39FA02C8EB79900361E0D /* SettingFlowCoordinator.swift in Sources */,
 				86E39FA82C8EDB6200361E0D /* AttendanceHistoryAPI.swift in Sources */,
@@ -2601,6 +2648,7 @@
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,
 				8697FBF32C2D3D2D0027A035 /* ActivityIndicator.swift in Sources */,
+				868E68182CC5195500CEC0F3 /* TextInputFormView.swift in Sources */,
 				864415642C6E217F00295838 /* KPostalViewController.swift in Sources */,
 				865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */,
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
