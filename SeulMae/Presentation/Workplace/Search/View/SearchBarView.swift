@@ -34,7 +34,7 @@ final class SearchBarView: UIView {
         [textField, imageView]
             .forEach(contentStack.addArrangedSubview(_:))
         let margins = NSDirectionalEdgeInsets(
-            top: 0, leading: 16, bottom: 0, trailing: 12)
+            top: 0, leading: 16, bottom: 0, trailing: 16)
         
         contentStack.directionalLayoutMargins = margins
         contentStack.isLayoutMarginsRelativeArrangement = true

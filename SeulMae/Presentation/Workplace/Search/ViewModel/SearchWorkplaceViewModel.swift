@@ -10,18 +10,17 @@ import RxSwift
 import RxCocoa
 
 final class SearchWorkplaceViewModel: ViewModel {
-    typealias Item = SearchWorkplaceItem
-    
     struct Input {
-        var onLoad: Signal<()>
-        var query: Driver<String>
-        var onSearch: Signal<()>
-        var selected: Signal<SearchWorkplaceItem>
+        let onLoad: Signal<()>
+        let onRefresh: Signal<()>
+        let query: Driver<String>
+        let onSearch: Signal<()>
+        let onItemTap: Signal<SearchWorkplaceItem>
     }
     
     struct Output {
         let loading: Driver<Bool>
-        let items: Driver<[Item]>
+        let items: Driver<[SearchWorkplaceItem]>
     }
     
     // MARK: - Dependencies
@@ -44,18 +43,14 @@ final class SearchWorkplaceViewModel: ViewModel {
     @MainActor func transform(_ input: Input) -> Output {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
-        
-        let onLoad = Signal.merge(.just(()), input.onLoad)
-        
-        let fetched =  onLoad.flatMapLatest { [weak self] _ -> Driver<[Item]> in
-            guard let strongSelf = self else {
-                return .empty()
-            }
-            
-            return strongSelf.workplaceUseCase
+
+        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
+        let fetched =  onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[SearchWorkplaceItem]> in
+            self.workplaceUseCase
                 .fetchWorkplaces(keyword: "")
                 .trackActivity(tracker)
-                .map { $0.map(Item.init(workplace:)) }
+                .map { $0.map(SearchWorkplaceItem.query(_:)) }
                 .asDriver()
         }
         
@@ -64,9 +59,9 @@ final class SearchWorkplaceViewModel: ViewModel {
             .map { pair in
                 if (pair.query.isEmpty) { return pair.items }
                 return pair.items.filter {
-                    let name = $0.placeName.lowercased()
-                    let address = $0.placeAddress.lowercased()
-                    return (name + address).contains(pair.query.lowercased())
+                    let name = $0.query!.lowercased()
+                    // let address = $0.placeAddress.lowercased()
+                    return (name).contains(pair.query.lowercased())
                 }
             }
         
@@ -75,8 +70,8 @@ final class SearchWorkplaceViewModel: ViewModel {
         // MARK: - Coordinator Logic
         
         Task {
-            for await selected in input.selected.values {
-                coordinator.showWorkplaceDetails(workplaceID: selected.id)
+            for await selected in input.onItemTap.values {
+                coordinator.showWorkplaceDetails(workplaceID: selected.workplaceId!)
             }
         }
         

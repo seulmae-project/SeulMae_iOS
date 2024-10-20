@@ -17,23 +17,28 @@ final class SearchWorkplaceViewController: BaseViewController {
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, SearchWorkplaceItem>
 
     enum Section: Int, Hashable, CaseIterable {
-        case category
+        case history
         case list
     }
     
     // MARK: - UI Properties
     
     private let searchBar = SearchBarView()
-    
+
+    private let refreshControl: UIRefreshControl = {
+        let control = UIRefreshControl()
+        return control
+    }()
+
     private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout())
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout(isEmpty: true))
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.backgroundColor = .systemBackground
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
-    
+
     // MARK: - Properties
     
     private var dataSource: DataSource!
@@ -69,7 +74,7 @@ final class SearchWorkplaceViewController: BaseViewController {
             .map { _ in }
             .asSignal()
 
-        let selected = collectionView.rx
+        let selectedItem = collectionView.rx
             .itemSelected
             .compactMap { [weak self] index in
                 self?.dataSource?.itemIdentifier(for: index)
@@ -79,15 +84,26 @@ final class SearchWorkplaceViewController: BaseViewController {
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
+                onRefresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
                 query: searchBar.textField.rx.text.orEmpty.asDriver(),
                 onSearch: .empty(),
-                selected: selected
+                onItemTap: selectedItem
             )
         )
 
         output.items
             .drive(with: self, onNext: { (self, items) in
-                // self.applySnapshot(items: items)
+                guard let item = items.first else { return }
+                var snapshot = self.dataSource.snapshot()
+                let applied = snapshot.itemIdentifiers(inSection: item.section!)
+                snapshot.deleteItems(applied)
+                self.dataSource.apply(snapshot)
+                snapshot.appendItems(items, toSection: item.section!)
+                if (applied.first?.isEmpty ?? false) {
+                    let layout = self.createLayout(isEmpty: false)
+                    self.collectionView.setCollectionViewLayout(layout, animated: true)
+                }
+                self.dataSource.apply(snapshot)
             })
             .disposed(by: disposeBag)
 
@@ -115,14 +131,14 @@ final class SearchWorkplaceViewController: BaseViewController {
 
         let insets = CGFloat(20)
         NSLayoutConstraint.activate([
-            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
             searchBar.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            searchBar.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: insets),
+            searchBar.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
+            searchBar.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets),
             searchBar.heightAnchor.constraint(equalToConstant: 56),
 
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor, constant: insets),
+            collectionView.topAnchor.constraint(equalTo: searchBar.bottomAnchor),
             collectionView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
@@ -132,14 +148,17 @@ final class SearchWorkplaceViewController: BaseViewController {
     private func configureDataSource() {
         let categoryCellRegistration = createCategoryCellRegistration()
         let queryCellRegistration = createQueryCellRegistration()
+        let listEmptyCellRegistration = createListEmptyCellRegistration()
 
         dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
             guard let section = Section(rawValue: index.section) else { Swift.fatalError("Unknown section") }
             switch section {
-            case .category:
+            case .history:
                 return view.dequeueConfiguredReusableCell(using: categoryCellRegistration, for: index, item: item)
             case .list:
-                return view.dequeueConfiguredReusableCell(using: queryCellRegistration, for: index, item: item)
+                return (!item.isEmpty) ?
+                view.dequeueConfiguredReusableCell(using: queryCellRegistration, for: index, item: item) 
+                : view.dequeueConfiguredReusableCell(using: listEmptyCellRegistration, for: index, item: item)
             }
         }
 
@@ -150,8 +169,9 @@ final class SearchWorkplaceViewController: BaseViewController {
     
     private func applyInitialSnapshot() {
         var snapshot = Snapshot()
-        let sections = Section.allCases
-        snapshot.appendSections(sections)
+        snapshot.appendSections(Section.allCases)
+        snapshot.appendItems(SearchWorkplaceItem.categories, toSection: .history)
+        snapshot.appendItems(SearchWorkplaceItem.emtpy, toSection: .list)
         dataSource.apply(snapshot)
     }
     
@@ -165,7 +185,7 @@ final class SearchWorkplaceViewController: BaseViewController {
             var backgroundConfig = UIBackgroundConfiguration.clear()
             backgroundConfig.backgroundColor = UIColor(hexCode: "4C71F5")
             backgroundConfig.cornerRadius = 12
-            cell.backgroundConfiguration = .clear()
+            cell.backgroundConfiguration = backgroundConfig
         })
     }
 
@@ -178,21 +198,30 @@ final class SearchWorkplaceViewController: BaseViewController {
         })
     }
 
+    private func createListEmptyCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, SearchWorkplaceItem> {
+        return .init(handler: { cell, indexPath, item in
+            var content = EmptyContentView.Configuration()
+            content.image = .warning
+            content.message = item.emptyMessage
+            cell.contentConfiguration = content
+            cell.backgroundConfiguration = .clear()
+        })
+    }
+
     // MARK: - UICollectionViewLayout
 
-    func createLayout() -> UICollectionViewLayout {
+    func createLayout(isEmpty: Bool) -> UICollectionViewLayout {
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 12
         return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
-            guard let section = Section(rawValue: sectionIndex) else {
-                Swift.fatalError("Unknown section!")
-            }
-
+            guard let section = Section(rawValue: sectionIndex) else { Swift.fatalError("Unknown section!") }
             switch section {
-            case .category:
+            case .history:
                 return Self.makeCategorySectionLayout()
             case .list:
-                return Self.makeListSectionLayout()
+                return !isEmpty
+                ? Self.makeListSectionLayout()
+                : Self.makeListEmptySectionLayout()
             }
         }, configuration: config)
     }
@@ -231,4 +260,21 @@ final class SearchWorkplaceViewController: BaseViewController {
         section.contentInsets = insets
         return section
     }
+
+    static func makeListEmptySectionLayout() -> NSCollectionLayoutSection {
+        let itemSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(1.0))
+        let item = NSCollectionLayoutItem(layoutSize: itemSize)
+        let groupSize = NSCollectionLayoutSize(
+            widthDimension: .fractionalWidth(1.0),
+            heightDimension: .fractionalHeight(0.8))
+        let group = NSCollectionLayoutGroup.vertical(
+            layoutSize: groupSize, subitems: [item])
+        let section = NSCollectionLayoutSection(group: group)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        section.contentInsets = insets
+        return section
+    }
+
 }

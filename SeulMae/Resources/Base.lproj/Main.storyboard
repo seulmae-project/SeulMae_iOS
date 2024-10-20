@@ -153,18 +153,35 @@
                                     <constraint firstAttribute="width" constant="50" id="IPJ-Hv-b2Z"/>
                                 </constraints>
                             </stackView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y1v-yh-U39">
+                                <rect key="frame" x="167" y="428" width="75" height="34.333333333333314"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="9q9-Xr-V9T">
+                                <rect key="frame" x="240" y="525" width="75" height="34.333333333333371"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="1dl-TV-Vdy"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="y1v-yh-U39" firstAttribute="leading" relation="lessThanOrEqual" secondItem="9q9-Xr-V9T" secondAttribute="leading" constant="100" id="2Fs-SQ-1qh"/>
+                            <constraint firstItem="9q9-Xr-V9T" firstAttribute="top" secondItem="y1v-yh-U39" secondAttribute="bottom" constant="62.670000000000002" id="6xM-29-FM3"/>
+                            <constraint firstItem="1dl-TV-Vdy" firstAttribute="trailing" secondItem="9q9-Xr-V9T" secondAttribute="trailing" constant="78" id="Cdt-gJ-iDC"/>
                             <constraint firstItem="qMq-9a-eAL" firstAttribute="top" secondItem="1dl-TV-Vdy" secondAttribute="top" constant="8" id="Kw5-qc-GUc"/>
+                            <constraint firstItem="y1v-yh-U39" firstAttribute="leading" secondItem="S6R-qc-jiX" secondAttribute="trailing" constant="92" id="Txp-b1-G2R"/>
+                            <constraint firstItem="1dl-TV-Vdy" firstAttribute="trailing" secondItem="y1v-yh-U39" secondAttribute="trailing" constant="151" id="XGV-B2-7ku"/>
+                            <constraint firstItem="y1v-yh-U39" firstAttribute="top" secondItem="qMq-9a-eAL" secondAttribute="bottom" constant="340.67000000000002" id="YuK-3e-rGT"/>
                             <constraint firstItem="1dl-TV-Vdy" firstAttribute="trailing" secondItem="qMq-9a-eAL" secondAttribute="trailing" constant="17" id="kbh-8K-Nog"/>
+                            <constraint firstItem="9q9-Xr-V9T" firstAttribute="leading" secondItem="1dl-TV-Vdy" secondAttribute="leading" constant="240" id="pPJ-4Q-pm2"/>
                         </constraints>
                     </view>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="u0r-wu-r17" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2955" y="-751"/>
+            <point key="canvasLocation" x="-2491" y="-751"/>
         </scene>
     </scenes>
     <resources>

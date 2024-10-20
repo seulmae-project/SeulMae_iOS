@@ -46,12 +46,18 @@ class EmptyContentView: UIView, UIContentView {
         addSubview(contentStack)
         contentStack.translatesAutoresizingMaskIntoConstraints = false
 
-        let insets = CGFloat(20)
+        let insets = CGFloat(0)
         NSLayoutConstraint.activate([
-            contentStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor, constant: insets),
-            contentStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor, constant: -insets),
-            contentStack.topAnchor.constraint(lessThanOrEqualTo: topAnchor, constant: insets),
-            contentStack.bottomAnchor.constraint(greaterThanOrEqualTo: bottomAnchor, constant: -insets),
+            imageView.widthAnchor.constraint(equalToConstant: 56),
+            imageView.heightAnchor.constraint(equalToConstant: 56),
+            
+            contentStack.centerXAnchor.constraint(equalTo: centerXAnchor),
+            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor),
+
+            contentStack.leadingAnchor.constraint(greaterThanOrEqualTo: leadingAnchor),
+            contentStack.trailingAnchor.constraint(lessThanOrEqualTo: trailingAnchor),
+            contentStack.topAnchor.constraint(greaterThanOrEqualTo: topAnchor),
+            contentStack.bottomAnchor.constraint(lessThanOrEqualTo: bottomAnchor),
         ])
     }
 
