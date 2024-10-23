@@ -19,20 +19,20 @@ final class WorkplaceFinderViewModel: ViewModel {
         let search: Signal<()>
         let create: Signal<()>
     }
-    
+
     struct Output {
         let loading: Driver<Bool>
         let items: Driver<[WorkplaceFinderItem]>
     }
-    
+
     // MARK: - Dependencies
-    
+
     private let coordinator: FinderFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let notificationUseCase: NotificationUseCase
 
     // MARK: - Life Cycle
-    
+
     init(
         dependencies: (
             coordinator: FinderFlowCoordinator,
@@ -44,11 +44,11 @@ final class WorkplaceFinderViewModel: ViewModel {
         self.workplaceUseCase = dependencies.workplaceUseCase
         self.notificationUseCase = dependencies.notificationUseCase
     }
-    
+
     @MainActor func transform(_ input: Input) -> Output {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
-        
+
         let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
 
         let reminders = onLoad.withUnretained(self)
@@ -61,7 +61,7 @@ final class WorkplaceFinderViewModel: ViewModel {
 
         let submitted = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
-               return self.workplaceUseCase
+                return self.workplaceUseCase
                     .fetchSubmittedApplications()
                     .flatMap { applications -> Single<[WorkplaceFinderItem]> in
                         Single.zip(applications.map { application in
@@ -82,15 +82,24 @@ final class WorkplaceFinderViewModel: ViewModel {
                         })
                     }
                     .asDriver()
-                }
+            }
 
         let items = Driver.merge(reminders, workplaces, submitted)
 
         // MARK: - Coordinator Logic
-        
+
+        let a = input.showMenu.flatMapLatest { _ -> Driver<Bool> in
+            let title = "근무지 생성 완료"
+            let message = "근무지 생성에 성공하였습니다"
+            return DefaultWireframe()
+                .promptAlert(title, message: message, actions: ["확인"])
+                .map { _ in true }
+                .asDriver()
+        }
+
         Task {
-            for await _ in input.showMenu.values {
-                
+            for await _ in a.values {
+
             }
         }
 

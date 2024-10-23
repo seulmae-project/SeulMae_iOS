@@ -170,6 +170,7 @@
 		868E681A2CC51D7200CEC0F3 /* AddressInputFormView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68192CC51D7200CEC0F3 /* AddressInputFormView.swift */; };
 		868E681C2CC51F1000CEC0F3 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */; };
 		868E68222CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */; };
+		868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68232CC67F5400CEC0F3 /* AlertViewController.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -523,6 +524,7 @@
 		868E68192CC51D7200CEC0F3 /* AddressInputFormView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddressInputFormView.swift; sourceTree = "<group>"; };
 		868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Ext.swift"; sourceTree = "<group>"; };
 		868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Ext.swift"; sourceTree = "<group>"; };
+		868E68232CC67F5400CEC0F3 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -1300,6 +1302,7 @@
 				860BCE662C6B539C00DCC532 /* AddNew */,
 				868E681F2CC521F200CEC0F3 /* Address */,
 				868E68172CC5195500CEC0F3 /* TextInputFormView.swift */,
+				868E68232CC67F5400CEC0F3 /* AlertViewController.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -2518,6 +2521,7 @@
 				86AC25F82CA039D00009D249 /* AttendanceService.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */,
+				868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* ReminderListItem.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,

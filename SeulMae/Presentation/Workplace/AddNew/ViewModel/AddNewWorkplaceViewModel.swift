@@ -72,7 +72,8 @@ final class AddNewWorkplaceViewModel: ViewModel {
         
         let validationResult = Driver.merge(validatedName, validatedContact)
 
-        let AddNewEnabled = Driver.combineLatest(
+        let createEnabled = Driver.combineLatest(
+            // 주소까지 
             validatedName, validatedContact, loading) { name, contact, loading in
                 name.result.isValid &&
                 contact.result.isValid &&
@@ -80,15 +81,23 @@ final class AddNewWorkplaceViewModel: ViewModel {
             }
             .distinctUntilChanged()
 
-
-        let inputs = Driver.combineLatest(input.image, input.name, input.contact, input.address, input.subAddress) { (image: $0, name: $1, contact: $2, address: $3, subAddress: $4) }
+        let startEmptyImage = input.image.startWith(UIImage())
+        let inputs = Driver.combineLatest(startEmptyImage, input.name, input.contact, input.address, input.subAddress) { (image: $0, name: $1, contact: $2, address: $3, subAddress: $4) }
 
         let isCreate = input.onCreate
             .withLatestFrom(inputs)
-            .withUnretained(self) { (self, inputs) in
+            .withUnretained(self) 
+            .flatMapLatest { (self, inputs) in
                 self.workplaceUseCase
                     .addNewWorkplace(image: inputs.image, name: inputs.name, contact: inputs.contact, address: inputs.address, subAddress: inputs.subAddress)
                     .trackActivity(tracker)
+                    .flatMapLatest { isCreated -> Observable<Bool> in
+                        let title = isCreated ? "근무지 생성 완료" : "근무지 생성 실패"
+                        let message = isCreated ? "근무지 생성에 성공하였습니다" : "근무지 생성에 실패하였습니다"
+                        return self.wireframe
+                            .promptAlert(title, message: message, actions: ["확인"])
+                            .map { _ in isCreated }
+                    }
                     .asDriver()
             }
 
@@ -106,7 +115,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
         return Output(
             loading: loading,
             validationResult: validationResult,
-            createEnabled: AddNewEnabled
+            createEnabled: createEnabled
         )
     }
 }

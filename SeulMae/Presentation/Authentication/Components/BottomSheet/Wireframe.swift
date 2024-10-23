@@ -11,6 +11,7 @@ import RxSwift
 protocol Wireframe {
     func open(url: URL)
     func promptFor<Action: CustomStringConvertible>(_ message: String, cancelAction: Action, actions: [Action]) -> Observable<Action>
+    func promptAlert<Action: CustomStringConvertible>(_ title: String, message: String, actions: [Action]) -> Observable<Action>
     func searchAddress() -> Single<[String: Any]>
 }
 
@@ -72,16 +73,20 @@ class DefaultWireframe: Wireframe {
         #endif
     }
 
+    
+
     func promptFor<Action : CustomStringConvertible>(_ message: String, cancelAction: Action, actions: [Action]) -> Observable<Action> {
         #if os(iOS)
         return Observable.create { observer in
             let alertView = UIAlertController(title: "RxExample", message: message, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: cancelAction.description, style: .cancel) { _ in
                 observer.on(.next(cancelAction))
+                observer.onCompleted()
             })
 
             for action in actions {
                 alertView.addAction(UIAlertAction(title: action.description, style: .default) { _ in
+                    observer.onCompleted()
                     observer.on(.next(action))
                 })
             }
@@ -95,5 +100,30 @@ class DefaultWireframe: Wireframe {
         #elseif os(macOS)
             return Observable.error(NSError(domain: "Unimplemented", code: -1, userInfo: nil))
         #endif
+    }
+
+    func promptAlert<Action : CustomStringConvertible>(_ title: String, message: String, actions: [Action]) -> Observable<Action> {
+#if os(iOS)
+        return Observable.create { observer in
+            let alert = AlertViewController()
+            alert.modalPresentationStyle = .overFullScreen
+
+            alert.titleLabel.text = title
+            alert.messageLabel.text = message
+            actions.forEach { action in
+                alert.addAction(title: action.description) { _ in
+                    observer.on(.next(action))
+                    observer.onCompleted()
+                }
+            }
+
+            DefaultWireframe.rootViewController()
+                .present(alert, animated: true, completion: nil)
+
+            return Disposables.create {
+                 alert.dismiss(animated:false, completion: nil)
+            }
+        }
+#endif
     }
 }
