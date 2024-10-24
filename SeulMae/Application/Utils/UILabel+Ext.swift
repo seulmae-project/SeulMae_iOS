@@ -8,6 +8,12 @@
 import UIKit
 
 extension Ext where ExtendedType == UILabel {
+    static func common(_ text: String? = "") -> UILabel {
+        let label = UILabel()
+        
+        return label
+    }
+
     func setText(_ text: String,
                  size: CGFloat,
                  weight: UIFont.PretendardWeight,

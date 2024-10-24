@@ -164,4 +164,8 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
     ) -> MemberInfoViewController {
         return .init()
     }
+
+    func makeScheduleCreation(coordinator: any WorkplaceFlowCoordinator) -> ScheduleCreationViewController {
+        return .init()
+    }
 }

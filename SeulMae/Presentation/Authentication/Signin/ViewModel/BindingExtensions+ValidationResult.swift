@@ -59,7 +59,6 @@ extension Ext where ExtendedType == UILabel {
     }
 }
 
-extension UIButton: Extended {}
 extension Ext where ExtendedType == UIButton {
     func setEnabled(_ isEnabled: Bool) {
         type.isEnabled = isEnabled

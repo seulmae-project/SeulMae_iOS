@@ -84,19 +84,19 @@ final class AddNewWorkplaceViewModel: ViewModel {
         let startEmptyImage = input.image.startWith(UIImage())
         let inputs = Driver.combineLatest(startEmptyImage, input.name, input.contact, input.address, input.subAddress) { (image: $0, name: $1, contact: $2, address: $3, subAddress: $4) }
 
-        let isCreate = input.onCreate
+        let action = input.onCreate
             .withLatestFrom(inputs)
             .withUnretained(self) 
-            .flatMapLatest { (self, inputs) in
+            .flatMapLatest { (self, inputs) -> Driver<String> in
                 self.workplaceUseCase
                     .addNewWorkplace(image: inputs.image, name: inputs.name, contact: inputs.contact, address: inputs.address, subAddress: inputs.subAddress)
                     .trackActivity(tracker)
-                    .flatMapLatest { isCreated -> Observable<Bool> in
+                    .flatMapLatest { isCreated -> Observable<String> in
                         let title = isCreated ? "근무지 생성 완료" : "근무지 생성 실패"
-                        let message = isCreated ? "근무지 생성에 성공하였습니다" : "근무지 생성에 실패하였습니다"
+                        let message = isCreated ? "근무 일정을 추가할 수 있어요" : "잠시 뒤 다시 시도해주세요"
+                        let actions = isCreated ? ["추가하기", "다음에"] : ["확인"]
                         return self.wireframe
-                            .promptAlert(title, message: message, actions: ["확인"])
-                            .map { _ in isCreated }
+                            .promptAlert(title, message: message, actions: actions)
                     }
                     .asDriver()
             }
@@ -104,8 +104,10 @@ final class AddNewWorkplaceViewModel: ViewModel {
         // TODO: 알림 처리
 
         Task {
-            for await isCreate in isCreate.values {
-
+            for await action in action.values {
+                if action == "추가하기" {
+                    coordinator.moveToScheduleCreation()
+                }
             }
         }
 

@@ -171,6 +171,13 @@
 		868E681C2CC51F1000CEC0F3 /* UITextField+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */; };
 		868E68222CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */; };
 		868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68232CC67F5400CEC0F3 /* AlertViewController.swift */; };
+		868E68272CC93A6900CEC0F3 /* ScheduleCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68262CC93A6900CEC0F3 /* ScheduleCreationViewController.swift */; };
+		868E68292CC947F000CEC0F3 /* UIButton+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68282CC947F000CEC0F3 /* UIButton+Ext.swift */; };
+		868E682B2CC9539D00CEC0F3 /* WeekdayInlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E682A2CC9539D00CEC0F3 /* WeekdayInlet.swift */; };
+		868E682D2CC9553D00CEC0F3 /* ScheduleInlet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E682C2CC9553D00CEC0F3 /* ScheduleInlet.swift */; };
+		868E682F2CCA888000CEC0F3 /* MemberSelectionContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E682E2CCA888000CEC0F3 /* MemberSelectionContentView.swift */; };
+		868E68312CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68302CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift */; };
+		868E68332CCA9CC600CEC0F3 /* MemberEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868E68322CCA9CC600CEC0F3 /* MemberEmptyView.swift */; };
 		868F37CC2C6350AA00A0A440 /* SMSRequestStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */; };
 		868F37CE2C63582C00A0A440 /* AccountSetupItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */; };
 		869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869054AA2C60C1270037B61A /* SQLiteDB.swift */; };
@@ -525,6 +532,13 @@
 		868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Ext.swift"; sourceTree = "<group>"; };
 		868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSDirectionalEdgeInsets+Ext.swift"; sourceTree = "<group>"; };
 		868E68232CC67F5400CEC0F3 /* AlertViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertViewController.swift; sourceTree = "<group>"; };
+		868E68262CC93A6900CEC0F3 /* ScheduleCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCreationViewController.swift; sourceTree = "<group>"; };
+		868E68282CC947F000CEC0F3 /* UIButton+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Ext.swift"; sourceTree = "<group>"; };
+		868E682A2CC9539D00CEC0F3 /* WeekdayInlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekdayInlet.swift; sourceTree = "<group>"; };
+		868E682C2CC9553D00CEC0F3 /* ScheduleInlet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleInlet.swift; sourceTree = "<group>"; };
+		868E682E2CCA888000CEC0F3 /* MemberSelectionContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberSelectionContentView.swift; sourceTree = "<group>"; };
+		868E68302CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCreationViewModel.swift; sourceTree = "<group>"; };
+		868E68322CCA9CC600CEC0F3 /* MemberEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberEmptyView.swift; sourceTree = "<group>"; };
 		868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSRequestStatus.swift; sourceTree = "<group>"; };
 		868F37CD2C63582C00A0A440 /* AccountSetupItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountSetupItem.swift; sourceTree = "<group>"; };
 		869054AA2C60C1270037B61A /* SQLiteDB.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteDB.swift; sourceTree = "<group>"; };
@@ -1642,6 +1656,7 @@
 			isa = PBXGroup;
 			children = (
 				868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */,
+				868E68282CC947F000CEC0F3 /* UIButton+Ext.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1661,6 +1676,19 @@
 				868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		868E68252CC93A5600CEC0F3 /* ScheduleCreation */ = {
+			isa = PBXGroup;
+			children = (
+				868E68262CC93A6900CEC0F3 /* ScheduleCreationViewController.swift */,
+				868E682E2CCA888000CEC0F3 /* MemberSelectionContentView.swift */,
+				868E682A2CC9539D00CEC0F3 /* WeekdayInlet.swift */,
+				868E682C2CC9553D00CEC0F3 /* ScheduleInlet.swift */,
+				868E68322CCA9CC600CEC0F3 /* MemberEmptyView.swift */,
+				868E68302CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift */,
+			);
+			path = ScheduleCreation;
 			sourceTree = "<group>";
 		};
 		869358BE2C7364F000B2436E /* PersistentStorages */ = {
@@ -2158,6 +2186,7 @@
 				86FD61E02C89598F005ED02F /* Setting */,
 				86FD62152C8D9A3E005ED02F /* WorkScheduleList */,
 				86DB32D82C9AC08B00575A03 /* WorkScheduleDetails */,
+				868E68252CC93A5600CEC0F3 /* ScheduleCreation */,
 				8624AC722C2EA93A001FF383 /* View */,
 				8624AC732C2EA93D001FF383 /* ViewModel */,
 			);
@@ -2498,6 +2527,7 @@
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
+				868E682D2CC9553D00CEC0F3 /* ScheduleInlet.swift in Sources */,
 				868E68222CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift in Sources */,
 				86E49BD92C4FA85F00429FF9 /* _TextView.swift in Sources */,
 				86FD61E42C895A07005ED02F /* TabBarController.swift in Sources */,
@@ -2507,6 +2537,7 @@
 				869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */,
 				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
 				860F20BF2CC40F0C00E27D34 /* FinderSceneDIContainer.swift in Sources */,
+				868E68292CC947F000CEC0F3 /* UIButton+Ext.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
 				86E39F9E2C8EB78B00361E0D /* WorkplaceFlowCoordinator.swift in Sources */,
 				860EB2B72C74E47E00310985 /* ReminderListContentView.swift in Sources */,
@@ -2520,6 +2551,7 @@
 				861B96932C204BA10032C94A /* Wireframe.swift in Sources */,
 				86AC25F82CA039D00009D249 /* AttendanceService.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
+				868E68332CCA9CC600CEC0F3 /* MemberEmptyView.swift in Sources */,
 				865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */,
 				868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* ReminderListItem.swift in Sources */,
@@ -2596,11 +2628,13 @@
 				86FD61DA2C8957A4005ED02F /* ManagerHomeViewController.swift in Sources */,
 				868354762C2455CA00F055D2 /* EmailDTO+Mapping.swift in Sources */,
 				86D309E92C33B58500C08DA8 /* NoticeDetailDTO+Mapping.swift in Sources */,
+				868E682F2CCA888000CEC0F3 /* MemberSelectionContentView.swift in Sources */,
 				86016C4F2C94628700EE8A92 /* MonthlyAttenanceSummary.swift in Sources */,
 				869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */,
 				861BF6882C27082600702E24 /* DefaultNoticeRepository.swift in Sources */,
 				86B07D832C3293EC0088E1B1 /* UIContentConfiguration+Stateless.swift in Sources */,
 				86D309CB2C339D8A00C08DA8 /* AnnounceDetail.swift in Sources */,
+				868E68312CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift in Sources */,
 				8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */,
 				86A416742CBA3D02008394BE /* WorkplaceOverviewContentView.swift in Sources */,
 				86AC25F42C9C2FE40009D249 /* ScheduleReminderViewController.swift in Sources */,
@@ -2678,6 +2712,7 @@
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
 				865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */,
 				86FACA032CC3D2B800898CFE /* SubmittedApplication.swift in Sources */,
+				868E682B2CC9539D00CEC0F3 /* WeekdayInlet.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
 				86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
@@ -2715,6 +2750,7 @@
 				869C7A702C6EEF5B008EB7ED /* MemberListItem.swift in Sources */,
 				86C40B062C4F38E30051EF2B /* AnnounceDetailViewModel.swift in Sources */,
 				86FD61EA2C8AA25F005ED02F /* TitleSupplementaryView.swift in Sources */,
+				868E68272CC93A6900CEC0F3 /* ScheduleCreationViewController.swift in Sources */,
 				868354722C2454A300F055D2 /* BaseResponseDTO.swift in Sources */,
 				86B4B4542C4B3F7F00D83488 /* MemberInfoDTO+Mapping.swift in Sources */,
 				86FD61DC2C8957B0005ED02F /* UserHomeViewController.swift in Sources */,

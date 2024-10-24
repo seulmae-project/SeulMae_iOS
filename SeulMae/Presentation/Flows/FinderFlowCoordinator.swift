@@ -24,6 +24,9 @@ protocol FinderFlowCoordinator: Coordinator {
     func showSearchWorkPlace()
     func showWorkplaceDetails(workplaceID: Workplace.ID)
     func showAddNewWorkplace()
+
+    // 일정 생성
+    func moveToScheduleCreation()
 }
 
 final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
@@ -77,5 +80,9 @@ final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
     func showAddNewWorkplace() {
         let vc = dependencies.makeAddNewWorkplaceViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
+    }
+
+    func moveToScheduleCreation() {
+        parentCoordinator?.showScheduleCreation()
     }
 }

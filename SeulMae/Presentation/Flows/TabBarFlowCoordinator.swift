@@ -47,10 +47,9 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     }
     
     func showHome(isManager: Bool) {
-        childCoordinators.forEach { $0.start(isManager) }
-        let viewControllers = childCoordinators
-            .filter { !($0 is FinderFlowCoordinator) }
-            .map { $0.navigationController }
+        let coordinators = childCoordinators.filter { !($0 is FinderFlowCoordinator) }
+        coordinators.forEach { $0.start(isManager) }
+        let viewControllers = coordinators.map { $0.navigationController }
         let vc = TabBarController(viewContollers: viewControllers, mainCoordinator: self)
         navigationController.setViewControllers([vc], animated: false)
     }
@@ -68,5 +67,12 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
             .filter { ($0 is CommonFlowCoordinator) }
             .first
         coordinator?.start(navigationController)
+    }
+
+    func showScheduleCreation() {
+        showHome(isManager: true)
+        guard let coordinator = childCoordinators.first(where: { $0 is WorkplaceFlowCoordinator }) else { fatalError() }
+        guard let workplaceCoordinator = coordinator as? WorkplaceFlowCoordinator else { fatalError() }
+        workplaceCoordinator.showScheduleCreation()
     }
 }

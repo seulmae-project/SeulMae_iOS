@@ -15,7 +15,10 @@ protocol WorkplaceFlowCoordinatorDependencies {
     
     func makeWorkScheduleListViewController(coordinator: WorkplaceFlowCoordinator) -> WorkScheduleListViewController
     func makeWorkScheduleDetailsViewController(coordinator: WorkplaceFlowCoordinator, workScheduleId: WorkSchedule.ID?) -> WorkScheduleDetailsViewController
-    
+
+    func makeScheduleCreation(coordinator: WorkplaceFlowCoordinator) -> ScheduleCreationViewController
+
+
     func makeMemberProfileViewController(coordinator: WorkplaceFlowCoordinator) -> MemberInfoViewController
 }
 
@@ -27,7 +30,9 @@ protocol WorkplaceFlowCoordinator: Coordinator {
     
     func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID?)
     func showWorkScheduleList()
-    
+
+    func showScheduleCreation()
+
     func showMemberProfile(memberId: Member.ID)
 }
 
@@ -88,7 +93,12 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
         let vc = dependencies.makeWorkScheduleListViewController(coordinator: self)
         navigationController.pushViewController(vc, animated: true)
     }
-    
+
+    func showScheduleCreation() {
+        let vc = dependencies.makeScheduleCreation(coordinator: self)
+        navigationController.pushViewController(vc, animated: true)
+    }
+
     // MARK: - MemberProfile
     
     func showMemberProfile(memberId: Member.ID) {
