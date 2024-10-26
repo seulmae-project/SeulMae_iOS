@@ -9,7 +9,7 @@ import UIKit
 
 struct WorkplaceFinderItem: Hashable {
     let identifier: String = UUID().uuidString
-    var section: WorkplaceFinderViewController.Section?
+    var section: PlaceFinderSection?
     var icon: UIImage?
     var title: String?
     var workplace: Workplace?
@@ -69,7 +69,7 @@ struct WorkplaceFinderItem: Hashable {
         return item
     }
 
-    static func empty(section: WorkplaceFinderViewController.Section) -> WorkplaceFinderItem {
+    static func empty(section: PlaceFinderSection) -> WorkplaceFinderItem {
         var item = WorkplaceFinderItem()
         item.section = section
         item.isEmpty = true

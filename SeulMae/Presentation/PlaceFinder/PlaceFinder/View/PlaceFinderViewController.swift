@@ -1,5 +1,5 @@
 //
-//  WorkplaceFinderViewController.swift
+//  PlaceFinderViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/15/24.
@@ -9,55 +9,33 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class WorkplaceFinderViewController: BaseViewController {
+final class PlaceFinderViewController: BaseViewController {
     
     // MARK: - Internal Types
-    
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, WorkplaceFinderItem>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, WorkplaceFinderItem>
 
-    enum Section: Int, CaseIterable {
-        case reminder, card, workplace, application
-    }
-    
+    typealias DataSource = UICollectionViewDiffableDataSource<PlaceFinderSection, WorkplaceFinderItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<PlaceFinderSection, WorkplaceFinderItem>
+   
     // MARK: - UI Properties
 
-    private var leftMenuBarButton: UIBarButtonItem = .init(image: .menu, style: .plain, target: nil, action: nil)
-    private var rightBellBarButton: UIBarButtonItem = .init(image: .bell, style: .plain, target: nil, action: nil)
-
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
-    
-    private lazy var collectionView: UICollectionView = {
-        let collectionView = UICollectionView(
-            frame: view.bounds,
-            collectionViewLayout: createLayout())
-        collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        collectionView.refreshControl = refreshControl
-        collectionView.backgroundColor = UIColor(hexCode: "F2F3F5")
-        return collectionView
-    }()
+    private var leftMenuBarButton = UIBarButtonItem(image: .menu, style: .plain, target: nil, action: nil)
+    private var rightBellBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
+    private lazy var collectionView: UICollectionView = Ext.common(frame: view.bounds, layout: createLayout(), backgroundColor: UIColor(hexCode: "F2F3F5"), refreshControl: refreshControl)
 
     // MARK: - Properties
-    
-    private var viewModel: WorkplaceFinderViewModel
+
+    private var viewModel: WorkplaceFinderViewModel!
     private var dataSource: DataSource!
     private var findRelay = PublishRelay<()>()
     private var createRelay = PublishRelay<()>()
     
     // MARK: - Life Cycle Methods
     
-    init(viewModel: WorkplaceFinderViewModel) {
+    convenience init(viewModel: WorkplaceFinderViewModel) {
+        self.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -70,22 +48,23 @@ final class WorkplaceFinderViewController: BaseViewController {
     // MARK: - Data Binding
     
     private func bindInternalSubviews() {
-        let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
-            .map { _ in return () }
+        let onItemTap = collectionView.rx.itemSelected.asSignal()
+        let onReminderTap = onItemTap
             .asSignal()
-        let onItemTap = collectionView.rx
-            .itemSelected
+            .filter { $0.section == 0 }
+            .map { _ in () }
+        let onCardTap = onItemTap
             .filter { $0.section == 1 }
             .map { $0.item }
-            .asSignal()
 
         let output = viewModel.transform(
             .init(
                 onLoad: onLoad,
-                onRefresh: refreshControl.rx.controlEvent(.valueChanged).asSignal(),
+                onRefresh: onRefresh,
                 showMenu: leftMenuBarButton.rx.tap.asSignal(),
                 showReminders: rightBellBarButton.rx.tap.asSignal(),
-                onCardTap: onItemTap,
+                onReminderTap: onReminderTap,
+                onCardTap: onCardTap,
                 search: findRelay.asSignal(),
                 create: createRelay.asSignal()
             )
@@ -112,7 +91,9 @@ final class WorkplaceFinderViewController: BaseViewController {
             .disposed(by: disposeBag)
 
         output.loading
-            .drive(loadingIndicator.rx.isAnimating)
+            .drive(with: self, onNext: { (self, loading) in
+                self.loadingIndicator.ext.bind(loading)
+            })
             .disposed(by: disposeBag)
     }
     
@@ -134,16 +115,14 @@ final class WorkplaceFinderViewController: BaseViewController {
     // MARK: - DataSource
     
     private func configureDataSource() {
+        let headerCellRegistration = createHeaderCellRegistration()
         let reminderCellRegistration = createReminderCellRegistiration()
         let cardCellRegistration = createCardCellRegistiration()
         let workplaceCellRegistration = createWorkplaceCellRegistration()
         let submitStateCellRegistration = createApplicationCellRegistration()
 
         dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
-            guard let section = Section(rawValue: index.section) else {
-                Swift.fatalError("Unknown section!")
-            }
-
+            guard let section = PlaceFinderSection(rawValue: index.section) else { Swift.fatalError("Unknown section!") }
             switch section {
             case .reminder:
                 return view.dequeueConfiguredReusableCell(using: reminderCellRegistration, for: index, item: item)
@@ -156,12 +135,10 @@ final class WorkplaceFinderViewController: BaseViewController {
             }
         }
         
-//        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
-//            return (kind == OutlineSupplementaryView.reuseIdentifier)
-//            ? view.dequeueConfiguredReusableSupplementary(
-//                using: headerCellRegistration, for: indexPath)
-//            : view.dequeueConfiguredReusableSupplementary(using: footerCellRegistration, for: indexPath)
-//        }
+        dataSource.supplementaryViewProvider = { (view, kind, indexPath) in
+            return view.dequeueConfiguredReusableSupplementary(
+                using: headerCellRegistration, for: indexPath)
+        }
         
         applyInitialSnapshot()
     }
@@ -170,7 +147,7 @@ final class WorkplaceFinderViewController: BaseViewController {
     
     private func applyInitialSnapshot() {
         var snapshot = Snapshot()
-        snapshot.appendSections(Section.allCases)
+        snapshot.appendSections(PlaceFinderSection.allCases)
         snapshot.appendItems(WorkplaceFinderItem.cards, toSection: .card)
         snapshot.appendItems([.empty(section: .workplace)], toSection: .workplace)
         snapshot.appendItems([.empty(section: .application)], toSection: .application)
@@ -179,6 +156,14 @@ final class WorkplaceFinderViewController: BaseViewController {
     }
     
     // MARK: - Cell Registration
+
+    func createHeaderCellRegistration() -> UICollectionView.SupplementaryRegistration<OutlineSupplementaryView> {
+        return .init(elementKind: OutlineSupplementaryView.reuseIdentifier) { supplementaryView, elementKind, indexPath in
+            guard let section = PlaceFinderSection(rawValue: indexPath.section) else { Swift.fatalError("Unknown section!") }
+            supplementaryView.titleLabel.text = section.title
+            supplementaryView.descriptionLabel.text = section.description
+        }
+    }
 
     private func createReminderCellRegistiration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
         return .init { cell, indexPath, item in
@@ -210,23 +195,10 @@ final class WorkplaceFinderViewController: BaseViewController {
     private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
         return .init { cell, indexPath, item in
             guard case .workplace = item.section else { return }
-            if item.isEmpty {
-                var content = EmptyContentView.Configuration()
-                content.image = item.image
-                content.message = item.message
-                cell.contentConfiguration = content
-            } else {
-                var content = WorkplaceContentView.Configuration()
-                // content.imageURL = item.workplace.
-                // content. // 영업 중
-                // content.workTime // 8:00 - 11:00
-                content.name = item.workplace?.name
-                content.address = item.workplace?.address?.mainAddress
-                content.subAdress = item.workplace?.address?.subAddress
-                // content. // 오전 A팀 근무 중
-                content.memberList = item.memberList
-                cell.contentConfiguration = content
-            }
+            var content = PlaceInfoContentView.Configuration()
+            content.workplace = item.workplace
+            content.memberList = item.memberList
+            cell.contentConfiguration = content
             var backgroundConfig = UIBackgroundConfiguration.clear()
             backgroundConfig.backgroundColor = .white
             backgroundConfig.cornerRadius = 8.0
@@ -237,18 +209,9 @@ final class WorkplaceFinderViewController: BaseViewController {
     private func createApplicationCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
         return .init { cell, indexPath, item in
             guard case .application = item.section else { return }
-            if item.isEmpty {
-                var content = EmptyContentView.Configuration()
-                content.image = item.image
-                content.message = item.message
-                cell.contentConfiguration = content
-            } else {
-                var content = ApplicationContentView.Configuration()
-                content.name = item.workplace?.name
-                content.address = item.workplace?.mainAddress
-                content.subAdress = item.workplace?.subAddress
-                cell.contentConfiguration = content
-            }
+            var content = ApplicationContentView.Configuration()
+            content.workplace = item.workplace
+            cell.contentConfiguration = content
             var backgroundConfig = UIBackgroundConfiguration.clear()
             backgroundConfig.backgroundColor = .white
             backgroundConfig.cornerRadius = 8.0
@@ -262,10 +225,7 @@ final class WorkplaceFinderViewController: BaseViewController {
         let config = UICollectionViewCompositionalLayoutConfiguration()
         config.interSectionSpacing = 12
         return UICollectionViewCompositionalLayout(sectionProvider: { sectionIndex, _ in
-            guard let section = Section(rawValue: sectionIndex) else {
-                Swift.fatalError("Unknown section!")
-            }
-
+            guard let section = PlaceFinderSection(rawValue: sectionIndex) else { Swift.fatalError("Unknown section!") }
             switch section {
             case .reminder:
                 return Self.makeReminderSectionLayout()
@@ -290,8 +250,7 @@ final class WorkplaceFinderViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        let insets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20)
-        section.contentInsets = insets
+        section.contentInsets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 0, trailing: 20)
         return section
     }
 
@@ -307,40 +266,59 @@ final class WorkplaceFinderViewController: BaseViewController {
             layoutSize: groupSize, subitems: [item])
         group.interItemSpacing = .fixed(12)
         let section = NSCollectionLayoutSection(group: group)
-        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-        section.contentInsets = insets
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
         return section
     }
 
     static func makeWorkplaceSectionLayout() -> NSCollectionLayoutSection {
         let itemSize = NSCollectionLayoutSize(
             widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(230))
+            heightDimension: .estimated(177))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
         let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(230))
-        let group = NSCollectionLayoutGroup.vertical(
+            widthDimension: .fractionalWidth(0.9),
+            heightDimension: .estimated(177))
+        let group = NSCollectionLayoutGroup.horizontal(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-        section.contentInsets = insets
+        section.interGroupSpacing = 20
+        section.orthogonalScrollingBehavior = .groupPaging
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: OutlineSupplementaryView.reuseIdentifier,
+            alignment: .top)// , absoluteOffset: .init(x: 0, y: -12))
+        section.boundarySupplementaryItems = [sectionHeader]
+        // PLay with some animation and scrollOffest
+//        section.visibleItemsInvalidationHandler = { items, offset, environment in
+//            let _itmes = items.filter { $0.indexPath.section == Section.workplace.rawValue }
+//            _itmes.forEach { item in
+//                let distanceFromCenter = abs((item.frame.midX - offset.x) - environment.container.contentSize.width / 2.0)
+//                let minScale: CGFloat = 0.8
+//                let maxScale: CGFloat = 1.0
+//                let scale = max(maxScale - (distanceFromCenter / environment.container.contentSize.width), minScale)
+//                item.transform = CGAffineTransform(scaleX: scale, y: scale)
+//            }
+//        }
         return section
     }
 
     static func makeApplicationSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(56))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(56))
-        let group = NSCollectionLayoutGroup.horizontal(
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
+        let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
-        section.contentInsets = insets
+        section.interGroupSpacing = 12
+        section.contentInsets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 20, trailing: 20)
+        let headerSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(44))
+        let sectionHeader = NSCollectionLayoutBoundarySupplementaryItem(
+            layoutSize: headerSize,
+            elementKind: OutlineSupplementaryView.reuseIdentifier,
+            alignment: .top)// , absoluteOffset: .init(x: 0, y: -12))
+        section.boundarySupplementaryItems = [sectionHeader]
         return section
     }
 }

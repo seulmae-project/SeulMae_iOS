@@ -25,11 +25,6 @@ final class SearchWorkplaceViewController: BaseViewController {
     
     private let searchBar = SearchBarView()
 
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
-
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: createLayout(isEmpty: true))
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]

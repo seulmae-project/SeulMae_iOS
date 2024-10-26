@@ -18,7 +18,7 @@ extension Ext where ExtendedType == UILabel {
         return label
     }
 
-    static func config(font: UIFont, color: UIColor) -> UILabel {
+    static func config(font: UIFont, color: UIColor = .label) -> UILabel {
         let label = UILabel()
         label.font = font
         label.textColor = color

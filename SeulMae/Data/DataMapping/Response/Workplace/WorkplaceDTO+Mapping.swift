@@ -28,7 +28,7 @@ struct WorkplaceDTO: ModelType {
         case contact = "workplaceTel"
         case imageURLList = "workplaceImageUrlList"
         case thumbnailURL = "workplaceThumbnailUrl"
-        case manager = "workplaceManagerName"
+        case manager = "managerName"
         case mainAddress
         case subAddress
         case address

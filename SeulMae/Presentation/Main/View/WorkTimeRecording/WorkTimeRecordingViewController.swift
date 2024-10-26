@@ -80,7 +80,7 @@ final class WorkTimeRecordingViewController: UIViewController {
         
         Task {
             for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
     }

@@ -7,29 +7,59 @@
 
 import UIKit
 import RxSwift
+import RxCocoa
 
 class BaseViewController: UIViewController {
 
+    var loadingIndicator: UIActivityIndicatorView!
+    var refreshControl: UIRefreshControl!
+    var onLoad: Signal<()>!
+    var onRefresh: Signal<()>!
     var disposeBag = DisposeBag()
 
-    var loadingIndicator: UIActivityIndicatorView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupLoadingIndicator()
+
+        loadBaseComponents()
     }
-    
-    private func setupLoadingIndicator() {
+
+    func loadBaseComponents() {
+        onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
+           .map { _ in return () }
+           .asSignal()
+
         loadingIndicator = UIActivityIndicatorView(style: .medium)
         loadingIndicator.center = view.center
         loadingIndicator.hidesWhenStopped = true
         view.addSubview(loadingIndicator)
+
+        refreshControl = UIRefreshControl()
+        onRefresh = refreshControl.rx.controlEvent(.valueChanged).asSignal()
+        onRefresh.withUnretained(self)
+            .delay(.seconds(1))
+            .emit(onNext: { (self, _) in
+                self.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+
+        let onBackgroundTap = UITapGestureRecognizer()
+        onBackgroundTap.cancelsTouchesInView = false
+        view.addGestureRecognizer(onBackgroundTap)
+        onBackgroundTap.rx.event.asSignal()
+            .withUnretained(self)
+            .emit(onNext: { (self, gesture) in
+                let location = gesture.location(in: self.view)
+                let hitView = self.view.hitTest(location, with: nil)
+                if (hitView === self.view) {
+                    self.view.endEditing(true)
+                }
+            })
+            .disposed(by: disposeBag)
     }
 }
 
-extension UIActivityIndicatorView: Extended {}
 extension Ext where ExtendedType == UIActivityIndicatorView {
-    func isAnimating(_ active: Bool) {
+    func bind(_ active: Bool) {
         if active {
             type.superview?.bringSubviewToFront(type)
             type.startAnimating()

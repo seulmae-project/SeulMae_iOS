@@ -131,7 +131,7 @@ extension FinderSceneDIContainer: FinderFlowCoordinatorDependencies {
 
     func makeWorkplaceFinderViewController(
         coordinator: any FinderFlowCoordinator
-    ) -> WorkplaceFinderViewController {
+    ) -> PlaceFinderViewController {
         return .init(
             viewModel: makeWorkplaceFinderViewModel(
                 coordinator: coordinator

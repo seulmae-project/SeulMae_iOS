@@ -22,12 +22,7 @@ final class ManagerHomeViewController: BaseViewController {
         case list
     }
     
-    // MARK: - UI
-    
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
+    // MARK: - UI Properties
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -115,7 +110,7 @@ final class ManagerHomeViewController: BaseViewController {
         
         Task {
             for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
     }

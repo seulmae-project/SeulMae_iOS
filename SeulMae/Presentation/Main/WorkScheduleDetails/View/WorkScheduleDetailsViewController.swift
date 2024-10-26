@@ -107,7 +107,7 @@ final class WorkScheduleDetailsViewController: UIViewController {
         // Handle loading indicator
         Task {
             for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
         

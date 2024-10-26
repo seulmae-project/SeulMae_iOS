@@ -111,7 +111,7 @@ final class ScheduleReminderViewController: UIViewController {
         
         Task {
             for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
         

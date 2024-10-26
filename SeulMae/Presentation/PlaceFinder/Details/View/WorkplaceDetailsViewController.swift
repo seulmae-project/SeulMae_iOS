@@ -11,8 +11,6 @@ import MapKit
 final class WorkplaceDetailsViewController: BaseViewController {
     
     // MARK: - UI Properties
-
-    private let refreshControl = UIRefreshControl()
    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -114,7 +112,7 @@ final class WorkplaceDetailsViewController: BaseViewController {
         // handle loading
         Task {
             for await loading in output.loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
         

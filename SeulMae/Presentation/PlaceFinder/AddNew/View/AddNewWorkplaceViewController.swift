@@ -13,7 +13,6 @@ import MapKit
 
 final class AddNewWorkplaceViewController: BaseViewController {
 
-    private let refreshControl = UIRefreshControl()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.showsVerticalScrollIndicator = false

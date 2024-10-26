@@ -165,7 +165,7 @@ final class SMSVerificationViewController: UIViewController {
         // Handle Loading
         Task {
             for await isLoading in output.isLoading.values {
-                loadingIndicator.ext.isAnimating(isLoading)
+                loadingIndicator.ext.bind(isLoading)
             }
         }
         

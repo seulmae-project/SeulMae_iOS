@@ -176,10 +176,11 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
 
     private func makeScheduleCreationVM(coordinator: WorkplaceFlowCoordinator) -> ScheduleCreationViewModel {
         return .init(
-            dependency: (
+            dependencies: (
                 coordinator: coordinator,
                 workScheduleUseCase: makeWorkScheduleUseCase(),
-                workplaceUseCase: makeWorkplaceUseCase()
+                workplaceUseCase: makeWorkplaceUseCase(),
+                wireframe: DefaultWireframe()
             ))
     }
 }

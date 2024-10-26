@@ -65,6 +65,21 @@ extension Ext where ExtendedType == UIImageView {
         return imageView
     }
 
+    static func config(width: CGFloat,
+                       height: CGFloat,
+                       cornerRadius: CGFloat
+    ) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = .placeFinderSample
+        imageView.layer.cornerRadius = cornerRadius
+        imageView.layer.cornerCurve = .continuous
+        imageView.layer.masksToBounds = true
+        imageView.contentMode = .scaleAspectFill
+        imageView.widthAnchor.constraint(equalToConstant: width).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: height).isActive = true
+        return imageView
+    }
+
     static func user() -> UIImageView {
         let imageView = UIImageView()
         imageView.image = .userProfile

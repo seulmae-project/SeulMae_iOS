@@ -15,6 +15,7 @@ final class WorkplaceFinderViewModel: ViewModel {
         let onRefresh: Signal<()>
         let showMenu: Signal<()>
         let showReminders: Signal<()>
+        let onReminderTap: Signal<()>
         let onCardTap: Signal<Int>
         let search: Signal<()>
         let create: Signal<()>
@@ -49,26 +50,13 @@ final class WorkplaceFinderViewModel: ViewModel {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
 
-        let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
+        let onLoad = Signal.merge(input.onLoad, input.onRefresh)
 
         let reminders = onLoad.withUnretained(self)
             .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
                 return self.notificationUseCase.fetchAppNotificationList()
                     .map(WorkplaceFinderItem.reminder(_:))
                     .map { [$0] }
-                    .asDriver()
-            }
-
-        let submitted = onLoad.withUnretained(self)
-            .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
-                return self.workplaceUseCase
-                    .fetchSubmittedApplications()
-                    .flatMap { applications -> Single<[WorkplaceFinderItem]> in
-                        Single.zip(applications.map { application in
-                            self.workplaceUseCase.fetchWorkplaceDetail(workplaceId: application.workplaceId)
-                                .map { WorkplaceFinderItem.application(application, workplace: $0) }
-                        })
-                    }
                     .asDriver()
             }
 
@@ -79,6 +67,20 @@ final class WorkplaceFinderViewModel: ViewModel {
                         Single.zip(workplaces.map { workplace in
                             self.workplaceUseCase.fetchMemberList(workplaceId: workplace.id)
                                 .map { WorkplaceFinderItem.workplace(workplace, memberList: $0) }
+                        })
+                    }
+                    .asDriver()
+            }
+
+        let submitted = onLoad.withUnretained(self)
+            .flatMapLatest { (self, _) -> Driver<[WorkplaceFinderItem]> in
+                return self.workplaceUseCase
+                    .fetchSubmittedApplications()
+                    .map { $0.filter({ !$0.isApprove }) }
+                    .flatMap { applications -> Single<[WorkplaceFinderItem]> in
+                        Single.zip(applications.map { application in
+                            self.workplaceUseCase.fetchWorkplaceDetail(workplaceId: application.workplaceId)
+                                .map { WorkplaceFinderItem.application(application, workplace: $0) }
                         })
                     }
                     .asDriver()
@@ -96,6 +98,12 @@ final class WorkplaceFinderViewModel: ViewModel {
 
         Task {
             for await _ in input.showReminders.values {
+                coordinator.showReminderList()
+            }
+        }
+
+        Task {
+            for await _ in input.onReminderTap.values {
                 coordinator.showReminderList()
             }
         }

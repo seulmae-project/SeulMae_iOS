@@ -1,65 +1,50 @@
 //
-//  ApplicationContentView.swift
+//  WorkplaceContentView.swift
 //  SeulMae
 //
-//  Created by 조기열 on 10/19/24.
+//  Created by 조기열 on 7/2/24.
 //
 
 import UIKit
 import Kingfisher
 
-class ApplicationContentView: UIView, UIContentView {
+class PlaceInfoContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
-        var imageURL: String?
-        var name: String?
-        var address: String?
-        var subAdress: String?
+        var workplace: Workplace?
+        var memberList: [Member]?
 
         func makeContentView() -> UIView & UIContentView {
-            return ApplicationContentView(self)
+            return PlaceInfoContentView(self)
         }
     }
-
+    
     // MARK: - UI Properties
-
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.layer.cornerRadius = 4.0
-        imageView.layer.cornerCurve = .continuous
-        imageView.layer.masksToBounds = true
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
-        return imageView
+    
+    private let placeInfoView = PlaceInfoView()
+    private let memberStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.spacing = 12
+        return stack
     }()
-
-    private let nameLabel: UILabel = .common(size: 20, weight: .semibold)
-
-    private let addressLabel: UILabel = .common(size: 11, weight: .regular, color: UIColor(hexCode: "BDBEC0"))
-
+    
     // MARK: - Properties
-
+        
     var configuration: UIContentConfiguration {
         didSet {
             apply(config: configuration)
         }
     }
-
+    
     // MARK: Life Cycle Methods
-
+            
     init(_ configuration: UIContentConfiguration) {
         self.configuration = configuration
         super.init(frame: .zero)
 
-        let labelStack = UIStackView()
-        labelStack.axis = .vertical
-        labelStack.spacing = 4.0
-        [nameLabel, addressLabel]
-            .forEach(labelStack.addArrangedSubview(_:))
-
         let contentStack = UIStackView()
-        contentStack.alignment = .center
-        contentStack.spacing = 8.0
-        [imageView, labelStack]
+        contentStack.axis = .vertical
+        contentStack.spacing = 12
+        [placeInfoView, memberStackView]
             .forEach(contentStack.addArrangedSubview(_:))
 
         addSubview(contentStack)
@@ -67,29 +52,46 @@ class ApplicationContentView: UIView, UIContentView {
 
         let insets = CGFloat(20)
         NSLayoutConstraint.activate([
-            imageView.widthAnchor.constraint(equalToConstant: 84),
-            imageView.heightAnchor.constraint(equalToConstant: 64),
-
             contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets),
             contentStack.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -insets),
             contentStack.topAnchor.constraint(equalTo: topAnchor, constant: insets),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -insets),
         ])
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override var intrinsicContentSize: CGSize {
         CGSize(width: 0, height: 44)
     }
-
+    
     // MARK: - Configuration Methods
-
+        
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        nameLabel.text = config.name
-        addressLabel.text = "\(config.address ?? "") \(config.subAdress ?? "")"
+        placeInfoView.updateInfo(config.workplace)
+        updateMemberList(members: config.memberList ?? [])
+        memberStackView.addArrangedSubview(UIView())
+    }
+
+    private func updateMemberList(members: [Member]) {
+        memberStackView.arrangedSubviews.forEach { $0.removeFromSuperview() }
+        members.map(createMemberView(_:))
+            .forEach(memberStackView.addArrangedSubview(_:))
+        let spacer = UIView()
+        memberStackView.addArrangedSubview(spacer)
+    }
+
+    private func createMemberView(_ member: Member) -> UIView {
+        let memberStack = UIStackView()
+        memberStack.axis = .vertical
+        memberStack.spacing = 4.0
+        let imageView = UIImageView.user()
+        let nameLabel = UILabel.common(title: member.name, size: 14, weight: .medium)
+        [imageView, nameLabel]
+            .forEach(memberStack.addArrangedSubview(_:))
+        return memberStack
     }
 }

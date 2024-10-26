@@ -34,11 +34,6 @@ final class WorkLogViewController: BaseViewController {
     
     // MARK: - Properties
     
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
-    
     private let coordinator: HomeFlowCoordinator
     private let workplaceUseCase: WorkplaceUseCase
     private let attendanceUseCase: AttendanceUseCase
@@ -212,7 +207,7 @@ final class WorkLogViewController: BaseViewController {
         
         Task {
             for await loading in loading.values {
-                loadingIndicator.ext.isAnimating(loading)
+                loadingIndicator.ext.bind(loading)
             }
         }
     }

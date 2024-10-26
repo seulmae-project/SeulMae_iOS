@@ -11,11 +11,6 @@ import RxCocoa
 
 final class JoinApplicationViewController: BaseViewController {
     
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
-    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView(frame: view.bounds)
         scrollView.showsVerticalScrollIndicator = false

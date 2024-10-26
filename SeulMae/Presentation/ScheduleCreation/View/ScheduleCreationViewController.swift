@@ -25,7 +25,7 @@ class ScheduleCreationViewController: BaseViewController {
     
     private let scheduleCustomView = ScheduleCustomizationView()
     private let memberEmptyView = MemberEmptyView()
-    private let refreshControl = UIRefreshControl()
+    
     private lazy var collectionView: UICollectionView = Ext.common(
         layout: createLayout(),
         emptyView: memberEmptyView,
@@ -46,18 +46,6 @@ class ScheduleCreationViewController: BaseViewController {
     }
 
     private func bindInternalSubViews() {
-        let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
-            .map { _ in return () }
-            .asSignal()
-        let onRefresh = refreshControl.rx.controlEvent(.valueChanged).asSignal()
-
-        onRefresh.withUnretained(self)
-            .delay(.seconds(1))
-            .emit(onNext: { (self, _) in
-                self.refreshControl.endRefreshing()
-            })
-            .disposed(by: disposeBag)
-
         scheduleCustomView.onChange = { [weak self] weekdays in
             Swift.print(#fileID, "weekdays: \(weekdays)")
             self?.onWeekdaysChangeRelay.accept(weekdays)

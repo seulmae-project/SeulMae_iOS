@@ -26,11 +26,6 @@ final class UserHomeViewController: BaseViewController {
     
     private let rightBarButton = UIBarButtonItem(image: .bell, style: .plain, target: nil, action: nil)
     
-    private let refreshControl: UIRefreshControl = {
-        let control = UIRefreshControl()
-        return control
-    }()
-    
     private lazy var collectionView: UICollectionView = {
         let layout = createLayout()
         let collectionView = UICollectionView(

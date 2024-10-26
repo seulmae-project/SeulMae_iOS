@@ -22,11 +22,6 @@ final class ReminderListViewController: BaseViewController {
     }
     
     // MARK: - UI Properties
-
-    private let refreshControl: UIRefreshControl = {
-        let refreshControl = UIRefreshControl()
-        return refreshControl
-    }()
     
     private lazy var collectionView: UICollectionView = {
         let collectionView = UICollectionView(frame: view.bounds, collectionViewLayout: createLayout())
