@@ -75,8 +75,8 @@ final class FinderSceneDIContainer {
 
     private func makeSearchWorkplaceViewModel(
         coordinator: any FinderFlowCoordinator
-    ) -> SearchWorkplaceViewModel {
-        return SearchWorkplaceViewModel(
+    ) -> PlaceSearchViewModel {
+        return PlaceSearchViewModel(
             dependencies: (
                 coordinator: coordinator,
                 workplaceUseCase: makeWorkplaceUseCase()

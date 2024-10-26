@@ -78,12 +78,7 @@ class ScheduleCreationViewController: BaseViewController {
         output.items
             .drive(with: self, onNext: { (self, items) in
                 Swift.print(#fileID, "items count: \(items.count)")
-                if (items.isEmpty) {
-                    self.memberEmptyView.isHidden = false
-                    return
-                }
-                
-                self.memberEmptyView.isHidden = true
+                self.memberEmptyView.isHidden = !(items.isEmpty)
                 var snapshot = self.dataSource.snapshot()
                 let applied = snapshot.itemIdentifiers(inSection: .list)
                 snapshot.deleteItems(applied)

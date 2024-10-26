@@ -25,8 +25,8 @@ class TextCell: UICollectionViewCell {
         NSLayoutConstraint.activate([
             label.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: insets),
             label.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -insets),
-            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: (insets/2)),
-            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -(insets/2))
+            label.topAnchor.constraint(equalTo: contentView.topAnchor, constant: (insets * 3/4)),
+            label.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -(insets * 3/4))
         ])
     }
     

@@ -7,21 +7,17 @@
 
 import UIKit
 
-final class SearchBarView: UIView {
-    private let imageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = .searchBarIcon
-        return imageView
-    }()
-    
+class SearchBarView: UIView {
+
+    private let _imageView: UIImageView = Ext.image(.searchBarIcon, width: 24, height: 24)
     let textField: UITextField = {
         let textfield = UITextField()
         textfield.placeholder = "근무지 검색"
         return textfield
     }()
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
+    convenience init() {
+        self.init(frame: .zero)
 
         layer.cornerRadius = 8.0
         layer.cornerCurve = .continuous
@@ -31,11 +27,10 @@ final class SearchBarView: UIView {
         let contentStack = UIStackView()
         contentStack.alignment = .center
         contentStack.spacing = 8.0
-        [textField, imageView]
+        [textField, _imageView]
             .forEach(contentStack.addArrangedSubview(_:))
         let margins = NSDirectionalEdgeInsets(
             top: 0, leading: 16, bottom: 0, trailing: 16)
-        
         contentStack.directionalLayoutMargins = margins
         contentStack.isLayoutMarginsRelativeArrangement = true
 
@@ -47,13 +42,10 @@ final class SearchBarView: UIView {
             contentStack.trailingAnchor.constraint(equalTo: trailingAnchor),
             contentStack.topAnchor.constraint(equalTo: topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
-
-            imageView.heightAnchor.constraint(equalToConstant: 24),
-            imageView.widthAnchor.constraint(equalToConstant: 24),
         ])
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+    override var intrinsicContentSize: CGSize {
+        CGSize(width: 0, height: 48)
     }
 }

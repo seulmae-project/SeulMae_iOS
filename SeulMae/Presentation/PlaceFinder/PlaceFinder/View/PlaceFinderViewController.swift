@@ -195,7 +195,7 @@ final class PlaceFinderViewController: BaseViewController {
     private func createWorkplaceCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
         return .init { cell, indexPath, item in
             guard case .workplace = item.section else { return }
-            var content = PlaceInfoContentView.Configuration()
+            var content = PlaceInfoDetailsContentView.Configuration()
             content.workplace = item.workplace
             content.memberList = item.memberList
             cell.contentConfiguration = content
@@ -209,7 +209,7 @@ final class PlaceFinderViewController: BaseViewController {
     private func createApplicationCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, WorkplaceFinderItem> {
         return .init { cell, indexPath, item in
             guard case .application = item.section else { return }
-            var content = ApplicationContentView.Configuration()
+            var content = PlaceInfoContentView.Configuration()
             content.workplace = item.workplace
             cell.contentConfiguration = content
             var backgroundConfig = UIBackgroundConfiguration.clear()
