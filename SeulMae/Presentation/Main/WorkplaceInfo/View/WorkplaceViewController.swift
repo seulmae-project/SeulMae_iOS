@@ -189,6 +189,7 @@ final class WorkplaceViewController: UIViewController {
         var snapshot = Snapshot()
         snapshot.appendSections(sections)
         dataSource.apply(snapshot, animatingDifferences: false)
+        // collectionView.backgroundView
     }
     
     // MARK: - CellRegistration

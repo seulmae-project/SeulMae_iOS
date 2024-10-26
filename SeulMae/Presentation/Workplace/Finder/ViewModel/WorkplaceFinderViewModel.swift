@@ -88,18 +88,9 @@ final class WorkplaceFinderViewModel: ViewModel {
 
         // MARK: - Coordinator Logic
 
-        let a = input.showMenu.flatMapLatest { _ -> Driver<Bool> in
-            let title = "근무지 생성 완료"
-            let message = "근무지 생성에 성공하였습니다"
-            return DefaultWireframe()
-                .promptAlert(title, message: message, actions: ["확인"])
-                .map { _ in true }
-                .asDriver()
-        }
-
         Task {
-            for await _ in a.values {
-
+            for await _ in input.showMenu.values {
+                coordinator.moveToScheduleCreation()
             }
         }
 

@@ -9,12 +9,16 @@ import UIKit
 
 extension UICollectionView: Extended {}
 extension Ext where ExtendedType == UICollectionView {
-    static func common(with emptyView: UIView? = nil) -> UICollectionView {
+    static func common(layout: UICollectionViewLayout,
+                       emptyView: UIView? = nil,
+                       refreshControl: UIRefreshControl) -> UICollectionView {
         let collectionView = UICollectionView(
-            frame: .zero, collectionViewLayout: UICollectionViewLayout())
+            frame: .zero, collectionViewLayout: layout)
         collectionView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         collectionView.showsHorizontalScrollIndicator = false
         collectionView.showsVerticalScrollIndicator = false
+        collectionView.refreshControl = refreshControl
+        collectionView.allowsMultipleSelection = true
         if let emptyView { collectionView.backgroundView = emptyView }
         return collectionView
     }
@@ -22,83 +26,6 @@ extension Ext where ExtendedType == UICollectionView {
 
 extension UITextField: Extended {}
 extension Ext where ExtendedType == UITextField {
-    static func common(
-        placeholder: String = "",
-        size: CGFloat = 15,
-        weight: UIFont.PretendardWeight = .regular,
-        backgroundColor: UIColor = UIColor(hexCode: "CAD1EA")
-    ) -> UITextField {
-        let textField = UITextField()
-        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
-        textField.leftView = paddingView
-        textField.leftViewMode = .always
-        textField.layer.cornerRadius = 8.0
-        textField.layer.cornerCurve = .continuous
-        textField.autocapitalizationType = .none // 대문자
-        textField.spellCheckingType = .no // 맞춤법
-        textField.autocorrectionType = .no // 자동 수정
-        textField.backgroundColor = backgroundColor
-        textField.ext.setPlaceholder(placeholder)
-        return textField
-    }
-
-    static var common2: TF {
-        let tf = TF()
-        tf.autocapitalizationType = .none // 대문자
-        tf.spellCheckingType = .no // 맞춤법
-        tf.autocorrectionType = .no // 자동 수정
-        return tf
-    }
-
-    static func template(style: Style) -> TF {
-        let tf = Ext<UITextField>.common2
-        switch style {
-        case let .one(color: color, width: width):
-            tf.textAlignment = .center
-            tf.layer.cornerRadius = 8.0
-            tf.layer.cornerCurve = .continuous
-            tf.onBorderColor = color
-            tf.onBorderWidth = width
-            tf.offBorderColor = nil
-            tf.font = .pretendard(size: 16, weight: .regular)
-            let attrPH = NSAttributedString(
-               string: "",
-               attributes: [
-                   .font: UIFont.pretendard(size: 16, weight: .semibold),
-                   .foregroundColor: UIColor(hexCode: "D0D9F8")
-               ])
-            tf.attributedPlaceholder = attrPH
-        }
-        return tf
-    }
-
-    enum Style {
-        case one(color: UIColor, width: CGFloat)
-
-        static let one = one(color: UIColor(hexCode: "4C71F5"), width: 1.6)
-    }
-
-    class TF: UITextField, UITextFieldDelegate {
-        var onBorderColor: UIColor?
-        var onBorderWidth: CGFloat = 0
-        var offBorderColor: UIColor?
-        var offBorderWithd: CGFloat = 0
-
-        convenience init() {
-            self.init(frame: .zero)
-            self.delegate = self
-        }
-
-        func textFieldDidBeginEditing(_ textField: UITextField) {
-            layer.borderColor = onBorderColor?.cgColor ?? nil
-            layer.borderWidth = onBorderWidth
-        }
-
-        func textFieldDidEndEditing(_ textField: UITextField) {
-            layer.borderColor = offBorderColor?.cgColor ?? nil
-            layer.borderWidth = offBorderWithd
-        }
-    }
 
     func setPlaceholder(_ placeholder: String) {
         let font = type.font ?? .pretendard(size: 16, weight: .regular)
@@ -119,6 +46,84 @@ extension Ext where ExtendedType == UITextField {
         } else {
             type.layer.borderColor = nil
             type.layer.borderWidth = 0
+        }
+    }
+
+    static func common(
+        placeholder: String = "",
+        size: CGFloat = 15,
+        weight: UIFont.PretendardWeight = .regular,
+        backgroundColor: UIColor = UIColor(hexCode: "CAD1EA")
+    ) -> UITextField {
+        let tf = Ext.default()
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 16, height: 0))
+        tf.leftView = paddingView
+        tf.leftViewMode = .always
+        tf.layer.cornerRadius = 8.0
+        tf.layer.cornerCurve = .continuous
+        tf.backgroundColor = backgroundColor
+        (tf as UITextField).ext.setPlaceholder(placeholder)
+        return tf
+    }
+
+    static func `default`() -> TF {
+        let tf = TF()
+        tf.autocapitalizationType = .none // 대문자
+        tf.spellCheckingType = .no // 맞춤법
+        tf.autocorrectionType = .no // 자동 수정
+        return tf
+    }
+
+    static func small(placeholder: String? = "",
+                      placeholderColor: UIColor? = UIColor(hexCode: "D0D9F8"),
+                      placeholderFont: UIFont? = UIFont.pretendard(size: 16, weight: .semibold),
+                      font: UIFont? = .pretendard(size: 16, weight: .regular),
+                      width: CGFloat,
+                      onBorderColor: UIColor? = UIColor(hexCode: "4C71F5"),
+                      onBorderWidth: CGFloat = 1.6,
+                      offBorderColor: UIColor? = nil,
+                      offBorderWidth: CGFloat = 0) -> TF {
+        let tf = Ext.default()
+        tf.backgroundColor = .white
+        tf.textAlignment = .center
+        tf.layer.cornerRadius = 8.0
+        tf.layer.cornerCurve = .continuous
+        tf.onBorderColor = onBorderColor
+        tf.onBorderWidth = onBorderWidth
+        tf.offBorderColor = offBorderColor
+        tf.offBorderWidth = offBorderWidth
+        tf.font = font
+        let attrPH = NSAttributedString(
+            string: placeholder ?? "",
+            attributes: [
+                .font: placeholderFont!,
+                .foregroundColor: placeholderColor!
+            ])
+        tf.attributedPlaceholder = attrPH
+        tf.widthAnchor.constraint(equalToConstant: width).isActive = true
+        tf.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        return tf
+    }
+
+    class TF: UITextField, UITextFieldDelegate {
+        var onBorderColor: UIColor?
+        var onBorderWidth: CGFloat = 0
+        var offBorderColor: UIColor?
+        var offBorderWidth: CGFloat = 0
+
+        convenience init() {
+            self.init(frame: .zero)
+            self.delegate = self
+        }
+
+        func textFieldDidBeginEditing(_ textField: UITextField) {
+            layer.borderColor = onBorderColor?.cgColor ?? nil
+            layer.borderWidth = onBorderWidth
+        }
+
+        func textFieldDidEndEditing(_ textField: UITextField) {
+            layer.borderColor = offBorderColor?.cgColor ?? nil
+            layer.borderWidth = offBorderWidth
         }
     }
 }

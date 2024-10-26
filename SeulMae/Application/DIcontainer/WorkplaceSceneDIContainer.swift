@@ -165,7 +165,21 @@ extension WorkplaceSceneDIContainer: WorkplaceFlowCoordinatorDependencies {
         return .init()
     }
 
+    // MARK: - ScheduleCreation
+
     func makeScheduleCreation(coordinator: any WorkplaceFlowCoordinator) -> ScheduleCreationViewController {
-        return .init()
+        return .init(
+            viewModel: makeScheduleCreationVM(
+                coordinator: coordinator
+            ))
+    }
+
+    private func makeScheduleCreationVM(coordinator: WorkplaceFlowCoordinator) -> ScheduleCreationViewModel {
+        return .init(
+            dependency: (
+                coordinator: coordinator,
+                workScheduleUseCase: makeWorkScheduleUseCase(),
+                workplaceUseCase: makeWorkplaceUseCase()
+            ))
     }
 }

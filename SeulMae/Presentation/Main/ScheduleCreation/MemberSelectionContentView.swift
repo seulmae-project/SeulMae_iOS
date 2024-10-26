@@ -9,7 +9,8 @@ import UIKit
 
 final class MemberSelectionContentView: UIView, UIContentView {
     struct Configuration: UIContentConfiguration {
-        var onCheck: ((Bool) -> Void)?
+        // var onCheck: ((Bool) -> Void)?
+        var isCheck: Bool = false
         var memberImageURL: String?
         var memberName: String?
         var description: String?
@@ -17,13 +18,28 @@ final class MemberSelectionContentView: UIView, UIContentView {
         func makeContentView() -> UIView & UIContentView {
             return MemberSelectionContentView(self)
         }
+
+        func updated(for state: any UIConfigurationState) -> MemberSelectionContentView.Configuration {
+            guard let state = state as? UICellConfigurationState else { return self }
+            var updatedConfig = self
+            if state.isSelected || state.isHighlighted {
+                updatedConfig.isCheck = true
+            } else {
+                updatedConfig.isCheck = false
+            }
+            return updatedConfig
+        }
     }
 
-    private var onCheck: ((Bool) -> Void)?
-    private let checkButton: UIButton = Ext.image(.checkmark)
+    // private var onCheck: ((Bool) -> Void)?
+    private let checkImageView: UIImageView = Ext.image(.scheduleCreationCheckDeSelect, width: 24, height: 24)
     private let memberImageView: UIImageView = Ext.user()
-    private let memberNameLabel: UILabel = Ext.common()
-    private let descriptionLabel: UILabel = Ext.common()
+    private let memberNameLabel: UILabel = Ext.config(
+        font: .pretendard(size: 14, weight: .semibold),
+        color:  UIColor(hexCode: "BCC7DD"))
+    private let descriptionLabel: UILabel = Ext.config(
+        font: .pretendard(size: 14, weight: .semibold),
+        color:  UIColor(hexCode: "BCC7DD"))
 
     var configuration: UIContentConfiguration {
         didSet {
@@ -47,9 +63,13 @@ final class MemberSelectionContentView: UIView, UIContentView {
 
         let contentStack = UIStackView()
         contentStack.spacing = 12
-        [checkButton, memberImageView, labelStack]
+        contentStack.alignment = .center
+        [checkImageView, memberImageView, labelStack]
             .forEach(contentStack.addArrangedSubview(_:))
-        
+
+        addSubview(contentStack)
+        contentStack.translatesAutoresizingMaskIntoConstraints = false
+
         let insets = CGFloat(0)
         NSLayoutConstraint.activate([
             contentStack.leadingAnchor.constraint(equalTo: leadingAnchor, constant: insets),
@@ -65,9 +85,10 @@ final class MemberSelectionContentView: UIView, UIContentView {
 
     private func apply(config: UIContentConfiguration) {
         guard let config = config as? Configuration else { return }
-        onCheck = config.onCheck
+        // onCheck = config.onCheck
         memberImageView.ext.url(config.memberImageURL)
         memberNameLabel.text = config.memberName
         descriptionLabel.text = config.description
+        checkImageView.image = config.isCheck ? .scheduleCreationCheckSelect : .scheduleCreationCheckDeSelect
     }
 }

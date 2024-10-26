@@ -8,9 +8,20 @@
 import UIKit
 
 extension Ext where ExtendedType == UILabel {
-    static func common(_ text: String? = "") -> UILabel {
+    static func common(_ text: String? = "", 
+                       font: UIFont,
+                       textColor: UIColor) -> UILabel {
         let label = UILabel()
-        
+        label.text = text
+        label.font = font
+        label.textColor = textColor
+        return label
+    }
+
+    static func config(font: UIFont, color: UIColor) -> UILabel {
+        let label = UILabel()
+        label.font = font
+        label.textColor = color
         return label
     }
 

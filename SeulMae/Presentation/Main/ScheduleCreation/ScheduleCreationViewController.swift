@@ -11,31 +11,98 @@ import RxCocoa
 
 class ScheduleCreationViewController: BaseViewController {
 
-    typealias DataSource = UICollectionViewDiffableDataSource<Section, Item>
-    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, Item>
+    convenience init(viewModel: ScheduleCreationViewModel) {
+        self.init()
+        self.viewModel = viewModel
+    }
 
+    typealias DataSource = UICollectionViewDiffableDataSource<Section, ScheduleCreationItem>
+    typealias Snapshot = NSDiffableDataSourceSnapshot<Section, ScheduleCreationItem>
+    
     enum Section: Int, Hashable, CaseIterable {
         case list
     }
-
-    struct Item: Hashable {
-        let id: String = UUID().uuidString
-        let member: Member
-    }
     
-    private let scheduleInlet = ScheduleInlet()
+    private let scheduleCustomView = ScheduleCustomizationView()
     private let memberEmptyView = MemberEmptyView()
-    private lazy var collectionView: UICollectionView = Ext.common(with: memberEmptyView)
+    private let refreshControl = UIRefreshControl()
+    private lazy var collectionView: UICollectionView = Ext.common(
+        layout: createLayout(),
+        emptyView: memberEmptyView,
+        refreshControl: refreshControl)
     private let createButton: UIButton = Ext.common(title: "일정 생성")
     private var dataSource: DataSource!
-    private let onCheckRelay = PublishRelay<(Bool, Member.ID)>()
+    private let onWeekdaysChangeRelay = PublishRelay<[Int]>()
+
+    private var viewModel: ScheduleCreationViewModel!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         configureNavItem()
         configureHierarchy()
         configureDataSource()
+        bindInternalSubViews()
+    }
+
+    private func bindInternalSubViews() {
+        let onLoad = rx.methodInvoked(#selector(viewWillAppear(_:)))
+            .map { _ in return () }
+            .asSignal()
+        let onRefresh = refreshControl.rx.controlEvent(.valueChanged).asSignal()
+
+        onRefresh.withUnretained(self)
+            .delay(.seconds(1))
+            .emit(onNext: { (self, _) in
+                self.refreshControl.endRefreshing()
+            })
+            .disposed(by: disposeBag)
+
+        scheduleCustomView.onChange = { [weak self] weekdays in
+            Swift.print(#fileID, "weekdays: \(weekdays)")
+            self?.onWeekdaysChangeRelay.accept(weekdays)
+        }
+
+        let members = collectionView.rx.itemSelected
+            .withUnretained(self)
+            .compactMap { (self, _) in
+                let indexPaths = self.collectionView.indexPathsForSelectedItems ?? []
+                Swift.print(#fileID, "selected index: \(indexPaths)")
+                return indexPaths.compactMap(self.dataSource.itemIdentifier(for:))
+            }
+            .startWith([ScheduleCreationItem]())
+            .asDriver()
+
+        let output = viewModel.transform(
+            .init(
+                onLoad: onLoad,
+                onRefresh: onRefresh,
+                title: scheduleCustomView.nameTextField.rx.text.orEmpty.asDriver(),
+                startTime: scheduleCustomView.startTimeTextFeild.rx.text.orEmpty.asDriver(),
+                endTime: scheduleCustomView.endTimeTextField.rx.text.orEmpty.asDriver(),
+                weekdays: onWeekdaysChangeRelay.asDriver(),
+                onInvite: memberEmptyView.inviteMemberButton.rx.tap.asSignal(),
+                members: members,
+                onCreate: createButton.rx.tap.asSignal()
+            )
+        )
+
+        output.items
+            .drive(with: self, onNext: { (self, items) in
+                Swift.print(#fileID, "items count: \(items.count)")
+                if (items.isEmpty) {
+                    self.memberEmptyView.isHidden = false
+                    return
+                }
+                
+                self.memberEmptyView.isHidden = true
+                var snapshot = self.dataSource.snapshot()
+                let applied = snapshot.itemIdentifiers(inSection: .list)
+                snapshot.deleteItems(applied)
+                snapshot.appendItems(items, toSection: .list)
+                self.dataSource.apply(snapshot)
+            })
+            .disposed(by: disposeBag)
     }
 
     private func configureNavItem() {
@@ -44,8 +111,8 @@ class ScheduleCreationViewController: BaseViewController {
 
     private func configureHierarchy() {
         view.backgroundColor = .systemBackground
-
-        let views = [scheduleInlet, collectionView, createButton]
+        
+        let views = [scheduleCustomView, collectionView, createButton]
         views.forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -53,18 +120,17 @@ class ScheduleCreationViewController: BaseViewController {
         
         let insets = CGFloat(16)
         NSLayoutConstraint.activate([
-            scheduleInlet.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
-            scheduleInlet.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets),
-            scheduleInlet.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: insets),
-            scheduleInlet.heightAnchor.constraint(equalToConstant: 108),
+            scheduleCustomView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
+            scheduleCustomView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets),
+            scheduleCustomView.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor, constant: insets),
 
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets),
-            collectionView.topAnchor.constraint(equalTo: scheduleInlet.bottomAnchor, constant: insets),
+            collectionView.topAnchor.constraint(equalTo: scheduleCustomView.bottomAnchor, constant: insets),
             collectionView.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -insets),
 
             createButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
-            createButton.trailingAnchor.constraint(equalTo: view.leadingAnchor, constant: -insets),
+            createButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -insets),
             createButton.bottomAnchor.constraint(equalTo: view.layoutMarginsGuide.bottomAnchor, constant: -insets),
         ])
     }
@@ -82,6 +148,7 @@ class ScheduleCreationViewController: BaseViewController {
 
         let snapshot = makeInitialSnapshot()
         dataSource.apply(snapshot, animatingDifferences: false)
+        collectionView.backgroundView?.isHidden = false
     }
 
     private func makeInitialSnapshot() -> Snapshot {
@@ -90,12 +157,12 @@ class ScheduleCreationViewController: BaseViewController {
         return snapshot
     }
 
-    private func createMemberCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, Item> {
+    private func createMemberCellRegistration() -> UICollectionView.CellRegistration<UICollectionViewListCell, ScheduleCreationItem> {
         return .init { cell, index, item in
             var content = MemberSelectionContentView.Configuration()
-            content.onCheck = { [weak self] isCheck in
-                self?.onCheckRelay.accept((isCheck, item.member.id))
-            }
+//            content.onCheck = { [weak self] isCheck in
+//                self?.onMemberCheckRelay.accept((isCheck, item.member.id))
+//            }
             content.memberImageURL = item.member.imageURL
             content.memberName = item.member.name
             content.description = "1일 전 9시간 근무했어요"
@@ -125,7 +192,7 @@ class ScheduleCreationViewController: BaseViewController {
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        let insets = NSDirectionalEdgeInsets(top: 20, leading: 20, bottom: 20, trailing: 20)
+        let insets = NSDirectionalEdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0)
         section.contentInsets = insets
         return section
     }

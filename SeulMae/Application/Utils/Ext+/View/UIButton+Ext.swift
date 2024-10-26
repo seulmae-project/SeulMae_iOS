@@ -71,8 +71,8 @@ extension Ext where ExtendedType == UIImageView {
         imageView.contentMode = .scaleAspectFill
         imageView.layer.cornerRadius = 22
         imageView.layer.cornerCurve = .continuous
-        imageView.widthAnchor.constraint(equalToConstant: 44).isActive = true
-        imageView.heightAnchor.constraint(equalToConstant: 44).isActive = true
+        imageView.widthAnchor.constraint(equalToConstant: 40).isActive = true
+        imageView.heightAnchor.constraint(equalToConstant: 40).isActive = true
         return imageView
     }
 
@@ -99,6 +99,13 @@ extension Ext where ExtendedType == UIImageView {
 }
 
 extension Ext where ExtendedType == UIButton {
+    static func config(font: UIFont, color: UIColor) -> UIButton {
+        let button = UIButton()
+        button.titleLabel?.font = font
+        button.setTitleColor(color, for: .normal)
+        return button
+    }
+
     static func image(_ image: UIImage,
                       width: CGFloat = 44,
                       height: CGFloat = 44) -> UIButton {
@@ -132,6 +139,8 @@ extension Ext where ExtendedType == UIButton {
         button.layer.cornerRadius = 8.0
         button.layer.cornerCurve = .continuous
         // button.heightAnchor.constraint(equalToConstant: 32).isActive = true
+        let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
+        button.contentEdgeInsets = insets
         return button
     }
 
