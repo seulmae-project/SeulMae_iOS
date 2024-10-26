@@ -71,14 +71,15 @@ final class WorkScheduleDetailsViewModel: ViewModel {
             (start: $0, end: $1) }
         
         let request = Driver.combineLatest(
-            input.name, times, input.weekdays) { (name, times, weekdays) -> AddWorkScheduleRequest in
+            input.name, times, input.weekdays) { (name, times, weekdays) -> WorkSchedule in
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "HH:mm:ss"
                 let startTiem = dateFormatter.string(from: times.start)
                 let endTiem = dateFormatter.string(from: times.end)
                 Swift.print("testtset")
-                return AddWorkScheduleRequest(
-                    workScheduleTitle: name, startTime: startTiem, endTime: endTiem, days: weekdays)
+//                return WorkSchedule(
+//                    workScheduleTitle: name, startTime: startTiem, endTime: endTiem, days: weekdays)
+                return WorkSchedule(id: 0, title: "", days: [], startTime: "", endTime: "", isActive: false)
         }
         
         // update or add new work schedule
@@ -86,14 +87,16 @@ final class WorkScheduleDetailsViewModel: ViewModel {
             .flatMapLatest { [weak self] request -> Driver<Bool> in
                 guard let strongSelf = self else { return .empty() }
                 if let workScheduleId = strongSelf.workScheduleId {
-                    return strongSelf.workScheduleUseCase
-                        .updateWorkSchedule(
-                            workScheduleId: workScheduleId, request: request)
+//                    return strongSelf.workScheduleUseCase
+//                        .updateWorkSchedule(
+//                            workScheduleId: workScheduleId, request: request)
+                    return .empty()
                         .trackActivity(indicator)
                         .asDriver()
                 } else {
-                    return strongSelf.workScheduleUseCase
-                        .addWorkSchedule(request: request)
+//                    return strongSelf.workScheduleUseCase
+//                        .create(request: request)
+                    return .empty()
                         .trackActivity(indicator)
                         .asDriver()
                 }

@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkSchedule: Identifiable, Hashable {
+struct WorkSchedule: Identifiable, Hashable, Encodable {
     let id: Int
     let title: String
     let days: [Int]

@@ -11,9 +11,9 @@ import Moya
 typealias WorkScheduleNetworking = MoyaProvider<WorkScheduleAPI>
 
 enum WorkScheduleAPI: SugarTargetType {
-    case addWorkSchedule(request: AddWorkScheduleRequest)
+    case createWorkSchedule(info: WorkScheduleInfo)
     case fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID)
-    case updateWorkSchedule(workScheduleId: WorkSchedule.ID, requset: AddWorkScheduleRequest)
+    case updateWorkSchedule(schedule: WorkSchedule)
     case deleteWorkSchedule(workScheduleId: WorkSchedule.ID)
     case fetchWorkScheduleList(workplaceId: Workplace.ID)
     case addUserToWorkSchedule(workScheduleId: WorkSchedule.ID, memberId: Member.ID)
@@ -29,7 +29,7 @@ extension WorkScheduleAPI {
     
     var route: Route {
         switch self {
-        case .addWorkSchedule:
+        case .createWorkSchedule:
             return .post("api/schedule/v1")
         case .fetchWorkScheduleDetails:
             return .get("api/schedule/v1")
@@ -52,21 +52,21 @@ extension WorkScheduleAPI {
     
     var task: Task {
         switch self {
-        case let .addWorkSchedule(request: request):
-            return .requestJSONEncodable(request)
+        case let .createWorkSchedule(info: info):
+            return .requestJSONEncodable(info)
         case let .fetchWorkScheduleDetails(workScheduleId: workScheduleId):
             return .requestParameters(
                 parameters: [
                     "workScheduleId": workScheduleId
                 ],
                 encoding: URLEncoding.queryString)
-        case let .updateWorkSchedule(workScheduleId: workScheduleId, requset: requset):
+        case let .updateWorkSchedule(schedule: schedule):
             let encoder = JSONEncoder()
-            let data = try? encoder.encode(requset)
+            let data = try? encoder.encode(schedule)
             return .requestCompositeData(
                 bodyData: data!,
                 urlParameters: [
-                    "workScheduleId": workScheduleId
+                    "workScheduleId": schedule.id
                 ])
         case let .deleteWorkSchedule(workScheduleId: workScheduleId):
             return .requestParameters(

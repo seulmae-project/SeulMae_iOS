@@ -9,9 +9,10 @@ import Foundation
 import RxSwift
 
 protocol WorkScheduleRepository {
-    func addWorkSchedule(request: AddWorkScheduleRequest) -> Single<Bool>
+    func createWorkSchedule(scheduleInfo: WorkScheduleInfo) -> RxSwift.Single<Bool>
     func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> Single<WorkSchedule>
-    func updateWorkSchedule(workScheduleId: WorkSchedule.ID, request: AddWorkScheduleRequest) -> Single<Bool>
+    func updateWorkSchedule(schedule: WorkSchedule) -> RxSwift.Single<Bool>
+
     func deleteWorkSchedule(workScheduleId: WorkSchedule.ID) -> Single<Bool>
     func fetchWorkScheduleList(workplaceId: Workplace.ID) -> Single<[WorkSchedule]>
     func addUserToWorkSchedule(workScheduleId: WorkSchedule.ID, memberId: Member.ID) -> Single<Bool>
@@ -32,9 +33,9 @@ final class DefaultWorkScheduleRepository: WorkScheduleRepository {
         self.network = network
     }
     
-    func addWorkSchedule(request: AddWorkScheduleRequest) -> RxSwift.Single<Bool> {
+    func createWorkSchedule(scheduleInfo: WorkScheduleInfo) -> RxSwift.Single<Bool> {
         return network.rx
-            .request(.addWorkSchedule(request: request))
+            .request(.createWorkSchedule(info: scheduleInfo))
             .map(BaseResponseDTO<Bool>.self)
             .map { $0.isSuccess }
     }
@@ -46,11 +47,9 @@ final class DefaultWorkScheduleRepository: WorkScheduleRepository {
             .map { $0.toDomain()! }
     }
     
-    func updateWorkSchedule(
-        workScheduleId: WorkSchedule.ID,
-        request: AddWorkScheduleRequest) -> RxSwift.Single<Bool> {
+    func updateWorkSchedule(schedule: WorkSchedule) -> RxSwift.Single<Bool> {
         return network.rx
-            .request(.updateWorkSchedule(workScheduleId: workScheduleId, requset: request))
+            .request(.updateWorkSchedule(schedule: schedule))
             .map(BaseResponseDTO<Bool>.self)
             .map { $0.isSuccess }
     }

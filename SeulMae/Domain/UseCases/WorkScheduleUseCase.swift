@@ -9,10 +9,10 @@ import Foundation
 import RxSwift
 
 protocol WorkScheduleUseCase {
-    func addWorkSchedule(request: AddWorkScheduleRequest) -> Single<Bool>
-    
+    func create(scheduleInfo: WorkScheduleInfo, members: [Member.ID]) -> Single<Bool>
+
     func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> Single<WorkSchedule>
-    func updateWorkSchedule(workScheduleId: WorkSchedule.ID, request: AddWorkScheduleRequest) -> Single<Bool>
+    func updateWorkSchedule(schedule: WorkSchedule) -> RxSwift.Single<Bool>
     //    func deleteWorkSchedule(workScheduleId: WorkSchedule.ID) -> Single<Bool>
     func fetchWorkScheduleList() -> Single<[WorkSchedule]>
 //    func addUserToWorkSchedule(workScheduleId: WorkSchedule.ID, memberId: Member.ID) -> Single<Bool>
@@ -29,16 +29,23 @@ class DefaultWorkScheduleUseCase: WorkScheduleUseCase {
         self.workScheduleRepository = workScheduleRepository
     }
     
-    func addWorkSchedule(request: AddWorkScheduleRequest) -> RxSwift.Single<Bool> {
-        return workScheduleRepository.addWorkSchedule(request: request)
+    func create(scheduleInfo: WorkScheduleInfo, members: [Member.ID]) -> Single<Bool> {
+        let schedule = workScheduleRepository.createWorkSchedule(scheduleInfo: scheduleInfo)
+        members.forEach { memberId in
+            // TODO: 유저 추가 에러 핸들링?
+            _ = workScheduleRepository.addUserToWorkSchedule(
+                workScheduleId: 0,// schedule.id,
+                memberId: memberId)
+        }
+        return .just(true)
     }
     
     func fetchWorkScheduleDetails(workScheduleId: WorkSchedule.ID) -> RxSwift.Single<WorkSchedule> {
         return workScheduleRepository.fetchWorkScheduleDetails(workScheduleId: workScheduleId)
     }
     
-    func updateWorkSchedule(workScheduleId: WorkSchedule.ID, request: AddWorkScheduleRequest) -> RxSwift.Single<Bool> {
-        return workScheduleRepository.updateWorkSchedule(workScheduleId: workScheduleId, request: request)
+    func updateWorkSchedule(schedule: WorkSchedule) -> RxSwift.Single<Bool> {
+        return workScheduleRepository.updateWorkSchedule(schedule: schedule)
     }
     
     func fetchWorkScheduleList() -> RxSwift.Single<[WorkSchedule]> {

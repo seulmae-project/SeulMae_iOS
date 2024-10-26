@@ -12,7 +12,7 @@
 		86016C512C94641400EE8A92 /* WorkInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C502C94641400EE8A92 /* WorkInfo.swift */; };
 		86016C532C97108300EE8A92 /* AnnounceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C522C97108300EE8A92 /* AnnounceAPI.swift */; };
 		86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */; };
-		86016C572C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */; };
+		86016C572C9A5D0F00EE8A92 /* WorkScheduleInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C562C9A5D0F00EE8A92 /* WorkScheduleInfo.swift */; };
 		86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */; };
 		86016C5B2C9A611B00EE8A92 /* AttendRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */; };
 		86016C5D2C9A620E00EE8A92 /* PromoteRequset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */; };
@@ -381,7 +381,7 @@
 		86016C502C94641400EE8A92 /* WorkInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkInfo.swift; sourceTree = "<group>"; };
 		86016C522C97108300EE8A92 /* AnnounceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceAPI.swift; sourceTree = "<group>"; };
 		86016C542C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DefaultAttendanceHistoryRepository.swift; sourceTree = "<group>"; };
-		86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWorkScheduleRequest.swift; sourceTree = "<group>"; };
+		86016C562C9A5D0F00EE8A92 /* WorkScheduleInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkScheduleInfo.swift; sourceTree = "<group>"; };
 		86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApproveAttendanceRequest.swift; sourceTree = "<group>"; };
 		86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendRequest.swift; sourceTree = "<group>"; };
 		86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PromoteRequset.swift; sourceTree = "<group>"; };
@@ -1108,6 +1108,27 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
+		8633AF7B2CCCE0CC00067805 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				868E68302CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift */,
+				86356AD72CCC9A3D00360593 /* ScheduleCreationItem.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		8633AF7C2CCCE0D300067805 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				868E68262CC93A6900CEC0F3 /* ScheduleCreationViewController.swift */,
+				868E682E2CCA888000CEC0F3 /* MemberSelectionContentView.swift */,
+				868E682A2CC9539D00CEC0F3 /* WeekdaySelectionView.swift */,
+				868E682C2CC9553D00CEC0F3 /* ScheduleCustomizationView.swift */,
+				868E68322CCA9CC600CEC0F3 /* MemberEmptyView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 		863D60422C74BD8100F9388C /* AccountRecoveryOption */ = {
 			isa = PBXGroup;
 			children = (
@@ -1558,7 +1579,6 @@
 				86D309F82C33F3E200C08DA8 /* Auth */,
 				866577B12C3407290048A111 /* Workplace */,
 				866577B22C34073D0048A111 /* Notice */,
-				86016C562C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift */,
 				86016C582C9A610F00EE8A92 /* ApproveAttendanceRequest.swift */,
 				86016C5A2C9A611B00EE8A92 /* AttendRequest.swift */,
 				86016C5C2C9A620E00EE8A92 /* PromoteRequset.swift */,
@@ -1683,13 +1703,8 @@
 		868E68252CC93A5600CEC0F3 /* ScheduleCreation */ = {
 			isa = PBXGroup;
 			children = (
-				868E68262CC93A6900CEC0F3 /* ScheduleCreationViewController.swift */,
-				868E682E2CCA888000CEC0F3 /* MemberSelectionContentView.swift */,
-				868E682A2CC9539D00CEC0F3 /* WeekdaySelectionView.swift */,
-				868E682C2CC9553D00CEC0F3 /* ScheduleCustomizationView.swift */,
-				868E68322CCA9CC600CEC0F3 /* MemberEmptyView.swift */,
-				868E68302CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift */,
-				86356AD72CCC9A3D00360593 /* ScheduleCreationItem.swift */,
+				8633AF7C2CCCE0D300067805 /* View */,
+				8633AF7B2CCCE0CC00067805 /* ViewModel */,
 			);
 			path = ScheduleCreation;
 			sourceTree = "<group>";
@@ -1874,6 +1889,7 @@
 			isa = PBXGroup;
 			children = (
 				86B4B4572C4B400000D83488 /* WorkSchedule.swift */,
+				86016C562C9A5D0F00EE8A92 /* WorkScheduleInfo.swift */,
 				8606F67F2C33244400FFC68E /* Member.swift */,
 				86B4B4512C4B3D0F00D83488 /* MemberProfile.swift */,
 				868354802C245F7800F055D2 /* Workplace.swift */,
@@ -2733,7 +2749,7 @@
 				86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */,
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
-				86016C572C9A5D0F00EE8A92 /* AddWorkScheduleRequest.swift in Sources */,
+				86016C572C9A5D0F00EE8A92 /* WorkScheduleInfo.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
 				86FD62082C8D4569005ED02F /* AnnounceUseCase.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
