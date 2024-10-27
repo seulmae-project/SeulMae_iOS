@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "place-creation-map-marker.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

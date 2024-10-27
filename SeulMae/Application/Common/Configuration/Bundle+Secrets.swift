@@ -30,4 +30,8 @@ extension Bundle {
     var javaScriptKey: String {
         load(key: "JavaScriptKey")
     }
+
+    var naverClientId: String {
+        load(key: "NaverClientId")
+    }
 }

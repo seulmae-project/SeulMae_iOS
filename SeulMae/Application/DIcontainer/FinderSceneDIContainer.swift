@@ -89,7 +89,7 @@ final class FinderSceneDIContainer {
     private func makeWorkplaceDetailsViewModel(
         coordinator: FinderFlowCoordinator,
         workplaceId: Workplace.ID
-    ) -> WorkplaceDetailsViewModel {
+    ) -> PlaceDetailsViewModel {
         return .init(
             dependencies: (
                 coordinator: coordinator,
@@ -102,8 +102,8 @@ final class FinderSceneDIContainer {
 
     private func makeAddNewWorkplaceViewModel(
         coordinator: FinderFlowCoordinator
-    ) -> AddNewWorkplaceViewModel {
-        return AddNewWorkplaceViewModel(
+    ) -> PlaceCreationiewModel {
+        return PlaceCreationiewModel(
             dependencies: (
                 coordinator: coordinator,
                 workplaceUseCase: makeWorkplaceUseCase(),
@@ -149,14 +149,14 @@ extension FinderSceneDIContainer: FinderFlowCoordinatorDependencies {
 
     func makeSearchWorkplaceViewController(
         coordinator: any FinderFlowCoordinator
-    ) -> SearchWorkplaceViewController {
-        return SearchWorkplaceViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
+    ) -> PlaceSearchViewController {
+        return PlaceSearchViewController(viewModel: makeSearchWorkplaceViewModel(coordinator: coordinator))
     }
 
     func makeAddNewWorkplaceViewController(
         coordinator: any FinderFlowCoordinator
-    ) -> AddNewWorkplaceViewController {
-        return AddNewWorkplaceViewController(
+    ) -> PlaceCreationViewController {
+        return PlaceCreationViewController(
             viewModel: makeAddNewWorkplaceViewModel(
                 coordinator: coordinator
             ))
@@ -165,7 +165,7 @@ extension FinderSceneDIContainer: FinderFlowCoordinatorDependencies {
     func makeWorkplaceDetailsViewController(
         coordinator: any FinderFlowCoordinator,
         workplaceID: Workplace.ID
-    ) -> WorkplaceDetailsViewController {
+    ) -> PlaceDetailsViewController {
         return .init(viewModel: makeWorkplaceDetailsViewModel(
             coordinator: coordinator,
             workplaceId: workplaceID

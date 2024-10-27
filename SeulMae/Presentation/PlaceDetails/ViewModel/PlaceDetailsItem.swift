@@ -1,5 +1,5 @@
 //
-//  WorkplaceDetailsItem.swift
+//  PlaceDetailsItem.swift
 //  SeulMae
 //
 //  Created by 조기열 on 9/29/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct WorkplaceDetailsItem {
+struct PlaceDetailsItem {
     let imageUrl: String
     let name: String
     let contact: String

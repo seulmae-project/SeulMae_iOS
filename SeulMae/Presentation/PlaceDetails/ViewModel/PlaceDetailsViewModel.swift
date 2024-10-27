@@ -1,5 +1,5 @@
 //
-//  WorkplaceDetailsViewModel.swift
+//  PlaceDetailsViewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/14/24.
@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-final class WorkplaceDetailsViewModel: ViewModel {
+final class PlaceDetailsViewModel: ViewModel {
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
@@ -18,7 +18,7 @@ final class WorkplaceDetailsViewModel: ViewModel {
     
     struct Output {
         let loading: Driver<Bool>
-        let item: Driver<WorkplaceDetailsItem>
+        let item: Driver<PlaceDetailsItem>
     }
     
     // MARK: - Dependencies
@@ -50,12 +50,12 @@ final class WorkplaceDetailsViewModel: ViewModel {
         
         let onLoad = Signal.merge(.just(()), input.onLoad, input.onRefresh)
         
-        let item = onLoad.flatMapLatest { [weak self] _ -> Driver<WorkplaceDetailsItem> in
+        let item = onLoad.flatMapLatest { [weak self] _ -> Driver<PlaceDetailsItem> in
             guard let strongSelf = self else { return .empty() }
             return strongSelf.workplaceUseCase
                 .fetchWorkplaceDetail(workplaceId: strongSelf.workplaceId)
                 .trackActivity(tracker)
-                .map(WorkplaceDetailsItem.init(workplace:))
+                .map(PlaceDetailsItem.init(workplace:))
                 .asDriver()
         }
         

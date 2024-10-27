@@ -1,5 +1,5 @@
 //
-//  AddNewWorkplaceViewController.swift
+//  PlaceCreationViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/13/24.
@@ -10,44 +10,27 @@ import RxSwift
 import RxCocoa
 import PhotosUI
 import MapKit
+import NMapsMap
+import Then
 
-final class AddNewWorkplaceViewController: BaseViewController {
+final class PlaceCreationViewController: BaseViewController {
 
-    private lazy var scrollView: UIScrollView = {
-        let scrollView = UIScrollView()
-        scrollView.showsVerticalScrollIndicator = false
-        scrollView.refreshControl = refreshControl
-        let insets = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
-        scrollView.directionalLayoutMargins = insets
-        return scrollView
-    }()
-    
-    private lazy var mapView: MKMapView = {
-        let mapView = MKMapView()
-        mapView.isUserInteractionEnabled = false
-        return mapView
-    }()
+    private lazy var scrollView: UIScrollView = Ext.common(refreshControl: refreshControl)
 
-    private let phPickerViewController: PHPickerViewController = {
-        var configuration = PHPickerConfiguration()
-        configuration.selectionLimit = 1
-        configuration.filter = .images
-        let pickerViewController = PHPickerViewController(configuration: configuration)
-        return pickerViewController
-    }()
+    private var naverMapView = NMFNaverMapView().then {
+        $0.showZoomControls = false
+        $0.showLocationButton = false
+        $0.mapView.positionMode = .disabled
+        $0.mapView.isScrollGestureEnabled = false
+        $0.mapView.isZoomGestureEnabled = false
+        $0.mapView.isTiltGestureEnabled = false
+        $0.mapView.isRotateGestureEnabled = false
+        $0.mapView.zoomLevel = 16.0
+    }
 
-    private let mainImageView: UIImageView = {
-        let imageView = UIImageView.common(image: .store)
-        imageView.layer.cornerRadius = 72
-        imageView.layer.cornerCurve = .continuous
-        imageView.layer.masksToBounds = true
-        imageView.layer.borderColor = UIColor.white.cgColor
-        imageView.layer.borderWidth = 8.0
-        imageView.layer.shadowOffset = CGSize(width: 0, height: 3)
-        imageView.contentMode = .scaleAspectFill
-        imageView.backgroundColor = UIColor(hexCode: "EEEEEE")
-        return imageView
-    }()
+    private let phPickerViewController: PHPickerViewController = Ext.common()
+    private let mainImageView: UIImageView = Ext.image(.store, width: 144, height: 144, cornerRadius: 72, bolderWidth: 8.0, bolderColor: .white)
+    private let cameraIconImageView: UIImageView = Ext.image(.placeCreationCamera, width: 48, height: 48)
 
     private let nameInputFormView = TextInputFormView(title: "근무지 이름", placeholder: "상가명을 입력해주세요")
     private let contactInputFormView = TextInputFormView(title: "점포 연락처", placeholder: "점포 전화번호를 입력해주세요")
@@ -58,30 +41,30 @@ final class AddNewWorkplaceViewController: BaseViewController {
     // MARK: - Properties
 
     private let addressRelay = PublishRelay<String>()
-
+    private var markers = [NMFMarker]()
     // MARK: - Dependencies
 
-    private var viewModel: AddNewWorkplaceViewModel
+    private var viewModel: PlaceCreationiewModel!
 
     // MARK: - Life Cycle Methods
 
-    init(viewModel: AddNewWorkplaceViewModel) {
+    convenience init(viewModel: PlaceCreationiewModel) {
+        self.init(nibName: nil, bundle: nil)
         self.viewModel = viewModel
-        super.init(nibName: nil, bundle: nil)
         
         configureNavItem()
         configureHierarchy()
         bindInternalSubviews()
-        moveMapView(title: "구미시", lat: 36.119485, lng: 128.3445734)
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
 
     // MARK: - Binding Data
 
     private func bindInternalSubviews() {
+        // move to initial location
+        let initialLocation = NMGLatLng(lat: 37.5665, lng: 126.9780)
+        moveMapView(target: initialLocation)
+        
+        // handle taps evnets in main image view
         let tapGesture = UITapGestureRecognizer()
         mainImageView.addGestureRecognizer(tapGesture)
         mainImageView.isUserInteractionEnabled = true
@@ -92,13 +75,18 @@ final class AddNewWorkplaceViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
+        // handle picked image
         let pickedImage = phPickerViewController.rx.picked.asDriver()
         pickedImage
             .drive(mainImageView.rx.image)
             .disposed(by: disposeBag)
 
+        // handle recived location
         addressInputFormView.onChange = { [weak self] lat, lng, roadAdress in
-            self?.moveMapView(lat: Double(lat)!, lng: Double(lng)!)
+            // move map view
+            if let lat = Double(lat), let lng = Double(lng) { self?.moveMapView(lat: lat, lng: lng)
+            }
+            // send address to view model
             self?.addressRelay.accept(roadAdress)
         }
 
@@ -133,7 +121,9 @@ final class AddNewWorkplaceViewController: BaseViewController {
             .disposed(by: disposeBag)
 
         output.loading
-            .drive(loadingIndicator.rx.isAnimating)
+            .drive(with: self, onNext: { (self, loading) in
+                self.loadingIndicator.ext.bind(loading)
+            })
             .disposed(by: disposeBag)
     }
 
@@ -156,30 +146,31 @@ final class AddNewWorkplaceViewController: BaseViewController {
         [addressInputFormView, nameInputFormView, contactInputFormView, addNewButton]
             .forEach(contentStack.addArrangedSubview(_:))
 
-        view.addSubview(scrollView)
-        scrollView.translatesAutoresizingMaskIntoConstraints = false
-        
-        let views = [mapView, mainImageView, contentStack]
+        let views = [naverMapView, mainImageView, contentStack, cameraIconImageView]
         views.forEach {
             scrollView.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
         }
-        
+
+        view.addSubview(scrollView)
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
     
-            mapView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
-            mapView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-            mapView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
-            mapView.heightAnchor.constraint(equalToConstant: 300),
+            naverMapView.leadingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.leadingAnchor),
+            naverMapView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            naverMapView.trailingAnchor.constraint(equalTo: scrollView.frameLayoutGuide.trailingAnchor),
+            naverMapView.heightAnchor.constraint(equalToConstant: 300),
 
-            mainImageView.topAnchor.constraint(equalTo: mapView.bottomAnchor, constant: -76),
+            mainImageView.topAnchor.constraint(equalTo: naverMapView.bottomAnchor, constant: -76),
             mainImageView.centerXAnchor.constraint(equalTo: scrollView.frameLayoutGuide.centerXAnchor),
-            mainImageView.widthAnchor.constraint(equalToConstant: 144),
-            mainImageView.heightAnchor.constraint(equalToConstant: 144),
+
+            cameraIconImageView.trailingAnchor.constraint(equalTo: mainImageView.trailingAnchor, constant: -8.0),
+            cameraIconImageView.bottomAnchor.constraint(equalTo: mainImageView.bottomAnchor, constant: -8.0),
 
             contentStack.leadingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.leadingAnchor),
             contentStack.trailingAnchor.constraint(equalTo: scrollView.contentLayoutGuide.trailingAnchor),
@@ -193,18 +184,37 @@ final class AddNewWorkplaceViewController: BaseViewController {
 
     // MARK: - Private Map Methods
 
-    private func moveMapView(title: String = "", lat: Double, lng: Double) {
-        Swift.print(#function)
-        // Remove existing annotations
-        let existing = mapView.annotations
-        mapView.removeAnnotations(existing)
-        let location = CLLocationCoordinate2D(latitude: lat, longitude: lng)
-        let center = CLLocationCoordinate2D(latitude: lat - (25 / 111_000), longitude: lng)
-        let region = MKCoordinateRegion(center: center, latitudinalMeters: 100, longitudinalMeters: 100)
-        let annotation = MKPointAnnotation()
-        annotation.title = title
-        annotation.coordinate = location
-        mapView.addAnnotation(annotation)
-        mapView.setRegion(region, animated: true)
+    private func moveMapView(lat: Double, lng: Double) {
+        let searchedLocation = NMGLatLng(lat: lat, lng: lng)
+        moveMapView(target: searchedLocation)
+        updateMarker(target: searchedLocation)
+    }
+
+    private func moveMapView(target: NMGLatLng) {
+        let cameraUpdate = NMFCameraUpdate(scrollTo: target).then {
+            $0.animation = .easeIn
+        }
+
+        DispatchQueue.main.async { [weak self] in
+            self?.naverMapView.mapView.moveCamera(cameraUpdate)
+        }
+    }
+
+    private func updateMarker(target: NMGLatLng, caption: String = "") {
+        deleteAllMarker()
+        let marker = NMFMarker(position: target).then {
+            $0.captionText = caption
+            $0.iconImage = NMFOverlayImage(image: .placeCreationMapMarker)
+        }
+
+        marker.isHideCollidedSymbols = true
+        markers.append(marker)
+        DispatchQueue.main.async {
+            marker.mapView = self.naverMapView.mapView
+        }
+    }
+
+    private func deleteAllMarker() {
+        markers.forEach { $0.mapView = nil }
     }
 }

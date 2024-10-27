@@ -149,8 +149,6 @@ final class PlaceFinderViewController: BaseViewController {
         var snapshot = Snapshot()
         snapshot.appendSections(PlaceFinderSection.allCases)
         snapshot.appendItems(WorkplaceFinderItem.cards, toSection: .card)
-        snapshot.appendItems([.empty(section: .workplace)], toSection: .workplace)
-        snapshot.appendItems([.empty(section: .application)], toSection: .application)
         // TODO: Empty view
         dataSource?.apply(snapshot)
     }

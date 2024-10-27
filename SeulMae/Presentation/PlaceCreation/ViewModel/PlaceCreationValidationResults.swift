@@ -1,5 +1,5 @@
 //
-//  AddNewWorkplaceValidationResult.swift
+//  PlaceCreationValidationResults.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/13/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum AddNewWorkplaceValidationResult {
+enum PlaceCreationValidationResults {
     case name(result: ValidationResult)
     case contact(result: ValidationResult)
     case address(result: ValidationResult)

@@ -25,6 +25,8 @@
 	<string>$(NATIVE_APP_KEY)</string>
 	<key>JavaScriptKey</key>
 	<string>$(JAVA_SCRIPT_KEY)</string>
+	<key>NaverClientId</key>
+	<string>$(NAVER_CLIENT_ID)</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>

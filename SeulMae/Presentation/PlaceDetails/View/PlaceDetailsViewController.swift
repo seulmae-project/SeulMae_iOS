@@ -1,5 +1,5 @@
 //
-//  WorkplaceDetailsViewController.swift
+//  PlaceDetailsViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/14/24.
@@ -8,7 +8,7 @@
 import UIKit
 import MapKit
 
-final class WorkplaceDetailsViewController: BaseViewController {
+final class PlaceDetailsViewController: BaseViewController {
     
     // MARK: - UI Properties
    
@@ -61,11 +61,11 @@ final class WorkplaceDetailsViewController: BaseViewController {
     
     // MARK: - Properties
  
-    private var viewModel: WorkplaceDetailsViewModel
+    private var viewModel: PlaceDetailsViewModel
     
     // MARK: - Life Cycle Methods
     
-    init(viewModel: WorkplaceDetailsViewModel) {
+    init(viewModel: PlaceDetailsViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }

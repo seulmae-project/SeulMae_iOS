@@ -11,9 +11,9 @@ import UIKit
 
 protocol FinderFlowCoordinatorDependencies {
     func makeWorkplaceFinderViewController(coordinator: FinderFlowCoordinator) -> PlaceFinderViewController
-    func makeSearchWorkplaceViewController(coordinator: FinderFlowCoordinator) -> SearchWorkplaceViewController
-    func makeWorkplaceDetailsViewController(coordinator: FinderFlowCoordinator, workplaceID: Workplace.ID) -> WorkplaceDetailsViewController
-    func makeAddNewWorkplaceViewController(coordinator: FinderFlowCoordinator) -> AddNewWorkplaceViewController
+    func makeSearchWorkplaceViewController(coordinator: FinderFlowCoordinator) -> PlaceSearchViewController
+    func makeWorkplaceDetailsViewController(coordinator: FinderFlowCoordinator, workplaceID: Workplace.ID) -> PlaceDetailsViewController
+    func makeAddNewWorkplaceViewController(coordinator: FinderFlowCoordinator) -> PlaceCreationViewController
 }
 
 // MARK: - Coordinator

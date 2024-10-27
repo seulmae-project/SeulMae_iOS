@@ -8,6 +8,7 @@
 import UIKit
 import RxKakaoSDKCommon
 import CoreData
+import NMapsMap
 
 
 @main
@@ -15,7 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         RxKakaoSDK.initSDK(appKey: Bundle.main.nativeAPPKey) 
-        
+        NMFAuthManager.shared().clientId = Bundle.main.naverClientId
         let navBarAppearance = UINavigationBar.appearance()
         navBarAppearance.titleTextAttributes = [
             .font: UIFont.pretendard(size: 20, weight: .bold),

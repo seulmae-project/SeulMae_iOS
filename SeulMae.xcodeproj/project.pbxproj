@@ -28,11 +28,11 @@
 		860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */; };
 		860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */; };
 		860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */; };
-		860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */; };
-		860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */; };
-		860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */; };
-		860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */; };
-		860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */; };
+		860BCE682C6B53A100DCC532 /* PlaceCreationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE672C6B53A100DCC532 /* PlaceCreationViewController.swift */; };
+		860BCE6D2C6B55E000DCC532 /* PlaceCreationiewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6C2C6B55E000DCC532 /* PlaceCreationiewModel.swift */; };
+		860BCE6F2C6B625C00DCC532 /* PlaceCreationValidationResults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE6E2C6B625C00DCC532 /* PlaceCreationValidationResults.swift */; };
+		860BCE742C6C9A9E00DCC532 /* PlaceDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE732C6C9A9E00DCC532 /* PlaceDetailsViewController.swift */; };
+		860BCE762C6C9AA900DCC532 /* PlaceDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860BCE752C6C9AA900DCC532 /* PlaceDetailsViewModel.swift */; };
 		860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8D2C1FEF52001F94D4 /* RxCocoa */; };
 		860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 860D4C8F2C1FF2BA001F94D4 /* RxSwift */; };
 		860D4C932C1FF598001F94D4 /* ValidationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 860D4C922C1FF598001F94D4 /* ValidationService.swift */; };
@@ -128,12 +128,12 @@
 		865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */; };
 		865AA1FF2CA94A6600D70B09 /* PlaceSearchItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA1FE2CA94A6600D70B09 /* PlaceSearchItem.swift */; };
 		865AA2012CA9735A00D70B09 /* UILabel+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */; };
-		865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */; };
+		865AA2052CA9927500D70B09 /* PlaceDetailsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2042CA9927500D70B09 /* PlaceDetailsItem.swift */; };
 		865AA2072CABC07A00D70B09 /* WorkplaceFinderItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA2062CABC07A00D70B09 /* WorkplaceFinderItem.swift */; };
 		865AA20D2CABE03300D70B09 /* OutlineSupplementaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 865AA20C2CABE03300D70B09 /* OutlineSupplementaryView.swift */; };
 		86639B972C9561430029C1F9 /* NotificationAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B962C9561430029C1F9 /* NotificationAPI.swift */; };
 		86639B992C9562020029C1F9 /* Reminder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86639B982C9562020029C1F9 /* Reminder.swift */; };
-		866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */; };
+		866577B52C340D840048A111 /* PlaceSearchViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B42C340D840048A111 /* PlaceSearchViewController.swift */; };
 		866577B72C340E300048A111 /* PlaceSearchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B62C340E300048A111 /* PlaceSearchViewModel.swift */; };
 		866577B92C3410250048A111 /* PlaceInfoDetailsContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 866577B82C3410250048A111 /* PlaceInfoDetailsContentView.swift */; };
 		866EA33C2C4A579A003159F9 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = 866EA33B2C4A579A003159F9 /* Kingfisher */; };
@@ -147,6 +147,12 @@
 		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
 		86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1F2C1842DA00095010 /* CompletionViewModel.swift */; };
 		86803EB72CCD419400926A09 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EB62CCD419400926A09 /* EmptyView.swift */; };
+		86803EBD2CCE2E8300926A09 /* UIScrollView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */; };
+		86803EBF2CCE2ED600926A09 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */; };
+		86803EC12CCE2EF100926A09 /* UIVIew+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */; };
+		86803EC32CCE2F2400926A09 /* UICollectionView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EC22CCE2F2400926A09 /* UICollectionView+Ext.swift */; };
+		86803EC52CCE2FE400926A09 /* PHPickerViewController+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EC42CCE2FE400926A09 /* PHPickerViewController+Ext.swift */; };
+		86803EC82CCE339400926A09 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = 86803EC72CCE339400926A09 /* Then */; };
 		868354652C2447F000F055D2 /* v1_add_workplace_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354642C2447F000F055D2 /* v1_add_workplace_success.json */; };
 		868354672C24483C00F055D2 /* v1_workplaces_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354662C24483C00F055D2 /* v1_workplaces_success.json */; };
 		868354692C24487D00F055D2 /* v1_workplace_detail_success.json in Resources */ = {isa = PBXBuildFile; fileRef = 868354682C24487D00F055D2 /* v1_workplace_detail_success.json */; };
@@ -252,6 +258,7 @@
 		86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4602C4B57F400D83488 /* WorkLogsSummaryView.swift */; };
 		86B4B4632C4B583E00D83488 /* WorkLogContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4622C4B583E00D83488 /* WorkLogContentView.swift */; };
 		86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86B4B4642C4B8D3500D83488 /* Sendable+Rx.swift */; };
+		86BE959A2CCE393200F2633E /* NMapsMap in Frameworks */ = {isa = PBXBuildFile; productRef = 86BE95992CCE393200F2633E /* NMapsMap */; };
 		86C2930D2C24725A0006AC72 /* DefaultAuthRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C2930C2C24725A0006AC72 /* DefaultAuthRepository.swift */; };
 		86C40B042C4F386E0051EF2B /* AnnounceDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B032C4F386E0051EF2B /* AnnounceDetailViewController.swift */; };
 		86C40B062C4F38E30051EF2B /* AnnounceDetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86C40B052C4F38E30051EF2B /* AnnounceDetailViewModel.swift */; };
@@ -398,11 +405,11 @@
 		860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryItem.swift; sourceTree = "<group>"; };
 		860BCE602C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CredentialRecoveryOptionsViewController.swift; sourceTree = "<group>"; };
 		860BCE642C6B349300DCC532 /* WorkplaceAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceAPI.swift; sourceTree = "<group>"; };
-		860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewController.swift; sourceTree = "<group>"; };
-		860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceViewModel.swift; sourceTree = "<group>"; };
-		860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddNewWorkplaceValidationResult.swift; sourceTree = "<group>"; };
-		860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsViewController.swift; sourceTree = "<group>"; };
-		860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsViewModel.swift; sourceTree = "<group>"; };
+		860BCE672C6B53A100DCC532 /* PlaceCreationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCreationViewController.swift; sourceTree = "<group>"; };
+		860BCE6C2C6B55E000DCC532 /* PlaceCreationiewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCreationiewModel.swift; sourceTree = "<group>"; };
+		860BCE6E2C6B625C00DCC532 /* PlaceCreationValidationResults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceCreationValidationResults.swift; sourceTree = "<group>"; };
+		860BCE732C6C9A9E00DCC532 /* PlaceDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewController.swift; sourceTree = "<group>"; };
+		860BCE752C6C9AA900DCC532 /* PlaceDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsViewModel.swift; sourceTree = "<group>"; };
 		860D4C922C1FF598001F94D4 /* ValidationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ValidationService.swift; sourceTree = "<group>"; };
 		860D4C962C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "BindingExtensions+ValidationResult.swift"; sourceTree = "<group>"; };
 		860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppNotificationDTO+Mapping.swift"; sourceTree = "<group>"; };
@@ -492,12 +499,12 @@
 		865AA1FC2CA9163E00D70B09 /* BaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseViewController.swift; sourceTree = "<group>"; };
 		865AA1FE2CA94A6600D70B09 /* PlaceSearchItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchItem.swift; sourceTree = "<group>"; };
 		865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel+Ext.swift"; sourceTree = "<group>"; };
-		865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceDetailsItem.swift; sourceTree = "<group>"; };
+		865AA2042CA9927500D70B09 /* PlaceDetailsItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceDetailsItem.swift; sourceTree = "<group>"; };
 		865AA2062CABC07A00D70B09 /* WorkplaceFinderItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplaceFinderItem.swift; sourceTree = "<group>"; };
 		865AA20C2CABE03300D70B09 /* OutlineSupplementaryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OutlineSupplementaryView.swift; sourceTree = "<group>"; };
 		86639B962C9561430029C1F9 /* NotificationAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationAPI.swift; sourceTree = "<group>"; };
 		86639B982C9562020029C1F9 /* Reminder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reminder.swift; sourceTree = "<group>"; };
-		866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchWorkplaceViewController.swift; sourceTree = "<group>"; };
+		866577B42C340D840048A111 /* PlaceSearchViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewController.swift; sourceTree = "<group>"; };
 		866577B62C340E300048A111 /* PlaceSearchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceSearchViewModel.swift; sourceTree = "<group>"; };
 		866577B82C3410250048A111 /* PlaceInfoDetailsContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoDetailsContentView.swift; sourceTree = "<group>"; };
 		866EA33F2C4A7D0D003159F9 /* MemberInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberInfoViewController.swift; sourceTree = "<group>"; };
@@ -510,6 +517,11 @@
 		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D1F2C1842DA00095010 /* CompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewModel.swift; sourceTree = "<group>"; };
 		86803EB62CCD419400926A09 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Ext.swift"; sourceTree = "<group>"; };
+		86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
+		86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIew+Ext.swift"; sourceTree = "<group>"; };
+		86803EC22CCE2F2400926A09 /* UICollectionView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UICollectionView+Ext.swift"; sourceTree = "<group>"; };
+		86803EC42CCE2FE400926A09 /* PHPickerViewController+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PHPickerViewController+Ext.swift"; sourceTree = "<group>"; };
 		868354642C2447F000F055D2 /* v1_add_workplace_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_add_workplace_success.json; sourceTree = "<group>"; };
 		868354662C24483C00F055D2 /* v1_workplaces_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_workplaces_success.json; sourceTree = "<group>"; };
 		868354682C24487D00F055D2 /* v1_workplace_detail_success.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = v1_workplace_detail_success.json; sourceTree = "<group>"; };
@@ -735,8 +747,10 @@
 				8653918F2C62244400567EE0 /* KakaoSDK in Frameworks */,
 				866EA33C2C4A579A003159F9 /* Kingfisher in Frameworks */,
 				861C31CA2C1C10C8007DD6B9 /* RxMoya in Frameworks */,
+				86803EC82CCE339400926A09 /* Then in Frameworks */,
 				861C31C82C1C10C8007DD6B9 /* Moya in Frameworks */,
 				860D4C902C1FF2BA001F94D4 /* RxSwift in Frameworks */,
+				86BE959A2CCE393200F2633E /* NMapsMap in Frameworks */,
 				860D4C8E2C1FEF52001F94D4 /* RxCocoa in Frameworks */,
 				86E299EE2C17357E00805AD0 /* SnapKit in Frameworks */,
 			);
@@ -786,7 +800,7 @@
 		860BCE622C6B33BE00DCC532 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				866577B42C340D840048A111 /* SearchWorkplaceViewController.swift */,
+				866577B42C340D840048A111 /* PlaceSearchViewController.swift */,
 				8644155C2C6D0FAC00295838 /* SearchBarView.swift */,
 			);
 			path = View;
@@ -801,13 +815,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		860BCE662C6B539C00DCC532 /* AddNew */ = {
+		860BCE662C6B539C00DCC532 /* PlaceCreation */ = {
 			isa = PBXGroup;
 			children = (
 				860BCE6A2C6B55CF00DCC532 /* View */,
 				860BCE6B2C6B55D400DCC532 /* ViewModel */,
 			);
-			path = AddNew;
+			path = PlaceCreation;
 			sourceTree = "<group>";
 		};
 		860BCE692C6B543900DCC532 /* PlaceSearch */ = {
@@ -822,7 +836,7 @@
 		860BCE6A2C6B55CF00DCC532 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				860BCE672C6B53A100DCC532 /* AddNewWorkplaceViewController.swift */,
+				860BCE672C6B53A100DCC532 /* PlaceCreationViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -830,8 +844,8 @@
 		860BCE6B2C6B55D400DCC532 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				860BCE6C2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift */,
-				860BCE6E2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift */,
+				860BCE6C2C6B55E000DCC532 /* PlaceCreationiewModel.swift */,
+				860BCE6E2C6B625C00DCC532 /* PlaceCreationValidationResults.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -848,7 +862,7 @@
 		860BCE712C6C9A8800DCC532 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				860BCE732C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift */,
+				860BCE732C6C9A9E00DCC532 /* PlaceDetailsViewController.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -856,8 +870,8 @@
 		860BCE722C6C9A8B00DCC532 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
-				860BCE752C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift */,
-				865AA2042CA9927500D70B09 /* WorkplaceDetailsItem.swift */,
+				860BCE752C6C9AA900DCC532 /* PlaceDetailsViewModel.swift */,
+				865AA2042CA9927500D70B09 /* PlaceDetailsItem.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1334,17 +1348,6 @@
 			path = Notice;
 			sourceTree = "<group>";
 		};
-		866577B32C340D610048A111 /* PlaceFinder */ = {
-			isa = PBXGroup;
-			children = (
-				860BCE662C6B539C00DCC532 /* AddNew */,
-				868E681F2CC521F200CEC0F3 /* Address */,
-				868E68172CC5195500CEC0F3 /* TextInputFormView.swift */,
-				868E68232CC67F5400CEC0F3 /* AlertViewController.swift */,
-			);
-			path = PlaceFinder;
-			sourceTree = "<group>";
-		};
 		866EA33D2C4A7CC2003159F9 /* MemberInfo */ = {
 			isa = PBXGroup;
 			children = (
@@ -1678,8 +1681,13 @@
 		868E681E2CC51F3700CEC0F3 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */,
 				868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */,
 				868E68282CC947F000CEC0F3 /* UIButton+Ext.swift */,
+				86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */,
+				86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */,
+				86803EC22CCE2F2400926A09 /* UICollectionView+Ext.swift */,
+				86803EC42CCE2FE400926A09 /* PHPickerViewController+Ext.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -2189,14 +2197,17 @@
 				86766D142C183E3900095010 /* Flows */,
 				86E299DB2C1722A600805AD0 /* Authentication */,
 				86E299E22C17230E00805AD0 /* Main */,
-				868E68252CC93A5600CEC0F3 /* ScheduleCreation */,
 				86E296F62C4E81B60080A3A2 /* Notification */,
 				864A5E682C83258300D7B0EF /* Announce */,
 				866EA33D2C4A7CC2003159F9 /* MemberInfo */,
+				868E681F2CC521F200CEC0F3 /* Address */,
+				868E68172CC5195500CEC0F3 /* TextInputFormView.swift */,
+				868E68232CC67F5400CEC0F3 /* AlertViewController.swift */,
+				868E68252CC93A5600CEC0F3 /* ScheduleCreation */,
 				864415552C6D019100295838 /* PlaceFinder */,
 				860BCE692C6B543900DCC532 /* PlaceSearch */,
 				860BCE702C6C9A4800DCC532 /* PlaceDetails */,
-				866577B32C340D610048A111 /* PlaceFinder */,
+				860BCE662C6B539C00DCC532 /* PlaceCreation */,
 			);
 			path = Presentation;
 			sourceTree = "<group>";
@@ -2346,6 +2357,8 @@
 				866EA33B2C4A579A003159F9 /* Kingfisher */,
 				8653918B2C62243300567EE0 /* RxKakaoSDK */,
 				8653918E2C62244400567EE0 /* KakaoSDK */,
+				86803EC72CCE339400926A09 /* Then */,
+				86BE95992CCE393200F2633E /* NMapsMap */,
 			);
 			productName = SeulMae;
 			productReference = 86E299A52C1721FF00805AD0 /* SeulMae.app */;
@@ -2426,6 +2439,8 @@
 				866EA33A2C4A5799003159F9 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 				8653918A2C62243300567EE0 /* XCRemoteSwiftPackageReference "kakao-ios-sdk-rx" */,
 				8653918D2C62244400567EE0 /* XCRemoteSwiftPackageReference "kakao-ios-sdk" */,
+				86803EC62CCE338B00926A09 /* XCRemoteSwiftPackageReference "Then" */,
+				86BE95982CCE390700F2633E /* XCRemoteSwiftPackageReference "NMapsMap" */,
 			);
 			productRefGroup = 86E299A62C1721FF00805AD0 /* Products */;
 			projectDirPath = "";
@@ -2535,7 +2550,7 @@
 				868709522CBC1E400073EF65 /* UserState.swift in Sources */,
 				8624EA3D2CAE646E008A8D22 /* SeulmaeLocalDB.xcdatamodeld in Sources */,
 				86FD620A2C8D45BF005ED02F /* WorkScheduleUseCase.swift in Sources */,
-				860BCE742C6C9A9E00DCC532 /* WorkplaceDetailsViewController.swift in Sources */,
+				860BCE742C6C9A9E00DCC532 /* PlaceDetailsViewController.swift in Sources */,
 				86E296FC2C4E844E0080A3A2 /* AnnounceContentView.swift in Sources */,
 				86DB32D52C9AA59100575A03 /* CommonInputContentView.swift in Sources */,
 				8693C42E2C22DCB800D7DCD3 /* ShapeView.swift in Sources */,
@@ -2544,7 +2559,7 @@
 				86FACA012CC3D27200898CFE /* ApplicationDTO+Mapping.swift in Sources */,
 				8684C5B92C4A0CB700EB3D28 /* AnnounceView.swift in Sources */,
 				8684C5B22C49FC3300EB3D28 /* DefaultWorkplaceRepository.swift in Sources */,
-				860BCE762C6C9AA900DCC532 /* WorkplaceDetailsViewModel.swift in Sources */,
+				860BCE762C6C9AA900DCC532 /* PlaceDetailsViewModel.swift in Sources */,
 				86766D102C1838AF00095010 /* AccountSetupViewModel.swift in Sources */,
 				86B0AF932C2EB22D0006AF00 /* WorkStatusView.swift in Sources */,
 				8644155D2C6D0FAC00295838 /* SearchBarView.swift in Sources */,
@@ -2556,7 +2571,7 @@
 				869358C22C7365EA00B2436E /* WorkplaceStorage.swift in Sources */,
 				86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */,
 				869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */,
-				860BCE6F2C6B625C00DCC532 /* AddNewWorkplaceValidationResult.swift in Sources */,
+				860BCE6F2C6B625C00DCC532 /* PlaceCreationValidationResults.swift in Sources */,
 				860F20BF2CC40F0C00E27D34 /* FinderSceneDIContainer.swift in Sources */,
 				868E68292CC947F000CEC0F3 /* UIButton+Ext.swift in Sources */,
 				86B07D8A2C32D3390088E1B1 /* String+CalendarView.swift in Sources */,
@@ -2573,8 +2588,9 @@
 				86AC25F82CA039D00009D249 /* AttendanceService.swift in Sources */,
 				8693C4382C22F3DA00D7DCD3 /* UIView+MaterialElevationResponding.swift in Sources */,
 				868E68332CCA9CC600CEC0F3 /* MemberEmptyView.swift in Sources */,
-				865AA2052CA9927500D70B09 /* WorkplaceDetailsItem.swift in Sources */,
+				865AA2052CA9927500D70B09 /* PlaceDetailsItem.swift in Sources */,
 				868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */,
+				86803EBD2CCE2E8300926A09 /* UIScrollView+Ext.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* ReminderListItem.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
@@ -2583,7 +2599,7 @@
 				860BCE652C6B349300DCC532 /* WorkplaceAPI.swift in Sources */,
 				86016C532C97108300EE8A92 /* AnnounceAPI.swift in Sources */,
 				86016C5D2C9A620E00EE8A92 /* PromoteRequset.swift in Sources */,
-				860BCE6D2C6B55E000DCC532 /* AddNewWorkplaceViewModel.swift in Sources */,
+				860BCE6D2C6B55E000DCC532 /* PlaceCreationiewModel.swift in Sources */,
 				860EB2B52C74CFF100310985 /* AppNotificationDTO+Mapping.swift in Sources */,
 				864A5E7D2C834D5100D7B0EF /* AnnounceItem.swift in Sources */,
 				86766D0A2C1837CA00095010 /* SMSVerificationViewModel.swift in Sources */,
@@ -2591,6 +2607,7 @@
 				86FD61F22C8ACFFF005ED02F /* DefaultUserRepository.swift in Sources */,
 				86FD620E2C8D470C005ED02F /* DefaultAnnounceRepository.swift in Sources */,
 				869358C52C7367F300B2436E /* TokenStorage.swift in Sources */,
+				86803EC32CCE2F2400926A09 /* UICollectionView+Ext.swift in Sources */,
 				864415622C6DF2E800295838 /* UIFont+Pretendard.swift in Sources */,
 				860F20BD2CC40E8900E27D34 /* FinderFlowCoordinator.swift in Sources */,
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
@@ -2621,6 +2638,7 @@
 				86DB32CB2C9A818600575A03 /* WorkScheduleListViewModel.swift in Sources */,
 				86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */,
 				860D4C972C1FFB61001F94D4 /* BindingExtensions+ValidationResult.swift in Sources */,
+				86803EC12CCE2EF100926A09 /* UIVIew+Ext.swift in Sources */,
 				864A5E742C83459B00D7B0EF /* AnnounceListItem.swift in Sources */,
 				86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
@@ -2663,7 +2681,7 @@
 				86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */,
 				86B07D812C3293CD0088E1B1 /* DayContentView.swift in Sources */,
 				869054AD2C60C1C40037B61A /* SQLiteTable.swift in Sources */,
-				860BCE682C6B53A100DCC532 /* AddNewWorkplaceViewController.swift in Sources */,
+				860BCE682C6B53A100DCC532 /* PlaceCreationViewController.swift in Sources */,
 				86E299E42C1726C200805AD0 /* Componet+SeulMae.swift in Sources */,
 				86FB3CE92C60D86B00E193EB /* UIView+Separator.swift in Sources */,
 				86B4B45B2C4B4AA200D83488 /* WorkScheduleView.swift in Sources */,
@@ -2735,6 +2753,7 @@
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
 				865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */,
 				86FACA032CC3D2B800898CFE /* SubmittedApplication.swift in Sources */,
+				86803EBF2CCE2ED600926A09 /* UIImageView+Ext.swift in Sources */,
 				868E682B2CC9539D00CEC0F3 /* WeekdaySelectionView.swift in Sources */,
 				861C31D12C1C13A9007DD6B9 /* Extended.swift in Sources */,
 				86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */,
@@ -2768,6 +2787,7 @@
 				8687094C2CBBE6250073EF65 /* WorkplaceStatusContentView.swift in Sources */,
 				8684C5BB2C4A12E000EB3D28 /* FrameCalculator.swift in Sources */,
 				861B96D92C21C6090032C94A /* KeyboardWatcher.swift in Sources */,
+				86803EC52CCE2FE400926A09 /* PHPickerViewController+Ext.swift in Sources */,
 				86016C512C94641400EE8A92 /* WorkInfo.swift in Sources */,
 				8603CBE02CA2F58E00194A79 /* ScheduleReminderItem.swift in Sources */,
 				86B4B45D2C4B53D700D83488 /* MemberProfileView.swift in Sources */,
@@ -2796,7 +2816,7 @@
 				869054AB2C60C1270037B61A /* SQLiteDB.swift in Sources */,
 				86DB32D72C9AAA9A00575A03 /* WeekdaysContentView.swift in Sources */,
 				86939E042CB42ABB00E03707 /* UIColor+Ext.swift in Sources */,
-				866577B52C340D840048A111 /* SearchWorkplaceViewController.swift in Sources */,
+				866577B52C340D840048A111 /* PlaceSearchViewController.swift in Sources */,
 				8693C4272C227DDA00D7DCD3 /* ShadowElevations.swift in Sources */,
 				8624EA882CAE6AE2008A8D22 /* WorkplaceModelDataSource.swift in Sources */,
 				86939E022CB157FA00E03707 /* WorkLogSummaryView.swift in Sources */,
@@ -3222,6 +3242,22 @@
 				minimumVersion = 7.12.0;
 			};
 		};
+		86803EC62CCE338B00926A09 /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.0;
+			};
+		};
+		86BE95982CCE390700F2633E /* XCRemoteSwiftPackageReference "NMapsMap" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/jaemyeong/NMapsMap";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.17.0;
+			};
+		};
 		86E299EB2C1733A600805AD0 /* XCRemoteSwiftPackageReference "SnapKit" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/SnapKit/SnapKit";
@@ -3267,6 +3303,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 866EA33A2C4A5799003159F9 /* XCRemoteSwiftPackageReference "Kingfisher" */;
 			productName = Kingfisher;
+		};
+		86803EC72CCE339400926A09 /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86803EC62CCE338B00926A09 /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+		86BE95992CCE393200F2633E /* NMapsMap */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 86BE95982CCE390700F2633E /* XCRemoteSwiftPackageReference "NMapsMap" */;
+			productName = NMapsMap;
 		};
 		86E299ED2C17357E00805AD0 /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;

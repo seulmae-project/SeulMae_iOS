@@ -9,7 +9,7 @@ import Foundation
 
 struct PlaceSearchItem: Hashable {
     let id: String = UUID().uuidString
-    var section: SearchWorkplaceViewController.Section?
+    var section: PlaceSearchViewController.Section?
     var workplace: Workplace
 
     init(place: Workplace) {

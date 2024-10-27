@@ -1,5 +1,5 @@
 //
-//  SearchWorkplaceViewController.swift
+//  PlaceSearchViewController.swift
 //  SeulMae
 //
 //  Created by 조기열 on 7/2/24.
@@ -9,7 +9,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 
-final class SearchWorkplaceViewController: BaseViewController {
+final class PlaceSearchViewController: BaseViewController {
 
     // MARK: - Internal Types
 
@@ -169,17 +169,13 @@ final class SearchWorkplaceViewController: BaseViewController {
     }
 
     static func makeSearchResultsSectionLayout() -> NSCollectionLayoutSection {
-        let itemSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(52))
+        let itemSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
         let item = NSCollectionLayoutItem(layoutSize: itemSize)
-        let groupSize = NSCollectionLayoutSize(
-            widthDimension: .fractionalWidth(1.0),
-            heightDimension: .estimated(52))
+        let groupSize = NSCollectionLayoutSize(widthDimension: .fractionalWidth(1.0), heightDimension: .estimated(104))
         let group = NSCollectionLayoutGroup.vertical(
             layoutSize: groupSize, subitems: [item])
         let section = NSCollectionLayoutSection(group: group)
-        section.interGroupSpacing = 20
+        section.interGroupSpacing = 12
         return section
     }
 }

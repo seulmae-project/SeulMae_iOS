@@ -1,5 +1,5 @@
 //
-//  AddNewWorkplaceViewModel.swift
+//  PlaceCreationiewModel.swift
 //  SeulMae
 //
 //  Created by 조기열 on 8/13/24.
@@ -9,7 +9,7 @@ import UIKit.UIImage
 import RxSwift
 import RxCocoa
 
-final class AddNewWorkplaceViewModel: ViewModel {
+final class PlaceCreationiewModel: ViewModel {
     struct Input {
         let image: Driver<UIImage>
         let name: Driver<String>
@@ -21,7 +21,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
     
     struct Output {
         let loading: Driver<Bool>
-        let validationResult: Driver<AddNewWorkplaceValidationResult>
+        let validationResult: Driver<PlaceCreationValidationResults>
         let createEnabled: Driver<Bool>
     }
     
@@ -52,7 +52,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
 
-        let validatedName = input.name.flatMapLatest { name -> Driver<AddNewWorkplaceValidationResult> in
+        let validatedName = input.name.flatMapLatest { name -> Driver<PlaceCreationValidationResults> in
             let trimmed = name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             if trimmed.isEmpty {
                 return .just(.name(result: .empty(message: "empty")))
@@ -61,7 +61,7 @@ final class AddNewWorkplaceViewModel: ViewModel {
             return .just(.name(result: .ok(message: "ok")))
         }
         
-        let validatedContact = input.name.flatMapLatest { name -> Driver<AddNewWorkplaceValidationResult> in
+        let validatedContact = input.name.flatMapLatest { name -> Driver<PlaceCreationValidationResults> in
             let trimmed = name.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             if trimmed.isEmpty {
                 return .just(.contact(result: .empty(message: "empty")))

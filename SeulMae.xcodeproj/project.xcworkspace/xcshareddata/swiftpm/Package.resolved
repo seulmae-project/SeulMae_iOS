@@ -1,5 +1,5 @@
 {
-  "originHash" : "9ed5caa4b3a375a494227927d2a130fd62f92b8dd49dadbf6e39b1bd1e0dcd5a",
+  "originHash" : "1edf89af5c3845d0a4645841a050b77878491dcbb19878af3ea76746d8013099",
   "pins" : [
     {
       "identity" : "alamofire",
@@ -47,6 +47,15 @@
       }
     },
     {
+      "identity" : "nmapsmap",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaemyeong/NMapsMap",
+      "state" : {
+        "revision" : "f312d23488d4a15a3a9cc27e66dc5afa3afc0145",
+        "version" : "3.17.0"
+      }
+    },
+    {
       "identity" : "ohhttpstubs",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/AliSoftware/OHHTTPStubs.git",
@@ -89,6 +98,15 @@
       "state" : {
         "revision" : "2842e6e84e82eb9a8dac0100ca90d9444b0307f4",
         "version" : "5.7.1"
+      }
+    },
+    {
+      "identity" : "then",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/devxoul/Then",
+      "state" : {
+        "revision" : "d41ef523faef0f911369f79c0b96815d9dbb6d7a",
+        "version" : "3.0.0"
       }
     }
   ],
