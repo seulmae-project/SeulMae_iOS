@@ -9,7 +9,7 @@ import Foundation
 import RxSwift
 
 protocol AuthRepository {
-    func signin(account: String, password: String, fcmToken: String) -> Single<Credentials>
+    func signin(account: String, password: String, fcmToken: String?) -> Single<Credentials>
     func socialSignin(type: SocialSigninType, token: String, fcmToken: String?) -> Single<Credentials>
     func verifyAccountID(_ accountID: String) -> Single<Bool>
     func signup(request: SignupRequest, file: Data) -> Single<Bool>

@@ -20,14 +20,14 @@ final class UserRepository {
     init(network: UserNetworking) {
         self.network = network
     }
-    
+
     var currentWorkplaceId: Workplace.ID {
         return 8
         // return UserDefaults.standard.integer(forKey: "currentWorkplaceId")
     }
     
-    var fcmToken: String {
-        return UserDefaults.standard.string(forKey: "fcm-token") ?? ""
+    var fcmToken: String? {
+        return UserDefaults.standard.string(forKey: "fcmToken")
     }
     
     func saveToken(_ token: Token) {

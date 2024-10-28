@@ -16,12 +16,15 @@ import AuthenticationServices
 final class SigninViewModel: ViewModel {
     
     struct Input {
-        let userID: Driver<String>
-        let password: Driver<String>
+        let onLoad: Signal<()>
+        let onRefresh: Signal<()>
+        let id: Driver<String>
+        let pw: Driver<String>
         let signin: Signal<()>
         let kakaoSignin: Signal<()>
         let appleSignin: Signal<ASAuthorizationAppleIDCredential>
-        let accountRecovery: Signal<()>
+        let idRecovery: Signal<()>
+        let pwRecovery: Signal<()>
         let signup: Signal<()>
     }
     
@@ -58,125 +61,87 @@ final class SigninViewModel: ViewModel {
     @MainActor func transform(_ input: Input) -> Output {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
-        
+
         // MARK: - Signin
         
-        let userIDAndPassword = Driver.combineLatest(input.userID, input.password) { (userID: $0, password: $1) }
-        
-        let signedIn = input.signin.withLatestFrom(userIDAndPassword)
-            .flatMapLatest { [weak self] pair -> Driver<Bool> in
-                guard let strongSelf = self else { return .empty() }
-                return strongSelf.authUseCase
-                    .signin(accountId: pair.userID, password: pair.password)
+        let idAndPw = Driver.combineLatest(input.id, input.pw) { (id: $0, pw: $1) }
+        let signedInResult = input.signin
+            .withLatestFrom(idAndPw)
+            .withUnretained(self)
+            .flatMapLatest { (self, pair) -> Driver<Credentials> in
+                return self.authUseCase
+                    .signin(accountId: pair.id, password: pair.pw)
                     .trackActivity(tracker)
-                    .asDriver()
+                    .asDriver { error in
+                        Swift.print("error: \(error)")
+                        return .empty()
+                    }
             }
-        
-        let hasGroup = signedIn
-            .filter { $0 }
-            .map { [weak self] _ -> Bool in
-                guard let strongSelf = self else { return true }
-                let workplaceList = strongSelf.workplaceUseCase
-                    .readWorkplaceList()
-                Swift.print("[Signin VM] workplaceListCount: \(workplaceList.count)")
-                return !workplaceList.isEmpty
-            }
-        
+
         // MARK: - Kakao Signin
         
         let oAuthToken = input.kakaoSignin
-            .flatMapLatest { _ -> Driver<OAuthToken> in
-                if (UserApi.isKakaoTalkLoginAvailable()) {
-                    Swift.print("☘️ login With Kakao Talk")
-                    return UserApi.shared
-                        .rx
-                        .loginWithKakaoTalk()
-                        .asDriver()
-                } else {
-                    Swift.print("☘️ login With Kakao Account")
-                    return UserApi.shared
-                        .rx
-                        .loginWithKakaoAccount()
-                        .asDriver()
-                }
+            .flatMapLatest { _ -> Signal<OAuthToken> in
+                let token = UserApi.isKakaoTalkLoginAvailable() ?
+                 UserApi.shared.rx.loginWithKakaoTalk() : UserApi.shared.rx.loginWithKakaoAccount()
+                return token.asSignal()
             }
-        
+
+        // Merge received token
         let appleToken = input.appleSignin
             .map { String(data: $0.identityToken!, encoding: .utf8)! }
             .map { (type: SocialSigninType.apple, token: $0) }
-        
-        let kakaoToken = oAuthToken.map {
-            return (type: SocialSigninType.kakao, token: ($0.idToken ?? ""))
-        }
-            .asSignal()
-        
+        let kakaoToken = oAuthToken.map { tokens in (type: SocialSigninType.kakao, token: (tokens.idToken ?? "")) }
+
+        // Sign in with token
         let tokens = Signal.merge(appleToken, kakaoToken)
-    
-        let isGuest = tokens.flatMapLatest { [weak self] pair -> Driver<(Bool, Bool)> in
-            guard let strongself = self else { return .empty() }
-            return strongself.authUseCase
+        let socialSignedInResult = tokens.withUnretained(self)
+            .flatMapLatest { (self, pair) -> Driver<Credentials> in
+            return self.authUseCase
                 .socialSignin(type: pair.type, token: pair.token)
                 .trackActivity(tracker)
                 .asDriver()
         }
         
+        // Merge signed in results
+        let credentials = Driver.merge(signedInResult, socialSignedInResult)
+
+        // Merge id, pw recovery events
+        let idRecovery = input.idRecovery
+            .map { _ in SMSVerificationItem.accountRecovery }
+        let pwRecovery = input.pwRecovery
+            .map { _ in SMSVerificationItem.passwordRecovery(account: "") }
+        let signup = input.signup
+            .map { _ in SMSVerificationItem.signup }
+        let smsVerificationType = Signal.merge(idRecovery, pwRecovery, signup)
+
         // MARK: - Coordinator Methods
-        
+
         Task {
-            for await (isGuest, hasGroup) in isGuest.values {
-                if isGuest {
+            for await credentials in credentials.values {
+                if credentials.isGuest {
                     coordinator.showProfileSetup(request: SignupRequest(), signupType: .social)
                 } else {
-                    // 메인 화면 이동
-                    if hasGroup {
-                        coordinator.startMain(isManager: false)
+                    if !(credentials.workplace).isEmpty {
+                        let isManager: Bool
+                        if let defaultWorkplaceId = credentials.defaultWorkplaceId {
+                            isManager = credentials.workplace.first(where: { $0.id == defaultWorkplaceId })?.isManager ?? false
+                        } else {
+                            isManager = credentials.workplace.first!.isManager ?? false
+                        }
+                        coordinator.startMain(isManager: isManager)
                     } else {
                         coordinator.showWorkplaceFinder()
                     }
                 }
             }
         }
-        
+
         Task {
-            for await _ in input.accountRecovery.values {
-                coordinator.showAccountRecoveryOption()
+            for await item in smsVerificationType.values {
+                coordinator.showSMSValidation(item: item)
             }
         }
-        
-        Task {
-            for await hasGroup in hasGroup.values {
-                if hasGroup {
-                    let workplace = workplaceUseCase.readDefaultWorkplace()
-                    let isManager = workplace.isManager ?? false
-                    Swift.print("[SginIn VM] isManager: \(isManager)")
-                    coordinator.startMain(isManager: isManager)
-                } else {
-                    coordinator.showWorkplaceFinder()
-                }
-            }
-        }
-            
-//        Task {
-//            for await item in input.validateSMS.values {
-//                coordinator.showSMSValidation(item: item)
-//            }
-//        }
-        
-        Task {
-            for await _ in input.signup.values {
-                coordinator.showSMSValidation(item: .signup)
-            }
-        }
-        
-//        Task {
-//            for await credentialOption in input.credentialOption.values {
-//                if (credentialOption == .account) {
-//                    coordinator.showSMSValidation(item: .accountRecovery)
-//                } else {
-//                    coordinator.showSMSValidation(item: .passwordRecovery(account: ""))
-//                }
-//            }
-//        }
         
         return Output(loading: loading)
     }

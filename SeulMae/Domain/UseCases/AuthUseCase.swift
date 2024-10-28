@@ -10,9 +10,9 @@ import RxSwift
 
 protocol AuthUseCase {
     // Signin
-    func signin(accountId: String, password: String) -> Single<Bool>
-    func socialSignin(type: SocialSigninType, token: String) -> Single<(Bool, Bool)>
-    
+    func signin(accountId: String, password: String) -> Single<Credentials>
+    func socialSignin(type: SocialSigninType, token: String) -> Single<Credentials>
+
     // Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>
     func signup(request: SignupRequest, file: Data) -> Single<Bool>
@@ -29,7 +29,6 @@ protocol AuthUseCase {
 }
 
 class DefaultAuthUseCase: AuthUseCase {
-    
     private let authRepository: AuthRepository
     private let workplaceRepository: WorkplaceRepository
     private let userRepository: UserRepository = UserRepository(network: UserNetworking())
@@ -38,21 +37,18 @@ class DefaultAuthUseCase: AuthUseCase {
         self.authRepository = authRepository
         self.workplaceRepository = workplaceRepository
     }
-        
-    func signin(accountId: String, password: String) -> RxSwift.Single<Bool> {
-        let fcmToken = ""
+
+    func signin(accountId: String, password: String) -> RxSwift.Single<Credentials> {
+        let fcmToken = userRepository.fcmToken
         return authRepository.signin(account: accountId, password: password, fcmToken: fcmToken)
-            .map { [weak self] response in
-                guard let strongSelf = self else { return false }
-                // save workplace list
-                let isSaved = strongSelf.workplaceRepository
-                    .create(workplaceList: response.workplace, accountId: accountId)
-                // save acount id
+            .do(onSuccess: { [weak self] credentials in
+                // Save workplaces
+                _ = self?.workplaceRepository.create(workplaceList: credentials.workplace, accountId: accountId)
+                // Save account id
                 UserDefaults.standard.setValue(accountId, forKey: "accountId")
-                // save tokens
-                self?.userRepository.saveToken(response.token)
-                return isSaved
-            }
+                // Save tokens
+                self?.userRepository.saveToken(credentials.token)
+            })
     }
     
     enum SocialSigninRole: String {
@@ -64,18 +60,16 @@ class DefaultAuthUseCase: AuthUseCase {
         }
     }
     
-    func socialSignin(type: SocialSigninType, token: String) -> RxSwift.Single<(Bool, Bool)> {
+    func socialSignin(type: SocialSigninType, token: String) -> RxSwift.Single<Credentials> {
         let fcmToken = userRepository.fcmToken
         return authRepository.socialSignin(type: type, token: token, fcmToken: fcmToken)
-            .map { [weak self] credential in
-                self?.userRepository.saveToken(credential.token)
-                _ = self?.workplaceRepository.create(
-                    workplaceList: credential.workplace,
-                    accountId: type.provider)
-                let isGuest = (credential.role == "GUEST")
-                let hasGroup = !credential.workplace.isEmpty
-                return (isGuest, hasGroup)
-            }
+            .do(onSuccess: { [weak self] credentials in
+                // Save workplaces
+                _ = self?.workplaceRepository.create(workplaceList: credentials.workplace, accountId: type.provider)
+                UserDefaults.standard.setValue(type.provider, forKey: "accountId")
+                // Save tokens
+                self?.userRepository.saveToken(credentials.token)
+            })
     }
     
     func verifyAccountID(_ accountID: String) -> RxSwift.Single<Bool> {

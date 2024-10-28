@@ -7,7 +7,23 @@
 
 import UIKit
 
+extension UIImageView {
+
+
+}
+
 extension Ext where ExtendedType == UIImageView {
+    
+
+    @discardableResult
+    static func common(_ image: UIImage) -> UIImageView {
+        let imageView = UIImageView()
+        imageView.image = image
+        return imageView
+    }
+
+    // func size()
+
     static func image(_ image: UIImage,
                       width: CGFloat = 44,
                       height: CGFloat = 44,
@@ -31,6 +47,7 @@ extension Ext where ExtendedType == UIImageView {
             imageView.layer.borderWidth = bolderWidth
             imageView.layer.shadowOffset = CGSize(width: 0, height: 3)
         }
+
         return imageView
     }
 

@@ -8,17 +8,37 @@
 import UIKit
 
 extension Ext where ExtendedType == UITextField {
+    @discardableResult
+    func backgroundColor(_ color: UIColor) -> UITextField {
+        type.backgroundColor = color
+        (type as? TF)?.offBackgroundColor = color
+        return type
+    }
 
-    func setPlaceholder(_ placeholder: String) {
+    @discardableResult
+    func backgroundColor(_ colorCode: String) -> UITextField {
+        type.backgroundColor = UIColor.ext.hex(colorCode)
+        (type as? TF)?.offBackgroundColor = UIColor.ext.hex(colorCode)
+        return type
+    }
+
+    @discardableResult
+    func font(_ font: UIFont) -> UITextField {
+        type.font = font
+        return type
+    }
+
+    @discardableResult
+    func placeholder(_ placeholder: String, color: UIColor = .secondaryLabel) -> UITextField {
         let font = type.font ?? .pretendard(size: 16, weight: .regular)
         let attrString = NSAttributedString(
            string: placeholder,
            attributes: [
                .font: font,
-               .foregroundColor: UIColor(hexCode: "1C2439")
-               .withAlphaComponent(0.64)
+               .foregroundColor: color,
            ])
         type.attributedPlaceholder = attrString
+        return type
     }
 
     func setEditing(_ isEditing: Bool) {
@@ -44,15 +64,63 @@ extension Ext where ExtendedType == UITextField {
         tf.layer.cornerRadius = 8.0
         tf.layer.cornerCurve = .continuous
         tf.backgroundColor = backgroundColor
-        (tf as UITextField).ext.setPlaceholder(placeholder)
+        (tf as UITextField).ext.placeholder(placeholder)
+        tf.onBorderColor = .ext.hex("4C71F5")
+        tf.onBorderWidth = 2
+        tf.onBackgroundColor = .white
+        tf.offBorderColor = nil
+        tf.offBorderWidth = 0
+        tf.offBackgroundColor = backgroundColor
         return tf
     }
 
-    static func `default`() -> TF {
+//    @discardableResult
+//    func style(onBorderColor: String, onBorderWidth: String, offBorderColor: String, of) -> UITextField {
+//        guard
+//        tf.onBorderColor = onBorderColor
+//        tf.onBorderWidth = onBorderWidth
+//        tf.offBorderColor = offBorderColor
+//        tf.offBorderWidth = offBorderWidth
+//    }
+
+
+    static func password(
+        placeholder: String = "",
+        size: CGFloat = 15,
+        weight: UIFont.PretendardWeight = .regular,
+        backgroundColor: UIColor = UIColor(hexCode: "CAD1EA")
+    ) -> UITextField {
+        let tf = Ext.common()
+        tf.isSecureTextEntry = true
+
+        let showPasswordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        showPasswordButton.setImage(.eyeFill, for: .normal)
+        showPasswordButton.setImage(.eyeSlashFill, for: .selected)
+        showPasswordButton.contentVerticalAlignment = .fill
+        showPasswordButton.contentHorizontalAlignment = .fill
+        showPasswordButton.adjustsImageWhenHighlighted = false
+
+        let buttonPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 44))
+        buttonPaddingView.addSubview(showPasswordButton)
+
+        showPasswordButton.center = buttonPaddingView.center
+        
+        tf.rightView = buttonPaddingView
+        tf.rightViewMode = .always
+        let action = UIAction(handler: { _ in
+            showPasswordButton.isSelected.toggle()
+            tf.isSecureTextEntry.toggle()
+        })
+        showPasswordButton.addAction(action, for: .touchUpInside)
+        return tf
+    }
+
+    private static func `default`() -> TF {
         let tf = TF()
         tf.autocapitalizationType = .none // 대문자
         tf.spellCheckingType = .no // 맞춤법
         tf.autocorrectionType = .no // 자동 수정
+        tf.heightAnchor.constraint(equalToConstant: 48).isActive = true
         return tf
     }
 
@@ -90,8 +158,10 @@ extension Ext where ExtendedType == UITextField {
     class TF: UITextField, UITextFieldDelegate {
         var onBorderColor: UIColor?
         var onBorderWidth: CGFloat = 0
+        var onBackgroundColor: UIColor?
         var offBorderColor: UIColor?
         var offBorderWidth: CGFloat = 0
+        var offBackgroundColor: UIColor?
 
         convenience init() {
             self.init(frame: .zero)
@@ -99,11 +169,13 @@ extension Ext where ExtendedType == UITextField {
         }
 
         func textFieldDidBeginEditing(_ textField: UITextField) {
+            backgroundColor = onBackgroundColor
             layer.borderColor = onBorderColor?.cgColor ?? nil
             layer.borderWidth = onBorderWidth
         }
 
         func textFieldDidEndEditing(_ textField: UITextField) {
+            backgroundColor = offBackgroundColor
             layer.borderColor = offBorderColor?.cgColor ?? nil
             layer.borderWidth = offBorderWidth
         }

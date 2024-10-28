@@ -11,10 +11,12 @@ import RxCocoa
 
 class BaseViewController: UIViewController {
 
-    var loadingIndicator: UIActivityIndicatorView!
+    private var loadingIndicator: UIActivityIndicatorView!
+    var loading: Binder<Bool>!
     var refreshControl: UIRefreshControl!
     var onLoad: Signal<()>!
     var onRefresh: Signal<()>!
+
     var disposeBag = DisposeBag()
 
     override func viewDidLoad() {
@@ -55,6 +57,15 @@ class BaseViewController: UIViewController {
                 }
             })
             .disposed(by: disposeBag)
+
+        loading = Binder<Bool>(loadingIndicator,  binding: { indicator, loading in
+            if loading {
+                self.view.bringSubviewToFront(indicator)
+                indicator.startAnimating()
+            } else {
+                indicator.stopAnimating()
+            }
+        })
     }
 }
 

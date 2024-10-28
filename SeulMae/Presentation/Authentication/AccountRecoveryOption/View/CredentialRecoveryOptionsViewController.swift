@@ -11,8 +11,8 @@ import RxCocoa
 
 final class CredentialRecoveryOptionsViewController: UIViewController {
     
-    let recoveryOptionRelay = PublishRelay<CredentialRecoveryOption>()
-    
+    // let recoveryOptionRelay = PublishRelay<CredentialRecoveryOption>()
+
     private let titleLabel: UILabel = {
         let label = UILabel()
         label.text = "계정 또는 비밀번호 찾기"
@@ -77,7 +77,7 @@ final class CredentialRecoveryOptionsViewController: UIViewController {
     }
     
     @objc func didTapOptionButton(_ sender: UIButton) {
-        recoveryOptionRelay.accept((sender == recoveryAccountButton) ? .account : .password)
+//        recoveryOptionRelay.accept((sender == recoveryAccountButton) ? .account : .password)
         self.dismiss(animated: true)
     }
 }

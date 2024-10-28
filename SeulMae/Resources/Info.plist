@@ -2,10 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
+	<key>BaseURL</key>
+	<string>$(BASE_URL)</string>
+	<key>CFBundleURLTypes</key>
 	<array>
-		<string>PretendardVariable.ttf</string>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>kakao$(NATIVE_APP_KEY)</string>
+			</array>
+		</dict>
 	</array>
+	<key>JavaScriptKey</key>
+	<string>$(JAVA_SCRIPT_KEY)</string>
 	<key>NSAppTransportSecurity</key>
 	<dict>
 		<key>NSExceptionDomains</key>
@@ -19,24 +30,13 @@
 			</dict>
 		</dict>
 	</dict>
-	<key>BaseURL</key>
-	<string>$(BASE_URL)</string>
 	<key>NativeAPPKey</key>
 	<string>$(NATIVE_APP_KEY)</string>
-	<key>JavaScriptKey</key>
-	<string>$(JAVA_SCRIPT_KEY)</string>
 	<key>NaverClientId</key>
 	<string>$(NAVER_CLIENT_ID)</string>
-	<key>CFBundleURLTypes</key>
+	<key>UIAppFonts</key>
 	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>kakao$(NATIVE_APP_KEY)</string>
-			</array>
-		</dict>
+		<string>PretendardVariable.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

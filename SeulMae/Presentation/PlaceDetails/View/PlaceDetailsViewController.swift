@@ -110,11 +110,8 @@ final class PlaceDetailsViewController: BaseViewController {
         )
         
         // handle loading
-        Task {
-            for await loading in output.loading.values {
-                loadingIndicator.ext.bind(loading)
-            }
-        }
+        output.loading.drive(loading)
+            .disposed(by: disposeBag)
         
         // Handle workplace details information
         Task {

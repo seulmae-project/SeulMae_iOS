@@ -24,7 +24,7 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Signin
     
-    func signin(account: String, password: String, fcmToken: String) -> Single<Credentials> {
+    func signin(account: String, password: String, fcmToken: String?) -> Single<Credentials> {
         return network.rx
             .request(.signin(accountId: account, password: password, fcmToken: fcmToken))
             .map(BaseResponseDTO<CredentialsDto>.self)

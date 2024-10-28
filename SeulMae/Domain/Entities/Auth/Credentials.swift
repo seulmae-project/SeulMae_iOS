@@ -8,8 +8,15 @@
 import Foundation
 
 struct Credentials {
-    
     let token: Token
     let role: String
     let workplace: [Workplace]
+
+    var isGuest: Bool {
+        role == "GUEST"
+    }
+
+    var defaultWorkplaceId: Int? {
+        UserDefaults.standard.integer(forKey: "defaultWorkplace")
+    }
 }

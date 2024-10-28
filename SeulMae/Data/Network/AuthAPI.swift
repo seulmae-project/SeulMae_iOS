@@ -46,7 +46,7 @@ enum AuthAPI: SugarTargetType {
     case sendSMSCode(type: String, phoneNumber: String, accountId: String?)
     case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationItem)
     case verifyAccountId(_ accountId: String)
-    case signin(accountId: String, password: String, fcmToken: String)
+    case signin(accountId: String, password: String, fcmToken: String?)
     case socialLogin(type: String, token: String, fcmToken: String?)
     case signout
     case updatePassword(accountId: String, password: String)
@@ -134,7 +134,7 @@ extension AuthAPI {
                 parameters: [
                     "accountId": accountId,
                     "password": password,
-                    "fcmToken": fcmToken
+                    "fcmToken": fcmToken ?? ""
                 ],
                 encoding: JSONEncoding.prettyPrinted)
         case let .socialLogin(type: type, token: token, fcmToken: fcmToken):

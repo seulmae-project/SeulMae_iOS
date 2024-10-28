@@ -90,10 +90,7 @@ final class PlaceFinderViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        output.loading
-            .drive(with: self, onNext: { (self, loading) in
-                self.loadingIndicator.ext.bind(loading)
-            })
+        output.loading.drive(loading)
             .disposed(by: disposeBag)
     }
     
@@ -102,7 +99,7 @@ final class PlaceFinderViewController: BaseViewController {
     private func configureNavItem() {
         navigationItem.rightBarButtonItem = rightBellBarButton
         navigationItem.leftBarButtonItem = leftMenuBarButton
-        let iconImageView: UIImageView = .common(image: .seulmae)
+        let iconImageView: UIImageView = .common(image: .signinAppIcon)
         // TODO: add action to icon image view
         navigationItem.titleView = iconImageView
     }

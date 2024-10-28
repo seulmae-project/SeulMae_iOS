@@ -15,7 +15,7 @@ class TextInputFormView: UIView {
     convenience init(title: String, placeholder: String) {
         self.init(frame: .zero)
         label.text = title
-        textField.ext.setPlaceholder(placeholder)
+        textField.ext.placeholder(placeholder)
     }
 
     override init(frame: CGRect) {

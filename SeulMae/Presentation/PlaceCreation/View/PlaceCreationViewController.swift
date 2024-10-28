@@ -120,10 +120,7 @@ final class PlaceCreationViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        output.loading
-            .drive(with: self, onNext: { (self, loading) in
-                self.loadingIndicator.ext.bind(loading)
-            })
+        output.loading.drive(loading)
             .disposed(by: disposeBag)
     }
 

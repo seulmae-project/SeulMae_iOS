@@ -7,10 +7,6 @@
 
 import UIKit
 
-
-
-
-
 extension Ext where ExtendedType == UIButton {
     static func config(font: UIFont, color: UIColor) -> UIButton {
         let button = UIButton()
@@ -19,15 +15,11 @@ extension Ext where ExtendedType == UIButton {
         return button
     }
 
-    static func image(_ image: UIImage,
-                      width: CGFloat = 44,
-                      height: CGFloat = 44) -> UIButton {
+    static func image(_ image: UIImage) -> UIButton {
         let button = UIButton()
         button.setImage(image, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
-        button.widthAnchor.constraint(equalToConstant: width).isActive = true
-        button.heightAnchor.constraint(equalToConstant: height).isActive = true
         return button
     }
 
@@ -41,6 +33,19 @@ extension Ext where ExtendedType == UIButton {
         button.layer.cornerCurve = .continuous
         button.heightAnchor.constraint(equalToConstant: 52).isActive = true
         return button
+    }
+
+    static func text(_ title: String) -> UIButton {
+        let button = UIButton()
+        button.setTitle(title, for: .normal)
+        button.setTitleColor(.label, for: .normal)
+        return button
+    }
+
+    @discardableResult
+    func font(_ font: UIFont) -> UIButton {
+        type.titleLabel?.font = .pretendard(size: 12, weight: .regular)
+        return type
     }
 
     static func small(title: String, font: UIFont = .pretendard(size: 16, weight: .bold)) -> UIButton {
