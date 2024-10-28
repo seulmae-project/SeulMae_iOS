@@ -74,6 +74,7 @@ final class SigninViewModel: ViewModel {
                     .trackActivity(tracker)
                     .asDriver { error in
                         Swift.print("error: \(error)")
+                        DefaultWireframe.presentAlert("아이디와 패스워드를 확인해주세요")
                         return .empty()
                     }
             }

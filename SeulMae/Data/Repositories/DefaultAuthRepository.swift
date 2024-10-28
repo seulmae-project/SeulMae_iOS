@@ -28,14 +28,14 @@ class DefaultAuthRepository: AuthRepository {
         return network.rx
             .request(.signin(accountId: account, password: password, fcmToken: fcmToken))
             .map(BaseResponseDTO<CredentialsDto>.self)
-            .map { $0.toDomain() }
+            .map { try $0.toDomain() }
     }
     
     func socialSignin(type: SocialSigninType, token: String, fcmToken: String?) -> Single<Credentials> {
         return network.rx
             .request(.socialLogin(type: type.provider, token: token, fcmToken: nil))
             .map(BaseResponseDTO<CredentialsDto>.self)
-            .map { $0.toDomain() }
+            .map { try $0.toDomain() }
     }
     
     // MARK: - Signup

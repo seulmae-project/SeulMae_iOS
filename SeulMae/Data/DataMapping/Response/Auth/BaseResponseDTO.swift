@@ -36,4 +36,13 @@ struct BaseResponseDTO<Data: Codable>: ModelType {
         let successCodes = [200, 201]
         return successCodes.contains(status)
     }
+
+    func getData() throws -> Data {
+        guard let data else { throw APIError.empty(code: status) }
+        return data
+    }
+
+    enum APIError: Error {
+        case empty(code: Int?)
+    }
 }

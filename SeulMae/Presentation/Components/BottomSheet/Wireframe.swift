@@ -66,7 +66,7 @@ class DefaultWireframe: Wireframe {
 
     static func presentAlert(_ message: String) {
         #if os(iOS)
-            let alertView = UIAlertController(title: "", message: message, preferredStyle: .alert)
+            let alertView = UIAlertController(title: "알림", message: message, preferredStyle: .alert)
             alertView.addAction(UIAlertAction(title: "확인", style: .cancel) { _ in
             })
             rootViewController().present(alertView, animated: true, completion: nil)

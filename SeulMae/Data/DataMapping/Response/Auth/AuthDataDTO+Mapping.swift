@@ -28,12 +28,8 @@ struct CredentialsDto: ModelType {
 // MARK: - Mappings To Domain
 
 extension BaseResponseDTO<CredentialsDto> {
-    func toDomain() -> Credentials {
-        return data!.toDomain()
-//        error = "Internal Server Error";
-//        path = "/api/users/social-login";
-//        status = 500;
-//        timestamp = "2024-09-29T05:54:15.205+00:00";
+    func toDomain() throws -> Credentials {
+        return try getData().toDomain()
     }
 }
 
