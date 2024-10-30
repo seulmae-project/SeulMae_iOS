@@ -106,7 +106,7 @@ final class UserHomeViewController: BaseViewController {
 
         // Handle loading animations
         output.loading
-            .drive(loading)
+            .drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
     }
 

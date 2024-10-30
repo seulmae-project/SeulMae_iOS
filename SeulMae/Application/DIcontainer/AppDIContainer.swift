@@ -22,8 +22,10 @@ final class AppDIContainer {
     func makeAuthSceneDIContainer() -> AuthSceneDIContainer {
         return .init(
             dependencies: .init(
-                authNetworking: authNetworking
-            ))
+                authNetworking: authNetworking,
+                userNetworking: userNetworking
+            )
+        )
     }
     
     func makeTabBarSceneDIContainer() -> TabBarSceneDIContainer {

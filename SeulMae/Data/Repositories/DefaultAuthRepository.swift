@@ -85,16 +85,16 @@ class DefaultAuthRepository: AuthRepository {
     
     // MARK: - Common
     
-    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool> {
+    func sendSMSCode(type: String, name: String, phoneNumber: String) -> RxSwift.Single<Bool> {
         return network.rx
-            .request(.sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId))
+            .request(.sendSMSCode(type: type, name: name, phoneNumber: phoneNumber))
             .map(Bool.self, atKeyPath: "data.isSuccess")
     }
     
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {
         Swift.print(#function, "SMS Verification Code: \(code)")
         return network.rx
-            .request(.verifySMSCode(phoneNumber: phoneNumber, code: code, item: .accountRecovery))
+            .request(.verifySMSCode(phoneNumber: phoneNumber, code: code, item: .idRecovery))
             .do(onSuccess: { response in
                 Swift.print("response: \(try response.mapString())")
             }, onError: { error in

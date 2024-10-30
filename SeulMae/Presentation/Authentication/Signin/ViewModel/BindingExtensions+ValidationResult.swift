@@ -51,7 +51,6 @@ extension Reactive where Base: UILabel {
     }
 }
 
-extension UILabel: Extended {}
 extension Ext where ExtendedType == UILabel {
     func setResult(_ result: ValidationResult) {
         type.textColor = result.textColor
@@ -59,10 +58,3 @@ extension Ext where ExtendedType == UILabel {
     }
 }
 
-extension Ext where ExtendedType == UIButton {
-    func setEnabled(_ isEnabled: Bool) {
-        type.isEnabled = isEnabled
-        type.backgroundColor = isEnabled ? .primary : .cloudy
-        type.setTitleColor(isEnabled ? .cloudy : .graphite, for: .normal)
-    }
-}

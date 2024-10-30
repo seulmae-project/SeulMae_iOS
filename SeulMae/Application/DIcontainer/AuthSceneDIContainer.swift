@@ -8,9 +8,9 @@
 import UIKit
 
 final class AuthSceneDIContainer {
-    
     struct Dependencies {
         let authNetworking: AuthNetworking
+        let userNetworking: UserNetworking
     }
     
     private let dependencies: Dependencies
@@ -19,19 +19,37 @@ final class AuthSceneDIContainer {
         self.dependencies = dependencies
     }
     
-    // MARK: - Private
-    
+    // MARK: - Private Methods
+
     private func makeAuthUseCase() -> AuthUseCase {
         return DefaultAuthUseCase(
-            authRepository: makeAuthRepository(),
-            workplaceRepository: makeWorkplaceRepository()
+            dependencies: (
+                authRepository: makeAuthRepository(),
+                userRepository: makeUserRepository(),
+                workplaceRepository: makeWorkplaceRepository()
+            )
         )
     }
-    
+
+    private func makeWorkplaceUseCase() -> WorkplaceUseCase {
+        return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
+    }
+
     private func makeAuthRepository() -> AuthRepository {
         return DefaultAuthRepository(network: dependencies.authNetworking)
     }
-    
+
+    private func makeUserRepository() -> UserRepository {
+        return UserRepository(network: dependencies.userNetworking)
+    }
+
+    private func makeWorkplaceRepository() -> WorkplaceRepository {
+        return DefaultWorkplaceRepository(
+            network: WorkplaceNetworking(),
+            storage: SQLiteWorkplaceStorage()
+        )
+    }
+
     // MARK: - Coordinator
     
     func makeAuthFlowCoordinator(
@@ -50,26 +68,31 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     
     func makeSMSValidationViewController(
         coordinator: any AuthFlowCoordinator,
-        item: SMSVerificationItem
+        item: SMSVerificationType
     ) -> SMSVerificationViewController {
-        return .create(viewModel: makeSMSValidationViewModel(coordinator: coordinator, item: item))
-    }
-    
-    private func makeSMSValidationViewModel(
-        coordinator: AuthFlowCoordinator,
-        item: SMSVerificationItem
-    ) -> SMSVerificationViewModel {
-        return SMSVerificationViewModel(
-            dependency: (
-                coordinator: coordinator,
-                authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService.shared,
-                wireframe: DefaultWireframe(),
-                item: item
+        return .init(
+            viewModel: makeSMSValidationViewModel(
+                coordinator: coordinator, item: item
             )
         )
     }
     
+    private func makeSMSValidationViewModel(
+        coordinator: AuthFlowCoordinator,
+        item: SMSVerificationType
+    ) -> SMSVerificationViewModel {
+        return SMSVerificationViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe(),
+                type: item
+            )
+        )
+    }
+    
+
     func makeCompletionViewController(
         coordinator: any AuthFlowCoordinator,
         item: CompletionItem
@@ -110,18 +133,7 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
             )
         )
     }
-    
-    func makeWorkplaceUseCase() -> WorkplaceUseCase {
-        return DefaultWorkplaceUseCase(workplaceRepository: makeWorkplaceRepository())
-    }
-    
-    private func makeWorkplaceRepository() -> WorkplaceRepository {
-        return DefaultWorkplaceRepository(
-            network: WorkplaceNetworking(),
-            storage: SQLiteWorkplaceStorage()
-        )
-    }
-    
+
     // MARK: - Signup Flow
     
     func makeAccountSetupViewController(

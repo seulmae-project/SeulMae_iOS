@@ -10,6 +10,12 @@ import UIKit
 extension UIView: Extended {}
 extension Ext where ExtendedType: UIView {
     @discardableResult
+    func frame(width: Int, height: Int) -> ExtendedType {
+        type.frame = CGRect(x: 0, y: 0, width: width, height: height)
+        return type
+    }
+
+    @discardableResult
     func size(width: CGFloat? = nil, height: CGFloat? = nil) -> ExtendedType {
         if let width {
             type.widthAnchor.constraint(equalToConstant: width).isActive = true

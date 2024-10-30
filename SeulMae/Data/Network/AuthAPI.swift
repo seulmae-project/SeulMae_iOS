@@ -10,12 +10,7 @@ import Moya
 
 typealias AuthNetworking = MoyaProvider<AuthAPI>
 
-enum SMSVerificationType {
-    case signUp
-    case findAccountId
-    case findPaswword
-    case changePhoneNumber
-}
+
 
 enum SocialSigninType {
     case kakao
@@ -43,8 +38,8 @@ struct SupplementaryProfileInfoDTO: ModelType {
 
 enum AuthAPI: SugarTargetType {
     case signup(request: SignupRequest, file: Data)
-    case sendSMSCode(type: String, phoneNumber: String, accountId: String?)
-    case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationItem)
+    case sendSMSCode(type: String, name: String, phoneNumber: String)
+    case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationType)
     case verifyAccountId(_ accountId: String)
     case signin(accountId: String, password: String, fcmToken: String?)
     case socialLogin(type: String, token: String, fcmToken: String?)
@@ -107,18 +102,18 @@ extension AuthAPI {
                         name: "userSignUpDto",
                         mimeType: "application/json"),
                 ])
-        case let .sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId):
+        case let .sendSMSCode(type: type, name: name, phoneNumber: phoneNumber):
             return .requestParameters(
                 parameters: [
                     "sendingType": type,
-                    "phoneNumber": phoneNumber,
-                    "accountId": accountId ?? ""
+                    "name": name,
+                    "phoneNumber": phoneNumber
                 ],
                 encoding: JSONEncoding.prettyPrinted)
         case let .verifySMSCode(phoneNumber: phoneNumber, code: code, item: item):
             return .requestParameters(
                 parameters: [
-                    "sendingType": item.smsVerificationType,
+                    "sendingType": item.sendingType,
                     "phoneNumber": phoneNumber,
                     "authCode": code
                 ],

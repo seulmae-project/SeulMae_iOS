@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 extension Ext where ExtendedType == UIButton {
     static func config(font: UIFont, color: UIColor) -> UIButton {
@@ -20,6 +22,7 @@ extension Ext where ExtendedType == UIButton {
         button.setImage(image, for: .normal)
         button.contentVerticalAlignment = .fill
         button.contentHorizontalAlignment = .fill
+        button.adjustsImageWhenHighlighted = false
         return button
     }
 
@@ -60,5 +63,22 @@ extension Ext where ExtendedType == UIButton {
         let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         button.contentEdgeInsets = insets
         return button
+    }
+
+    // will delete
+    func setEnabled(_ isEnabled: Bool) {
+        type.isEnabled = isEnabled
+        type.backgroundColor = isEnabled ? .primary : .cloudy
+        type.setTitleColor(isEnabled ? .cloudy : .graphite, for: .normal)
+    }
+
+    // MARK: - RxCocoa Binder
+
+    var isEnabled: Binder<Bool> {
+        Binder<Bool>(type, binding: { button, isEnabled in
+            button.isEnabled = isEnabled
+            button.backgroundColor = isEnabled ? .primary : .cloudy
+            button.setTitleColor(isEnabled ? .cloudy : .graphite, for: .normal)
+        })
     }
 }

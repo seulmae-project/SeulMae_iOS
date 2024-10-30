@@ -17,15 +17,21 @@ final class SigninViewController: BaseViewController {
     private let appIconImageView = UIImageView.ext.common(.signinAppIcon)
         .ext.size(width: 60, height: 37)
 
-    private let idTextField = UITextField.ext.common()
+    private let idTextFieldRightView = UIButton.ext.image(.idIconUnSelected)
+        .ext.frame(width: 28, height: 28)
+    private lazy var idTextField = UITextField.ext.tf()
         .ext.backgroundColor("F2F5FF")
         .ext.font(.pretendard(size: 16, weight: .regular))
-        .ext.placeholder("아이디를 입력해주세요", color: .ext.hex("CAD1EA"))
+        .ext.placeholder("아이디를 입력해주세요", textColor: .ext.hex("CAD1EA"))
+        .ext.rightView(idTextFieldRightView)
 
-    private let pwTextField = UITextField.ext.common()
+    private let pwTextFieldRightView = UIButton.ext.image(.pwIconUnSelected)
+        .ext.frame(width: 28, height: 28)
+    private lazy var pwTextField = UITextField.ext.tf()
         .ext.backgroundColor("F2F5FF")
         .ext.font(.pretendard(size: 16, weight: .regular))
-        .ext.placeholder("비밀번호를 입력해주세요", color: .ext.hex("CAD1EA"))
+        .ext.placeholder("비밀번호를 입력해주세요", textColor: .ext.hex("CAD1EA"))
+        .ext.rightView(pwTextFieldRightView)
 
     private let signInButton = UIButton.ext.common(title: "로그인")
     private let idRecoveryButton = UIButton.ext.text("아이디 찾기")
@@ -101,7 +107,7 @@ final class SigninViewController: BaseViewController {
             )
         )
 
-        output.loading.drive(loading)
+        output.loading.drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
     }
     

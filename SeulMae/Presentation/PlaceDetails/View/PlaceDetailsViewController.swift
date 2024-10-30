@@ -110,7 +110,7 @@ final class PlaceDetailsViewController: BaseViewController {
         )
         
         // handle loading
-        output.loading.drive(loading)
+        output.loading.drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
         
         // Handle workplace details information

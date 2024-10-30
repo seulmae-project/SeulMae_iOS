@@ -109,11 +109,11 @@ final class SigninViewModel: ViewModel {
 
         // Merge id, pw recovery events
         let idRecovery = input.idRecovery
-            .map { _ in SMSVerificationItem.accountRecovery }
+            .map { _ in SMSVerificationType.idRecovery }
         let pwRecovery = input.pwRecovery
-            .map { _ in SMSVerificationItem.passwordRecovery(account: "") }
+            .map { _ in SMSVerificationType.pwRecovery }
         let signup = input.signup
-            .map { _ in SMSVerificationItem.signup }
+            .map { _ in SMSVerificationType.signUp }
         let smsVerificationType = Signal.merge(idRecovery, pwRecovery, signup)
 
         // MARK: - Coordinator Methods

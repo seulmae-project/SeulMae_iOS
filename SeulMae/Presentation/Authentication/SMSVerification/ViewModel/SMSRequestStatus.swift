@@ -8,7 +8,6 @@
 import Foundation
 
 enum SMSRequestStatus {
-    case pending
     case request
     case reRequest
     case invalid

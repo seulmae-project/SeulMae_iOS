@@ -47,7 +47,7 @@
 		86102E532C621F05009FF522 /* Secrets.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = 86102E522C621F05009FF522 /* Secrets.xcconfig */; };
 		86102E552C621F3F009FF522 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 86102E542C621F3F009FF522 /* .gitignore */; };
 		86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86102E562C6220DE009FF522 /* Bundle+Secrets.swift */; };
-		86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */; };
+		86112E502C2E8D77005DEBD1 /* SMSVerificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E4F2C2E8D77005DEBD1 /* SMSVerificationType.swift */; };
 		86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E512C2E8F40005DEBD1 /* CompletionItem.swift */; };
 		86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */; };
 		861869362CCCFF1C00ED3C29 /* PlaceFinderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861869352CCCFF1C00ED3C29 /* PlaceFinderSection.swift */; };
@@ -121,6 +121,8 @@
 		864A5E7D2C834D5100D7B0EF /* AnnounceItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 864A5E7C2C834D5100D7B0EF /* AnnounceItem.swift */; };
 		8653918C2C62243300567EE0 /* RxKakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918B2C62243300567EE0 /* RxKakaoSDK */; };
 		8653918F2C62244400567EE0 /* KakaoSDK in Frameworks */ = {isa = PBXBuildFile; productRef = 8653918E2C62244400567EE0 /* KakaoSDK */; };
+		86549F742CD12EE100798FC2 /* UIActivityIndicatorView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86549F732CD12EE100798FC2 /* UIActivityIndicatorView+Ext.swift */; };
+		86549F762CD1328300798FC2 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86549F752CD1328300798FC2 /* String+Ext.swift */; };
 		8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */; };
 		8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */; };
 		8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */; };
@@ -197,7 +199,6 @@
 		869358C52C7367F300B2436E /* TokenStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C42C7367F300B2436E /* TokenStorage.swift */; };
 		869358C82C73688F00B2436E /* SQLiteWorkplaceStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */; };
 		86939DF52CAEF80800E03707 /* JoinApplicationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DF42CAEF80800E03707 /* JoinApplicationViewController.swift */; };
-		86939DF72CB0212C00E03707 /* String+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DF62CB0212C00E03707 /* String+Ext.swift */; };
 		86939DF92CB1139100E03707 /* SignupType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DF82CB1139100E03707 /* SignupType.swift */; };
 		86939DFE2CB1555900E03707 /* UIDatePicker+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DFD2CB1555900E03707 /* UIDatePicker+Ext.swift */; };
 		86939E002CB1570F00E03707 /* UITextView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86939DFF2CB1570F00E03707 /* UITextView+Ext.swift */; };
@@ -426,7 +427,7 @@
 		86102E522C621F05009FF522 /* Secrets.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; path = Secrets.xcconfig; sourceTree = "<group>"; };
 		86102E542C621F3F009FF522 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		86102E562C6220DE009FF522 /* Bundle+Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Secrets.swift"; sourceTree = "<group>"; };
-		86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationItem.swift; sourceTree = "<group>"; };
+		86112E4F2C2E8D77005DEBD1 /* SMSVerificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationType.swift; sourceTree = "<group>"; };
 		86112E512C2E8F40005DEBD1 /* CompletionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionItem.swift; sourceTree = "<group>"; };
 		86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerificationViewController.swift; sourceTree = "<group>"; };
 		861869352CCCFF1C00ED3C29 /* PlaceFinderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFinderSection.swift; sourceTree = "<group>"; };
@@ -496,6 +497,8 @@
 		864A5E782C83490E00D7B0EF /* AnnounceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceViewController.swift; sourceTree = "<group>"; };
 		864A5E7A2C83491D00D7B0EF /* AnnounceViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceViewModel.swift; sourceTree = "<group>"; };
 		864A5E7C2C834D5100D7B0EF /* AnnounceItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnnounceItem.swift; sourceTree = "<group>"; };
+		86549F732CD12EE100798FC2 /* UIActivityIndicatorView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIActivityIndicatorView+Ext.swift"; sourceTree = "<group>"; };
+		86549F752CD1328300798FC2 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		8658A29A2C68B4AC00F15C0B /* DateSelectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSelectView.swift; sourceTree = "<group>"; };
 		8658A29C2C68B87A00F15C0B /* DatePickerModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerModalViewController.swift; sourceTree = "<group>"; };
 		8658A29E2C68B9DA00F15C0B /* DatePickerKind.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatePickerKind.swift; sourceTree = "<group>"; };
@@ -570,7 +573,6 @@
 		869358C42C7367F300B2436E /* TokenStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TokenStorage.swift; sourceTree = "<group>"; };
 		869358C72C73688F00B2436E /* SQLiteWorkplaceStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SQLiteWorkplaceStorage.swift; sourceTree = "<group>"; };
 		86939DF42CAEF80800E03707 /* JoinApplicationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplicationViewController.swift; sourceTree = "<group>"; };
-		86939DF62CB0212C00E03707 /* String+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Ext.swift"; sourceTree = "<group>"; };
 		86939DF82CB1139100E03707 /* SignupType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupType.swift; sourceTree = "<group>"; };
 		86939DFD2CB1555900E03707 /* UIDatePicker+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDatePicker+Ext.swift"; sourceTree = "<group>"; };
 		86939DFF2CB1570F00E03707 /* UITextView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextView+Ext.swift"; sourceTree = "<group>"; };
@@ -1010,14 +1012,6 @@
 			path = Announce;
 			sourceTree = "<group>";
 		};
-		861BF6902C27237700702E24 /* RemainingTimeView */ = {
-			isa = PBXGroup;
-			children = (
-				861BF6912C2723C800702E24 /* RemainingTimer.swift */,
-			);
-			path = RemainingTimeView;
-			sourceTree = "<group>";
-		};
 		861BF6932C273FB100702E24 /* ToastView */ = {
 			isa = PBXGroup;
 			children = (
@@ -1390,6 +1384,7 @@
 			isa = PBXGroup;
 			children = (
 				86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */,
+				861BF6912C2723C800702E24 /* RemainingTimer.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1398,7 +1393,7 @@
 			isa = PBXGroup;
 			children = (
 				86766D092C1837CA00095010 /* SMSVerificationViewModel.swift */,
-				86112E4F2C2E8D77005DEBD1 /* SMSVerificationItem.swift */,
+				86112E4F2C2E8D77005DEBD1 /* SMSVerificationType.swift */,
 				868F37CB2C6350AA00A0A440 /* SMSRequestStatus.swift */,
 			);
 			path = ViewModel;
@@ -1421,7 +1416,6 @@
 			isa = PBXGroup;
 			children = (
 				86B07D822C3293EB0088E1B1 /* UIContentConfiguration+Stateless.swift */,
-				86939DF62CB0212C00E03707 /* String+Ext.swift */,
 				86E299E32C1726C200805AD0 /* Componet+SeulMae.swift */,
 				86939DFD2CB1555900E03707 /* UIDatePicker+Ext.swift */,
 				86939DFF2CB1570F00E03707 /* UITextView+Ext.swift */,
@@ -1432,7 +1426,6 @@
 				864415612C6DF2E800295838 /* UIFont+Pretendard.swift */,
 				869C7A772C6F08E6008EB7ED /* Data+String.swift */,
 				86FD61F72C8D26C8005ED02F /* UIImage+Size.swift */,
-				865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */,
 				868E681D2CC51F1800CEC0F3 /* Ext+ */,
 			);
 			path = Utils;
@@ -1682,7 +1675,9 @@
 			children = (
 				86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */,
 				868E681B2CC51F1000CEC0F3 /* UITextField+Ext.swift */,
+				86549F732CD12EE100798FC2 /* UIActivityIndicatorView+Ext.swift */,
 				868E68282CC947F000CEC0F3 /* UIButton+Ext.swift */,
+				865AA2002CA9735A00D70B09 /* UILabel+Ext.swift */,
 				86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */,
 				86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */,
 				86803EC22CCE2F2400926A09 /* UICollectionView+Ext.swift */,
@@ -1704,6 +1699,7 @@
 		868E68202CC532F700CEC0F3 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				86549F752CD1328300798FC2 /* String+Ext.swift */,
 				86939E032CB42ABB00E03707 /* UIColor+Ext.swift */,
 				868E68212CC5331400CEC0F3 /* NSDirectionalEdgeInsets+Ext.swift */,
 			);
@@ -2020,7 +2016,6 @@
 				8658A2982C68B47100F15C0B /* DateSelectView */,
 				8684C5B32C4A06B000EB3D28 /* SilderView */,
 				861BF6932C273FB100702E24 /* ToastView */,
-				861BF6902C27237700702E24 /* RemainingTimeView */,
 				861B968A2C2022520032C94A /* BottomSheet */,
 				86DE555A2C18B704009CC520 /* RadiioButton */,
 				8606F67C2C3315C900FFC68E /* CalendarView */,
@@ -2183,10 +2178,10 @@
 			isa = PBXGroup;
 			children = (
 				86E299D82C17221800805AD0 /* Signin */,
+				86766D022C1830DD00095010 /* SMSVerification */,
 				863D60422C74BD8100F9388C /* AccountRecoveryOption */,
 				86E299D92C17227600805AD0 /* Signup */,
 				86DE556A2C19E77D009CC520 /* AccountRecovery */,
-				86766D022C1830DD00095010 /* SMSVerification */,
 				86766D0E2C1838A600095010 /* AccountSetup */,
 				86766D1A2C1842A200095010 /* Completion */,
 			);
@@ -2588,6 +2583,7 @@
 				866EA3432C4A7D31003159F9 /* MemberInfoViewModel.swift in Sources */,
 				86B07D872C32A05D0088E1B1 /* CalendarControl.swift in Sources */,
 				864A5E792C83490E00D7B0EF /* AnnounceViewController.swift in Sources */,
+				86549F742CD12EE100798FC2 /* UIActivityIndicatorView+Ext.swift in Sources */,
 				861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */,
 				86DB32E72C9BB52400575A03 /* ManagerHomeViewModel.swift in Sources */,
 				861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */,
@@ -2637,7 +2633,6 @@
 				861C31D32C1C13A9007DD6B9 /* ViewModel.swift in Sources */,
 				861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */,
 				869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */,
-				86939DF72CB0212C00E03707 /* String+Ext.swift in Sources */,
 				861BF68A2C27084000702E24 /* NotificationRepository.swift in Sources */,
 				861C31D22C1C13A9007DD6B9 /* ModelType.swift in Sources */,
 				8684C5B72C4A079900EB3D28 /* PageControl.swift in Sources */,
@@ -2656,6 +2651,7 @@
 				86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */,
 				86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */,
 				864415572C6D02A300295838 /* PlaceFinderViewController.swift in Sources */,
+				86549F762CD1328300798FC2 /* String+Ext.swift in Sources */,
 				864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */,
 				86DB32CF2C9A995C00575A03 /* NetwrokLogger.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
@@ -2744,7 +2740,7 @@
 				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,
 				86E299E02C1722E200805AD0 /* CompletionViewController.swift in Sources */,
 				86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */,
-				86112E502C2E8D77005DEBD1 /* SMSVerificationItem.swift in Sources */,
+				86112E502C2E8D77005DEBD1 /* SMSVerificationType.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
 				8624EA9A2CAEBBD7008A8D22 /* MangerHomeItem.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,

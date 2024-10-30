@@ -25,6 +25,19 @@ extension Ext where ExtendedType == UILabel {
         return label
     }
 
+    @discardableResult
+    func highlight(font: UIFont, textColor: String, words: String...) -> ExtendedType {
+        let fullText = type.text ?? ""
+        let attributed = NSMutableAttributedString(string: fullText)
+        for word in words {
+            let range = (fullText as NSString).range(of: word)
+            attributed.addAttribute(.font, value: font, range: range)
+            attributed.addAttribute(.foregroundColor, value: UIColor.ext.hex(textColor), range: range)
+        }
+        type.attributedText = attributed
+        return type
+    }
+
     func setText(_ text: String,
                  size: CGFloat,
                  weight: UIFont.PretendardWeight,

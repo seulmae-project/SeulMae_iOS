@@ -108,7 +108,7 @@ final class ManagerHomeViewController: BaseViewController {
             }
         }
         
-        output.loading.drive(loading)
+        output.loading.drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
     }
     

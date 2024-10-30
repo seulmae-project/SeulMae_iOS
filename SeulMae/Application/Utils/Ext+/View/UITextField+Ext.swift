@@ -29,15 +29,25 @@ extension Ext where ExtendedType == UITextField {
     }
 
     @discardableResult
-    func placeholder(_ placeholder: String, color: UIColor = .secondaryLabel) -> UITextField {
+    func placeholder(_ placeholder: String, textColor: UIColor = .secondaryLabel) -> ExtendedType {
         let font = type.font ?? .pretendard(size: 16, weight: .regular)
         let attrString = NSAttributedString(
            string: placeholder,
            attributes: [
                .font: font,
-               .foregroundColor: color,
+               .foregroundColor: textColor,
            ])
         type.attributedPlaceholder = attrString
+        return type
+    }
+
+    @discardableResult
+    func rightView(_ view: UIView) -> ExtendedType {
+        let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 48, height: 48))
+        paddingView.addSubview(view)
+        view.center = paddingView.center
+        type.rightView = paddingView
+        type.rightViewMode = .always
         return type
     }
 
@@ -51,7 +61,7 @@ extension Ext where ExtendedType == UITextField {
         }
     }
 
-    static func common(
+    static func tf(
         placeholder: String = "",
         size: CGFloat = 15,
         weight: UIFont.PretendardWeight = .regular,
@@ -73,6 +83,13 @@ extension Ext where ExtendedType == UITextField {
         tf.offBackgroundColor = backgroundColor
         return tf
     }
+    
+    @discardableResult
+    func tel() -> ExtendedType {
+        type.textContentType = .telephoneNumber
+        type.keyboardType = .phonePad
+        return type
+    }
 
 //    @discardableResult
 //    func style(onBorderColor: String, onBorderWidth: String, offBorderColor: String, of) -> UITextField {
@@ -90,7 +107,7 @@ extension Ext where ExtendedType == UITextField {
         weight: UIFont.PretendardWeight = .regular,
         backgroundColor: UIColor = UIColor(hexCode: "CAD1EA")
     ) -> UITextField {
-        let tf = Ext.common()
+        let tf = Ext.tf()
         tf.isSecureTextEntry = true
 
         let showPasswordButton = UIButton(frame: CGRect(x: 0, y: 0, width: 24, height: 24))

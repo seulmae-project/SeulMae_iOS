@@ -84,7 +84,7 @@ final class PlaceSearchViewController: BaseViewController {
             })
             .disposed(by: disposeBag)
 
-        output.loading.drive(loading)
+        output.loading.drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
     }
     

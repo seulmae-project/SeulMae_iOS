@@ -22,20 +22,27 @@ protocol AuthUseCase {
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
     
     // Common
-    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool>
+    func sendSMSCode(type: SMSVerificationType, name: String, phoneNumber: String) -> RxSwift.Single<SMSRequestStatus>
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
-    
+
     func setupProfile(request: SupplementaryProfileInfoDTO, file: Data) -> Single<Bool> // in case social login
 }
 
 class DefaultAuthUseCase: AuthUseCase {
     private let authRepository: AuthRepository
     private let workplaceRepository: WorkplaceRepository
-    private let userRepository: UserRepository = UserRepository(network: UserNetworking())
-    
-    init(authRepository: AuthRepository, workplaceRepository: WorkplaceRepository) {
-        self.authRepository = authRepository
-        self.workplaceRepository = workplaceRepository
+    private let userRepository: UserRepository
+
+    init(
+        dependencies: (
+            authRepository: AuthRepository,
+            userRepository: UserRepository,
+            workplaceRepository: WorkplaceRepository
+        )
+    ) {
+        self.authRepository = dependencies.authRepository
+        self.userRepository = dependencies.userRepository
+        self.workplaceRepository = dependencies.workplaceRepository
     }
 
     func signin(accountId: String, password: String) -> RxSwift.Single<Credentials> {
@@ -88,10 +95,37 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.recoveryPassword(phoneNumber, newPassword)
     }
     
-    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> RxSwift.Single<Bool> {
-        return authRepository.sendSMSCode(type: type, phoneNumber: phoneNumber, accountId: accountId)
+    func sendSMSCode(type: SMSVerificationType, name: String, phoneNumber: String) -> RxSwift.Single<SMSRequestStatus> {
+        let logKey = "sendLogs"
+
+        let now = Date.ext.now.timeIntervalSince1970
+        let expiration = now - 1_800
+        var sendLogs = UserDefaults.standard.array(forKey: logKey) as? [TimeInterval] ?? []
+        let sendCount = sendLogs.filter { $0 >= expiration }.count
+        if (sendCount >= 3) {
+            return .just(.invalid)
+        }
+
+        sendLogs.append(now)
+        UserDefaults.standard.set(sendLogs, forKey: logKey)
+        return authRepository.sendSMSCode(type: type.sendingType, name: name, phoneNumber: phoneNumber)
+            .map { 
+                if $0 {
+                    return (sendCount == 0) ? .request : .reRequest
+                } else {
+                    return .invalid
+                }
+            }
     }
-    
+
+    func saveSendLog(_ logs: [Date]) {
+        let timestamps = logs.map { $0.timeIntervalSince1970 }
+        UserDefaults.standard.set(timestamps, forKey: "dateArray")
+    }
+
+
+
+
     func verifySMSCode(phoneNumber: String, code: String) -> RxSwift.Single<Bool> {
         authRepository.verifySMSCode(phoneNumber: phoneNumber, code: code)
     }

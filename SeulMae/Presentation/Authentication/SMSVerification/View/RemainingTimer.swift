@@ -14,21 +14,13 @@ class RemainingTimer: UILabel {
     var remainingTime: TimeInterval = 180
     var onFire: ((RemainingTimer) -> Void)?
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        onLoad()
-    }
-  
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    private func onLoad() {
+    convenience init() {
+        self.init(frame: .zero)
         self.textAlignment = .center
         self.font = .systemFont(ofSize: 14)
         self.textColor = .secondaryLabel
     }
-    
+
     deinit {
         self.stopTimer()
     }

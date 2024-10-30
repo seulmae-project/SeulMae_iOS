@@ -15,7 +15,7 @@ protocol AuthRepository {
     func signup(request: SignupRequest, file: Data) -> Single<Bool>
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
     func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
-    func sendSMSCode(type: String, phoneNumber: String, accountId: String?) -> Single<Bool>
+    func sendSMSCode(type: String, name: String, phoneNumber: String) -> Single<Bool>
     func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
     
     func supplementProfileInfo(profileInfoDTO: SupplementaryProfileInfoDTO, userImageData: Data) -> Single<Bool> // in case social login

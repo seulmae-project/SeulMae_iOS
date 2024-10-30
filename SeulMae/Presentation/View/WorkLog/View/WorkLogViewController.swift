@@ -205,7 +205,7 @@ final class WorkLogViewController: BaseViewController {
             }
         }
         
-        loading.drive(self.loading)
+        loading.drive(loadingIndicator.ext.isAnimating)
             .disposed(by: disposeBag)
     }
 }
