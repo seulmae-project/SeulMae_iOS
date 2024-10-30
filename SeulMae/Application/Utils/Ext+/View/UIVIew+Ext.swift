@@ -10,6 +10,20 @@ import UIKit
 extension UIView: Extended {}
 extension Ext where ExtendedType: UIView {
     @discardableResult
+    func padding(leading: CGFloat = 0, trailing: CGFloat = 0, top: CGFloat = 0, bottom: CGFloat = 0) -> UIView {
+        let paddingView = UIView()
+        paddingView.addSubview(type)
+        type.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            type.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor, constant: leading),
+            type.trailingAnchor.constraint(equalTo: paddingView.trailingAnchor, constant: trailing),
+            type.topAnchor.constraint(equalTo: paddingView.topAnchor, constant: top),
+            type.bottomAnchor.constraint(equalTo: paddingView.bottomAnchor, constant: bottom),
+        ])
+        return paddingView
+    }
+
+    @discardableResult
     func frame(width: Int, height: Int) -> ExtendedType {
         type.frame = CGRect(x: 0, y: 0, width: width, height: height)
         return type

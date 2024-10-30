@@ -7,6 +7,8 @@
 
 import UIKit
 import SnapKit
+import RxSwift
+import RxCocoa
 
 final class SMSVerificationViewController: BaseViewController {
 
@@ -14,32 +16,38 @@ final class SMSVerificationViewController: BaseViewController {
 
     private let titleLabel = UILabel.ext.config(font: .pretendard(size: 24, weight: .semibold))
     private let descriptionLabel = UILabel.ext.config(font: .pretendard(size: 13, weight: .regular))
-        .ext.highlight(font: .pretendard(size: 13, weight: .semibold), textColor: "4C71F5", words: "이름", "휴대폰 번호")
     private let usernameTextField = UITextField.ext.tf()
+        .ext.backgroundColor("F2F5FF")
         .ext.placeholder("이름을 입력해주세요")
     private let phoneNumberTextField = UITextField.ext.tf()
+        .ext.backgroundColor("F2F5FF")
         .ext.tel()
-        .ext.placeholder("인증번호를 입력해주세요")
+        .ext.placeholder("휴대폰 번호를 입력해주세요")
     private let sendSMSCodeButton = UIButton.ext.common(title: "인증번호 받기")
-    private let smsCodeLabel = UILabel.ext.config(font: .pretendard(size: 14, weight: .regular))
+
+    private let smsCodeStack = UIStackView()
+    private let smsCodeLabel = UILabel.ext.common("인증번호 입력", font: .pretendard(size: 14, weight: .regular))
     private let resendSMSCodeButton = UIButton.ext.small(title: "재전송")
+        .ext.font(.pretendard(size: 14, weight: .semibold))
         .ext.size(width: 72, height: 32)
+        .ext.config(textColor: .white, backgroundColor: .ext.hex("4C71F5"))
+
     private lazy var remainingTimer = RemainingTimer().then {
         $0.setRemainingTime(minutes: 3)
         $0.onFire = { [weak self] timer in
-            self?.resendSMSCodeButton.isHidden = false
+            self?.timeoutRelay.accept(true)
         }
     }
-    private let smsCodeTextField = UITextField.ext.tf()
+    private lazy var smsCodeTextField = UITextField.ext.tf()
+        .ext.backgroundColor("F2F5FF")
         .ext.placeholder("인증번호 6자리 입력")
-    
+
     private let verifySMSCodeButton = UIButton.ext.common(title: "인증번호 확인")
-
-
 
     // MARK: - Dependencies
 
     private var viewModel: SMSVerificationViewModel!
+    private var timeoutRelay = BehaviorRelay<Bool>(value: false)
 
     // MARK: - Life Cycle
 
@@ -83,6 +91,7 @@ final class SMSVerificationViewController: BaseViewController {
                 username: usernameTextField.rx.text.orEmpty.asDriver(),
                 phoneNumber: phoneNumber,
                 sendSMSCode: sendSMSCodeButton.rx.tap.asSignal(),
+                timeout: timeoutRelay.asDriver(),
                 smsCode: smsCode,
                 verifyCode: verifySMSCodeButton.rx.tap.asSignal()
             )
@@ -95,6 +104,7 @@ final class SMSVerificationViewController: BaseViewController {
             .drive(with: self, onNext: { (self, type) in
                 self.titleLabel.text = type.title
                 self.descriptionLabel.text = type.description
+                self.descriptionLabel.ext.highlight(font: .pretendard(size: 13, weight: .semibold), textColor: "4C71F5", words: "이름", "휴대폰 번호")
             })
         .disposed(by: disposeBag)
 
@@ -108,11 +118,18 @@ final class SMSVerificationViewController: BaseViewController {
 
         output.isSMSCodeSent
             .drive(with: self, onNext: { (self, result) in
+                if result.isSending {
+                    self.smsCodeStack.isHidden = false
+                    self.sendSMSCodeButton.isHidden = true
+                    self.remainingTimer.isHidden = false
+                    self.resendSMSCodeButton.isHidden = false
+                }
                 if result == .request {
                     self.remainingTimer.startTimer()
-                    self.sendSMSCodeButton.isHidden = true
+                    self.timeoutRelay.accept(false)
                 } else if result == .reRequest {
                     self.remainingTimer.resetTimer()
+                    self.timeoutRelay.accept(false)
                 }
             })
         .disposed(by: disposeBag)
@@ -127,10 +144,13 @@ final class SMSVerificationViewController: BaseViewController {
     private func configureHierarchy() {
         view.backgroundColor = .systemBackground
 
+        remainingTimer.isHidden = true
+        resendSMSCodeButton.isHidden = true
+
         let titleStack = UIStackView()
         titleStack.axis = .vertical
         titleStack.spacing = 8.0
-        [titleLabel, descriptionLabel]
+        [titleLabel.ext.padding(leading: 12), descriptionLabel.ext.padding(leading: 12)]
             .forEach(titleStack.addArrangedSubview(_:))
 
         let userInfoStack = UIStackView()
@@ -138,12 +158,13 @@ final class SMSVerificationViewController: BaseViewController {
         userInfoStack.spacing = 12
         [usernameTextField, phoneNumberTextField]
             .forEach(userInfoStack.addArrangedSubview(_:))
-
-        let smsCodeStack = UIStackView()
+        
+        smsCodeStack.isHidden = true
         smsCodeStack.axis = .vertical
-        [smsCodeLabel, smsCodeTextField, verifySMSCodeButton]
+        let padded = smsCodeLabel.ext.padding(leading: 12, top: 12)
+        [padded, smsCodeTextField, verifySMSCodeButton]
             .forEach(smsCodeStack.addArrangedSubview(_:))
-        smsCodeStack.setCustomSpacing(8.0, after: smsCodeStack)
+        smsCodeStack.setCustomSpacing(8.0, after: padded)
         smsCodeStack.setCustomSpacing(20, after: smsCodeTextField)
 
         let contentStack = UIStackView()
@@ -152,16 +173,24 @@ final class SMSVerificationViewController: BaseViewController {
             .forEach(contentStack.addArrangedSubview(_:))
         contentStack.setCustomSpacing(40, after: titleStack)
         contentStack.setCustomSpacing(20, after: userInfoStack)
-        contentStack.setCustomSpacing(12, after: sendSMSCodeButton)
 
-        view.addSubview(contentStack)
-        contentStack.translatesAutoresizingMaskIntoConstraints = false
+        let views = [contentStack, remainingTimer, resendSMSCodeButton]
+        views.forEach {
+            view.addSubview($0)
+            $0.translatesAutoresizingMaskIntoConstraints = false
+        }
 
         let insets = CGFloat(20)
         NSLayoutConstraint.activate([
             contentStack.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: insets),
             contentStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 58),
             contentStack.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+
+            resendSMSCodeButton.trailingAnchor.constraint(equalTo: smsCodeTextField.trailingAnchor, constant: -8.0),
+            resendSMSCodeButton.centerYAnchor.constraint(equalTo: smsCodeTextField.centerYAnchor),
+
+            remainingTimer.trailingAnchor.constraint(equalTo: resendSMSCodeButton.leadingAnchor, constant: -8.0),
+            remainingTimer.centerYAnchor.constraint(equalTo: resendSMSCodeButton.centerYAnchor),
         ])
     }
     

@@ -102,7 +102,7 @@ class DefaultAuthUseCase: AuthUseCase {
         let expiration = now - 1_800
         var sendLogs = UserDefaults.standard.array(forKey: logKey) as? [TimeInterval] ?? []
         let sendCount = sendLogs.filter { $0 >= expiration }.count
-        if (sendCount >= 3) {
+        if (sendCount >= 10) {
             return .just(.invalid)
         }
 

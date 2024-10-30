@@ -10,7 +10,7 @@ import UIKit
 extension Ext where ExtendedType == UILabel {
     static func common(_ text: String? = "", 
                        font: UIFont,
-                       textColor: UIColor) -> UILabel {
+                       textColor: UIColor = .label) -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = font
@@ -26,7 +26,7 @@ extension Ext where ExtendedType == UILabel {
     }
 
     @discardableResult
-    func highlight(font: UIFont, textColor: String, words: String...) -> ExtendedType {
+    func highlight(font: UIFont, textColor: String, words: String...) {
         let fullText = type.text ?? ""
         let attributed = NSMutableAttributedString(string: fullText)
         for word in words {
@@ -35,7 +35,6 @@ extension Ext where ExtendedType == UILabel {
             attributed.addAttribute(.foregroundColor, value: UIColor.ext.hex(textColor), range: range)
         }
         type.attributedText = attributed
-        return type
     }
 
     func setText(_ text: String,

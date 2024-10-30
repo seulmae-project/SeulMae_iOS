@@ -15,6 +15,7 @@ final class SMSVerificationViewModel: ViewModel {
         let username: Driver<String>
         let phoneNumber: Driver<String>
         let sendSMSCode: Signal<()>
+        let timeout: Driver<Bool>
         let smsCode: Driver<String>
         let verifyCode: Signal<()>
     }
@@ -82,8 +83,9 @@ final class SMSVerificationViewModel: ViewModel {
                     .sendSMSCode(type: self.type, name: pair.name, phoneNumber: pair.phoneNumber)
                     .trackActivity(tracker)
                     .flatMap { isSent in
-                        self.wireframe
-                            .promptFor("인증번호 재전송은 3번까지 가능합니다", cancelAction: "확인", actions: [])
+                        let message = isSent.isSending ? "인증번호가 전송되었습니다" : "인증번호 재전송은 3번까지 가능합니다"
+                        return self.wireframe
+                            .promptFor(message, cancelAction: "확인", actions: [])
                             .map { _ in isSent }
                     }
                     .asDriver()
@@ -94,8 +96,8 @@ final class SMSVerificationViewModel: ViewModel {
         
         let validatedCode = input.smsCode.map { $0.count == 6 }
         let verifySMSCodeEnabled = Driver.combineLatest(
-            isSent, validatedCode, loading) { isSent, code, loading in
-                isSent.isSending && code && !loading
+            isSent, validatedCode, loading, input.timeout) { isSent, code, loading, timeout in
+                isSent.isSending && code && !loading && !timeout
             }
             .distinctUntilChanged()
 

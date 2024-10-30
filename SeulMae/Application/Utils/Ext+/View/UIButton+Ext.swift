@@ -47,7 +47,14 @@ extension Ext where ExtendedType == UIButton {
 
     @discardableResult
     func font(_ font: UIFont) -> UIButton {
-        type.titleLabel?.font = .pretendard(size: 12, weight: .regular)
+        type.titleLabel?.font = font
+        return type
+    }
+
+    @discardableResult
+    func config(textColor: UIColor, backgroundColor: UIColor) -> UIButton {
+        type.setTitleColor(textColor, for: .normal)
+        type.backgroundColor = backgroundColor
         return type
     }
 
@@ -59,11 +66,12 @@ extension Ext where ExtendedType == UIButton {
         button.backgroundColor = UIColor(hexCode: "F2F5FF")
         button.layer.cornerRadius = 8.0
         button.layer.cornerCurve = .continuous
-        // button.heightAnchor.constraint(equalToConstant: 32).isActive = true
         let insets = UIEdgeInsets(top: 8.0, left: 8.0, bottom: 8.0, right: 8.0)
         button.contentEdgeInsets = insets
         return button
     }
+
+
 
     // will delete
     func setEnabled(_ isEnabled: Bool) {
