@@ -1,59 +1,61 @@
 //
-//  ManagerHomeViewModel.swift
+//  AttHistoriesViewModel.swift
 //  SeulMae
 //
-//  Created by 조기열 on 9/19/24.
+//  Created by 조기열 on 11/13/24.
 //
 
 import Foundation
 import RxSwift
 import RxCocoa
 
-final class ManagerHomeViewModel {
-    
+class AttHistoriesViewModel {
+
     // MARK: - Internal Types
-        
+
     struct Input {
         let onLoad: Signal<()>
         let onRefresh: Signal<()>
-        let showNotis: Signal<()>
-        let showDetails: Signal<()>
+        let onSearch: Signal<()>
+        let onFilter: Signal<()>
+        let showDetails: Signal<Int>
     }
-    
+
     struct Output {
         let loading: Driver<Bool>
         let workplaceInfo: Driver<Workplace>
-        let attendanceInfoList: Driver<[Attendance]>
-        let joinApplicationList: Driver<[JoinApplication]>
+        let attHistories: Driver<[AttendanceHistory]>
     }
-    
+
     // MARK: - Dependencies
-    
+
     private let coordinator: HomeFlowCoordinator
-    // private let userUseCase: UserUseCase
     private let workplaceUseCase: WorkplaceUseCase
     private let attendnaceUseCase: AttendanceUseCase
-        
-    // MARK: - Life Cycle
-    
+    private let attendnaceHistoryUseCase: AttendanceHistoryUseCase
+    private let workScheduleUseCase: WorkScheduleUseCase
+
+    // MARK: - Life Cycle Methods
+
     init(
         dependencies: (
             coordinator: HomeFlowCoordinator,
-            // userUseCase: UserUseCase,
             workplaceUseCase: WorkplaceUseCase,
-            attendnaceUseCase: AttendanceUseCase
+            attendnaceUseCase: AttendanceUseCase,
+            attendnaceHistoryUseCase: AttendanceHistoryUseCase,
+            workScheduleUseCase: WorkScheduleUseCase
         )
     ) {
         self.coordinator = dependencies.coordinator
-        // self.userUseCase = dependencies.userUseCase
         self.workplaceUseCase = dependencies.workplaceUseCase
         self.attendnaceUseCase = dependencies.attendnaceUseCase
+        self.attendnaceHistoryUseCase = dependencies.attendnaceHistoryUseCase
+        self.workScheduleUseCase = dependencies.workScheduleUseCase
     }
-    
+
     @MainActor func transform(_ input: Input) -> Output {
         let tracker = ActivityIndicator()
         let loading = tracker.asDriver()
-
         let onLoad = Signal.merge(input.onLoad, input.onRefresh)
 
         // fetch current workplace details
@@ -64,43 +66,22 @@ final class ManagerHomeViewModel {
                     .asDriver()
             }
 
-        // fetch attendance list
-        let attendance = onLoad
-            .withUnretained(self)
-            .flatMapLatest { (self, _) -> Driver<[Attendance]> in
-            return self.attendnaceUseCase
-                .fetchAttendanceRequsetList2(date: Date.ext.now)
-                .trackActivity(tracker)
-                .asDriver()
-        }
+        let today = onLoad.map { _ in Date.ext.now }
 
-        // fetch join application list
-        let application = onLoad
-            .withUnretained(self)
-            .flatMapLatest { (self, _) -> Driver<[JoinApplication]> in
-                return self.workplaceUseCase
-                    .fetchJoinApplicationList()
+        let attHistories = today.withUnretained(self)
+            .flatMapLatest { (self, date) -> Driver<[AttendanceHistory]> in
+                let calendar = Calendar.current
+                let components = calendar.dateComponents([.year, .month], from: date)
+                return self.attendnaceHistoryUseCase
+                    .fetchAttendanceHistories(year: components.year!, month: components.month!, page: 0, size: 30)
                     .trackActivity(tracker)
                     .asDriver()
             }
 
-        Task {
-            for await _ in input.showDetails.values {
-                coordinator.showAttHistories()
-            }
-        }
-
-        Task {
-            for await _ in input.showNotis.values {
-                // coordinator.show
-            }
-        }
-
         return Output(
             loading: loading,
             workplaceInfo: workplaceInfo,
-            attendanceInfoList: attendance,
-            joinApplicationList: application
+            attHistories: attHistories
         )
     }
 }

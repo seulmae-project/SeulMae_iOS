@@ -14,6 +14,7 @@ final class HomeSceneDIContainer {
         let workplaceNetworking: WorkplaceNetworking
         let notificationNetworking: NotificationNetworking
         let attendanceHistoryNetworking: AttendanceHistoryNetworking
+        let workScheduleNetworking: WorkScheduleNetworking
     }
     
     private let dependencies: Dependencies
@@ -25,10 +26,10 @@ final class HomeSceneDIContainer {
     // MARK: - Flow Coordinators
     
     func makeHomeFlowCoordinator(
-        // navigationController: UINavigationController
+        navigationController: UINavigationController
     ) -> HomeFlowCoordinator {
         return DefaultHomeFlowCoordinator(
-            // navigationController: navigationController,
+            navigationController: navigationController,
             dependencies: self
         )
     }
@@ -57,7 +58,7 @@ final class HomeSceneDIContainer {
             storage: SQLiteWorkplaceStorage()
         )
     }
-
+    
     private func makeWorkplaceUseCase() -> WorkplaceUseCase {
         return DefaultWorkplaceUseCase(workplaceRepository: self.makeWorkplaceRepository())
     }
@@ -67,7 +68,15 @@ final class HomeSceneDIContainer {
     }
 
     private func makeNotificationUseCase() -> NotificationUseCase {
-        return DefaultNotificationUseCase(noticeRepository: self.makeNotificationRepository())
+        return DefaultNotificationUseCase(noticeRepository: makeNotificationRepository())
+    }
+
+    private func makeWorkScheduleRepository() -> WorkScheduleRepository {
+        return DefaultWorkScheduleRepository(network: dependencies.workScheduleNetworking)
+    }
+
+    private func makeWorkScheduleUseCase() -> WorkScheduleUseCase {
+        return DefaultWorkScheduleUseCase(workScheduleRepository: makeWorkScheduleRepository())
     }
 
     private func makeUserHomeViewModel(
@@ -81,14 +90,6 @@ final class HomeSceneDIContainer {
                 ))
         }
 
-    private func makeManagerHomeViewModel(coordinator: any HomeFlowCoordinator) -> ManagerHomeViewModel {
-        return .init(
-            dependencies: (
-                coordinator: coordinator,
-                workplaceUseCase: makeWorkplaceUseCase(),
-                attendnaceUseCase: makeAttendanceUseCase()
-            ))
-    }
 
     private func makeScheduleReminderViewModel(
         coordinator: any HomeFlowCoordinator) -> ScheduleReminderViewModel {
@@ -113,6 +114,8 @@ final class HomeSceneDIContainer {
 }
 
 extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
+
+    
     
     // MARK: - HomeFlowCoordinatorDependencies
     
@@ -120,12 +123,47 @@ extension HomeSceneDIContainer: HomeFlowCoordinatorDependencies {
         coordinator: any HomeFlowCoordinator) -> UserHomeViewController {
             return .init(viewModel: makeUserHomeViewModel(coordinator: coordinator))
         }
-    
+
+    // MARK: - Manager Home
+
     func makeManagerHomeViewController(
-        coordinator: any HomeFlowCoordinator) -> ManagerHomeViewController {
-            return .init(
-                viewModel: makeManagerHomeViewModel(coordinator: coordinator)
+        coordinator: any HomeFlowCoordinator
+    ) -> ManagerHomeViewController {
+        return .init(
+            viewModel: makeManagerHomeViewModel(coordinator: coordinator)
+        )
+    }
+
+    private func makeManagerHomeViewModel(
+        coordinator: any HomeFlowCoordinator
+    ) -> ManagerHomeViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                attendnaceUseCase: makeAttendanceUseCase()
             )
+        )
+    }
+
+    // MARK: - Att Histories
+
+    func makeAttHistiesVC(coordinator: any HomeFlowCoordinator) -> AttHistoriesViewController {
+        return .init(viewModel: makeAttHistoriesVM(coordinator: coordinator))
+    }
+
+    private func makeAttHistoriesVM(
+        coordinator: any HomeFlowCoordinator
+    ) -> AttHistoriesViewModel {
+        return .init(
+            dependencies: (
+                coordinator: coordinator,
+                workplaceUseCase: makeWorkplaceUseCase(),
+                attendnaceUseCase: makeAttendanceUseCase(),
+                attendnaceHistoryUseCase: makeAttendanceHistoryUseCase(),
+                workScheduleUseCase: makeWorkScheduleUseCase()
+            )
+        )
     }
 
     func makeScheduleReminderViewController(

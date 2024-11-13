@@ -52,6 +52,24 @@ extension Ext where ExtendedType == UILabel {
         return type
     }
 
+    @discardableResult
+    func font(_ font: UIFont) -> ExtendedType {
+        type.font = font
+        return type
+    }
+
+    @discardableResult
+    func text(_ text: String) -> ExtendedType {
+        type.text = text
+        return type
+    }
+
+    @discardableResult
+    func color(_ color: UIColor) -> ExtendedType {
+        type.textColor = color
+        return type
+    }
+
     var validationResult: Binder<ValidationResult> {
         Binder<ValidationResult>(type, binding: { label, result in
             let hasPaddingView = (label.superview?.tag == -1)

@@ -44,7 +44,7 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     }
     
     func showHome(isManager: Bool) {
-        nav.isNavigationBarHidden = true
+        // nav.isNavigationBarHidden = true
         let coordinators = childCoordinators.filter { !($0 is FinderFlowCoordinator) }
         coordinators.forEach { $0.start(isManager) }
         let viewControllers = coordinators.map { $0.nav }

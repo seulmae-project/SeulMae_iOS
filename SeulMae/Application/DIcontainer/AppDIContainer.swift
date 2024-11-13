@@ -52,7 +52,8 @@ final class AppDIContainer {
                 attendanceNetworking: attendanceNetworking,
                 workplaceNetworking: workplaceNetworking,
                 notificationNetworking: notificationNetworking, 
-                attendanceHistoryNetworking: attendanceHistoryNetworking
+                attendanceHistoryNetworking: attendanceHistoryNetworking,
+                workScheduleNetworking: workScheduleNetworking
             ))
     }
     

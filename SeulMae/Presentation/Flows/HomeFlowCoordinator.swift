@@ -12,6 +12,7 @@ import UIKit
 protocol HomeFlowCoordinatorDependencies {
     func makeMemberHomeViewController(coordinator: HomeFlowCoordinator) -> UserHomeViewController
     func makeManagerHomeViewController(coordinator: HomeFlowCoordinator) -> ManagerHomeViewController
+    func makeAttHistiesVC(coordinator: HomeFlowCoordinator) -> AttHistoriesViewController
 
     // bottom modal
     func makeScheduleReminderViewController(coordinator: HomeFlowCoordinator) -> ScheduleReminderViewController
@@ -20,8 +21,13 @@ protocol HomeFlowCoordinatorDependencies {
 }
 
 protocol HomeFlowCoordinator: Coordinator {
+
+    // Member Logic
     func showMemberHome()
+
+    // Manager Logic
     func showManagerHome()
+    func showAttHistories()
 
     // bottom modal
     func showScheduleReminder()
@@ -33,15 +39,16 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     var childCoordinators = [any Coordinator]()
     lazy var nav = UINavigationController()
+    let parentNav: UINavigationController
     private let dependencies: HomeFlowCoordinatorDependencies
     
     // MARK: - Life Cycle Methods
     
     init(
-        // navigationController: UINavigationController,
+        navigationController: UINavigationController,
         dependencies: HomeFlowCoordinatorDependencies
     ) {
-        // self.navigationController = navigationController
+        self.parentNav = navigationController
         self.dependencies = dependencies
     }
     
@@ -63,10 +70,11 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
         nav.setViewControllers([vc], animated: false)
     }
 
-    func showNotiList() {
-        
+    func showAttHistories() {
+        let vc = dependencies.makeAttHistiesVC(coordinator: self)
+        parentNav.pushViewController(vc, animated: true)
     }
-    
+
     func showScheduleReminder() {
         let vc = dependencies.makeScheduleReminderViewController(coordinator: self)
         let bottomSheet = BottomSheetController(contentViewController: vc)

@@ -37,7 +37,7 @@ class AppFlowCoordinator {
         var mainCoordinator = mainSceneDIContainer.makeMainFlowCoordinator(navigationController: navigationController)
         
         let homeSceneDIContainer = appDIContainer.makeHomeSceneDIContainer()
-        let homeCoordinator = homeSceneDIContainer.makeHomeFlowCoordinator()
+        let homeCoordinator = homeSceneDIContainer.makeHomeFlowCoordinator(navigationController: navigationController)
         
         let workplaceSceneDIContainer = appDIContainer.makeWorkplaceSceneDIContainer()
         let workplaceCoordinator = workplaceSceneDIContainer.makeWorkplaceFlowCoordinator()

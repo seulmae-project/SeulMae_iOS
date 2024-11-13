@@ -53,7 +53,7 @@ class DefaultAttendanceHistoryRepository: AttendanceHistoryRepository {
     func fetchAttendanceHistories(workplaceId: Workplace.ID, year: Int, month: Int, page: Int, size: Int) -> RxSwift.Single<[AttendanceHistory]> {
         return network.rx
             .request(.fetchAttendanceHistories(workplaceId: workplaceId, year: year, month: month, page: page, size: size))
-            .map(BaseResponseDTO<[AttendanceHistoryDTO]>.self)
+            .map([AttendanceHistoryDTO].self, atKeyPath: "data.content", using: BaseResponseDTO<[AttendanceHistoryDTO]>.self.decoder)
             .map { $0.toDomain() }
     }
     

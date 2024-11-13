@@ -7,7 +7,7 @@
 
 import UIKit
 
-extension Ext where ExtendedType == UIScrollView {
+extension Ext where ExtendedType: UIScrollView {
 
     static func common(refreshControl: UIRefreshControl) -> UIScrollView {
         let scrollView = UIScrollView()
@@ -17,5 +17,10 @@ extension Ext where ExtendedType == UIScrollView {
         scrollView.alwaysBounceVertical = true
         scrollView.refreshControl = refreshControl
         return scrollView
+    }
+
+    func refresh(_ refreshControl: UIRefreshControl) -> ExtendedType {
+        type.refreshControl = refreshControl
+        return type
     }
 }

@@ -309,6 +309,9 @@
 		86DD0D9E2CE3BE9E00DA5823 /* JoinApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D9D2CE3BE9E00DA5823 /* JoinApplication.swift */; };
 		86DD0DA02CE4BBE500DA5823 /* JoinApplicationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */; };
 		86DD0DA32CE4CA4300DA5823 /* AttHistoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */; };
+		86DD0DA52CE4DCB800DA5823 /* AttHistoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */; };
+		86DD0DA72CE4E06F00DA5823 /* AttHistoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */; };
+		86DD0DA92CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA82CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
@@ -700,6 +703,9 @@
 		86DD0D9D2CE3BE9E00DA5823 /* JoinApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplication.swift; sourceTree = "<group>"; };
 		86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplicationDTO.swift; sourceTree = "<group>"; };
 		86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoriesViewController.swift; sourceTree = "<group>"; };
+		86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoriesViewModel.swift; sourceTree = "<group>"; };
+		86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoryContentView.swift; sourceTree = "<group>"; };
+		86DD0DA82CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryDTO.swift; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
@@ -1666,6 +1672,7 @@
 				86FD61ED2C8ACBB6005ED02F /* AddressDTO+Mapping.swift */,
 				86FACA002CC3D27200898CFE /* ApplicationDTO+Mapping.swift */,
 				86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */,
+				86DD0DA82CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -2079,6 +2086,8 @@
 			isa = PBXGroup;
 			children = (
 				86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */,
+				86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */,
+				86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */,
 			);
 			path = AttandanceHistories;
 			sourceTree = "<group>";
@@ -2688,6 +2697,7 @@
 				86DD0DA02CE4BBE500DA5823 /* JoinApplicationDTO.swift in Sources */,
 				86803EBD2CCE2E8300926A09 /* UIScrollView+Ext.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* ReminderListItem.swift in Sources */,
+				86DD0DA52CE4DCB800DA5823 /* AttHistoriesViewModel.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
 				8697FBF12C2D22A20027A035 /* ObservableConvertibleType+Rx.swift in Sources */,
 				8603CBE22CA5A1C000194A79 /* AuthPlugin.swift in Sources */,
@@ -2810,6 +2820,7 @@
 				861B96892C2008290032C94A /* AuthRepository.swift in Sources */,
 				86DB32D12C9A9D0C00575A03 /* WorkScheduleDetailsViewModel.swift in Sources */,
 				86AC25F12C9BCC750009D249 /* AttendanceHistorySummary.swift in Sources */,
+				86DD0DA72CE4E06F00DA5823 /* AttHistoryContentView.swift in Sources */,
 				86B4B45F2C4B57C500D83488 /* DateRangePickerView.swift in Sources */,
 				861B96952C204C2A0032C94A /* BottomSheetPresentationController.swift in Sources */,
 				86D309E52C33AE4B00C08DA8 /* NoticeDTO+Mapping.swift in Sources */,
@@ -2852,6 +2863,7 @@
 				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */,
 				86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */,
+				86DD0DA92CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift in Sources */,
 				86DD0D882CE2278B00DA5823 /* AttListPageControl.swift in Sources */,
 				86FD61EE2C8ACBB6005ED02F /* AddressDTO+Mapping.swift in Sources */,
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
