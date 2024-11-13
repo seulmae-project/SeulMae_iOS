@@ -50,7 +50,7 @@ class DefaultAuthRepository: AuthRepository {
             .map(Bool.self, atKeyPath: "data.duplicated")
     }
     
-    func signup(request: SignupRequest, file: Data) -> Single<Bool> {
+    func signup(request: UserInfo, file: Data) -> Single<Bool> {
         return network.rx
             .request(.signup(request: request, file: file))
             .do(onSuccess: { response in
@@ -68,19 +68,11 @@ class DefaultAuthRepository: AuthRepository {
         return .just(.random())
     }
     
-    func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool> {
-        return Single<BaseResponseDTO<String>>.create { observer in
-            if newPassword == "a*123456" {
-                observer(.success(passwordRecoveryResponse_failed))
-            } else {
-                observer(.success(passwordRecoveryResponse_success))
-            }
-            return Disposables.create()
-        }
-        .map { $0.isSuccess }
-        .do(onError: { error in
-            print("error: \(error)")
-        })
+    func recoveryPassword(accountId: String, newPassword: String) -> Single<RecoveryResult> {
+        return network.rx
+            .request(.updatePassword(accountId: accountId, password: newPassword))
+            .map(BaseResponseDTO<RecoveryResultDTO>.self)
+            .map { $0.toDomain() }
     }
     
     // MARK: - Common
@@ -91,19 +83,14 @@ class DefaultAuthRepository: AuthRepository {
             .map(Bool.self, atKeyPath: "data.isSuccess")
     }
     
-    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool> {
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<SMSVerificationResult> {
         Swift.print(#function, "SMS Verification Code: \(code)")
         return network.rx
             .request(.verifySMSCode(phoneNumber: phoneNumber, code: code, item: .idRecovery))
-            .do(onSuccess: { response in
-                Swift.print("response: \(try response.mapString())")
-            }, onError: { error in
-                Swift.print("error: \(error)")
-            })
-            .map(BaseResponseDTO<String?>.self)
-            .map { $0.isSuccess }
+            .map(BaseResponseDTO<SMSVerificationResultDTO>.self)
+            .map { try $0.toDomain() }
     }
-    
+
     func supplementProfileInfo(
         profileInfoDTO: SupplementaryProfileInfoDTO,
         userImageData: Data) -> Single<Bool> {

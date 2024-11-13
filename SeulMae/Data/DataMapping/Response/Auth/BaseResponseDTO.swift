@@ -22,7 +22,8 @@ struct BaseResponseDTO<Data: Codable>: ModelType {
     let divisionCode: String?
     let errors: [String]?
     let reason: String?
-    
+    let errorDescription: String?
+
     // status 200
     // message LOGIN
     // data

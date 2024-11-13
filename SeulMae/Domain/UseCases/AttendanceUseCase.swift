@@ -12,9 +12,9 @@ protocol AttendanceRepository {
 func attend(request: AttendRequest) -> Single<Bool>  // 출퇴근 승인 요청
 func approveAttendance(request: ApproveAttendanceRequest) -> Single<Bool> // 출퇴근 승인 요청 승인
 func disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) ->  Single<Bool> // 거절
-func fetchAttendanceRequsetList(workplaceId: Workplace.ID) -> Single<[AttendanceRequest]> // 응답하지 않은 요청
+func fetchAttendanceRequsetList(workplaceId: Workplace.ID) -> Single<[Attendance]> // 응답하지 않은 요청
 func attend2(request: AttendRequest) -> Single<Bool>// 출퇴근 별도 근무 요청
-func fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) -> Single<[AttendanceRequest]> // 모든 요청 리스트
+func fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) -> Single<[Attendance]> // 모든 요청 리스트
 }
 
 final class DefaultAttendanceRepository: AttendanceRepository {
@@ -50,10 +50,10 @@ final class DefaultAttendanceRepository: AttendanceRepository {
             .map { $0.isSuccess }
     }
     
-    func fetchAttendanceRequsetList(workplaceId: Workplace.ID) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequsetList(workplaceId: Workplace.ID) -> RxSwift.Single<[Attendance]> {
         return network.rx
             .request(.fetchAttendanceRequsetList(workplaceId: workplaceId))
-            .map(BaseResponseDTO<[AttendanceRequestDTO]>.self)
+            .map(BaseResponseDTO<[AttendanceDTO]>.self)
             .map { $0.toDomain() }
     }
     
@@ -64,10 +64,10 @@ final class DefaultAttendanceRepository: AttendanceRepository {
             .map { $0.isSuccess }
     }
     
-    func fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequsetList2(workplaceId: Workplace.ID, date: Date) -> RxSwift.Single<[Attendance]> {
         return network.rx
             .request(.fetchAttendanceRequsetList2(workplaceId: workplaceId, date: date))
-            .map(BaseResponseDTO<[AttendanceRequestDTO]>.self)
+            .map(BaseResponseDTO<[AttendanceDTO]>.self, using: BaseResponseDTO<[AttendanceDTO]>.decoder)
             .map { $0.toDomain() }
     }
     
@@ -91,9 +91,9 @@ protocol AttendanceUseCase {
     func attend(request: AttendRequest) -> Single<Bool>  // 출퇴근 승인 요청
     func approveAttendance(request: ApproveAttendanceRequest) -> Single<Bool> // 출퇴근 승인 요청 승인
     func disapproveAttendance(attendanceHistoryId: AttendanceHistory.ID) ->  Single<Bool> // 거절
-    func fetchAttendanceRequsetList() -> Single<[AttendanceRequest]> // 응답하지 않은 요청
+    func fetchAttendanceRequsetList() -> Single<[Attendance]> // 응답하지 않은 요청
     func attend2(request: AttendRequest) -> Single<Bool>// 출퇴근 별도 근무 요청
-    func fetchAttendanceRequsetList2(date: Date) -> Single<[AttendanceRequest]> // 모든 요청 리스트
+    func fetchAttendanceRequsetList2(date: Date) -> Single<[Attendance]> // 모든 요청 리스트
 }
 
 final class DefaultAttendanceUseCase: AttendanceUseCase {
@@ -126,6 +126,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         var attendance = AttendanceService.calculate(start: start, end: end, wage: wage)
         let workplaceId = userRepository.currentWorkplaceId
         attendance.workplaceId = workplaceId
+        UserDefaults.standard.removeObject(forKey: "onAttendance")
         return repository.attend(request: attendance)
     }
 
@@ -141,7 +142,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         return repository.disapproveAttendance(attendanceHistoryId: attendanceHistoryId)
     }
     
-    func fetchAttendanceRequsetList() -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequsetList() -> RxSwift.Single<[Attendance]> {
         let currentWorkplaceId = userRepository.currentWorkplaceId
         return repository.fetchAttendanceRequsetList(workplaceId: currentWorkplaceId)
     }
@@ -150,7 +151,7 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
         return repository.attend2(request: request)
     }
     
-    func fetchAttendanceRequsetList2(date: Date) -> RxSwift.Single<[AttendanceRequest]> {
+    func fetchAttendanceRequsetList2(date: Date) -> RxSwift.Single<[Attendance]> {
         let currentWorkplaceId = userRepository.currentWorkplaceId
         return repository.fetchAttendanceRequsetList2(workplaceId: currentWorkplaceId, date: date)
     }
@@ -161,57 +162,6 @@ final class DefaultAttendanceUseCase: AttendanceUseCase {
 //    }
 }
 
-struct AttendanceRequest: Identifiable, Hashable {
-    let id: Int
-    let userName: String
-    let userImageURL: String
-    let workStartDate: Date
-    let workEndDate: Date
-    let totalWorkTime: Double
-    let isRequestApprove: Bool
-    let isManagerCheck: Bool
-}
 
-struct AttendanceRequestDTO: ModelType {
-    let id: Int
-    let userName: String
-    let userImageURL: String?
-    let workStartDate: Date
-    let workEndDate: Date
-    let totalWorkTime: Double
-    let isRequestApprove: Bool
-    let isManagerCheck: Bool?
-    
-    enum CodingKeys: String, CodingKey {
-        case id = "attendanceRequestHistoryId"
-        case userName
-        case userImageURL = "userImage"
-        case workStartDate = "workStartTime"
-        case workEndDate = "workEndTime"
-        case totalWorkTime
-        case isRequestApprove
-        case isManagerCheck
-    }
-}
 
-extension BaseResponseDTO<[AttendanceRequestDTO]> {
-    func toDomain() -> [AttendanceRequest] {
-        return data?.map { $0.toDomain() } ?? []
-    }
-}
-
-extension AttendanceRequestDTO {
-    func toDomain() -> AttendanceRequest {
-        return .init(
-            id: id,
-            userName: userName,
-            userImageURL: userImageURL ?? "",
-            workStartDate: workStartDate,
-            workEndDate: workEndDate,
-            totalWorkTime: totalWorkTime,
-            isRequestApprove: isRequestApprove,
-            isManagerCheck: isManagerCheck ?? false
-        )
-    }
-}
 

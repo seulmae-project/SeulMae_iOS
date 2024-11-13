@@ -20,7 +20,7 @@ protocol CommonFlowCoordinator: Coordinator {
 final class DefaultCommonFlowCoordinator: CommonFlowCoordinator {
 
     var childCoordinators = [any Coordinator]()
-    lazy var navigationController = UINavigationController()
+    lazy var nav = UINavigationController()
     private let dependencies: CommonFlowCoordinatorDependencies
 
     // MARK: - Life Cycle Methods
@@ -35,12 +35,12 @@ final class DefaultCommonFlowCoordinator: CommonFlowCoordinator {
 
     func start(_ arguments: Any?) {
         guard let nav = arguments as? UINavigationController else { return }
-        self.navigationController = nav
+        self.nav = nav
         showReminders()
     }
 
     func showReminders() {
         let vc = dependencies.makeReminderListViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 }

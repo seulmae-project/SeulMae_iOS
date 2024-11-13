@@ -8,15 +8,13 @@
 import UIKit
 
 protocol AuthFlowCoordinatorDependencies {
-    // (Shared) SMS validation
-    func makeSMSValidationViewController(coordinator: AuthFlowCoordinator, item: SMSVerificationType) -> SMSVerificationViewController
-    
-    // (Shared) Account setup
-    func makeAccountSetupViewController(coordinator: AuthFlowCoordinator,
-        item: AccountSetupItem, request: SignupRequest) -> AccountSetupViewController
-    
+    func makeSMSValidationVC(coordinator: AuthFlowCoordinator, type: SMSVerificationType) -> SMSVerificationViewController
+    func makeIdRecoveryVC(coordinator: AuthFlowCoordinator, result: SMSVerificationResult) -> IdRecoveryViewController
+    func makePwRecoveryVC(coordinator: AuthFlowCoordinator, result: SMSVerificationResult) -> PwRecoveryViewController
+    func makeAccountSetupVC(coordinator: AuthFlowCoordinator, userInfo: UserInfo) -> AccountSetupViewController
+
     // (Shared) Completion
-    func makeCompletionViewController(coordinator: AuthFlowCoordinator, item: CompletionItem) -> CompletionViewController
+    func makeCompletionVC(coordinator: AuthFlowCoordinator, type: CompletionType) -> CompletionViewController
     
     // Sign in
     func makeSigninViewController(coordinator: AuthFlowCoordinator) -> SigninViewController
@@ -27,40 +25,42 @@ protocol AuthFlowCoordinatorDependencies {
     func makeAccountRecoveryViewController(coordinator: AuthFlowCoordinator, item: AccountRecoveryItem) -> AccountRecoveryViewController
     
     // Profile setup
-    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: SignupRequest, signupType: SignupType) -> ProfileSetupViewController
+    func makeProfileSetupViewController(coordinator: AuthFlowCoordinator, request: UserInfo, signupType: SignupType) -> ProfileSetupViewController
 }
 
 protocol Coordinator {
     var childCoordinators: [Coordinator] { get set }
-    var navigationController: UINavigationController { get set }
+    var nav: UINavigationController { get set }
     func start(_ arguments: Any?)
     func goBack()
 }
 
 extension Coordinator {
     func goBack() {
-        navigationController.popViewController(animated: true)
+        nav.popViewController(animated: true)
     }
 }
 
 protocol AuthFlowCoordinator: Coordinator {
     
     func startMain(isManager: Bool)
-    // func showTutorial()
-    //
-    func showWorkplaceFinder()
-    
-    // Shared
-    func showSMSValidation(item: SMSVerificationType)
-    func showAccountSetup(item: AccountSetupItem, request: SignupRequest)
-    func showCompletion(item: CompletionItem)
 
-    // Signin
-    func showSingin()
+    func showWorkplaceFinder()
+
+
+    func showSignin()
+    func showSMSValidation(type: SMSVerificationType)
+    func showIdRecovery(result: SMSVerificationResult)
+    func showPwRecovery(result: SMSVerificationResult)
+
+    func showAccountSetup(userinfo: UserInfo)
+    func showCompletion(tpye: CompletionType)
+
+    // 휴지통
     func showAccountRecoveryOption()
     
     // Sign up
-    func showProfileSetup(request: SignupRequest, signupType: SignupType)
+    func showProfileSetup(request: UserInfo, signupType: SignupType)
     
     // Account recovery
     func showAccountRecovery(item: AccountRecoveryItem)
@@ -69,7 +69,7 @@ protocol AuthFlowCoordinator: Coordinator {
 final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     
     // MARK: - Dependencies
-    var navigationController: UINavigationController
+    var nav: UINavigationController
     var childCoordinators: [any Coordinator] = []
 
     private let dependencies: AuthFlowCoordinatorDependencies
@@ -80,12 +80,12 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
         navigationController: UINavigationController,
         dependencies: AuthFlowCoordinatorDependencies
     ) {
-        self.navigationController = navigationController
+        self.nav = navigationController
         self.dependencies = dependencies
     }
     
     func start(_ arguments: Any?) {
-        showSingin()
+        showSignin()
     }
     
     func startMain(isManager: Bool) {
@@ -103,36 +103,55 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
             }
         }
     }
-    
-    // MARK: - Common
-    
-    func showSMSValidation(item: SMSVerificationType) {
-        let vc = dependencies.makeSMSValidationViewController(coordinator: self, item: item)
-        navigationController.pushViewController(vc, animated: false)
-    }
-    
-    func showCompletion(item: CompletionItem) {
-        let vc = dependencies.makeCompletionViewController(coordinator: self, item: item)
-        navigationController.pushViewController(vc, animated: true)
-    }
-    
+
     // MARK: - Signin
-    
-    func showSingin() {
+
+    func showSignin() {
         let vc = dependencies.makeSigninViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
+
+    // MARK: - SMS Validation
+
+    func showSMSValidation(type: SMSVerificationType) {
+        let signinVC = dependencies.makeSigninViewController(coordinator: self)
+        let validationVC = dependencies.makeSMSValidationVC(coordinator: self, type: type)
+        nav.setViewControllers([signinVC, validationVC], animated: false)
+    }
+
+    // MARK: - Id Recovery
+
+    func showIdRecovery(result: SMSVerificationResult) {
+        let vc = dependencies.makeIdRecoveryVC(coordinator: self, result: result)
+        nav.pushViewController(vc, animated: true)
+    }
+
+    // MARK: - Pw Recovery
+
+    func showPwRecovery(result: SMSVerificationResult) {
+        let vc = dependencies.makePwRecoveryVC(coordinator: self, result: result)
+        nav.pushViewController(vc, animated: true)
+    }
+
+    // MARK: - Completion
+
+    func showCompletion(tpye: CompletionType) {
+        let vc = dependencies.makeCompletionVC(coordinator: self, type: tpye)
+        nav.pushViewController(vc, animated: true)
+    }
+    
+
     
     // MARK: - Signup
     
-    func showAccountSetup(item: AccountSetupItem, request: SignupRequest) {
-        let vc = dependencies.makeAccountSetupViewController(coordinator: self, item: item, request: request)
-        navigationController.pushViewController(vc, animated: true)
+    func showAccountSetup(userinfo: UserInfo) {
+        let vc = dependencies.makeAccountSetupVC(coordinator: self, userInfo: userinfo)
+        nav.pushViewController(vc, animated: true)
     }
     
-    func showProfileSetup(request: SignupRequest, signupType: SignupType) {
+    func showProfileSetup(request: UserInfo, signupType: SignupType) {
         let vc = dependencies.makeProfileSetupViewController(coordinator: self, request: request, signupType: signupType)
-        navigationController.setViewControllers([vc], animated: true)
+        nav.setViewControllers([vc], animated: true)
     }
     
     // MARK: - Account Option
@@ -140,11 +159,11 @@ final class DefaultAuthFlowCoordinator: AuthFlowCoordinator {
     func showAccountRecoveryOption() {
         let vc = dependencies.makeAccountRecoveryOptionViewController(coordinator: self)
         let bottomSheet = BottomSheetController(contentViewController: vc)
-        navigationController.present(bottomSheet, animated: true)
+        nav.present(bottomSheet, animated: true)
     }
     
     func showAccountRecovery(item: AccountRecoveryItem) {
         let vc = dependencies.makeAccountRecoveryViewController(coordinator: self, item: item)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 }

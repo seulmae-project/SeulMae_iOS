@@ -18,7 +18,7 @@ protocol SettingFlowCoordinator: Coordinator {
 
 final class DefaultSettingFlowCoordinator: SettingFlowCoordinator {
     
-    lazy var navigationController = UINavigationController()
+    lazy var nav = UINavigationController()
     var childCoordinators: [any Coordinator] = []
     
     // MARK: - Dependencies
@@ -45,6 +45,6 @@ final class DefaultSettingFlowCoordinator: SettingFlowCoordinator {
     
     func showSetting() {
         let vc = dependencies.makeSettingViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
 }

@@ -24,6 +24,7 @@ protocol WorkplaceRepository {
     func acceptApplication(workplaceApproveId: Int, initialUserInfo: InitialUserInfo) -> Single<Bool>
     func denyApplication(workplaceApproveId: Int) -> Single<Bool>
     func fetchMemberList(workplaceId: Workplace.ID) -> Single<[Member]>
+    func fetchJoinApplicationList(workplaceId: Workplace.ID) -> Single<[JoinApplication]>
 //case memberDetails(userId: Member.ID)
     func fetchJoinedWorkplaceList() -> Single<[Workplace]>
 //case promote(requset: PromoteRequset)

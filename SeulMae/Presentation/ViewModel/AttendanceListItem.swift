@@ -20,10 +20,10 @@ struct AttendanceListItem: Hashable, Identifiable {
     let workStartDate: Date
     let workEndDate: Date
     
-    init(request: AttendanceRequest) {
+    init(request: Attendance) {
         self.id = request.id
         self.imageURL = request.userImageURL
-        self.name = request.userName
+        self.name = request.username
         self.isApprove = request.isRequestApprove
         self.totalWorkTime = request.totalWorkTime
         self.workStartDate = request.workStartDate

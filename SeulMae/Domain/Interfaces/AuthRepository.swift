@@ -12,11 +12,11 @@ protocol AuthRepository {
     func signin(account: String, password: String, fcmToken: String?) -> Single<Credentials>
     func socialSignin(type: SocialSigninType, token: String, fcmToken: String?) -> Single<Credentials>
     func verifyAccountID(_ accountID: String) -> Single<Bool>
-    func signup(request: SignupRequest, file: Data) -> Single<Bool>
+    func signup(request: UserInfo, file: Data) -> Single<Bool>
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
-    func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
+    func recoveryPassword(accountId: String, newPassword: String) -> Single<RecoveryResult>
     func sendSMSCode(type: String, name: String, phoneNumber: String) -> Single<Bool>
-    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<SMSVerificationResult>
     
     func supplementProfileInfo(profileInfoDTO: SupplementaryProfileInfoDTO, userImageData: Data) -> Single<Bool> // in case social login
 

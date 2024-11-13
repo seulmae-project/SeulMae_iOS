@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "auth-text-field-check.svg",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

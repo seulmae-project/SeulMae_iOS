@@ -7,13 +7,14 @@
 
 import UIKit
 
-class EmptyView: UIView {
+class SMEmptyView: UIView {
 
     let _imageView: UIImageView = Ext.image(.warning, width: 36, height: 36)
     let messageLabel: UILabel = .common(size: 14, weight: .semibold, color: UIColor(hexCode: "BCC7DD"))
 
     convenience init(message: String) {
         self.init(frame: .zero)
+        messageLabel.text = message
 
         let contentStack = UIStackView()
         contentStack.axis = .vertical
@@ -25,10 +26,9 @@ class EmptyView: UIView {
         addSubview(contentStack)
         contentStack.translatesAutoresizingMaskIntoConstraints = false
 
-        let insets = CGFloat(20)
         NSLayoutConstraint.activate([
             contentStack.centerXAnchor.constraint(equalTo: centerXAnchor),
-            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor, constant: -insets * 2),
+            contentStack.centerYAnchor.constraint(equalTo: centerYAnchor),
         ])
     }
 }

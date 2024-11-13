@@ -42,6 +42,33 @@ extension Ext where ExtendedType == UITextField {
     }
 
     @discardableResult
+    func pw() -> ExtendedType {
+        type.isSecureTextEntry = true
+        return type
+    }
+
+    @discardableResult
+    func activeImage(image: UIImage) -> ExtendedType {
+        let imageView = UIImageView
+            .ext.common(image)
+            .ext.frame(width: 24, height: 24)
+        let paddingView = UIView()
+            .ext.frame(width: 48, height: 48)
+        paddingView.addSubview(imageView)
+        imageView.center = paddingView.center
+        type.rightView = paddingView
+        type.rightViewMode = .always
+        type.rightView?.isHidden = true
+        (type as? TF)?.onBegin = { tf in
+            tf.rightView?.isHidden = false
+        }
+        (type as? TF)?.onEnd = { tf in
+            tf.rightView?.isHidden = true
+        }
+        return type
+    }
+
+    @discardableResult
     func rightView(_ view: UIView) -> ExtendedType {
         let paddingView = UIView(frame: CGRect(x: 0, y: 0, width: 48, height: 48))
         paddingView.addSubview(view)
@@ -173,6 +200,9 @@ extension Ext where ExtendedType == UITextField {
     }
 
     class TF: UITextField, UITextFieldDelegate {
+        var onBegin: ((UITextField) -> Void)?
+        var onEnd: ((UITextField) -> Void)?
+
         var onBorderColor: UIColor?
         var onBorderWidth: CGFloat = 0
         var onBackgroundColor: UIColor?
@@ -189,12 +219,14 @@ extension Ext where ExtendedType == UITextField {
             backgroundColor = onBackgroundColor
             layer.borderColor = onBorderColor?.cgColor ?? nil
             layer.borderWidth = onBorderWidth
+            onBegin?(self)
         }
 
         func textFieldDidEndEditing(_ textField: UITextField) {
             backgroundColor = offBackgroundColor
             layer.borderColor = offBorderColor?.cgColor ?? nil
             layer.borderWidth = offBorderWidth
+            onEnd?(self)
         }
     }
 }

@@ -37,7 +37,7 @@ struct SupplementaryProfileInfoDTO: ModelType {
 }
 
 enum AuthAPI: SugarTargetType {
-    case signup(request: SignupRequest, file: Data)
+    case signup(request: UserInfo, file: Data)
     case sendSMSCode(type: String, name: String, phoneNumber: String)
     case verifySMSCode(phoneNumber: String, code: String, item: SMSVerificationType)
     case verifyAccountId(_ accountId: String)

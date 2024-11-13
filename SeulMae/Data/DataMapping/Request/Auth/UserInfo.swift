@@ -1,5 +1,5 @@
 //
-//  SignupRequest.swift
+//  UserInfo.swift
 //  SeulMae
 //
 //  Created by 조기열 on 6/14/24.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct SignupRequest: ModelType {
+struct UserInfo: ModelType {
     var accountId: String = ""
     var password: String = ""
     var phoneNumber: String = ""

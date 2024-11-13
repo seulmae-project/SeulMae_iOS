@@ -121,14 +121,20 @@ final class SigninViewModel: ViewModel {
         Task {
             for await credentials in credentials.values {
                 if credentials.isGuest {
-                    coordinator.showProfileSetup(request: SignupRequest(), signupType: .social)
+                    coordinator.showProfileSetup(request: UserInfo(), signupType: .social)
                 } else {
                     if !(credentials.workplace).isEmpty {
+                        let name = credentials.workplace.first
                         let isManager: Bool
-                        if let defaultWorkplaceId = credentials.defaultWorkplaceId {
-                            isManager = credentials.workplace.first(where: { $0.id == defaultWorkplaceId })?.isManager ?? false
+                        if let defaultWorkplaceId = credentials.defaultWorkplaceId,
+                           defaultWorkplaceId != 0 {
+                            isManager = credentials.workplace
+                                .first(where: { $0.id == defaultWorkplaceId })?
+                                .isManager ?? false
                         } else {
-                            isManager = credentials.workplace.first!.isManager ?? false
+                            isManager = credentials.workplace
+                                .first!
+                                .isManager ?? false
                         }
                         coordinator.startMain(isManager: isManager)
                     } else {
@@ -140,7 +146,7 @@ final class SigninViewModel: ViewModel {
 
         Task {
             for await item in smsVerificationType.values {
-                coordinator.showSMSValidation(item: item)
+                coordinator.showSMSValidation(type: item)
             }
         }
         

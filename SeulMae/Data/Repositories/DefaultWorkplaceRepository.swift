@@ -83,7 +83,14 @@ final class DefaultWorkplaceRepository: WorkplaceRepository {
             .map(BaseResponseDTO<[MemberDTO]>.self)
             .map { $0.toDomain() }
     }
-    
+
+    func fetchJoinApplicationList(workplaceId: Workplace.ID) -> Single<[JoinApplication]> {
+        return network.rx
+            .request(.fetchApplicationList(workplaceId: workplaceId))
+            .map(BaseResponseDTO<[JoinApplicationDTO]>.self, using: BaseResponseDTO<[JoinApplicationDTO]>.decoder)
+            .map { $0.toDomain() }
+    }
+
     func updateWorkplace(_ request: UpdateWorkplaceRequest) -> RxSwift.Single<Bool> {
         Swift.print(#fileID, #function, "\n- request: \(request)\n")
         return Single<BaseResponseDTO<Bool>>.create { observer in

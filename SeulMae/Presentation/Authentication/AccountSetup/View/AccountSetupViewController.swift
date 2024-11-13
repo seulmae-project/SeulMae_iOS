@@ -97,15 +97,15 @@ final class AccountSetupViewController: UIViewController {
             )
         )
         
-        // Handle View Item
-        Task {
-            for await item in output.item.values {
-                titleLabel.text = item.title
-                navigationItem.title = item.navItemTitle
-                accountIDStack.isHidden = item.isHiddenAccountIDField
-            }
-        }
-        
+//        // Handle View Item
+//        Task {
+//            for await item in output.item.values {
+//                titleLabel.text = item.title
+//                navigationItem.title = item.navItemTitle
+//                accountIDStack.isHidden = item.isHiddenAccountIDField
+//            }
+//        }
+//        
         //
         Task {
             for await isAvailable in output.isAvailable.values {

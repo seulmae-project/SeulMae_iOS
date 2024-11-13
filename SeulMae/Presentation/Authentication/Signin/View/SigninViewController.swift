@@ -32,6 +32,7 @@ final class SigninViewController: BaseViewController {
         .ext.font(.pretendard(size: 16, weight: .regular))
         .ext.placeholder("비밀번호를 입력해주세요", textColor: .ext.hex("CAD1EA"))
         .ext.rightView(pwTextFieldRightView)
+        .ext.pw()
 
     private let signInButton = UIButton.ext.common(title: "로그인")
     private let idRecoveryButton = UIButton.ext.text("아이디 찾기")
@@ -67,6 +68,8 @@ final class SigninViewController: BaseViewController {
         configureHierarchy()
         configureAuthController()
         bindInternalSubviews()
+        idTextField.text = "yonggipo"
+        pwTextField.text = "a**4579225"
     }
     
     // MARK: - Data Binding

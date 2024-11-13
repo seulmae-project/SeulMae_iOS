@@ -23,7 +23,7 @@ final class PlaceSearchViewController: BaseViewController {
     // MARK: - UI Properties
     
     private let searchBar = SearchBarView()
-    private var emptyView = EmptyView(message: "해당하는 근무지를 찾을 수 없어요")
+    private var emptyView = SMEmptyView(message: "해당하는 근무지를 찾을 수 없어요")
     private lazy var collectionView: UICollectionView = Ext.common(layout: createLayout(isEmpty: true), emptyView: emptyView, refreshControl: refreshControl)
 
     // MARK: - Properties

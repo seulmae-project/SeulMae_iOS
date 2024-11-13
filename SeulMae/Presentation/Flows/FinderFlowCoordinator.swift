@@ -33,7 +33,7 @@ final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
 
     weak var parentCoordinator: DefaultTabBarFlowCoordinator?
     var childCoordinators: [any Coordinator] = []
-    var navigationController: UINavigationController = .init()
+    var nav: UINavigationController = .init()
     private let dependencies: FinderFlowCoordinatorDependencies
 
     // MARK: - Life Cycle Methods
@@ -48,7 +48,7 @@ final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
 
     func start(_ arguments: Any?) {
         guard let nav = arguments as? UINavigationController else { return }
-        self.navigationController = nav
+        self.nav = nav
         showWorkplaceFinder()
     }
 
@@ -58,12 +58,12 @@ final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
 
     func showWorkplaceFinder() {
         let vc = dependencies.makeWorkplaceFinderViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
 
     func showSearchWorkPlace() {
         let vc = dependencies.makeSearchWorkplaceViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 
     //    func showWorkplaceList() {
@@ -74,12 +74,12 @@ final class DefaultFinderFlowCoordinator: FinderFlowCoordinator {
 
     func showWorkplaceDetails(workplaceID: Workplace.ID) {
         let vc = dependencies.makeWorkplaceDetailsViewController(coordinator: self, workplaceID: workplaceID)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 
     func showAddNewWorkplace() {
         let vc = dependencies.makeAddNewWorkplaceViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 
     func moveToScheduleCreation() {

@@ -11,10 +11,12 @@ import RxSwift
 protocol UserUseCase {
     func fetchMyProfile() -> RxSwift.Single<User>
     //
+
+    var currentWorkplaceId: Int { get }
+
 }
 
 final class DefaultUserUseCase: UserUseCase {
-    
     
     private var userRepository: UserRepository
     
@@ -22,7 +24,10 @@ final class DefaultUserUseCase: UserUseCase {
         self.userRepository = userRepository
     }
     
-    
+    var currentWorkplaceId: Workplace.ID {
+        UserDefaults.standard.integer(forKey: "defaultWorkplace")
+    }
+
     func fetchMyProfile() -> RxSwift.Single<User> {
         return userRepository.fetchMyProfile()
     }

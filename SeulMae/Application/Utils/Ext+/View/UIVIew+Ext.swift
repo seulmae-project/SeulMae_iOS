@@ -12,6 +12,7 @@ extension Ext where ExtendedType: UIView {
     @discardableResult
     func padding(leading: CGFloat = 0, trailing: CGFloat = 0, top: CGFloat = 0, bottom: CGFloat = 0) -> UIView {
         let paddingView = UIView()
+        paddingView.tag = -1
         paddingView.addSubview(type)
         type.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -21,6 +22,13 @@ extension Ext where ExtendedType: UIView {
             type.bottomAnchor.constraint(equalTo: paddingView.bottomAnchor, constant: bottom),
         ])
         return paddingView
+    }
+
+    @discardableResult
+    func round(radius: CGFloat) -> ExtendedType {
+        type.layer.cornerRadius = radius
+        type.layer.cornerCurve = .continuous
+        return type
     }
 
     @discardableResult

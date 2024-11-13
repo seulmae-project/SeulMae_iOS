@@ -10,7 +10,7 @@ import RxSwift
 import RxCocoa
 
 extension Ext where ExtendedType == UIButton {
-    static func config(font: UIFont, color: UIColor) -> UIButton {
+    static func config(font: UIFont, color: UIColor = .label) -> UIButton {
         let button = UIButton()
         button.titleLabel?.font = font
         button.setTitleColor(color, for: .normal)

@@ -33,7 +33,7 @@ struct WorkplaceDTO: ModelType {
         case subAddress
         case address
         case userWorkplaceId
-        case isManager = "isManger"
+        case isManager = "isManager"
     }
 }
 

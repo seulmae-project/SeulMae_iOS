@@ -51,7 +51,7 @@ final class AccountRecoveryViewModel: ViewModel {
         // Move to sign in view
         Task {
             for await _ in input.moveSignin.values {
-                coordinator.showSingin()
+                coordinator.showSignin()
             }
         }
         return Output(item: .just(item))

@@ -31,7 +31,7 @@ final class ProfileSetupViewModel: ViewModel {
     private let authUseCase: AuthUseCase
     private let validationService: ValidationService
     private let wireframe: Wireframe
-    private var request: SignupRequest
+    private var request: UserInfo
     private var signupType: SignupType
     
     // MARK: - Life Cycle Methods
@@ -42,7 +42,7 @@ final class ProfileSetupViewModel: ViewModel {
             authUseCase: AuthUseCase,
             validationService: ValidationService,
             wireframe: Wireframe,
-            request: SignupRequest,
+            request: UserInfo,
             signupType: SignupType
         )
     ) {
@@ -117,9 +117,9 @@ final class ProfileSetupViewModel: ViewModel {
         Task {
             for await (signedUp, username) in signedUpAndUsername.values {
                 if signedUp {
-                    coordinator.showCompletion(item: .signup(username: username))
+                    coordinator.showCompletion(tpye: .signup(username: username))
                 } else {
-                    coordinator.showCompletion(item: .signup(username: username))
+                    coordinator.showCompletion(tpye: .signup(username: username))
                 }
             }
         }

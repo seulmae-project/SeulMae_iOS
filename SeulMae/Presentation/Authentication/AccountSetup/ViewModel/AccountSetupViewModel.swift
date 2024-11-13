@@ -20,7 +20,6 @@ final class AccountSetupViewModel: ViewModel {
     }
     
     struct Output {
-        let item: Driver<AccountSetupItem>
         let validatedAccountID: Driver<ValidationResult>
         let validateAccountIDEnabled: Driver<Bool>
         let isAvailable: Driver<Bool>
@@ -35,9 +34,8 @@ final class AccountSetupViewModel: ViewModel {
     private let authUseCase: AuthUseCase
     private let validationService: ValidationService
     private let wireframe: Wireframe
-    private let item: AccountSetupItem
-    private var request: SignupRequest
-    
+    private var userInfo: UserInfo
+
     // MARK: - Life Cycle
     
     init(
@@ -46,16 +44,14 @@ final class AccountSetupViewModel: ViewModel {
             authUseCase: AuthUseCase,
             validationService: ValidationService,
             wireframe: Wireframe,
-            item: AccountSetupItem,
-            request: SignupRequest
+            userInfo: UserInfo
         )
     ) {
         self.coordinator = dependencies.coordinator
         self.authUseCase = dependencies.authUseCase
         self.validationService = dependencies.validationService
         self.wireframe = dependencies.wireframe
-        self.item = dependencies.item
-        self.request = dependencies.request
+        self.userInfo = dependencies.userInfo
     }
     
     @MainActor func transform(_ input: Input) -> Output {
@@ -127,14 +123,13 @@ final class AccountSetupViewModel: ViewModel {
     
         Task {
             for await nextStep in nextStep.values {
-                request.accountId = nextStep.account
-                request.password = nextStep.password
-                coordinator.showProfileSetup(request: request, signupType: .default)
+                userInfo.accountId = nextStep.account
+                userInfo.password = nextStep.password
+                coordinator.showProfileSetup(request: userInfo, signupType: .default)
             }
         }
         
         return Output(
-            item: .just(item),
             validatedAccountID: validatedAccountID,
             validateAccountIDEnabled: validateAccountIDEnabled,
             isAvailable: isAvailable,

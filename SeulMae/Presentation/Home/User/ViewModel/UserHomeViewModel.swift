@@ -94,7 +94,6 @@ final class UserHomeViewModel: ViewModel {
         let isStartRecording = input.onStartRecording
             .withUnretained(self)
             .map { (self, _) in self.attendanceUseCase.attend() }
-            .trackActivity(tracker)
             .asDriver()
 
         // Save record with fetched wage

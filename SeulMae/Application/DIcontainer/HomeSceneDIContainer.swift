@@ -85,7 +85,8 @@ final class HomeSceneDIContainer {
         return .init(
             dependencies: (
                 coordinator: coordinator,
-                attendnaceUseCase: self.makeAttendanceUseCase()
+                workplaceUseCase: makeWorkplaceUseCase(),
+                attendnaceUseCase: makeAttendanceUseCase()
             ))
     }
 

@@ -44,6 +44,8 @@ final class SMSVerificationViewController: BaseViewController {
 
     private let verifySMSCodeButton = UIButton.ext.common(title: "인증번호 확인")
 
+    private let adminButton = UIButton.ext.common(title: "다음")
+
     // MARK: - Dependencies
 
     private var viewModel: SMSVerificationViewModel!
@@ -93,7 +95,8 @@ final class SMSVerificationViewController: BaseViewController {
                 sendSMSCode: sendSMSCodeButton.rx.tap.asSignal(),
                 timeout: timeoutRelay.asDriver(),
                 smsCode: smsCode,
-                verifyCode: verifySMSCodeButton.rx.tap.asSignal()
+                verifyCode: verifySMSCodeButton.rx.tap.asSignal(),
+                pass: adminButton.rx.tap.asSignal()
             )
         )
 
@@ -174,7 +177,7 @@ final class SMSVerificationViewController: BaseViewController {
         contentStack.setCustomSpacing(40, after: titleStack)
         contentStack.setCustomSpacing(20, after: userInfoStack)
 
-        let views = [contentStack, remainingTimer, resendSMSCodeButton]
+        let views = [contentStack, remainingTimer, resendSMSCodeButton, adminButton]
         views.forEach {
             view.addSubview($0)
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -191,6 +194,9 @@ final class SMSVerificationViewController: BaseViewController {
 
             remainingTimer.trailingAnchor.constraint(equalTo: resendSMSCodeButton.leadingAnchor, constant: -8.0),
             remainingTimer.centerYAnchor.constraint(equalTo: resendSMSCodeButton.centerYAnchor),
+
+            adminButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            adminButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
         ])
     }
     

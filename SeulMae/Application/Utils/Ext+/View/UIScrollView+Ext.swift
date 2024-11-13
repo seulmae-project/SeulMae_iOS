@@ -14,6 +14,8 @@ extension Ext where ExtendedType == UIScrollView {
         scrollView.showsVerticalScrollIndicator = false
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.directionalLayoutMargins = NSDirectionalEdgeInsets(top: 0, leading: 20, bottom: 0, trailing: 20)
+        scrollView.alwaysBounceVertical = true
+        scrollView.refreshControl = refreshControl
         return scrollView
     }
 }

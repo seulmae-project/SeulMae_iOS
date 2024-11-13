@@ -63,63 +63,15 @@ final class AuthSceneDIContainer {
 }
 
 extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
-    
-    // MARK: - Common
-    
-    func makeSMSValidationViewController(
-        coordinator: any AuthFlowCoordinator,
-        item: SMSVerificationType
-    ) -> SMSVerificationViewController {
-        return .init(
-            viewModel: makeSMSValidationViewModel(
-                coordinator: coordinator, item: item
-            )
-        )
-    }
-    
-    private func makeSMSValidationViewModel(
-        coordinator: AuthFlowCoordinator,
-        item: SMSVerificationType
-    ) -> SMSVerificationViewModel {
-        return SMSVerificationViewModel(
-            dependencies: (
-                coordinator: coordinator,
-                authUseCase: makeAuthUseCase(),
-                validationService: DefaultValidationService.shared,
-                wireframe: DefaultWireframe(),
-                type: item
-            )
-        )
-    }
-    
 
-    func makeCompletionViewController(
-        coordinator: any AuthFlowCoordinator,
-        item: CompletionItem
-    ) -> CompletionViewController {
-        return .create(viewModel: makeCompletionViewModel(coordinator: coordinator, item: item))
-    }
-    
-    private func makeCompletionViewModel(
-        coordinator: AuthFlowCoordinator,
-        item: CompletionItem
-    ) -> CompletionViewModel {
-        return CompletionViewModel(
-            dependency: (
-                coordinator: coordinator,
-                item: item
-            )
-        )
-    }
-    
-    // MARK: - Signin Flow
-    
+    // MARK: - Signin VC && VM
+
     func makeSigninViewController(
         coordinator: any AuthFlowCoordinator
     ) -> SigninViewController {
         return .init(viewModel: makeSigninViewModel(coordinator: coordinator))
     }
-    
+
     private func makeSigninViewModel(
         coordinator: AuthFlowCoordinator
     ) -> SigninViewModel {
@@ -134,42 +86,124 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
         )
     }
 
-    // MARK: - Signup Flow
-    
-    func makeAccountSetupViewController(
+    // MARK: - SMS Validation VC && VM
+
+    func makeSMSValidationVC(
         coordinator: any AuthFlowCoordinator,
-        item: AccountSetupItem,
-        request: SignupRequest
-    ) -> AccountSetupViewController {
+        type: SMSVerificationType
+    ) -> SMSVerificationViewController {
+        return .init(
+            viewModel: makeSMSValidationViewModel(
+                coordinator: coordinator, item: type
+            )
+        )
+    }
+
+    private func makeSMSValidationViewModel(
+        coordinator: AuthFlowCoordinator,
+        item: SMSVerificationType
+    ) -> SMSVerificationViewModel {
+        return SMSVerificationViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                validationService: DefaultValidationService.shared,
+                wireframe: DefaultWireframe(),
+                type: item
+            )
+        )
+    }
+
+    // MARK: - Id Recovery VC && VM
+
+    func makeIdRecoveryVC(coordinator: any AuthFlowCoordinator, result: SMSVerificationResult) -> IdRecoveryViewController {
+        .init(
+            viewModel: makeIdRecoveryVM(
+                coordinator: coordinator,
+                result: result
+            ))
+    }
+
+    private func makeIdRecoveryVM(coordinator: AuthFlowCoordinator, result: SMSVerificationResult) -> IdRecoveryViewModel {
+        .init(
+            dependencies: (
+                coordinator: coordinator,
+                result: result
+            ))
+    }
+
+    // MARK: - Pw Recovery VC && VM
+
+    func makePwRecoveryVC(coordinator: any AuthFlowCoordinator, result: SMSVerificationResult) -> PwRecoveryViewController {
+        .init(
+            viewModel: makePwRecoveryVM(
+                coordinator: coordinator,
+                result: result
+            ))
+    }
+
+    private func makePwRecoveryVM(coordinator: AuthFlowCoordinator, result: SMSVerificationResult) -> PwRecoveryViewModel {
+        .init(
+            dependencies: (
+                coordinator: coordinator,
+                authUseCase: makeAuthUseCase(),
+                wireframe: DefaultWireframe(),
+                validationService: DefaultValidationService.shared,
+                result: result
+            ))
+    }
+
+    // MARK: - Completion VC && VM
+
+    func makeCompletionVC(
+        coordinator: any AuthFlowCoordinator,
+        type: CompletionType
+    ) -> CompletionViewController {
+        return .init(
+            viewModel: makeCompletionViewModel(
+                coordinator: coordinator,
+                type: type
+            ))
+    }
+    
+    private func makeCompletionViewModel(
+        coordinator: AuthFlowCoordinator,
+        type: CompletionType
+    ) -> CompletionViewModel {
+        return CompletionViewModel(
+            dependencies: (
+                coordinator: coordinator,
+                type: type
+            )
+        )
+    }
+
+    // MARK: - Account Setup VC && VM
+
+    func makeAccountSetupVC(coordinator: any AuthFlowCoordinator, userInfo: UserInfo) -> AccountSetupViewController {
         return .create(
             viewModel: makeAccountSetupViewModel(
                 coordinator: coordinator,
-                item: item,
-                request: request
+                userInfo: userInfo
             )
         )
     }
     
-    private func makeAccountSetupViewModel(
-        coordinator: AuthFlowCoordinator,
-        item: AccountSetupItem,
-        request: SignupRequest
-    ) -> AccountSetupViewModel {
+    private func makeAccountSetupViewModel(coordinator: AuthFlowCoordinator, userInfo: UserInfo) -> AccountSetupViewModel {
         return AccountSetupViewModel(
             dependencies: (
                 coordinator: coordinator,
                 authUseCase: makeAuthUseCase(),
                 validationService: DefaultValidationService.shared,
                 wireframe: DefaultWireframe(),
-                item: item,
-                request: request
+                userInfo: userInfo
             )
         )
     }
     
     func makeProfileSetupViewController(
         coordinator: any AuthFlowCoordinator,
-        request: SignupRequest,
+        request: UserInfo,
         signupType: SignupType
     ) -> ProfileSetupViewController {
         return .init(
@@ -183,7 +217,7 @@ extension AuthSceneDIContainer: AuthFlowCoordinatorDependencies {
     
     private func makeProfileSetupViewModel(
         coordinator: AuthFlowCoordinator,
-        request: SignupRequest,
+        request: UserInfo,
         signupType: SignupType
     ) -> ProfileSetupViewModel {
         return ProfileSetupViewModel(

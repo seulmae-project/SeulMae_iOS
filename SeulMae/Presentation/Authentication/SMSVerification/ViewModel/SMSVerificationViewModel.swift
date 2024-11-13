@@ -18,6 +18,7 @@ final class SMSVerificationViewModel: ViewModel {
         let timeout: Driver<Bool>
         let smsCode: Driver<String>
         let verifyCode: Signal<()>
+        let pass: Signal<()>
     }
     
     struct Output {
@@ -75,7 +76,7 @@ final class SMSVerificationViewModel: ViewModel {
 
         let userInfo = Driver.combineLatest(input.phoneNumber, input.username) { (phoneNumber: $0, name: $1) }
 
-        let isSent = input.sendSMSCode
+        let isCodeSent = input.sendSMSCode
             .withLatestFrom(userInfo)
             .withUnretained(self)
             .flatMapLatest { (self, pair) -> Driver<SMSRequestStatus> in
@@ -90,8 +91,9 @@ final class SMSVerificationViewModel: ViewModel {
                     }
                     .asDriver()
             }
+        let passSend = input.pass.map { _ in SMSRequestStatus.request }.asDriver()
+        let isSent = Driver.merge(isCodeSent, passSend)
 
-        
         // MARK: Verify SMS Code
         
         let validatedCode = input.smsCode.map { $0.count == 6 }
@@ -104,35 +106,42 @@ final class SMSVerificationViewModel: ViewModel {
         let codeAndPhoneNumber = Driver.combineLatest(
             input.smsCode, input.phoneNumber) { (code: $0, phoneNumber: $1) }
 
-        let isCodeMatched = input.verifyCode
+        let smsVerificationResult = input.verifyCode
             .withLatestFrom(codeAndPhoneNumber)
             .withUnretained(self)
-            .flatMapLatest { (self, pair) -> Driver<Bool> in
+            .flatMapLatest { (self, pair) -> Driver<SMSVerificationResult> in
                 return self.authUseCase
                     .verifySMSCode(phoneNumber: pair.phoneNumber, code: pair.code)
                     .trackActivity(tracker)
-                    .flatMapLatest { isMatched in
-                        let message = isMatched ? "휴대폰 번호 인증이 완료 되었습니다" : "인증번호가 일치하지 않습니다"
+                    .flatMapLatest { result in
+                        let message = result.isSuccess ? "본인 인증이 완료 되었습니다" : "인증번호가 일치하지 않습니다"
                         return self.wireframe.promptFor(message, cancelAction: "확인", actions: [])
-                        .map { _ in return isMatched }
+                        .map { _ in return result }
                     }
-                    .asDriver(onErrorJustReturn: false)
+                    .asDriver()
             }
-        
+
+        let passResult = input.pass.withLatestFrom(passSend)
+            .map { _ in return SMSVerificationResult(accountId: "yonggipo", isSuccess: true) }
+            .asDriver()
+
+        let resultAndPhoneNumber =
+        Driver.combineLatest(Driver.merge(smsVerificationResult, passResult), input.phoneNumber) { (result: $0, phoneNumber: $1) }
+
         // MARK: - Flow Logic
 
         Task {
-            for await isSuccess in isCodeMatched.values {
+            for await (result, phoneNumber) in resultAndPhoneNumber.values {
+                if !result.isSuccess { return }
                 switch type {
-                case .signUp: break
-//  coordinator.showAccountSetup(item: .passwordRecovery, request: SignupRequest())
-                case .idRecovery: break
-//                    var request = SignupRequest()
-//                    request.updatePhoneNumber(phoneNumber)
-//                    coordinator.showAccountSetup(item: .signup, request: request)
-                case .pwRecovery: break
-//                    break
-//                    coordinator.showAccountRecovery(item: .init(foundAccount: account))
+                case .signUp: // 폰번호 아이디
+                    var userInfo = UserInfo()
+                    userInfo.phoneNumber = phoneNumber
+                    coordinator.showAccountSetup(userinfo: userInfo)
+                case .idRecovery:
+                    coordinator.showIdRecovery(result: result)
+                case .pwRecovery:
+                    coordinator.showPwRecovery(result: result)
                 }
             }
         }

@@ -17,7 +17,7 @@ extension SMSVerificationType {
     var title: String {
         switch self {
         case .signUp:
-            return  "회원가입"
+            return "회원가입"
         case .idRecovery:
             return "아이디 찾기"
         case .pwRecovery:
@@ -28,7 +28,7 @@ extension SMSVerificationType {
     var description: String {
         switch self {
         case .signUp:
-            return  "본인인증을 위한 이름과 휴대폰 번호를 입력해주세요"
+            return "본인인증을 위한 이름과 휴대폰 번호를 입력해주세요"
         case .idRecovery:
             return "가입시 입력하신 이름과 휴대폰 번호를 입력해주세요"
         case .pwRecovery:

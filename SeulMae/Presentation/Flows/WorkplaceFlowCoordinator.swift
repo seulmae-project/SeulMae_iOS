@@ -38,7 +38,7 @@ protocol WorkplaceFlowCoordinator: Coordinator {
 
 final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     
-    lazy var navigationController = UINavigationController()
+    lazy var nav = UINavigationController()
     var childCoordinators: [any Coordinator] = []
     
     // MARK: - Dependencies
@@ -65,44 +65,44 @@ final class DefaultWorkplaceFlowCoordinator: WorkplaceFlowCoordinator {
     
     func showWorkplace() {
         let vc = dependencies.makeWorkplaceViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
     
     // MARK: - Announce
     
     func showAnnounceList() {
         let vc = dependencies.makeAnnounceListViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
     
     func showAnnounceDetails(announceId: Announce.ID) {
         let vc = dependencies.makeAnnounceDetailsViewController(
             coordinator: self,
             announceId: announceId)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
     
     // MARK: - WorkSchedule
     
     func showWorkScheduleDetails(workScheduleId: WorkSchedule.ID?) {
         let vc = dependencies.makeWorkScheduleDetailsViewController(coordinator: self, workScheduleId: workScheduleId)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
     
     func showWorkScheduleList() {
         let vc = dependencies.makeWorkScheduleListViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 
     func showScheduleCreation() {
         let vc = dependencies.makeScheduleCreation(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 
     // MARK: - MemberProfile
     
     func showMemberProfile(memberId: Member.ID) {
         let vc = dependencies.makeMemberProfileViewController(coordinator: self)
-        navigationController.pushViewController(vc, animated: true)
+        nav.pushViewController(vc, animated: true)
     }
 }

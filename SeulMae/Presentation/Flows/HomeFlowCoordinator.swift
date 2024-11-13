@@ -32,7 +32,7 @@ protocol HomeFlowCoordinator: Coordinator {
 final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     var childCoordinators = [any Coordinator]()
-    lazy var navigationController = UINavigationController()
+    lazy var nav = UINavigationController()
     private let dependencies: HomeFlowCoordinatorDependencies
     
     // MARK: - Life Cycle Methods
@@ -55,12 +55,12 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     func showMemberHome() {
         let vc = dependencies.makeMemberHomeViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
     
     func showManagerHome() {
         let vc = dependencies.makeManagerHomeViewController(coordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
 
     func showNotiList() {
@@ -71,12 +71,12 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
         let vc = dependencies.makeScheduleReminderViewController(coordinator: self)
         let bottomSheet = BottomSheetController(contentViewController: vc)
         bottomSheet.trackingScrollView = vc.scrollView
-        navigationController.present(bottomSheet, animated: true)
+        nav.present(bottomSheet, animated: true)
     }
     
     func startWorkTimeRecord() {
         let vc = dependencies.makeWorkTimeRecordingViewController(coordinator: self)
-        guard let parentVC = navigationController.topViewController?.presentedViewController as? BottomSheetController else {
+        guard let parentVC = nav.topViewController?.presentedViewController as? BottomSheetController else {
             return
         }
         parentVC.addChild(vc)
@@ -86,7 +86,7 @@ final class DefaultHomeFlowCoordinator: HomeFlowCoordinator {
     
     func showWorkLogSummary() {
         let vc = dependencies.makeWorkLogSummaryViewController(coordinator: self)
-        guard let parentVC = navigationController.topViewController?.presentedViewController as? BottomSheetController else {
+        guard let parentVC = nav.topViewController?.presentedViewController as? BottomSheetController else {
             return
         }
         parentVC.addChild(vc)

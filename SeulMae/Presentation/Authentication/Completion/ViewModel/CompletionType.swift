@@ -7,7 +7,8 @@
 
 import UIKit
 
-enum CompletionItem: CustomStringConvertible {
+enum CompletionType: CustomStringConvertible {
+
     case signup(username: String)
     case passwordRecovery
     
@@ -25,7 +26,7 @@ enum CompletionItem: CustomStringConvertible {
         case .signup(let username):
             return "\(username)님,\n만나서 반가워요!"
         case .passwordRecovery:
-            return "비밀번호 변경을\n완료했습니다."
+            return "비밀번호가\n변경되었습니다"
         }
     }
     
@@ -37,6 +38,6 @@ enum CompletionItem: CustomStringConvertible {
     }
     
     var image: UIImage {
-        return .checkCircle
+        return .authCompletionCheck
     }
 }

@@ -11,33 +11,35 @@ import RxCocoa
 
 final class CompletionViewModel: ViewModel {
     struct Input {
-        let nextStep: Signal<()>
+        let onDone: Signal<()>
     }
     
     struct Output {
-        let item: Driver<CompletionItem>
+        let title: Driver<String>
     }
     
     private let coordinator: AuthFlowCoordinator
-    private let item: CompletionItem
-    
+    private let type: CompletionType
+
     init(
-        dependency: (
+        dependencies: (
             coordinator: AuthFlowCoordinator,
-            item: CompletionItem
+            type: CompletionType
         )
     ) {
-        self.coordinator = dependency.coordinator
-        self.item = dependency.item
+        self.coordinator = dependencies.coordinator
+        self.type = dependencies.type
     }
     
     @MainActor func transform(_ input: Input) -> Output {
         Task {
-            for await _ in input.nextStep.values {
-                coordinator.showSingin()
+            for await _ in input.onDone.values {
+                coordinator.showSignin()
             }
         }
         
-        return Output(item: .just(item))
+        return .init(
+            title: .just(type.title)
+        )
     }
 }

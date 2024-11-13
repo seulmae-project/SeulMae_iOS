@@ -6,6 +6,8 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 extension Ext where ExtendedType == UILabel {
     static func common(_ text: String? = "", 
@@ -26,7 +28,19 @@ extension Ext where ExtendedType == UILabel {
     }
 
     @discardableResult
-    func highlight(font: UIFont, textColor: String, words: String...) {
+    func lines(_ lines: Int) -> UILabel {
+        type.numberOfLines = lines
+        return type
+    }
+
+    @discardableResult
+    func center() -> UILabel {
+        type.textAlignment = .center
+        return type
+    }
+
+    @discardableResult
+    func highlight(font: UIFont, textColor: String, words: String...) -> ExtendedType {
         let fullText = type.text ?? ""
         let attributed = NSMutableAttributedString(string: fullText)
         for word in words {
@@ -35,6 +49,20 @@ extension Ext where ExtendedType == UILabel {
             attributed.addAttribute(.foregroundColor, value: UIColor.ext.hex(textColor), range: range)
         }
         type.attributedText = attributed
+        return type
+    }
+
+    var validationResult: Binder<ValidationResult> {
+        Binder<ValidationResult>(type, binding: { label, result in
+            let hasPaddingView = (label.superview?.tag == -1)
+            if hasPaddingView {
+                label.superview?.isHidden = result.isValid
+            } else {
+                label.isHidden = result.isValid
+            }
+            label.textColor = result.textColor
+            label.text = result.description
+        })
     }
 
     func setText(_ text: String,

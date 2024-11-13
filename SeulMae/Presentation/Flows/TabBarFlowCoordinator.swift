@@ -24,7 +24,7 @@ protocol TabBarFlowCoordinator: Coordinator {
 final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
     
     var childCoordinators: [any Coordinator] = []
-    var navigationController: UINavigationController
+    var nav: UINavigationController
     private let dependencies: TabBarFlowCoordinatorDependencies
     
     // MARK: - Life Cycle Methods
@@ -33,25 +33,23 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
         navigationController: UINavigationController,
         dependencies: TabBarFlowCoordinatorDependencies
     ) {
-        self.navigationController = navigationController
+        self.nav = navigationController
         self.dependencies = dependencies
     }
     
     func start(_ arguments: Any?) {
-        guard let isManager = arguments as? Bool else {
-            Swift.fatalError("[Main Flow]: Does not fount arguments")
-        }
-        
-        // showMain(isManager: isManager)
-        showFinder()
+        let isManager = arguments as! Bool
+        print("isManager: \(isManager)")
+        showHome(isManager: isManager)
     }
     
     func showHome(isManager: Bool) {
+        nav.isNavigationBarHidden = true
         let coordinators = childCoordinators.filter { !($0 is FinderFlowCoordinator) }
         coordinators.forEach { $0.start(isManager) }
-        let viewControllers = coordinators.map { $0.navigationController }
+        let viewControllers = coordinators.map { $0.nav }
         let vc = TabBarController(viewContollers: viewControllers, mainCoordinator: self)
-        navigationController.setViewControllers([vc], animated: false)
+        nav.setViewControllers([vc], animated: false)
     }
 
     func showFinder() {
@@ -59,14 +57,14 @@ final class DefaultTabBarFlowCoordinator: TabBarFlowCoordinator {
             .filter { ($0 is FinderFlowCoordinator) }
             .first
         (coordinator as? DefaultFinderFlowCoordinator)?.parentCoordinator = self
-        coordinator?.start(navigationController)
+        coordinator?.start(nav)
     }
 
     func showReminderList() {
         let coordinator = childCoordinators
             .filter { ($0 is CommonFlowCoordinator) }
             .first
-        coordinator?.start(navigationController)
+        coordinator?.start(nav)
     }
 
     func showScheduleCreation() {

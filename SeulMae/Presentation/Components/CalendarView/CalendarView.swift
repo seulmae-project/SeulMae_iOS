@@ -8,20 +8,20 @@
 import UIKit
 
 class CalendarView: UIView {
-    
+
     // MARK: - Internal Types
-    
+
     typealias DataSource = UICollectionViewDiffableDataSource<Section, CalendarItem>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Section, CalendarItem>
-    
+
     enum Section: Int, Hashable, CaseIterable {
         case weekday, day
     }
-    
+
     // MARK: UI Properties
-    
+
     private var calendarControl = CalendarControl()
-    
+
     private lazy var collectionView: UICollectionView = {
         let layout = createLayout()
         let collectionView = UICollectionView(
@@ -31,15 +31,21 @@ class CalendarView: UIView {
         collectionView.showsVerticalScrollIndicator = false
         return collectionView
     }()
-    
+
     // MARK: - Properties
-    
+
+    private var today: Date?
+    private var currentMonth: Int?
+    var minimumDate: Date?
+    var maximumDate: Date?
+
     let showOnlyCurrentMonthDates = false
-    
+
     var onTap: ((_ date: Date) -> Void)?
     var dataSource: DataSource!
     var currentDate: Date = .ext.now
     var startPreload: Bool = false
+
     //    var currentYear: Int = 0
     //    var currentMonth: Int = 0
     //    var currentDay: Int = 0
@@ -49,50 +55,83 @@ class CalendarView: UIView {
     //    private var numOfDaysInMonth = [
     //        31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31
     //    ]
-    
-    // MARK: - Life Cycle
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        //        let now = Date.ext.now
-        //        currentYear = Calendar.current.component(.year, from: now)
-        //        currentMonth = Calendar.current.component(.month, from: now)
-        //        currentDay = Calendar.current.component(.day, from: now)
-        //        firstWeekDay = now.ext.firstWeekDay
-        
+
+    // MARK: - Life Cycle Method
+
+    convenience init() {
+        // onChange
+        self.init(frame: .zero)
+        let calendar = Calendar.current
+        today = .ext.now
+        currentMonth = calendar.dateComponents([.month], from: today!).month!
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd"
+        minimumDate = formatter.date(from: "2010-01-01")!
+        maximumDate = formatter.date(from: "2025-01-01")!
+
+        // ???
         calendarControl.onChange = { [weak self] date in
             self?.currentDate = date
             self?.applyInitialSnapshot()
         }
-        
+
         addSubview(calendarControl)
         addSubview(collectionView)
-        
+
         setDataSource()
+
+        // 애니메이션 넣을려면 contentView 하나로 인식
+        // content view 하나당 달 하나
+        // reuqest t
     }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+
+    //    "userId": 2,
+    //    "workDate": "2024-07-08",
+    //    "isRequestApprove": true,
+    //    "isManagerCheck": false,
+    //    "idAttendanceRequestHistory": 5
+
+    // var dayConfiguration:
+    // 특정 날짜 꾸미기
+    struct DayConfig {
+        var backgroundColor: UIColor?
+        var bedgeImage: UIImage?
     }
-    
+
+    func update(dateList: [Date], withConfig: DayConfig) {
+        var snapshot = dataSource.snapshot()
+        let items = snapshot.itemIdentifiers
+        let existing = items.filter { item in
+            dateList.contains(where: { $0 == item.date! })
+        }
+    }
+
+    func setEvents(month: Int, days: [Int], withDayConfig: DayConfig) {
+
+    }
+
+    var onMonthChange: ((Int) -> Void)?
+    var onDaySelect: ((Int) -> Void)?
+    // 바뀌는 걸 알고 달력에 다시 넣어줄려면
+    // 옵저블로 연결되어야 함
+
     override var intrinsicContentSize: CGSize {
         CGSize(width: 352, height: 300)
     }
-    
+
     override func layoutSubviews() {
         super.layoutSubviews()
         // TODO: - collectionview header 로 변경 &
         calendarControl.frame = CGRect(origin: .zero, size: CGSize(width: 94, height: 24))
         collectionView.frame = CGRect(x: 0, y: 40, width: frame.width, height: frame.height - 24)
     }
-    
+
     // MARK: - DataSource
-    
+
     private func setDataSource() {
         let weekdayCellRegistration = createWeekdayCellRegistration()
         let dateCellRegistration = createDateCellRegistration()
-        
+
         dataSource = DataSource(collectionView: collectionView) { (view, index, item) in
             guard let section = Section(rawValue: index.section) else { return nil }
             switch section {
@@ -103,24 +142,9 @@ class CalendarView: UIView {
             }
         }
 
-//      let supplementaryRegistration = UICollectionView.SupplementaryRegistration
-//      <TitleSupplementaryView>(elementKind: ConferenceVideoSessionsViewController.titleElementKind) {
-//        (supplementaryView, string, indexPath) in
-//        if let snapshot = self.currentSnapshot {
-//          // Populate the view with our section's description.
-//          let videoCategory = snapshot.sectionIdentifiers[indexPath.section]
-//          supplementaryView.label.text = videoCategory.title
-//        }
-//      }
-//
-//      dataSource.supplementaryViewProvider = { (view, kind, index) in
-//        return self.collectionView.dequeueConfiguredReusableSupplementary(
-//          using: supplementaryRegistration, for: index)
-//      }
-
         applyInitialSnapshot()
     }
-    
+
     // MARK: - Snapshot
     
     private func applyInitialSnapshot() {
@@ -130,22 +154,21 @@ class CalendarView: UIView {
         snapshot.appendItems(weekdays, toSection: .weekday)
         
         let calendar = Calendar.current
-        let previousMonth = calendar.date(byAdding: .month, value: -1, to: currentDate)
-        let nextMonth = calendar.date(byAdding: .month, value: +1, to: currentDate)
+        var dates: [Date] = []
+        var currentDate = minimumDate
+        while currentDate! <= maximumDate! {
+            dates.append(currentDate!)
+            currentDate = calendar.date(byAdding: .month, value: 1, to: currentDate!)!
+        }
+        let items = dates.flatMap(createDayItems)
+        snapshot.appendItems(items, toSection: .day)
 
-        let previousMonthDays = createDayItems(previousMonth!)
-        let thisMonthDays = createDayItems(currentDate)
-        let nextMonthDays = createDayItems(nextMonth!)
-
-        let days =  previousMonthDays + thisMonthDays + nextMonthDays
-        snapshot.appendItems(days, toSection: .day)
-        
         dataSource.apply(snapshot) { [weak self] in
-            guard let strongSelf = self,
-                  let thisMonthItem = thisMonthDays.first,
-                  let indexPath = strongSelf.dataSource.indexPath(for: thisMonthItem) else { return }
-            strongSelf.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
-            strongSelf.startPreload = true
+//            guard let strongSelf = self,
+//                  let thisMonthItem = currentMonthDays.first,
+//                  let indexPath = strongSelf.dataSource.indexPath(for: thisMonthItem) else { return }
+//            strongSelf.collectionView.scrollToItem(at: indexPath, at: .centeredHorizontally, animated: false)
+//            strongSelf.startPreload = true
         }
     }
     

@@ -48,7 +48,7 @@
 		86102E552C621F3F009FF522 /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 86102E542C621F3F009FF522 /* .gitignore */; };
 		86102E572C6220DE009FF522 /* Bundle+Secrets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86102E562C6220DE009FF522 /* Bundle+Secrets.swift */; };
 		86112E502C2E8D77005DEBD1 /* SMSVerificationType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E4F2C2E8D77005DEBD1 /* SMSVerificationType.swift */; };
-		86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E512C2E8F40005DEBD1 /* CompletionItem.swift */; };
+		86112E522C2E8F40005DEBD1 /* CompletionType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E512C2E8F40005DEBD1 /* CompletionType.swift */; };
 		86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */; };
 		861869362CCCFF1C00ED3C29 /* PlaceFinderSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861869352CCCFF1C00ED3C29 /* PlaceFinderSection.swift */; };
 		861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861B96852C20076E0032C94A /* AuthUseCase.swift */; };
@@ -83,7 +83,7 @@
 		861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6912C2723C800702E24 /* RemainingTimer.swift */; };
 		861BF6952C273FC100702E24 /* ToastView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861BF6942C273FC100702E24 /* ToastView.swift */; };
 		861C31B42C1BF56D007DD6B9 /* AuthAPI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */; };
-		861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */; };
+		861C31B82C1C0D00007DD6B9 /* UserInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31B72C1C0D00007DD6B9 /* UserInfo.swift */; };
 		861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */; };
 		861C31C22C1C109D007DD6B9 /* MultiSugarTarget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BC2C1C109D007DD6B9 /* MultiSugarTarget.swift */; };
 		861C31C32C1C109D007DD6B9 /* Parameters.swift in Sources */ = {isa = PBXBuildFile; fileRef = 861C31BD2C1C109D007DD6B9 /* Parameters.swift */; };
@@ -102,8 +102,6 @@
 		8624EA952CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */; };
 		8624EA962CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */; };
 		8624EA982CAEAE56008A8D22 /* UIView+Bubbled.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */; };
-		8624EA9A2CAEBBD7008A8D22 /* MangerHomeItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */; };
-		8624EA9E2CAEE4B9008A8D22 /* ManagerHomeListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */; };
 		8633AF7E2CCCF6DC00067805 /* PlaceInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8633AF7D2CCCF6DC00067805 /* PlaceInfoView.swift */; };
 		86356AD82CCC9A3D00360593 /* ScheduleCreationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86356AD72CCC9A3D00360593 /* ScheduleCreationItem.swift */; };
 		863B68942C2342BC00959A61 /* BottomSheetAnimationTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863B68932C2342BC00959A61 /* BottomSheetAnimationTransition.swift */; };
@@ -148,7 +146,7 @@
 		86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D152C183E5600095010 /* AuthFlowCoordinator.swift */; };
 		86766D1E2C1842CF00095010 /* ProfileSetupViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */; };
 		86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86766D1F2C1842DA00095010 /* CompletionViewModel.swift */; };
-		86803EB72CCD419400926A09 /* EmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EB62CCD419400926A09 /* EmptyView.swift */; };
+		86803EB72CCD419400926A09 /* SMEmptyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EB62CCD419400926A09 /* SMEmptyView.swift */; };
 		86803EBD2CCE2E8300926A09 /* UIScrollView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */; };
 		86803EBF2CCE2ED600926A09 /* UIImageView+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */; };
 		86803EC12CCE2EF100926A09 /* UIVIew+Ext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */; };
@@ -221,7 +219,7 @@
 		869C7A6E2C6E96D8008EB7ED /* File2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6D2C6E96D8008EB7ED /* File2.swift */; };
 		869C7A702C6EEF5B008EB7ED /* MemberListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */; };
 		869C7A722C6EEF69008EB7ED /* AttendanceListItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */; };
-		869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */; };
+		869C7A742C6EF070008EB7ED /* JoinApplicationContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A732C6EF070008EB7ED /* JoinApplicationContentView.swift */; };
 		869C7A762C6F0133008EB7ED /* AttendanceUseCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */; };
 		869C7A782C6F08E6008EB7ED /* Data+String.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A772C6F08E6008EB7ED /* Data+String.swift */; };
 		869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */; };
@@ -300,11 +298,30 @@
 		86DB32E52C9BB39000575A03 /* UserHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */; };
 		86DB32E72C9BB52400575A03 /* ManagerHomeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */; };
 		86DC37742C63355F0012FC02 /* UITextField+Rx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DC37732C63355F0012FC02 /* UITextField+Rx.swift */; };
+		86DD0D882CE2278B00DA5823 /* AttListPageControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D872CE2278B00DA5823 /* AttListPageControl.swift */; };
+		86DD0D902CE2545700DA5823 /* Attendance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D8F2CE2545700DA5823 /* Attendance.swift */; };
+		86DD0D922CE2564700DA5823 /* AttendanceDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D912CE2564700DA5823 /* AttendanceDTO.swift */; };
+		86DD0D942CE3631900DA5823 /* AttListPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D932CE3631900DA5823 /* AttListPageViewController.swift */; };
+		86DD0D962CE3650300DA5823 /* HandledAttListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D952CE3650300DA5823 /* HandledAttListViewController.swift */; };
+		86DD0D982CE3651C00DA5823 /* UnhandledAttListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D972CE3651C00DA5823 /* UnhandledAttListViewController.swift */; };
+		86DD0D9A2CE3668800DA5823 /* UnhandledAttContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D992CE3668800DA5823 /* UnhandledAttContentView.swift */; };
+		86DD0D9C2CE371D600DA5823 /* HandledAttContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D9B2CE371D600DA5823 /* HandledAttContentView.swift */; };
+		86DD0D9E2CE3BE9E00DA5823 /* JoinApplication.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D9D2CE3BE9E00DA5823 /* JoinApplication.swift */; };
+		86DD0DA02CE4BBE500DA5823 /* JoinApplicationDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */; };
+		86DD0DA32CE4CA4300DA5823 /* AttHistoriesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
 		86DE556C2C19E9C7009CC520 /* AccountRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556B2C19E9C7009CC520 /* AccountRecoveryViewController.swift */; };
 		86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */; };
+		86E190BD2CD639C3002CD227 /* SMSVerificationResultDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190BC2CD639C3002CD227 /* SMSVerificationResultDTO+Mapping.swift */; };
+		86E190BF2CD63A7D002CD227 /* SMSVerificationResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190BE2CD63A7D002CD227 /* SMSVerificationResult.swift */; };
+		86E190C22CD6420B002CD227 /* IdRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190C12CD6420B002CD227 /* IdRecoveryViewController.swift */; };
+		86E190C42CD64858002CD227 /* IdRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190C32CD64858002CD227 /* IdRecoveryViewModel.swift */; };
+		86E190C92CD65455002CD227 /* PwRecoveryViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190C82CD65455002CD227 /* PwRecoveryViewController.swift */; };
+		86E190CB2CD6553E002CD227 /* PwRecoveryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190CA2CD6553E002CD227 /* PwRecoveryViewModel.swift */; };
+		86E190CF2CD673FB002CD227 /* RecoveryResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190CE2CD673FB002CD227 /* RecoveryResult.swift */; };
+		86E190D12CD67428002CD227 /* RecoveryResultDTO+Mapping.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E190D02CD67428002CD227 /* RecoveryResultDTO+Mapping.swift */; };
 		86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */; };
 		86E296F52C4E4D9D0080A3A2 /* TextCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F42C4E4D9D0080A3A2 /* TextCell.swift */; };
 		86E296F82C4E81EC0080A3A2 /* ReminderListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86E296F72C4E81EC0080A3A2 /* ReminderListViewController.swift */; };
@@ -428,7 +445,7 @@
 		86102E542C621F3F009FF522 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 		86102E562C6220DE009FF522 /* Bundle+Secrets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+Secrets.swift"; sourceTree = "<group>"; };
 		86112E4F2C2E8D77005DEBD1 /* SMSVerificationType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationType.swift; sourceTree = "<group>"; };
-		86112E512C2E8F40005DEBD1 /* CompletionItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionItem.swift; sourceTree = "<group>"; };
+		86112E512C2E8F40005DEBD1 /* CompletionType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionType.swift; sourceTree = "<group>"; };
 		86112E542C2EA1DB005DEBD1 /* SMSVerificationViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SMSVerificationViewController.swift; sourceTree = "<group>"; };
 		861869352CCCFF1C00ED3C29 /* PlaceFinderSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceFinderSection.swift; sourceTree = "<group>"; };
 		861B96852C20076E0032C94A /* AuthUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthUseCase.swift; sourceTree = "<group>"; };
@@ -463,7 +480,7 @@
 		861BF6912C2723C800702E24 /* RemainingTimer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RemainingTimer.swift; sourceTree = "<group>"; };
 		861BF6942C273FC100702E24 /* ToastView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToastView.swift; sourceTree = "<group>"; };
 		861C31B32C1BF56D007DD6B9 /* AuthAPI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthAPI.swift; sourceTree = "<group>"; };
-		861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignupRequest.swift; sourceTree = "<group>"; };
+		861C31B72C1C0D00007DD6B9 /* UserInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserInfo.swift; sourceTree = "<group>"; };
 		861C31BB2C1C109D007DD6B9 /* MoyaSugarProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoyaSugarProvider.swift; sourceTree = "<group>"; };
 		861C31BC2C1C109D007DD6B9 /* MultiSugarTarget.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiSugarTarget.swift; sourceTree = "<group>"; };
 		861C31BD2C1C109D007DD6B9 /* Parameters.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Parameters.swift; sourceTree = "<group>"; };
@@ -480,8 +497,6 @@
 		8624EA932CAE7C6B008A8D22 /* WorkplaceModel +CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataClass.swift"; sourceTree = "<group>"; };
 		8624EA942CAE7C6B008A8D22 /* WorkplaceModel +CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WorkplaceModel +CoreDataProperties.swift"; sourceTree = "<group>"; };
 		8624EA972CAEAE56008A8D22 /* UIView+Bubbled.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+Bubbled.swift"; sourceTree = "<group>"; };
-		8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MangerHomeItem.swift; sourceTree = "<group>"; };
-		8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeListItem.swift; sourceTree = "<group>"; };
 		8633AF7D2CCCF6DC00067805 /* PlaceInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlaceInfoView.swift; sourceTree = "<group>"; };
 		86356AD72CCC9A3D00360593 /* ScheduleCreationItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleCreationItem.swift; sourceTree = "<group>"; };
 		863B68932C2342BC00959A61 /* BottomSheetAnimationTransition.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BottomSheetAnimationTransition.swift; sourceTree = "<group>"; };
@@ -523,7 +538,7 @@
 		86766D152C183E5600095010 /* AuthFlowCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthFlowCoordinator.swift; sourceTree = "<group>"; };
 		86766D1D2C1842CF00095010 /* ProfileSetupViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileSetupViewModel.swift; sourceTree = "<group>"; };
 		86766D1F2C1842DA00095010 /* CompletionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompletionViewModel.swift; sourceTree = "<group>"; };
-		86803EB62CCD419400926A09 /* EmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmptyView.swift; sourceTree = "<group>"; };
+		86803EB62CCD419400926A09 /* SMEmptyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMEmptyView.swift; sourceTree = "<group>"; };
 		86803EBC2CCE2E8300926A09 /* UIScrollView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIScrollView+Ext.swift"; sourceTree = "<group>"; };
 		86803EBE2CCE2ED600926A09 /* UIImageView+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImageView+Ext.swift"; sourceTree = "<group>"; };
 		86803EC02CCE2EF100926A09 /* UIVIew+Ext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIVIew+Ext.swift"; sourceTree = "<group>"; };
@@ -596,7 +611,7 @@
 		869C7A6D2C6E96D8008EB7ED /* File2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File2.swift; sourceTree = "<group>"; };
 		869C7A6F2C6EEF5B008EB7ED /* MemberListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemberListItem.swift; sourceTree = "<group>"; };
 		869C7A712C6EEF69008EB7ED /* AttendanceListItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceListItem.swift; sourceTree = "<group>"; };
-		869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceRequestContentView.swift; sourceTree = "<group>"; };
+		869C7A732C6EF070008EB7ED /* JoinApplicationContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplicationContentView.swift; sourceTree = "<group>"; };
 		869C7A752C6F0133008EB7ED /* AttendanceUseCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceUseCase.swift; sourceTree = "<group>"; };
 		869C7A772C6F08E6008EB7ED /* Data+String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+String.swift"; sourceTree = "<group>"; };
 		869C7A792C6F2180008EB7ED /* WorkplacePlaceListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkplacePlaceListViewController.swift; sourceTree = "<group>"; };
@@ -674,11 +689,30 @@
 		86DB32E42C9BB39000575A03 /* UserHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHomeViewModel.swift; sourceTree = "<group>"; };
 		86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManagerHomeViewModel.swift; sourceTree = "<group>"; };
 		86DC37732C63355F0012FC02 /* UITextField+Rx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UITextField+Rx.swift"; sourceTree = "<group>"; };
+		86DD0D872CE2278B00DA5823 /* AttListPageControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttListPageControl.swift; sourceTree = "<group>"; };
+		86DD0D8F2CE2545700DA5823 /* Attendance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Attendance.swift; sourceTree = "<group>"; };
+		86DD0D912CE2564700DA5823 /* AttendanceDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceDTO.swift; sourceTree = "<group>"; };
+		86DD0D932CE3631900DA5823 /* AttListPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttListPageViewController.swift; sourceTree = "<group>"; };
+		86DD0D952CE3650300DA5823 /* HandledAttListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandledAttListViewController.swift; sourceTree = "<group>"; };
+		86DD0D972CE3651C00DA5823 /* UnhandledAttListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnhandledAttListViewController.swift; sourceTree = "<group>"; };
+		86DD0D992CE3668800DA5823 /* UnhandledAttContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnhandledAttContentView.swift; sourceTree = "<group>"; };
+		86DD0D9B2CE371D600DA5823 /* HandledAttContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HandledAttContentView.swift; sourceTree = "<group>"; };
+		86DD0D9D2CE3BE9E00DA5823 /* JoinApplication.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplication.swift; sourceTree = "<group>"; };
+		86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JoinApplicationDTO.swift; sourceTree = "<group>"; };
+		86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoriesViewController.swift; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
 		86DE556B2C19E9C7009CC520 /* AccountRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryViewController.swift; sourceTree = "<group>"; };
 		86DE556F2C19EA25009CC520 /* AccountRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountRecoveryViewModel.swift; sourceTree = "<group>"; };
+		86E190BC2CD639C3002CD227 /* SMSVerificationResultDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "SMSVerificationResultDTO+Mapping.swift"; sourceTree = "<group>"; };
+		86E190BE2CD63A7D002CD227 /* SMSVerificationResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SMSVerificationResult.swift; sourceTree = "<group>"; };
+		86E190C12CD6420B002CD227 /* IdRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdRecoveryViewController.swift; sourceTree = "<group>"; };
+		86E190C32CD64858002CD227 /* IdRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdRecoveryViewModel.swift; sourceTree = "<group>"; };
+		86E190C82CD65455002CD227 /* PwRecoveryViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwRecoveryViewController.swift; sourceTree = "<group>"; };
+		86E190CA2CD6553E002CD227 /* PwRecoveryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PwRecoveryViewModel.swift; sourceTree = "<group>"; };
+		86E190CE2CD673FB002CD227 /* RecoveryResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecoveryResult.swift; sourceTree = "<group>"; };
+		86E190D02CD67428002CD227 /* RecoveryResultDTO+Mapping.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RecoveryResultDTO+Mapping.swift"; sourceTree = "<group>"; };
 		86E296F22C4E31D90080A3A2 /* WorkControlModalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkControlModalViewController.swift; sourceTree = "<group>"; };
 		86E296F42C4E4D9D0080A3A2 /* TextCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCell.swift; sourceTree = "<group>"; };
 		86E296F72C4E81EC0080A3A2 /* ReminderListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderListViewController.swift; sourceTree = "<group>"; };
@@ -999,6 +1033,8 @@
 			isa = PBXGroup;
 			children = (
 				86A03A892C623E5B00EA99DD /* Credentials.swift */,
+				86E190BE2CD63A7D002CD227 /* SMSVerificationResult.swift */,
+				86E190CE2CD673FB002CD227 /* RecoveryResult.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1180,7 +1216,7 @@
 				8633AF7D2CCCF6DC00067805 /* PlaceInfoView.swift */,
 				866577B82C3410250048A111 /* PlaceInfoDetailsContentView.swift */,
 				860F20BA2CC3FE3600E27D34 /* PlaceInfoContentView.swift */,
-				86803EB62CCD419400926A09 /* EmptyView.swift */,
+				86803EB62CCD419400926A09 /* SMEmptyView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -1310,6 +1346,7 @@
 				86016C4C2C94573700EE8A92 /* AttendanceHistory.swift */,
 				86016C4E2C94628700EE8A92 /* MonthlyAttenanceSummary.swift */,
 				86AC25F02C9BCC750009D249 /* AttendanceHistorySummary.swift */,
+				86DD0D8F2CE2545700DA5823 /* Attendance.swift */,
 			);
 			path = Attendance;
 			sourceTree = "<group>";
@@ -1532,7 +1569,7 @@
 			isa = PBXGroup;
 			children = (
 				86766D1F2C1842DA00095010 /* CompletionViewModel.swift */,
-				86112E512C2E8F40005DEBD1 /* CompletionItem.swift */,
+				86112E512C2E8F40005DEBD1 /* CompletionType.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -1588,6 +1625,7 @@
 				8683547C2C245E6F00F055D2 /* Auth */,
 				8683547D2C245E7D00F055D2 /* Workplace */,
 				86D309E32C33AE2400C08DA8 /* Notice */,
+				86DD0D912CE2564700DA5823 /* AttendanceDTO.swift */,
 			);
 			path = Response;
 			sourceTree = "<group>";
@@ -1600,6 +1638,7 @@
 				861BF68E2C270C8500702E24 /* Announce */,
 				86639B942C9561220029C1F9 /* Notification */,
 				86639B932C9560FC0029C1F9 /* Attendance */,
+				86DD0D9D2CE3BE9E00DA5823 /* JoinApplication.swift */,
 			);
 			path = Entities;
 			sourceTree = "<group>";
@@ -1610,6 +1649,8 @@
 				868354712C2454A300F055D2 /* BaseResponseDTO.swift */,
 				868354752C2455CA00F055D2 /* EmailDTO+Mapping.swift */,
 				868354772C2456E600F055D2 /* AuthDataDTO+Mapping.swift */,
+				86E190BC2CD639C3002CD227 /* SMSVerificationResultDTO+Mapping.swift */,
+				86E190D02CD67428002CD227 /* RecoveryResultDTO+Mapping.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -1624,6 +1665,7 @@
 				860EB2B42C74CFF100310985 /* AppNotificationDTO+Mapping.swift */,
 				86FD61ED2C8ACBB6005ED02F /* AddressDTO+Mapping.swift */,
 				86FACA002CC3D27200898CFE /* ApplicationDTO+Mapping.swift */,
+				86DD0D9F2CE4BBE500DA5823 /* JoinApplicationDTO.swift */,
 			);
 			path = Workplace;
 			sourceTree = "<group>";
@@ -1959,7 +2001,7 @@
 		86D309F82C33F3E200C08DA8 /* Auth */ = {
 			isa = PBXGroup;
 			children = (
-				861C31B72C1C0D00007DD6B9 /* SignupRequest.swift */,
+				861C31B72C1C0D00007DD6B9 /* UserInfo.swift */,
 			);
 			path = Auth;
 			sourceTree = "<group>";
@@ -2008,6 +2050,37 @@
 				86DB32CC2C9A821800575A03 /* WorkScheduleListItem.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86DD0D8D2CE2409B00DA5823 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */,
+				86DD0D872CE2278B00DA5823 /* AttListPageControl.swift */,
+				86DD0D932CE3631900DA5823 /* AttListPageViewController.swift */,
+				86DD0D952CE3650300DA5823 /* HandledAttListViewController.swift */,
+				86DD0D9B2CE371D600DA5823 /* HandledAttContentView.swift */,
+				86DD0D972CE3651C00DA5823 /* UnhandledAttListViewController.swift */,
+				86DD0D992CE3668800DA5823 /* UnhandledAttContentView.swift */,
+				869C7A732C6EF070008EB7ED /* JoinApplicationContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86DD0D8E2CE240A100DA5823 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86DD0DA12CE4CA0300DA5823 /* AttandanceHistories */ = {
+			isa = PBXGroup;
+			children = (
+				86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */,
+			);
+			path = AttandanceHistories;
 			sourceTree = "<group>";
 		};
 		86DE55592C18B6F7009CC520 /* Components */ = {
@@ -2074,6 +2147,24 @@
 				860BCE5E2C6A5A8200DCC532 /* AccountRecoveryItem.swift */,
 			);
 			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86E190C02CD641E3002CD227 /* IdRecovery */ = {
+			isa = PBXGroup;
+			children = (
+				86E190C12CD6420B002CD227 /* IdRecoveryViewController.swift */,
+				86E190C32CD64858002CD227 /* IdRecoveryViewModel.swift */,
+			);
+			path = IdRecovery;
+			sourceTree = "<group>";
+		};
+		86E190C72CD65449002CD227 /* PwRecovery */ = {
+			isa = PBXGroup;
+			children = (
+				86E190C82CD65455002CD227 /* PwRecoveryViewController.swift */,
+				86E190CA2CD6553E002CD227 /* PwRecoveryViewModel.swift */,
+			);
+			path = PwRecovery;
 			sourceTree = "<group>";
 		};
 		86E296F62C4E81B60080A3A2 /* Notification */ = {
@@ -2183,6 +2274,8 @@
 				86E299D92C17227600805AD0 /* Signup */,
 				86DE556A2C19E77D009CC520 /* AccountRecovery */,
 				86766D0E2C1838A600095010 /* AccountSetup */,
+				86E190C02CD641E3002CD227 /* IdRecovery */,
+				86E190C72CD65449002CD227 /* PwRecovery */,
 				86766D1A2C1842A200095010 /* Completion */,
 			);
 			path = Authentication;
@@ -2237,6 +2330,7 @@
 			children = (
 				86FD61D72C895764005ED02F /* Manager */,
 				86FD61D82C895778005ED02F /* User */,
+				86DD0DA12CE4CA0300DA5823 /* AttandanceHistories */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -2244,11 +2338,8 @@
 		86FD61D72C895764005ED02F /* Manager */ = {
 			isa = PBXGroup;
 			children = (
-				86FD61D92C8957A4005ED02F /* ManagerHomeViewController.swift */,
-				86DB32E62C9BB52400575A03 /* ManagerHomeViewModel.swift */,
-				8624EA992CAEBBD7008A8D22 /* MangerHomeItem.swift */,
-				8624EA9D2CAEE4B9008A8D22 /* ManagerHomeListItem.swift */,
-				869C7A732C6EF070008EB7ED /* AttendanceRequestContentView.swift */,
+				86DD0D8D2CE2409B00DA5823 /* View */,
+				86DD0D8E2CE240A100DA5823 /* ViewModel */,
 			);
 			path = Manager;
 			sourceTree = "<group>";
@@ -2531,9 +2622,9 @@
 				86016C4D2C94573700EE8A92 /* AttendanceHistory.swift in Sources */,
 				86639B992C9562020029C1F9 /* Reminder.swift in Sources */,
 				8658A29B2C68B4AC00F15C0B /* DateSelectView.swift in Sources */,
+				86DD0D942CE3631900DA5823 /* AttListPageViewController.swift in Sources */,
 				86939DFE2CB1555900E03707 /* UIDatePicker+Ext.swift in Sources */,
 				86F309682CC3800E0048CFAF /* UserHomeCalendarContentView.swift in Sources */,
-				8624EA9E2CAEE4B9008A8D22 /* ManagerHomeListItem.swift in Sources */,
 				865AA2012CA9735A00D70B09 /* UILabel+Ext.swift in Sources */,
 				86BE959E2CCE47ED00F2633E /* WorkScheduleDetailsViewController.swift in Sources */,
 				86B4B4612C4B57F400D83488 /* WorkLogsSummaryView.swift in Sources */,
@@ -2542,10 +2633,10 @@
 				8697FBE82C2D18FD0027A035 /* PHPickerViewController+Rx.swift in Sources */,
 				86B07D852C3295320088E1B1 /* CalendarView.swift in Sources */,
 				86A416782CBA9859008394BE /* CalendarContentView.swift in Sources */,
-				869C7A742C6EF070008EB7ED /* AttendanceRequestContentView.swift in Sources */,
+				869C7A742C6EF070008EB7ED /* JoinApplicationContentView.swift in Sources */,
 				860F20C32CC41D1000E27D34 /* CommonFlowCoordinator.swift in Sources */,
 				86FD61E22C8959CE005ED02F /* SettingViewController.swift in Sources */,
-				86112E522C2E8F40005DEBD1 /* CompletionItem.swift in Sources */,
+				86112E522C2E8F40005DEBD1 /* CompletionType.swift in Sources */,
 				86BE959C2CCE463200F2633E /* Bundle+Ext.swift in Sources */,
 				861C31C42C1C109D007DD6B9 /* Route.swift in Sources */,
 				86FD61F42C8AD057005ED02F /* UserAPI.swift in Sources */,
@@ -2594,6 +2685,7 @@
 				868E68332CCA9CC600CEC0F3 /* MemberEmptyView.swift in Sources */,
 				865AA2052CA9927500D70B09 /* PlaceDetailsItem.swift in Sources */,
 				868E68242CC67F5400CEC0F3 /* AlertViewController.swift in Sources */,
+				86DD0DA02CE4BBE500DA5823 /* JoinApplicationDTO.swift in Sources */,
 				86803EBD2CCE2E8300926A09 /* UIScrollView+Ext.swift in Sources */,
 				86E296FE2C4E890A0080A3A2 /* ReminderListItem.swift in Sources */,
 				860BCE612C6A7D7200DCC532 /* CredentialRecoveryOptionsViewController.swift in Sources */,
@@ -2619,7 +2711,9 @@
 				86FAC9FF2CC3B7C100898CFE /* CardContentView.swift in Sources */,
 				8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */,
 				86016C5F2C9A621C00EE8A92 /* InitialUserInfo.swift in Sources */,
+				86DD0DA32CE4CA4300DA5823 /* AttHistoriesViewController.swift in Sources */,
 				86AC25FD2CA043A20009D249 /* WorkTimeRecordingViewModel.swift in Sources */,
+				86DD0D9A2CE3668800DA5823 /* UnhandledAttContentView.swift in Sources */,
 				8606F6862C332DBB00FFC68E /* AddNewWorkplaceRequest.swift in Sources */,
 				86939DF92CB1139100E03707 /* SignupType.swift in Sources */,
 				86AC25F62C9C32360009D249 /* ScheduleReminderViewModel.swift in Sources */,
@@ -2644,15 +2738,19 @@
 				86803EC12CCE2EF100926A09 /* UIVIew+Ext.swift in Sources */,
 				864A5E742C83459B00D7B0EF /* AnnounceListItem.swift in Sources */,
 				86E296F32C4E31D90080A3A2 /* WorkControlModalViewController.swift in Sources */,
+				86E190C92CD65455002CD227 /* PwRecoveryViewController.swift in Sources */,
 				86E299E82C17289800805AD0 /* AccountSetupViewController.swift in Sources */,
 				861C31C12C1C109D007DD6B9 /* MoyaSugarProvider.swift in Sources */,
 				868E681C2CC51F1000CEC0F3 /* UITextField+Ext.swift in Sources */,
 				869054AF2C60C9140037B61A /* WorkplaceTable.swift in Sources */,
 				86D309E72C33AEC700C08DA8 /* Announce.swift in Sources */,
 				86FD620C2C8D46CA005ED02F /* DefaultWorkScheduleRepository.swift in Sources */,
+				86DD0D982CE3651C00DA5823 /* UnhandledAttListViewController.swift in Sources */,
+				86E190C42CD64858002CD227 /* IdRecoveryViewModel.swift in Sources */,
 				864415572C6D02A300295838 /* PlaceFinderViewController.swift in Sources */,
 				86549F762CD1328300798FC2 /* String+Ext.swift in Sources */,
 				864A5E722C83457B00D7B0EF /* AnnounceListViewModel.swift in Sources */,
+				86E190BD2CD639C3002CD227 /* SMSVerificationResultDTO+Mapping.swift in Sources */,
 				86DB32CF2C9A995C00575A03 /* NetwrokLogger.swift in Sources */,
 				8683547F2C245EC000F055D2 /* WorkplaceDTO+Mapping.swift in Sources */,
 				8606F6802C33244400FFC68E /* Member.swift in Sources */,
@@ -2679,6 +2777,7 @@
 				868E68312CCA99BE00CEC0F3 /* ScheduleCreationViewModel.swift in Sources */,
 				8606F6882C332EC800FFC68E /* UpdateWorkplaceRequest.swift in Sources */,
 				86A416742CBA3D02008394BE /* WorkplaceOverviewContentView.swift in Sources */,
+				86DD0D962CE3650300DA5823 /* HandledAttListViewController.swift in Sources */,
 				86AC25F42C9C2FE40009D249 /* ScheduleReminderViewController.swift in Sources */,
 				861B96862C20076E0032C94A /* AuthUseCase.swift in Sources */,
 				86FD61DF2C89596E005ED02F /* WorkplaceViewController.swift in Sources */,
@@ -2692,6 +2791,7 @@
 				8684C5B02C49F9AB00EB3D28 /* WorkplaceRepository.swift in Sources */,
 				861BF6862C27070C00702E24 /* AttendnaceAPI.swift in Sources */,
 				86E299DE2C1722D700805AD0 /* SigninViewController.swift in Sources */,
+				86E190CF2CD673FB002CD227 /* RecoveryResult.swift in Sources */,
 				86766D202C1842DA00095010 /* CompletionViewModel.swift in Sources */,
 				86D309C72C33975100C08DA8 /* AddAnnounceRequset.swift in Sources */,
 				86DB32D32C9A9D5500575A03 /* WorkScheduleDetailsItem.swift in Sources */,
@@ -2735,6 +2835,7 @@
 				865AA1FD2CA9163E00D70B09 /* BaseViewController.swift in Sources */,
 				86FD61FC2C8D323A005ED02F /* WorkplaceViewModel.swift in Sources */,
 				863B68942C2342BC00959A61 /* BottomSheetAnimationTransition.swift in Sources */,
+				86E190CB2CD6553E002CD227 /* PwRecoveryViewModel.swift in Sources */,
 				86939DF52CAEF80800E03707 /* JoinApplicationViewController.swift in Sources */,
 				86FD62002C8D3601005ED02F /* AnnounceSummeryContentView.swift in Sources */,
 				86FD62142C8D952B005ED02F /* WorkScheduleAPI.swift in Sources */,
@@ -2742,7 +2843,6 @@
 				86DB32E32C9AE47000575A03 /* WorkTimePickerContentView.swift in Sources */,
 				86112E502C2E8D77005DEBD1 /* SMSVerificationType.swift in Sources */,
 				86FD61F82C8D26C8005ED02F /* UIImage+Size.swift in Sources */,
-				8624EA9A2CAEBBD7008A8D22 /* MangerHomeItem.swift in Sources */,
 				86E299A92C1721FF00805AD0 /* AppDelegate.swift in Sources */,
 				86B0AF912C2EAD8F0006AF00 /* MainViewItem.swift in Sources */,
 				86E299AB2C1721FF00805AD0 /* SceneDelegate.swift in Sources */,
@@ -2752,6 +2852,7 @@
 				8658A29F2C68B9DA00F15C0B /* DatePickerKind.swift in Sources */,
 				86016C592C9A610F00EE8A92 /* ApproveAttendanceRequest.swift in Sources */,
 				86B4B4652C4B8D3500D83488 /* Sendable+Rx.swift in Sources */,
+				86DD0D882CE2278B00DA5823 /* AttListPageControl.swift in Sources */,
 				86FD61EE2C8ACBB6005ED02F /* AddressDTO+Mapping.swift in Sources */,
 				86B4B4562C4B3FA700D83488 /* WorkScheduleDTO+Mapping.swift in Sources */,
 				865AA1FB2CA7DA8B00D70B09 /* LeftScheduleView.swift in Sources */,
@@ -2762,30 +2863,36 @@
 				86DE55702C19EA25009CC520 /* AccountRecoveryViewModel.swift in Sources */,
 				861B96972C20513C0032C94A /* BottomSheetController.swift in Sources */,
 				868354782C2456E600F055D2 /* AuthDataDTO+Mapping.swift in Sources */,
-				861C31B82C1C0D00007DD6B9 /* SignupRequest.swift in Sources */,
+				86DD0D9C2CE371D600DA5823 /* HandledAttContentView.swift in Sources */,
+				861C31B82C1C0D00007DD6B9 /* UserInfo.swift in Sources */,
 				86FD61F62C8ADE2F005ED02F /* SettingItem.swift in Sources */,
-				86803EB72CCD419400926A09 /* EmptyView.swift in Sources */,
+				86803EB72CCD419400926A09 /* SMEmptyView.swift in Sources */,
 				8606F6842C33282100FFC68E /* MemberContentView.swift in Sources */,
 				86016C5B2C9A611B00EE8A92 /* AttendRequest.swift in Sources */,
 				86016C552C9824FE00EE8A92 /* DefaultAttendanceHistoryRepository.swift in Sources */,
 				861B96CE2C21BBB20032C94A /* AppFlowCoordinator.swift in Sources */,
 				86B07D8C2C32D4650088E1B1 /* Date+CalendarView.swift in Sources */,
+				86DD0D922CE2564700DA5823 /* AttendanceDTO.swift in Sources */,
 				86FACA052CC3D75C00898CFE /* ReminderCountContentView.swift in Sources */,
 				866EA3402C4A7D0D003159F9 /* MemberInfoViewController.swift in Sources */,
 				86AC25EF2C9BC8BC0009D249 /* AttendanceHistoryUseCase.swift in Sources */,
+				86DD0D9E2CE3BE9E00DA5823 /* JoinApplication.swift in Sources */,
 				86FD61E82C8AA01E005ED02F /* SettingListItem.swift in Sources */,
 				860BCE5F2C6A5A8200DCC532 /* AccountRecoveryItem.swift in Sources */,
 				869C7A6C2C6E942E008EB7ED /* File.swift in Sources */,
 				86016C572C9A5D0F00EE8A92 /* WorkScheduleInfo.swift in Sources */,
 				8658A29D2C68B87A00F15C0B /* DatePickerModalViewController.swift in Sources */,
+				86E190BF2CD63A7D002CD227 /* SMSVerificationResult.swift in Sources */,
 				86FD62082C8D4569005ED02F /* AnnounceUseCase.swift in Sources */,
 				861C31C52C1C109D007DD6B9 /* SugarTargetType.swift in Sources */,
+				86E190D12CD67428002CD227 /* RecoveryResultDTO+Mapping.swift in Sources */,
 				86E296F82C4E81EC0080A3A2 /* ReminderListViewController.swift in Sources */,
 				8693C42C2C2282BC00D7DCD3 /* ShapeGenerating.swift in Sources */,
 				86BE95A02CCE81D800F2633E /* UIStackView+Ext.swift in Sources */,
 				861B96D32C21BCA70032C94A /* AuthSceneDIContainer.swift in Sources */,
 				86112E552C2EA1DB005DEBD1 /* SMSVerificationViewController.swift in Sources */,
 				86A03A8A2C623E5B00EA99DD /* Credentials.swift in Sources */,
+				86DD0D902CE2545700DA5823 /* Attendance.swift in Sources */,
 				869C7A7A2C6F2180008EB7ED /* WorkplacePlaceListViewController.swift in Sources */,
 				864A5E7B2C83491D00D7B0EF /* AnnounceViewModel.swift in Sources */,
 				8687094C2CBBE6250073EF65 /* WorkplaceStatusContentView.swift in Sources */,
@@ -2827,6 +2934,7 @@
 				86766D082C1833F500095010 /* UIColor+Hex.swift in Sources */,
 				86AC26002CA0440D0009D249 /* WorkLogViewController.swift in Sources */,
 				86FD61EC2C8AC886005ED02F /* UserUseCase.swift in Sources */,
+				86E190C22CD6420B002CD227 /* IdRecoveryViewController.swift in Sources */,
 				86C40B082C4F3C320051EF2B /* AnnounceDetailItem.swift in Sources */,
 				8693C4342C22E07D00D7DCD3 /* ShapeLayer.swift in Sources */,
 				86766D162C183E5600095010 /* AuthFlowCoordinator.swift in Sources */,

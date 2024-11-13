@@ -74,7 +74,8 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
         let contentStack = UIStackView()
         contentStack.spacing = 8.0
         contentStack.alignment = .center
-        [bubbled, nameAndTimeStack, messageStack]
+        //bubbled
+        [nameAndTimeStack, messageStack]
             .forEach(contentStack.addArrangedSubview(_:))
         contentStack.directionalLayoutMargins = .init(top: 12, leading: 12, bottom: 12, trailing: 12)
         contentStack.isLayoutMarginsRelativeArrangement = true
@@ -92,10 +93,10 @@ final class WorkplaceStatusContentView: UIView, UIContentView {
             contentStack.topAnchor.constraint(equalTo: topAnchor),
             contentStack.bottomAnchor.constraint(equalTo: bottomAnchor),
 
-            progressView.heightAnchor.constraint(equalToConstant: 3.0),
-            progressView.widthAnchor.constraint(equalToConstant: 40),
-
-            bubbled.widthAnchor.constraint(equalToConstant: 7.0),
+//            progressView.heightAnchor.constraint(equalToConstant: 3.0),
+//            progressView.widthAnchor.constraint(equalToConstant: 40),
+//
+//            bubbled.widthAnchor.constraint(equalToConstant: 7.0),
             // TODO: progress View 커스텀 해야함
         ])
     }

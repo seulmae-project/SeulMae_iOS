@@ -7,6 +7,7 @@
 
 import Foundation
 import RxSwift
+import RxCocoa
 
 protocol AuthUseCase {
     // Signin
@@ -15,15 +16,15 @@ protocol AuthUseCase {
 
     // Signup
     func verifyAccountID(_ accountID: String) -> Single<Bool>
-    func signup(request: SignupRequest, file: Data) -> Single<Bool>
+    func signup(request: UserInfo, file: Data) -> Single<Bool>
     
     // Credential Recovery
     func recoveryEmail(_ phoneNumber: String) -> Single<Bool>
-    func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> Single<Bool>
-    
+
     // Common
     func sendSMSCode(type: SMSVerificationType, name: String, phoneNumber: String) -> RxSwift.Single<SMSRequestStatus>
-    func verifySMSCode(phoneNumber: String, code: String) -> Single<Bool>
+    func verifySMSCode(phoneNumber: String, code: String) -> Single<SMSVerificationResult>
+    func recoveryPassword(accountId: String, newPassword: String) -> Driver<RecoveryResult>
 
     func setupProfile(request: SupplementaryProfileInfoDTO, file: Data) -> Single<Bool> // in case social login
 }
@@ -83,7 +84,7 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.verifyAccountID(accountID)
     }
     
-    func signup(request: SignupRequest, file: Data) -> RxSwift.Single<Bool> {
+    func signup(request: UserInfo, file: Data) -> RxSwift.Single<Bool> {
         authRepository.signup(request: request, file: file)
     }
     
@@ -91,8 +92,15 @@ class DefaultAuthUseCase: AuthUseCase {
         authRepository.recoveryEmail(phoneNumber)
     }
     
-    func recoveryPassword(_ phoneNumber: String, _ newPassword: String) -> RxSwift.Single<Bool> {
-        authRepository.recoveryPassword(phoneNumber, newPassword)
+    func recoveryPassword(accountId: String, newPassword: String) -> Driver<RecoveryResult> {
+        let wireframe = DefaultWireframe()
+        let result = authRepository.recoveryPassword(accountId: accountId, newPassword: newPassword)
+            .asObservable()
+        return result.flatMap { result in
+                wireframe.promptAlert("", message: result.message, actions: ["확인"])
+                    .map { _ in result }
+        }
+        .asDriver()
     }
     
     func sendSMSCode(type: SMSVerificationType, name: String, phoneNumber: String) -> RxSwift.Single<SMSRequestStatus> {
@@ -126,7 +134,7 @@ class DefaultAuthUseCase: AuthUseCase {
 
 
 
-    func verifySMSCode(phoneNumber: String, code: String) -> RxSwift.Single<Bool> {
+    func verifySMSCode(phoneNumber: String, code: String) -> RxSwift.Single<SMSVerificationResult> {
         authRepository.verifySMSCode(phoneNumber: phoneNumber, code: code)
     }
     
