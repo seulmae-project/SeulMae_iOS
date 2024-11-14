@@ -312,6 +312,8 @@
 		86DD0DA52CE4DCB800DA5823 /* AttHistoriesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */; };
 		86DD0DA72CE4E06F00DA5823 /* AttHistoryContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */; };
 		86DD0DA92CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DA82CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift */; };
+		86DD0DAB2CE62BE800DA5823 /* AttHistoriesSearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DAA2CE62BE800DA5823 /* AttHistoriesSearchBar.swift */; };
+		86DD0DB02CE63E5600DA5823 /* SeachAttViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DD0DAF2CE63E5600DA5823 /* SeachAttViewController.swift */; };
 		86DE555E2C18B765009CC520 /* RadioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555D2C18B765009CC520 /* RadioButton.swift */; };
 		86DE55602C18B79C009CC520 /* WeakArray.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE555F2C18B79C009CC520 /* WeakArray.swift */; };
 		86DE55692C19E1AD009CC520 /* SigninViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 86DE55682C19E1AD009CC520 /* SigninViewModel.swift */; };
@@ -706,6 +708,8 @@
 		86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoriesViewModel.swift; sourceTree = "<group>"; };
 		86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoryContentView.swift; sourceTree = "<group>"; };
 		86DD0DA82CE4EC6F00DA5823 /* AttendanceHistoryDTO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttendanceHistoryDTO.swift; sourceTree = "<group>"; };
+		86DD0DAA2CE62BE800DA5823 /* AttHistoriesSearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AttHistoriesSearchBar.swift; sourceTree = "<group>"; };
+		86DD0DAF2CE63E5600DA5823 /* SeachAttViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeachAttViewController.swift; sourceTree = "<group>"; };
 		86DE555D2C18B765009CC520 /* RadioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RadioButton.swift; sourceTree = "<group>"; };
 		86DE555F2C18B79C009CC520 /* WeakArray.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeakArray.swift; sourceTree = "<group>"; };
 		86DE55682C19E1AD009CC520 /* SigninViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SigninViewModel.swift; sourceTree = "<group>"; };
@@ -2082,14 +2086,39 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		86DD0DA12CE4CA0300DA5823 /* AttandanceHistories */ = {
+		86DD0DA12CE4CA0300DA5823 /* AttHistories */ = {
+			isa = PBXGroup;
+			children = (
+				86DD0DAC2CE63DF800DA5823 /* View */,
+				86DD0DAD2CE63DFB00DA5823 /* ViewModel */,
+			);
+			path = AttHistories;
+			sourceTree = "<group>";
+		};
+		86DD0DAC2CE63DF800DA5823 /* View */ = {
 			isa = PBXGroup;
 			children = (
 				86DD0DA22CE4CA4300DA5823 /* AttHistoriesViewController.swift */,
 				86DD0DA62CE4E06F00DA5823 /* AttHistoryContentView.swift */,
+				86DD0DAA2CE62BE800DA5823 /* AttHistoriesSearchBar.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		86DD0DAD2CE63DFB00DA5823 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
 				86DD0DA42CE4DCB800DA5823 /* AttHistoriesViewModel.swift */,
 			);
-			path = AttandanceHistories;
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		86DD0DAE2CE63E1400DA5823 /* SearchAtt */ = {
+			isa = PBXGroup;
+			children = (
+				86DD0DAF2CE63E5600DA5823 /* SeachAttViewController.swift */,
+			);
+			path = SearchAtt;
 			sourceTree = "<group>";
 		};
 		86DE55592C18B6F7009CC520 /* Components */ = {
@@ -2339,7 +2368,8 @@
 			children = (
 				86FD61D72C895764005ED02F /* Manager */,
 				86FD61D82C895778005ED02F /* User */,
-				86DD0DA12CE4CA0300DA5823 /* AttandanceHistories */,
+				86DD0DA12CE4CA0300DA5823 /* AttHistories */,
+				86DD0DAE2CE63E1400DA5823 /* SearchAtt */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -2719,6 +2749,7 @@
 				8684C5AE2C49F95900EB3D28 /* WorkplaceUseCase.swift in Sources */,
 				861BF6922C2723C800702E24 /* RemainingTimer.swift in Sources */,
 				86FAC9FF2CC3B7C100898CFE /* CardContentView.swift in Sources */,
+				86DD0DB02CE63E5600DA5823 /* SeachAttViewController.swift in Sources */,
 				8624EA922CAE716B008A8D22 /* UserModelDataSource.swift in Sources */,
 				86016C5F2C9A621C00EE8A92 /* InitialUserInfo.swift in Sources */,
 				86DD0DA32CE4CA4300DA5823 /* AttHistoriesViewController.swift in Sources */,
@@ -2836,6 +2867,7 @@
 				86FD61F02C8ACBEE005ED02F /* Address.swift in Sources */,
 				860F20BB2CC3FE3600E27D34 /* PlaceInfoContentView.swift in Sources */,
 				861869362CCCFF1C00ED3C29 /* PlaceFinderSection.swift in Sources */,
+				86DD0DAB2CE62BE800DA5823 /* AttHistoriesSearchBar.swift in Sources */,
 				860F20C12CC41CAB00E27D34 /* CommonSceneDIContainer.swift in Sources */,
 				86E299AD2C1721FF00805AD0 /* MainViewController.swift in Sources */,
 				8693C4232C227B3300D7DCD3 /* Elevatable.swift in Sources */,

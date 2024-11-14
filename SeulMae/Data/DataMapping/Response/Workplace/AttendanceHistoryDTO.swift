@@ -23,7 +23,7 @@ struct AttendanceHistoryDTO: ModelType {
         case workStartTime
         case workEndTime
         case totalWorkTime
-        case wage
+        case wage = "confirmedWage"
         case isRequestApprove
         case isManagerCheck
 //        "unconfirmedWage" : 0,

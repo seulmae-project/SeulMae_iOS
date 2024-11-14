@@ -18,7 +18,7 @@ class AttHistoriesViewModel {
         let onRefresh: Signal<()>
         let onSearch: Signal<()>
         let onFilter: Signal<()>
-        let showDetails: Signal<Int>
+        let showDetails: Signal<AttendanceHistory>
     }
 
     struct Output {

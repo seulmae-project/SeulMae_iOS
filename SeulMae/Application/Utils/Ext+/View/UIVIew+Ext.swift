@@ -9,138 +9,151 @@ import UIKit
 
 extension UIView: Extended {}
 extension Ext where ExtendedType: UIView {
-    @discardableResult
-    func padding(leading: CGFloat = 0, trailing: CGFloat = 0, top: CGFloat = 0, bottom: CGFloat = 0) -> UIView {
-        let paddingView = UIView()
-        paddingView.tag = -1
-        paddingView.addSubview(type)
-        type.translatesAutoresizingMaskIntoConstraints = false
-        NSLayoutConstraint.activate([
-            type.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor, constant: leading),
-            type.trailingAnchor.constraint(equalTo: paddingView.trailingAnchor, constant: trailing),
-            type.topAnchor.constraint(equalTo: paddingView.topAnchor, constant: top),
-            type.bottomAnchor.constraint(equalTo: paddingView.bottomAnchor, constant: bottom),
-        ])
-        return paddingView
+
+  @discardableResult
+  func padding(_ insets: CGFloat) -> UIView {
+    let padded = type.ext.padding(leading: insets, trailing: -insets, top: insets, bottom: -insets)
+    return padded
+  }
+
+  @discardableResult
+  func padding(leading: CGFloat = 0, trailing: CGFloat = 0, top: CGFloat = 0, bottom: CGFloat = 0) -> UIView {
+    let paddingView = UIView()
+    paddingView.tag = -1
+    paddingView.addSubview(type)
+    type.translatesAutoresizingMaskIntoConstraints = false
+    NSLayoutConstraint.activate([
+      type.leadingAnchor.constraint(equalTo: paddingView.leadingAnchor, constant: leading),
+      type.trailingAnchor.constraint(equalTo: paddingView.trailingAnchor, constant: trailing),
+      type.topAnchor.constraint(equalTo: paddingView.topAnchor, constant: top),
+      type.bottomAnchor.constraint(equalTo: paddingView.bottomAnchor, constant: bottom),
+    ])
+    return paddingView
+  }
+
+  @discardableResult
+  func round(radius: CGFloat) -> ExtendedType {
+    type.layer.cornerRadius = radius
+    type.layer.cornerCurve = .continuous
+    return type
+  }
+
+  @discardableResult
+  func bg(_ color: UIColor) -> ExtendedType {
+    type.backgroundColor = color
+    return type
+  }
+
+  @discardableResult
+  func frame(width: Int, height: Int) -> ExtendedType {
+    type.frame = CGRect(x: 0, y: 0, width: width, height: height)
+    return type
+  }
+
+  @discardableResult
+  func size(width: CGFloat? = nil, height: CGFloat? = nil) -> ExtendedType {
+    if let width {
+      type.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 
-    @discardableResult
-    func round(radius: CGFloat) -> ExtendedType {
-        type.layer.cornerRadius = radius
-        type.layer.cornerCurve = .continuous
-        return type
+    if let height {
+      type.heightAnchor.constraint(equalToConstant: height).isActive = true
+    }
+    return type
+  }
+
+  @discardableResult
+  func centerX(match anchor: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> ExtendedType {
+    type.translatesAutoresizingMaskIntoConstraints = false
+    type.centerXAnchor.constraint(equalTo: anchor, constant: constant)
+      .isActive = true
+    return type
+  }
+
+  @discardableResult
+  func fromTop(to anchor: NSLayoutYAxisAnchor, constant: CGFloat) -> ExtendedType {
+    type.translatesAutoresizingMaskIntoConstraints = false
+    type.topAnchor.constraint(equalTo: anchor, constant: constant)
+      .isActive = true
+    return type
+  }
+
+  @discardableResult
+  func fromLeading(to anchor: NSLayoutXAxisAnchor, constant: CGFloat) -> ExtendedType {
+    type.translatesAutoresizingMaskIntoConstraints = false
+    type.leadingAnchor.constraint(equalTo: anchor, constant: constant)
+      .isActive = true
+    return type
+  }
+
+  static func empty(message: String, action: String) -> UIView {
+    let view = Ext.empty(message: message)
+    return view
+  }
+
+  static func empty(message: String) -> UIView {
+    let view = UIView()
+    let label = UILabel()
+    label.text = message
+    return view
+  }
+
+  static var separator: UIView {
+    let separator = UIView()
+    separator.backgroundColor = .separator
+    separator.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
+    separator.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
+    return separator
+  }
+
+  static var divider: UIView {
+    let separator = UIView()
+    separator.backgroundColor = .separator
+    separator.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
+    separator.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
+    return separator
+  }
+
+
+
+  func someisCenterY(_ subview: UIView,
+                     isCenterY: Bool = false,
+                     top: NSLayoutYAxisAnchor? = nil,
+                     leading: NSLayoutXAxisAnchor? = nil,
+                     bottom: NSLayoutYAxisAnchor? = nil,
+                     trailing: NSLayoutXAxisAnchor? = nil,
+                     topInset: CGFloat = 0, leadingInset: CGFloat = 0, bottomInset: CGFloat = 0,  trailingInset: CGFloat = 0,
+                     width: CGFloat? = nil, height: CGFloat? = nil) {
+    //addSubview(subview)
+
+    subview.translatesAutoresizingMaskIntoConstraints = false
+
+    //        if isCenterY {
+    //            subview.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
+    //        }
+
+    if let top = top {
+      subview.topAnchor.constraint(equalTo: top, constant: topInset).isActive = true
     }
 
-    @discardableResult
-    func frame(width: Int, height: Int) -> ExtendedType {
-        type.frame = CGRect(x: 0, y: 0, width: width, height: height)
-        return type
+    if let leading = leading {
+      subview.leadingAnchor.constraint(equalTo: leading, constant: leadingInset).isActive = true
     }
 
-    @discardableResult
-    func size(width: CGFloat? = nil, height: CGFloat? = nil) -> ExtendedType {
-        if let width {
-            type.widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-
-        if let height {
-            type.heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
-        return type
+    if let bottom = bottom {
+      subview.bottomAnchor.constraint(equalTo: bottom, constant: -1 * bottomInset).isActive = true
     }
 
-    @discardableResult
-    func centerX(match anchor: NSLayoutXAxisAnchor, constant: CGFloat = 0) -> ExtendedType {
-        type.translatesAutoresizingMaskIntoConstraints = false
-        type.centerXAnchor.constraint(equalTo: anchor, constant: constant)
-            .isActive = true
-        return type
+    if let trailing = trailing {
+      subview.trailingAnchor.constraint(equalTo: trailing, constant: -1 * trailingInset).isActive = true
     }
 
-    @discardableResult
-    func fromTop(to anchor: NSLayoutYAxisAnchor, constant: CGFloat) -> ExtendedType {
-        type.translatesAutoresizingMaskIntoConstraints = false
-        type.topAnchor.constraint(equalTo: anchor, constant: constant)
-            .isActive = true
-        return type
+    if let width = width {
+      subview.widthAnchor.constraint(equalToConstant: width).isActive = true
     }
 
-    @discardableResult
-    func fromLeading(to anchor: NSLayoutXAxisAnchor, constant: CGFloat) -> ExtendedType {
-        type.translatesAutoresizingMaskIntoConstraints = false
-        type.leadingAnchor.constraint(equalTo: anchor, constant: constant)
-            .isActive = true
-        return type
+    if let height = height {
+      subview.heightAnchor.constraint(equalToConstant: height).isActive = true
     }
-
-    static func empty(message: String, action: String) -> UIView {
-        let view = Ext.empty(message: message)
-        return view
-    }
-
-    static func empty(message: String) -> UIView {
-        let view = UIView()
-        let label = UILabel()
-        label.text = message
-        return view
-    }
-
-    static var separator: UIView {
-        let separator = UIView()
-        separator.backgroundColor = .separator
-        separator.heightAnchor.constraint(equalToConstant: 1.0).isActive = true
-        separator.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
-        return separator
-    }
-
-    static var divider: UIView {
-        let separator = UIView()
-        separator.backgroundColor = .separator
-        separator.widthAnchor.constraint(equalToConstant: 1.0).isActive = true
-        separator.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
-        return separator
-    }
-
-
-
-    func someisCenterY(_ subview: UIView,
-                               isCenterY: Bool = false,
-                               top: NSLayoutYAxisAnchor? = nil,
-                               leading: NSLayoutXAxisAnchor? = nil,
-                               bottom: NSLayoutYAxisAnchor? = nil,
-                               trailing: NSLayoutXAxisAnchor? = nil,
-                               topInset: CGFloat = 0, leadingInset: CGFloat = 0, bottomInset: CGFloat = 0,  trailingInset: CGFloat = 0,
-                               width: CGFloat? = nil, height: CGFloat? = nil) {
-        //addSubview(subview)
-
-        subview.translatesAutoresizingMaskIntoConstraints = false
-
-//        if isCenterY {
-//            subview.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-//        }
-
-        if let top = top {
-            subview.topAnchor.constraint(equalTo: top, constant: topInset).isActive = true
-        }
-
-        if let leading = leading {
-            subview.leadingAnchor.constraint(equalTo: leading, constant: leadingInset).isActive = true
-        }
-
-        if let bottom = bottom {
-            subview.bottomAnchor.constraint(equalTo: bottom, constant: -1 * bottomInset).isActive = true
-        }
-
-        if let trailing = trailing {
-            subview.trailingAnchor.constraint(equalTo: trailing, constant: -1 * trailingInset).isActive = true
-        }
-
-        if let width = width {
-            subview.widthAnchor.constraint(equalToConstant: width).isActive = true
-        }
-
-        if let height = height {
-            subview.heightAnchor.constraint(equalToConstant: height).isActive = true
-        }
-    }
+  }
 }
